@@ -59,15 +59,20 @@ public class Cargo {
     }
 
     public String getNombre() {
-        return nombre;
+     if (nombre == null) {
+            nombre = "";
+        }
+        return  nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
     public String getCodigoCargo() {
-        return codigoCargo;
+   if (codigoCargo == null) {
+            codigoCargo = "";
+        }
+        return  codigoCargo;
     }
 
     public void setCodigoCargo(String codigoCargo) {
@@ -75,7 +80,10 @@ public class Cargo {
     }
 
     public String getDescripcion() {
-        return descripcion;
+     if (descripcion == null) {
+            descripcion = "";
+        }
+        return  descripcion;
     }
 
     public void setDescripcion(String descripcion) {
@@ -126,10 +134,10 @@ public class Cargo {
             try {
                 while (datos.next()) {
                     Cargo cargo= new Cargo();
-                    cargo.setId(datos.getString("identificacion"));
-                    cargo.setNombre(datos.getString("nombres"));
-                    cargo.setCodigoCargo(datos.getString("apellido"));
-                    cargo.setDescripcion(datos.getString("distancia"));
+                    cargo.setId(datos.getString("id"));
+                    cargo.setNombre(datos.getString("nombre"));
+                    cargo.setCodigoCargo(datos.getString("codigoCargo"));
+                    cargo.setDescripcion(datos.getString("descripcion"));
                     lista.add(cargo);
                 }
             } catch (SQLException ex) {
