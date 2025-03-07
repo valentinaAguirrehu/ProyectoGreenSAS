@@ -1,9 +1,90 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : 6 mar 2025, 23:05:36
-    Author     : Angie
-*/
+body {
+    background-color: #145a32; /* Color del menú */
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Para centrar verticalmente */
+}
 
+.container {
+    background-color: white; /* Fondo blanco para el cuadro */
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    width: 300px; /* Ancho del cuadro */
+    text-align: center;
+}
+
+.input-box {
+    margin-bottom: 15px;
+}
+
+.input-box label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.icon-input {
+    position: relative;
+}
+
+.icon-input input {
+    width: 100%;
+    padding: 10px 30px 10px 10px; /* Espacio para el icono */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.icon-input img.icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; /* Tamaño del icono */
+}
+
+.btn-empezar {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-empezar:hover {
+    background-color: #0056b3;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    padding: 0 20px;
+}
+
+.logo {
+    height: 50px; /* Ajusta el tamaño de los logos */
+}
+
+.fondo-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Coloca el fondo detrás del contenido */
+}
+
+.fondoVE {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen al tamaño del contenedor */
+}
