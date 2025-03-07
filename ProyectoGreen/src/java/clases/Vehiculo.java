@@ -51,10 +51,9 @@ public class Vehiculo {
     }
 
     public String getId() {
-        if (id == null) {
-            id = "";
-        }
-        return id;
+        String resultado=id;
+        if(id==null) resultado="";
+        return resultado;
     }
 
     public void setId(String id) {
@@ -62,10 +61,9 @@ public class Vehiculo {
     }
 
     public String getTipoVehiculo() {
-        if (tipoVehiculo == null) {
-            tipoVehiculo = "";
-        }
-        return tipoVehiculo;
+        String resultado=tipoVehiculo;
+        if(tipoVehiculo==null) resultado="";
+        return resultado;
     }
 
     public void setTipoVehiculo(String tipoVehiculo) {
@@ -73,10 +71,9 @@ public class Vehiculo {
     }
 
     public String getNumeroPlaca() {
-        if (numeroPlaca == null) {
-            numeroPlaca = "";
-        }
-        return tipoVehiculo;
+        String resultado=numeroPlaca;
+        if(numeroPlaca==null) resultado="";
+        return resultado;
     }
 
     public void setNumeroPlaca(String numeroPlaca) {
@@ -84,10 +81,9 @@ public class Vehiculo {
     }
 
     public String getModeloVehiculo() {
-        if (modeloVehiculo == null) {
-            modeloVehiculo = "";
-        }
-        return modeloVehiculo;
+          String resultado=modeloVehiculo;
+        if(modeloVehiculo==null) resultado="";
+        return resultado;
     }
 
     public void setModeloVehiculo(String modeloVehiculo) {
@@ -95,10 +91,9 @@ public class Vehiculo {
     }
 
     public String getLinea() {
-        if (linea == null) {
-            linea = "";
-        }
-        return linea;
+        String resultado=linea;
+        if(linea==null) resultado="";
+        return resultado;
     }
 
     public void setLinea(String linea) {
@@ -117,10 +112,9 @@ public class Vehiculo {
     }
 
     public String getColor() {
-        if (color == null) {
-            color = "";
-        }
-        return color;
+        String resultado=color;
+        if(color==null) resultado="";
+        return resultado;
     }
 
     public void setColor(String color) {
@@ -128,10 +122,9 @@ public class Vehiculo {
     }
 
     public String getCilindraje() {
-        if (cilindraje == null) {
-            cilindraje = "";
-        }
-        return cilindraje;
+        String resultado=cilindraje;
+        if(cilindraje==null) resultado="";
+        return resultado;
     }
 
     public void setCilindraje(String cilindraje) {
@@ -139,10 +132,9 @@ public class Vehiculo {
     }
 
     public String getNumLicenciaTransito() {
-        if (numLicenciaTransito == null) {
-            numLicenciaTransito = "";
-        }
-        return numLicenciaTransito;
+        String resultado=numLicenciaTransito;
+        if(numLicenciaTransito==null) resultado="";
+        return resultado;
     }
 
     public void setNumLicenciaTransito(String numLicenciaTransito) {
@@ -150,10 +142,9 @@ public class Vehiculo {
     }
 
     public String getFechaExpLicenciaTransito() {
-        if (fechaExpLicenciaTransito == null) {
-            fechaExpLicenciaTransito = "";
-        }
-        return fechaExpLicenciaTransito;
+        String resultado=fechaExpLicenciaTransito;
+        if(fechaExpLicenciaTransito==null) resultado="";
+        return resultado;
     }
 
     public void setFechaExpLicenciaTransito(String fechaExpLicenciaTransito) {
