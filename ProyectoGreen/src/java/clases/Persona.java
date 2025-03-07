@@ -24,7 +24,7 @@ public class Persona {
     private String fechaExpedicion;
     private String lugarExpedicion;
     private String nombres;
-    private String apelliods;
+    private String apellidos;
     private String sexo;
     private String fechaNacimiento;
     private String lugarNacimiento;
@@ -74,7 +74,7 @@ public class Persona {
 
     public Persona(String identificacion) {
         String cadenaSQL = "select identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, "
-                + "lugarExpedicion, nombres, apelliods, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
+                + "lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
                 + "tipoVivienda, direccion, barrio, email, nivelEducativo, eps, estadoCivil, fechaIngreso, "
                 + "fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, "
                 + "establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNopmbre, "
@@ -92,7 +92,7 @@ public class Persona {
                 fechaExpedicion = resultado.getString("fechaExpedicion");
                 lugarExpedicion = resultado.getString("lugarExpedicion");
                 nombres = resultado.getString("nombres");
-                apelliods = resultado.getString("apelliods");
+                apellidos = resultado.getString("apellidos");
                 sexo = resultado.getString("sexo");
                 fechaNacimiento = resultado.getString("fechaNacimiento");
                 lugarNacimiento = resultado.getString("lugarNacimiento");
@@ -216,12 +216,12 @@ public class Persona {
         this.nombres = nombres;
     }
 
-    public String getApelliods() {
-        return apelliods;
+    public String getApellidos() {
+        return apellidos;
     }
 
-    public void setApelliods(String apelliods) {
-        this.apelliods = apelliods;
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public String getSexo() {
@@ -601,14 +601,14 @@ public class Persona {
     }
 
     public boolean grabar() {
-        String cadenaSQL = "insert into persona(identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apelliods, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, email, nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNopmbre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, tieneHIjos, tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo, numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones, clave, estado, vinculacionLaboral, idVehiculo) "
-                + "values ('" + identificacion + "', '" + tipo + "', '" + idCargo + "', '" + tipoDocumento + "', '" + fechaExpedicion + "', '" + lugarExpedicion + "', '" + nombres + "', '" + apelliods + "', '" + sexo + "', '" + fechaNacimiento + "', '" + lugarNacimiento + "', '" + tipoSangre + "', '" + tipoVivienda + "', '" + direccion + "', '" + barrio + "', '" + email + "', '" + nivelEducativo + "', '" + eps + "', '" + estadoCivil + "', '" + fechaIngreso + "', '" + fechaRetiro + "', '" + fechaEtapaLectiva + "', '" + fechaEtapaProductiva + "', '" + unidadNegocio + "', '" + centroCostos + "', '" + establecimiento + "', '" + area + "', '" + tipoCargo + "', '" + cuentaBancaria + "', '" + numeroCuenta + "', '" + salario + "', '" + primerRefNopmbre + "', '" + primerRefParentezco + "', '" + primerRefCelular + "', '" + segundaRefNombre + "', '" + segundaRefParentezco + "', '" + segundaRefCelular + "', '" + tieneHIjos + "', '" + tallaCamisa + "', '" + tallaChaqueta + "', '" + tallaPantalon + "', '" + tallaCalzado + "', '" + tieneVehiculo + "', '" + numLicenciaConduccion + "', '" + fechaExpConduccion + "', '" + fechaVencimiento + "', '" + restricciones + "', '" + clave + "', '" + estado + "', '" + vinculacionLaboral + "', '" + idVehiculo + "')";
+        String cadenaSQL = "insert into persona(identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, email, nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNopmbre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, tieneHIjos, tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo, numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones, clave, estado, vinculacionLaboral, idVehiculo) "
+                + "values ('" + identificacion + "', '" + tipo + "', '" + idCargo + "', '" + tipoDocumento + "', '" + fechaExpedicion + "', '" + lugarExpedicion + "', '" + nombres + "', '" + apellidos + "', '" + sexo + "', '" + fechaNacimiento + "', '" + lugarNacimiento + "', '" + tipoSangre + "', '" + tipoVivienda + "', '" + direccion + "', '" + barrio + "', '" + email + "', '" + nivelEducativo + "', '" + eps + "', '" + estadoCivil + "', '" + fechaIngreso + "', '" + fechaRetiro + "', '" + fechaEtapaLectiva + "', '" + fechaEtapaProductiva + "', '" + unidadNegocio + "', '" + centroCostos + "', '" + establecimiento + "', '" + area + "', '" + tipoCargo + "', '" + cuentaBancaria + "', '" + numeroCuenta + "', '" + salario + "', '" + primerRefNopmbre + "', '" + primerRefParentezco + "', '" + primerRefCelular + "', '" + segundaRefNombre + "', '" + segundaRefParentezco + "', '" + segundaRefCelular + "', '" + tieneHIjos + "', '" + tallaCamisa + "', '" + tallaChaqueta + "', '" + tallaPantalon + "', '" + tallaCalzado + "', '" + tieneVehiculo + "', '" + numLicenciaConduccion + "', '" + fechaExpConduccion + "', '" + fechaVencimiento + "', '" + restricciones + "', '" + clave + "', '" + estado + "', '" + vinculacionLaboral + "', '" + idVehiculo + "')";
 
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
     public boolean modificar(String identificacionAnterior) {
-        String cadenaSQL = "update persona set identificacion='" + identificacion + "', tipo='" + tipo + "', idCargo='" + idCargo + "', tipoDocumento='" + tipoDocumento + "', fechaExpedicion='" + fechaExpedicion + "', lugarExpedicion='" + lugarExpedicion + "', nombres='" + nombres + "', apelliods='" + apelliods + "', sexo='" + sexo + "', fechaNacimiento='" + fechaNacimiento + "', lugarNacimiento='" + lugarNacimiento + "', tipoSangre='" + tipoSangre + "', tipoVivienda='" + tipoVivienda + "', direccion='" + direccion + "', barrio='" + barrio + "', email='" + email + "', nivelEducativo='" + nivelEducativo + "', eps='" + eps + "', estadoCivil='" + estadoCivil + "', fechaIngreso='" + fechaIngreso + "', fechaRetiro='" + fechaRetiro + "', fechaEtapaLectiva='" + fechaEtapaLectiva + "', fechaEtapaProductiva='" + fechaEtapaProductiva + "', unidadNegocio='" + unidadNegocio + "', centroCostos='" + centroCostos + "', establecimiento='" + establecimiento + "', area='" + area + "', tipoCargo='" + tipoCargo + "', cuentaBancaria='" + cuentaBancaria + "', numeroCuenta='" + numeroCuenta + "', salario='" + salario + "', primerRefNopmbre='" + primerRefNopmbre + "', primerRefParentezco='" + primerRefParentezco + "', primerRefCelular='" + primerRefCelular + "', segundaRefNombre='" + segundaRefNombre + "', segundaRefParentezco='" + segundaRefParentezco + "', segundaRefCelular='" + segundaRefCelular + "', tieneHIjos='" + tieneHIjos + "', tallaCamisa='" + tallaCamisa + "', tallaChaqueta='" + tallaChaqueta + "', tallaPantalon='" + tallaPantalon + "', tallaCalzado='" + tallaCalzado + "', tieneVehiculo='" + tieneVehiculo + "', numLicenciaConduccion='" + numLicenciaConduccion + "', fechaExpConduccion='" + fechaExpConduccion + "', fechaVencimiento='" + fechaVencimiento + "', restricciones='" + restricciones + "', clave='" + clave + "', estado='" + estado + "', vinculacionLaboral='" + vinculacionLaboral + "', idVehiculo='" + idVehiculo + "' "
+        String cadenaSQL = "update persona set identificacion='" + identificacion + "', tipo='" + tipo + "', idCargo='" + idCargo + "', tipoDocumento='" + tipoDocumento + "', fechaExpedicion='" + fechaExpedicion + "', lugarExpedicion='" + lugarExpedicion + "', nombres='" + nombres + "', apellidos='" + apellidos + "', sexo='" + sexo + "', fechaNacimiento='" + fechaNacimiento + "', lugarNacimiento='" + lugarNacimiento + "', tipoSangre='" + tipoSangre + "', tipoVivienda='" + tipoVivienda + "', direccion='" + direccion + "', barrio='" + barrio + "', email='" + email + "', nivelEducativo='" + nivelEducativo + "', eps='" + eps + "', estadoCivil='" + estadoCivil + "', fechaIngreso='" + fechaIngreso + "', fechaRetiro='" + fechaRetiro + "', fechaEtapaLectiva='" + fechaEtapaLectiva + "', fechaEtapaProductiva='" + fechaEtapaProductiva + "', unidadNegocio='" + unidadNegocio + "', centroCostos='" + centroCostos + "', establecimiento='" + establecimiento + "', area='" + area + "', tipoCargo='" + tipoCargo + "', cuentaBancaria='" + cuentaBancaria + "', numeroCuenta='" + numeroCuenta + "', salario='" + salario + "', primerRefNopmbre='" + primerRefNopmbre + "', primerRefParentezco='" + primerRefParentezco + "', primerRefCelular='" + primerRefCelular + "', segundaRefNombre='" + segundaRefNombre + "', segundaRefParentezco='" + segundaRefParentezco + "', segundaRefCelular='" + segundaRefCelular + "', tieneHIjos='" + tieneHIjos + "', tallaCamisa='" + tallaCamisa + "', tallaChaqueta='" + tallaChaqueta + "', tallaPantalon='" + tallaPantalon + "', tallaCalzado='" + tallaCalzado + "', tieneVehiculo='" + tieneVehiculo + "', numLicenciaConduccion='" + numLicenciaConduccion + "', fechaExpConduccion='" + fechaExpConduccion + "', fechaVencimiento='" + fechaVencimiento + "', restricciones='" + restricciones + "', clave='" + clave + "', estado='" + estado + "', vinculacionLaboral='" + vinculacionLaboral + "', idVehiculo='" + idVehiculo + "' "
                 + "where identificacion='" + identificacionAnterior + "'";
 
         return ConectorBD.ejecutarQuery(cadenaSQL);
@@ -631,7 +631,7 @@ public class Persona {
             orden = " ";
 
         }
-        String cadenaSQL = "select identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apelliods, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, email, nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNopmbre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, tieneHIjos, tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo, numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones, clave, estado, vinculacionLaboral, idVehiculo from persona " + filtro + orden;
+        String cadenaSQL = "select identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, email, nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNopmbre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, tieneHIjos, tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo, numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones, clave, estado, vinculacionLaboral, idVehiculo from persona " + filtro + orden;
         return ConectorBD.consultar(cadenaSQL);
     }
    
