@@ -12,9 +12,8 @@ import java.sql.SQLException;
  *
  * @author Angie
  */
-
 public class Vehiculo {
-    
+
     private String id;
     private String tipoVehiculo;
     private String numeroPlaca;
@@ -30,8 +29,8 @@ public class Vehiculo {
     }
 
     public Vehiculo(String id) {
-         String cadenaSQL = "select id, tipoVehiculo, numeroPLaca, modeloVehiculo, linea, ano, color, cilindraje,"
-                 + " numLicenciaTransito, fechaExpLicenciaTransito from vehiculo where id=" + id;
+        String cadenaSQL = "select id, tipoVehiculo, numeroPLaca, modeloVehiculo, linea, ano, color, cilindraje,"
+                + " numLicenciaTransito, fechaExpLicenciaTransito from vehiculo where id=" + id;
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
         try {
             if (resultado.next()) {
@@ -73,7 +72,7 @@ public class Vehiculo {
         this.tipoVehiculo = tipoVehiculo;
     }
 
-   public String getNumeroPlaca() {
+    public String getNumeroPlaca() {
         if (numeroPlaca == null) {
             numeroPlaca = "";
         }
@@ -135,7 +134,6 @@ public class Vehiculo {
         return cilindraje;
     }
 
-
     public void setCilindraje(String cilindraje) {
         this.cilindraje = cilindraje;
     }
@@ -161,9 +159,23 @@ public class Vehiculo {
     public void setFechaExpLicenciaTransito(String fechaExpLicenciaTransito) {
         this.fechaExpLicenciaTransito = fechaExpLicenciaTransito;
     }
-    
-    
-    
+
+    public static ResultSet getLista(String filtro, String orden) {
+        if (filtro != null && !"".equals(filtro)) {
+            filtro = " WHERE " + filtro;
+        } else {
+            filtro = " ";
+        }
+        if (orden != null && !"".equals(orden)) {
+            orden = " ORDER BY " + orden;
+        } else {
+            orden = " ";
+        }
+
+        String cadenaSQL = "SELECT id, tipoVehiculo, numeroPlaca, modeloVehiculo, linea, ano, color, cilindraje, "
+                + "numLicenciaTransito, fechaExpLicenciaTransito FROM vehiculo" + filtro + orden;
+
+        return ConectorBD.consultar(cadenaSQL);
+    }
+
 }
-    
-    
