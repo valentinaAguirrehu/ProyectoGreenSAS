@@ -7,44 +7,81 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Author     : Angie
 */
 
+/* Diseño General */
 body {
     display: flex;
     min-height: 100vh;
     margin: 0;
 }
+
 .sidebar {
     width: 200px;
-    background: #333;
-    color: white;
+    background: #145a32; /* Color del menú */
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
 }
+
 .sidebar ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
+
 .sidebar ul li {
+    position: relative; 
     padding: 10px;
-    border-bottom: 1px solid #555;
+    border-bottom: 1px solid #388e3c; /* Color de las líneas separadoras */
 }
+
 .sidebar ul li a {
     color: white;
     text-decoration: none;
     display: block;
 }
+
 .sidebar ul li:hover {
-    background: #555;
+    background: #388e3c; /* Color al pasar el cursor*/
 }
+
+.sidebar ul li:hover a {
+    color: black; 
+}
+
+/* Menú desplegable */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #145a32; /* Color del Sub-menú desplegable */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content li {
+    padding: 10px;
+    white-space: nowrap;
+}
+
+.dropdown-content li a {
+    text-decoration: none;
+    display: block;
+}
+
+/* Menú inferior */
 .bottom-menu {
     position: relative;
-    bottom: 40px; /* Sube el menú de abajo */
-    padding-top: 10px;
-    border-top: 1px solid #555;
+    border-top: 1px solid #388e3c;
 }
+
+/* Contenido Principal */
 .content {
     flex: 1;
     padding: 20px;

@@ -20,7 +20,15 @@
             <ul>
                 <li><a href="#">Inicio</a></li>
                 <li><a href="#">Cargos</a></li>
-                <li><a href="#">Colaboradores</a></li>
+                <li class="dropdown">
+                        <a href="#">Colaboradores</a>
+                        <ul class="dropdown-content">                           
+                            <li><a href="#">Activos</a></li>
+                            <li><a href="#">Sumar</a></li>
+                            <li><a href="#">Aprendices</a></li>
+                            <li><a href="#">Retiros</a></li>
+                        </ul>
+                    </li>
                 <li><a href="#">Dotaciones</a></li>
                 <li><a href="#">Reportes e indicadores</a></li>
             </ul>
