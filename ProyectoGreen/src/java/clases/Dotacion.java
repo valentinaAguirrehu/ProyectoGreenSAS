@@ -4,6 +4,12 @@
  */
 package clases;
 
+import clasesGenericas.ConectorBD;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Period;
+
 /**
  *
  * @author Angie
@@ -23,10 +29,28 @@ public class Dotacion {
     }
 
     public Dotacion(String id) {
-        this.id = id;
+        String cadenaSQL = "select id, fechaIngreso, observaciones, prenda, estacion, talla, estado, cantidadExistente from dotacion where id=" + id;
+        ResultSet resultado = ConectorBD.consultar(cadenaSQL);
+        try {
+            if (resultado.next()) {
+                this.id = id;
+                fechaIngreso = resultado.getString("fechaIngreso");
+                observaciones = resultado.getString("observaciones");
+                prenda = resultado.getString("prenda");
+                estacion = resultado.getString("estacion");
+                talla = resultado.getString("talla");
+                estado = resultado.getString("estado");
+                cantidadExistente = resultado.getString("cantidadExistente");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al consultar la identificacion" + ex.getMessage());
+        }
     }
 
     public String getId() {
+        if (id == null) {
+            id = "";
+        }
         return id;
     }
 
@@ -35,6 +59,9 @@ public class Dotacion {
     }
 
     public String getFechaIngreso() {
+        if (fechaIngreso == null) {
+            fechaIngreso = "";
+        }
         return fechaIngreso;
     }
 
@@ -43,6 +70,9 @@ public class Dotacion {
     }
 
     public String getObservaciones() {
+        if (observaciones == null) {
+            observaciones = "";
+        }
         return observaciones;
     }
 
@@ -51,6 +81,9 @@ public class Dotacion {
     }
 
     public String getPrenda() {
+        if (prenda == null) {
+            prenda = "";
+        }
         return prenda;
     }
 
@@ -59,6 +92,9 @@ public class Dotacion {
     }
 
     public String getEstacion() {
+        if (estacion == null) {
+            estacion = "";
+        }
         return estacion;
     }
 
@@ -67,6 +103,9 @@ public class Dotacion {
     }
 
     public String getTalla() {
+        if (talla == null) {
+            talla = "";
+        }
         return talla;
     }
 
@@ -75,6 +114,9 @@ public class Dotacion {
     }
 
     public String getEstado() {
+        if (estado == null) {
+            estado = "";
+        }
         return estado;
     }
 
@@ -83,6 +125,9 @@ public class Dotacion {
     }
 
     public String getCantidadExistente() {
+        if (cantidadExistente == null) {
+            cantidadExistente = "";
+        }
         return cantidadExistente;
     }
 
@@ -90,5 +135,49 @@ public class Dotacion {
         this.cantidadExistente = cantidadExistente;
     }
 
-    
+    @Override
+    public String toString() {
+
+        String datos = "";
+        if (id != null) {
+            datos = id + " - " + prenda;
+        }
+        return datos;
+    }
+
+    public boolean grabar() {
+        String cadenaSQL = "insert into dotacion(id, fechaIngreso, observaciones, prenda, estacion, talla, estado, cantidadExistente) "
+                + "values ('" + id + "', '" + fechaIngreso + "', '" + observaciones + "', '" + prenda + "', '" + estacion + "', '" + talla + "', '" + estado + "', '" + cantidadExistente + "')";
+
+        return ConectorBD.ejecutarQuery(cadenaSQL);
+    }
+
+    public boolean modificar(String idAnterior) {
+        String cadenaSQL = "update dotacion set id='" + id + "', fechaIngreso='" + fechaIngreso + "', observaciones='" + observaciones + "', prenda='" + prenda + "', estacion='" + estacion + "', talla='" + talla + "', estado='" + estado + "', cantidadExistente='" + cantidadExistente + "' "
+                + "where id='" + idAnterior + "'";
+
+        return ConectorBD.ejecutarQuery(cadenaSQL);
+    }
+
+    public boolean eliminar() {
+        String cadenaSQL = "delete from dotacion where id=" + id;
+        return ConectorBD.ejecutarQuery(cadenaSQL);
+    }
+
+    public static ResultSet getLista(String filtro, String orden) {
+        if (filtro != null && !"".equals(filtro)) {
+            filtro = " where " + filtro;
+        } else {
+            filtro = " ";
+        }
+        if (orden != null && !"".equals(orden)) {
+            orden = " order by " + orden;
+        } else {
+            orden = " ";
+        }
+
+        String cadenaSQL = "SELECT id, fechaIngreso, observaciones, prenda, estacion, talla, estado, cantidadExistente FROM dotacion" + filtro + orden;
+        return ConectorBD.consultar(cadenaSQL);
+    }
+
 }
