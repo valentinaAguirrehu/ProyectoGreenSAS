@@ -47,7 +47,15 @@ body {
 }
 
 .sidebar ul li:hover a {
-    color: black; 
+    color: #013819; /* Color de las letras al pasar el cursor */
+}
+
+.sidebar .dropdown-content li a {
+    color: white !important; /* Color de las letras del sub-Menu */
+}
+
+.sidebar .dropdown-content li:hover a {
+    color: #013819 !important; /* Color de las letras del sub-Menu al pasar el cursor */
 }
 
 /* Menú desplegable */
@@ -70,20 +78,81 @@ body {
     white-space: nowrap;
 }
 
-.dropdown-content li a {
-    text-decoration: none;
-    display: block;
-}
-
 /* Menú inferior */
 .bottom-menu {
     position: relative;
     border-top: 1px solid #388e3c;
 }
+/* Iconos */
+
+.icono-menu {
+    width: 12px; /* Ajusta el tamaño del icono */
+    height: auto;
+    margin-left: 20px; /* Espacio entre el texto y el icono */
+    vertical-align: middle; /* Centra el icono con el texto */
+}
+
+.dropdown a img {
+    transition: transform 0.3s ease;
+}
+.dropdown:hover a img {
+    transform: rotate(270deg);
+}
+
+/* Logo */
+.logo-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.logo-container img {
+    height: 60px; 
+}
 
 /* Contenido Principal */
 .content {
-    flex: 1;
-    padding: 20px;
-    margin-left: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+.welcome-text {
+    text-align: center;
+}
+
+.quad-container {
+    display: flex;
+    justify-content: center;
+    width: 600px;
+    margin-top: 20px;
+}
+
+.quad {
+    width: 280px;
+    height: 100px;
+    background-color: white;
+    border: 2px solid black;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    border-radius: 10px; 
+    transition: all 0.3s ease-in-out; 
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8); 
+}
+
+/* Efecto al pasar el cursor */
+.quad:hover {
+    background-color: #4CAF50; 
+    color: white; 
+    transform: scale(1.1); 
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3); 
+    border-color: #2E7D32; 
+}
+
