@@ -16,21 +16,33 @@
         <script src="recursos/jquery-ui-1.13.3.custom/jquery-ui.min.js"></script>
     </head>
     <body>
+        <div class="logo-container">
+            <img src="presentacion/imagenes/LogoGreen.png" alt="Logo de Green">
+        </div>
+
         <nav class="sidebar">
             <ul>
                 <li><a href="#">Inicio</a></li>
                 <li><a href="#">Cargos</a></li>
                 <li class="dropdown">
-                        <a href="#">Colaboradores</a>
-                        <ul class="dropdown-content">                           
-                            <li><a href="#">Activos</a></li>
-                            <li><a href="#">Sumar</a></li>
-                            <li><a href="#">Aprendices</a></li>
-                            <li><a href="#">Retiros</a></li>
-                        </ul>
-                    </li>
+                    <a href="#">Colaboradores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
+                    <ul class="dropdown-content">                           
+                        <li><a href="#">Activos</a></li>
+                        <li><a href="#">Sumar</a></li>
+                        <li><a href="#">Aprendices</a></li>
+                        <li><a href="#">Retirados</a></li>
+                    </ul>
+                </li>
                 <li><a href="#">Dotaciones</a></li>
-                <li><a href="#">Reportes e indicadores</a></li>
+                <li class="dropdown">
+                    <a href="#">Reportes e indicadores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
+                    <ul class="dropdown-content">                           
+                        <li><a href="#">Ingresos de colaboradores</a></li>
+                        <li><a href="#">Retiros de colaboradores</a></li>
+                        <li><a href="#">Dotaciones Entregadas</a></li>
+                        <li><a href="#">Cumpleañeros del mes</a></li>
+                    </ul>
+                </li>
             </ul>
             <ul class="bottom-menu">
                 <li><a href="#">Gestión de usuarios</a></li>
@@ -38,9 +50,15 @@
             </ul>
         </nav>
 
-        <div class="content">
-            <h1>¡Bienvenido al Portal de Gestión Humana de GREEN SAS!</h1>
-            <p>Contenido principal de la página.</p>
-        </div>
+        <main class="content">
+            <div class="welcome-text">
+                <h1>¡Bienvenido al Portal de Gestión Humana de GREEN SAS!</h1>
+            </div>
+            <div class="quad-container">
+                <div class="quad">Politicas y Privacidad</div>
+                <div class="quad">Manual de Uso</div>
+            </div>
+        </main>
+
     </body>
 </html>
