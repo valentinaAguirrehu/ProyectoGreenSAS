@@ -141,7 +141,7 @@
         <div class="right-section">
           
             <h2>GESTION HUMANA</h2>
-            <form action="principal.jsp" method="POST">
+            <form action="principal.jsp">
                 <div class="input-box">
                     <label for="usuario"></label>
                     <div class="icon-input">
