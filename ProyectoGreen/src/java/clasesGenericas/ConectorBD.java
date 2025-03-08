@@ -30,7 +30,7 @@ public class ConectorBD {
         puerto = "3306";
         usuario = "root";
         clave = "utilizar";
-        baseDatos = "proyectoGreen";
+        baseDatos = "proyectogreen";
 
     }
 
