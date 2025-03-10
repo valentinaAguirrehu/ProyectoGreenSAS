@@ -9,13 +9,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Angie
  */
 public class ConectorBD {
-    
+  
     private String servidor;
     private String puerto;
     private String usuario;
@@ -25,12 +27,12 @@ public class ConectorBD {
     private Connection conexion;
 
     public ConectorBD() {
-
-        servidor = "proyectoGreen";
+      
+        servidor = "localhost";
         puerto = "3306";
-        usuario = "root";
+        usuario = "adso";
         clave = "utilizar";
-        baseDatos = "proyectogreen";
+        baseDatos = "proyectoGreen";
 
     }
 
@@ -90,4 +92,3 @@ public class ConectorBD {
     }
 
 }
-
