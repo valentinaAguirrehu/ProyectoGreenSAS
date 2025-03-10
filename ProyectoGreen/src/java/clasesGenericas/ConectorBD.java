@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 public class ConectorBD {
 
+
     public static ResultSet consultar(String cadenaSQL, String identificacion) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -23,6 +24,7 @@ public class ConectorBD {
     public static Object getConnection() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     private String servidor;
     private String puerto;
     private String usuario;
@@ -33,12 +35,20 @@ public class ConectorBD {
     public Connection conexion; //lleva la conexion a la base de datos
 
     public ConectorBD() {
+
         servidor="localhost";
         puerto="3306";
         usuario="adso";
         clave="utilizar";
         baseDatos="proyectoGreen";
         
+      
+        servidor = "localhost";
+        puerto = "3306";
+        usuario = "adso";
+        clave = "utilizar";
+        baseDatos = "proyectoGreen";
+
     }
     
     public boolean conectar (){

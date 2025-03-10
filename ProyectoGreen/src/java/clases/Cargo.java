@@ -95,18 +95,18 @@ public class Cargo {
 
 
     public boolean grabar() {
-        String cadenaSQL = "insert into cargo (identificacion, nombre, codigoCargo, descripcion) "
-                + "values('" + id + "','" + nombre + "','" + codigoCargo + "'," + descripcion + "')";
+        String cadenaSQL = "insert into cargo (nombre, codigoCargo, descripcion) "
+                + "values('" + nombre + "','" + codigoCargo + "','" + descripcion + "')";
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
     public boolean modificar(String idAnterior) {
-        String cadenaSQL = "update cargo set id='" + id + "',nombre='" + nombre + "',codigoCargo='" + codigoCargo + "',descripcion=" + descripcion + "' "
+        String cadenaSQL = "update cargo set id='" + id + "',nombre='" + nombre + "',codigoCargo='" + codigoCargo + "',descripcion='" + descripcion + "' "
                 + "where id=" + idAnterior;
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
-    public boolean eliminar(String identificacion) {
+    public boolean eliminar(String id) {
         String cadenaSQL = "delete from cargo where id=" + id;
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
