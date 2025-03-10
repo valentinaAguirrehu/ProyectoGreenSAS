@@ -50,7 +50,7 @@
     persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     persona.setSalario(request.getParameter("salario"));
-    persona.setPrimerRefNopmbre(request.getParameter("primerRefNopmbre"));
+    persona.setPrimerRefNombre(request.getParameter("primerRefNombre"));
     persona.setPrimerRefParentezco(request.getParameter("primerRefParentezco"));
     persona.setPrimerRefCelular(request.getParameter("primerRefCelular"));
     persona.setSegundaRefNombre(request.getParameter("segundaRefNombre"));
@@ -75,11 +75,11 @@
             persona.grabar();
             break;
         case "Modificar":
-            persona.setIdentificacion(request.getParameter("id"));
+            persona.setIdentificacion(request.getParameter("identificacion"));
             persona.modificar(identificacionAnterior);
             break;
         case "Eliminar":
-            persona.setId(request.getParameter("id"));
+            persona.setIdentificacion(request.getParameter("identificacion"));
             persona.eliminar();
             break;
     }

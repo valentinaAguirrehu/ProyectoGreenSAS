@@ -48,7 +48,7 @@ public class ConectorBD {
             System.out.println("Driver ok");
             //jdbc:mysql://localhost:3306/tienda
             String cadenaConexion="jdbc:mysql://"+servidor+":"+puerto+"/"+baseDatos+"?characterEncoding=utf8";
-            //el parametro character... nos permite agregar ñ, tildes..
+            //el parametro character... nos permite agregar ñ, tildes..
             conexion=(Connection) DriverManager.getConnection(cadenaConexion, usuario, clave);
             System.out.println("Conectado a la BD");
             conectado=true;

@@ -19,8 +19,9 @@
         lista += "<td>" + persona.getApellidos() + "</td>"; 
         lista += "<td>" + persona.getIdCargo()+ "</td>"; 
         lista += "<td>";
-        lista += "<a href='principal.jsp?CONTENIDO=personaFormulario.jsp&accion=Modificar&id=" + persona.getIdentificacion() + "' title='Modificar'><img src='iconos/editar.png'/></a>"; 
-        lista+="<img src='iconos/borrar.png'  title='Eliminar' onClick='eliminar("+ persona.getIdentificacion()+")'> ";
+        lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + persona.getIdentificacion()
+                 + "' title='Modificar'><img src='presentacion/iconos/modificar.png'/></a>"; 
+        lista+="<img src=presentacion/iconos/eliminar.png  title='Eliminar' onClick='eliminar("+ persona.getIdentificacion()+")'> ";
         lista+="</td>";
         lista += "</tr>";
     }
@@ -36,8 +37,8 @@
         <th>Acciones</th>
         
     <div class="add-button">
-    <a href="principal.jsp?CONTENIDO=personaFormulario.jsp&accion=Adicionar" title="Agregar">
-        <img src="iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;"> Agregar Categorias
+    <a href="personaFormulario.jsp?accion=Adicionar" title="Agregar">
+        <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;"> Agregar Colaboradores
     </a>
     </div>
     </tr>
@@ -45,10 +46,10 @@
 </table>
 
 <script type="text/javascript">
-    function eliminar(id) {
+    function eliminar(identificacion) {
         respuesta = confirm("Realmente desea eliminar el registro de él colaborador?");
         if (respuesta) {
-            document.location = "principal.jsp?CONTENIDO=personaActualizar.jsp&accion=Eliminar&id="+id; 
+            document.location = "principal.jsp?CONTENIDO=personaActualizar.jsp&accion=Eliminar&identificacion="+identificacion; 
         }
     }
 </script>

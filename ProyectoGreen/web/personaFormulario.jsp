@@ -2,7 +2,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link rel="stylesheet" type="text/css" href="presentacion/estiloTablas.css">
 
-<%@page import="java.util.*" %>
 <%
     String accion = request.getParameter("accion");
     String identificacion = request.getParameter("identificacion");
@@ -102,7 +101,7 @@
     <table border="0">
         <tr>
             <th>Primer Referencia Nombre</th>
-            <td><input type="text" name="primerRefNopmbre" value="<%= persona.getPrimerRefNopmbre()%>" size="50" maxlength="50"></td>
+            <td><input type="text" name="primerRefNombre" value="<%= persona.getPrimerRefNombre()%>" size="50" maxlength="50"></td>
         </tr>
         <tr>
             <th>Primer Referencia Parentesco</th>
