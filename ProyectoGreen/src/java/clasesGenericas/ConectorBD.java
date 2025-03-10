@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @author Angie
  */
 public class ConectorBD {
-
+  
     private String servidor;
     private String puerto;
     private String usuario;
@@ -27,7 +27,7 @@ public class ConectorBD {
     private Connection conexion;
 
     public ConectorBD() {
-
+      
         servidor = "localhost";
         puerto = "3306";
         usuario = "adso";
