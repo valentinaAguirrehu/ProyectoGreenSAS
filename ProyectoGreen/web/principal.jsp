@@ -27,8 +27,8 @@
                 <li class="dropdown">
                     <a href="#">Colaboradores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
                     <ul class="dropdown-content">                           
-                        <li><a href="#">Activos</a></li>
-                        <li><a href="#">Sumar</a></li>
+                        <li><a href="persona.jsp">Activos</a></li>
+                        <li><a href="personaFormulario.jsp">Sumar</a></li>
                         <li><a href="">Aprendices</a></li>
                         <li><a href="#">Retirados</a></li>
                     </ul>
