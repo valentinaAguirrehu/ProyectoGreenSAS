@@ -17,22 +17,23 @@ import java.util.logging.Logger;
  *
  * @author VALEN
  */
-public class DocumentoIdentificacion {
-     private String id;
-     private String documentoIdentificacion;
+public class DocumentoIdentidad {
 
-        public DocumentoIdentificacion() {
+    private String id;
+    private String documentoIdentificacion;
+
+    public DocumentoIdentidad() {
     }
-      
-    public DocumentoIdentificacion(String id) {
-              String consultaSQL = "select id,documentoIdentificacion "
-                      + "from documentoIdentificacion where id = " + id;
-              ResultSet resultado = ConectorBD.consultar(consultaSQL);  
+
+    public DocumentoIdentidad(String id) {
+        String consultaSQL = "select id,documentoIdentificacion "
+                + "from documentoIdentidad where id = " + id;
+        ResultSet resultado = ConectorBD.consultar(consultaSQL);
         try {
             if (resultado.next()) {
                 this.id = id;
                 documentoIdentificacion = resultado.getString("documentoIdentificacion");
-             
+
             }
         } catch (SQLException ex) {
             System.out.println("Error al consultar el ID: " + ex.getMessage());
@@ -54,23 +55,24 @@ public class DocumentoIdentificacion {
     public void setDocumentoIdentificacion(String documentoIdentificacion) {
         this.documentoIdentificacion = documentoIdentificacion;
     }
-         public boolean grabar() {
-        String consultaSQL = "insert into documentoIdentificacion (id, documentoIdentificacion, VALUES ('"
+
+    public boolean grabar() {
+        String consultaSQL = "insert into documentoIdentidad (id, documentoIdentificacion, VALUES ('"
                 + id + "', '" + documentoIdentificacion + "')";
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
-             public boolean modificar() {
-        String consultaSQL = "update documentoIdentificacion set id = '" + id
+
+    public boolean modificar() {
+        String consultaSQL = "update documentoIdentidad set id = '" + id
                 + "', documentoIdentificacion = '" + documentoIdentificacion + "' where id = " + id;
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
-     
-     
+
     public boolean eliminar() {
-        String consultaSQL = "delete from documentoIdentificacion where id = " + id;
+        String consultaSQL = "delete from documentoIdentidad where id = " + id;
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
-    
+
     public static ResultSet getLista(String filtro, String orden) {
         if (filtro != null && !filtro.trim().isEmpty()) {
             filtro = " where " + filtro;
@@ -82,24 +84,24 @@ public class DocumentoIdentificacion {
         } else {
             orden = "";
         }
-        String cadenaSQL = "select id,documentoIdentificacion from documentoIdentificacion " + filtro + orden;
+        String cadenaSQL = "select id,documentoIdentificacion from documentoIdentidad " + filtro + orden;
         return ConectorBD.consultar(cadenaSQL);
     }
 
-    public static List<DocumentoIdentificacion> getListaEnObjetos(String filtro, String orden) {
-        List<DocumentoIdentificacion> lista = new ArrayList<>();
-        ResultSet datos = DocumentoIdentificacion.getLista(filtro, orden);
+    public static List<DocumentoIdentidad> getListaEnObjetos(String filtro, String orden) {
+        List<DocumentoIdentidad> lista = new ArrayList<>();
+        ResultSet datos = DocumentoIdentidad.getLista(filtro, orden);
         if (datos != null) {
             try {
                 while (datos.next()) {
-                    DocumentoIdentificacion documentoIdentificacion = new DocumentoIdentificacion();
-                    documentoIdentificacion.setId(datos.getString("id"));
-                    documentoIdentificacion.setDocumentoIdentificacion(datos.getString("documentoIdentificacion"));
-                
-                    lista.add(documentoIdentificacion);
+                    DocumentoIdentidad documentoIdentidad = new DocumentoIdentidad();
+                    documentoIdentidad.setId(datos.getString("id"));
+                    documentoIdentidad.setDocumentoIdentificacion(datos.getString("documentoIdentificacion"));
+
+                    lista.add(documentoIdentidad);
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(DocumentoIdentificacion.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DocumentoIdentidad.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return lista;
