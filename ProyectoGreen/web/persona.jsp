@@ -49,7 +49,7 @@
     function eliminar(identificacion) {
         respuesta = confirm("Realmente desea eliminar el registro de él colaborador?");
         if (respuesta) {
-            document.location = "principal.jsp?CONTENIDO=personaActualizar.jsp&accion=Eliminar&identificacion="+identificacion; 
+            document.location = "personaActualizar.jsp?accion=Eliminar&identificacion="+identificacion; 
         }
     }
 </script>
