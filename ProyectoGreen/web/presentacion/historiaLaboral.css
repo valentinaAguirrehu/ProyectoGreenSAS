@@ -1,9 +1,9 @@
-body {
+body { 
     font-family: Arial, sans-serif;
 }
 
 .container {
-    width: 80%;
+    width: 60%;
     margin: auto;
     padding: 20px;
     border: 2px solid black;
@@ -20,33 +20,59 @@ h1 {
     border: 1px solid black;
 }
 
+.nombre {
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+    border: none;
+    background: none;
+    display: block;
+    margin: auto;
+}
+
 .input-group {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    gap: 10px; /* Espacio entre la etiqueta y los iconos */
+    width: 100%;
 }
 
 .input-group label {
-    width: 200px;
+    width: 180px; /* Ancho fijo para alinear etiquetas */
     font-weight: bold;
-}
-
-.input-group input {
-    flex: 1;
-    padding: 5px;
-    border: 1px solid black;
-    border-radius: 5px;
+    text-align: left;
+    white-space: nowrap;
 }
 
 .icon-buttons {
     display: flex;
-    gap: 5px;
+    gap: 8px;
+    align-items: center; /* Alinea los iconos verticalmente */
 }
 
 .icon-buttons button {
     background: none;
     border: none;
     cursor: pointer;
+}
+
+.icon-buttons img {
+    width: 20px; /* Ajuste del tamaño de los iconos */
+    height: 20px;
+}
+
+/* Estilos específicos para "Datos Personales" */
+.section-datos-personales {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espaciado entre filas */
+}
+
+.section-datos-personales .fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .buttons {
@@ -61,3 +87,19 @@ button.btn-volver {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.campo-pequeno {
+    width: 120px; /* Tamaño más pequeño del campo */
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+
+.campo-mediano {
+    width: 180px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
