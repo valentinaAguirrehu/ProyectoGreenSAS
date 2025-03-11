@@ -24,6 +24,7 @@
             <ul>
                 <li><a href="#">Inicio</a></li>
                 <li><a href="cargos.jsp">Cargos</a></li>
+                <li><a href="historiaLaboral.jsp">Historia Laboral</a></li>
                 <li class="dropdown">
                     <a href="#">Colaboradores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
                     <ul class="dropdown-content">                           

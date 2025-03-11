@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Mary
@@ -29,7 +31,7 @@ public class Ausentismo {
     }
 
     public Ausentismo(String id) {
-        String consultaSQL = "select vacaciones, licenciaRemunerada, otrosDocumentos from asentismo where id = " + id;
+        String consultaSQL = "select id, vacaciones, licenciaRemunerada, otrosDocumentos from asentismo where id = " + id;
         
         ResultSet resultado = ConectorBD.consultar(consultaSQL);
         
@@ -88,38 +90,55 @@ public class Ausentismo {
     
     // Métodos de Base de Datos
     public boolean grabar() {
-        String consultaSQL = "insert into asentismo (vacaciones, licenciaRemunerada, otrosDocumentos) VALUES ('" 
+        String consultaSQL = "insert into ausentismo (vacaciones, licenciaRemunerada, otrosDocumentos) VALUES ('" 
                 + vacaciones + "', '" + licenciaRemunerada + "', '" + otrosDocumentos + "')";
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
 
     public boolean modificar() {
-        String consultaSQL = "update asentismo set vacaciones = '" + vacaciones
+        String consultaSQL = "update ausentismo set vacaciones = '" + vacaciones
                 + "', licenciaRemunerada = '" + licenciaRemunerada
                 + "', otrosDocumentos = '" + otrosDocumentos + "' where id = " + id;
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
 
     public boolean eliminar() {
-        String consultaSQL = "delete from asentismo where id = " + id;
+        String consultaSQL = "delete from ausentismo where id = " + id;
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
-
-    public static List<Ausentismo> getListaEnObjetos(String filtro, String orden) {
+    public static ResultSet getLista(String filtro, String orden) {
+        if (filtro != null && !filtro.trim().isEmpty()) {
+            filtro = " where " + filtro;
+        } else {
+            filtro = "";
+        }
+        if (orden != null && !orden.trim().isEmpty()) {
+            orden = " order by " + orden;
+        } else {
+            orden = "";
+        }
+        String cadenaSQL = "select id , vacaciones, licenciaRemunerada, otrosDocumentos from asentismo " + filtro + orden;
+        return ConectorBD.consultar(cadenaSQL);
+    }
+     public static List<Ausentismo> getListaEnObjetos(String filtro, String orden) {
         List<Ausentismo> lista = new ArrayList<>();
-        String consultaSQL = "select * from asentismo";
-        if (filtro != null && !filtro.isEmpty()) consultaSQL += " where " + filtro;
-        if (orden != null && !orden.isEmpty()) consultaSQL += " order by " + orden;
+        ResultSet datos = Ausentismo.getLista(filtro, orden); 
+        if (datos != null) {
+            try {
+                while (datos.next()) {
+                    Ausentismo ausentismo = new Ausentismo();
+                    ausentismo.setId(datos.getString("id"));
+                    ausentismo.setVacaciones(datos.getString("vacaciones"));
+                    ausentismo.setLicenciaRemunerada(datos.getString("licenciaRemunerada"));
+                    ausentismo.setOtrosDocumentos(datos.getString("otrosDocumentos"));
 
-        ResultSet datos = ConectorBD.consultar(consultaSQL);
-        try {
-            while (datos.next()) {
-                Ausentismo asentismo = new Ausentismo(datos.getString("id"));
-                lista.add(asentismo);
+                    lista.add(ausentismo);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Ausentismo.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            System.out.println("Error al obtener la lista: " + ex.getMessage());
         }
         return lista;
     }
+  
 }
