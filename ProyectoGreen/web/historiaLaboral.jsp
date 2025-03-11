@@ -1,0 +1,82 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Historia Laboral</title>
+        <link rel="stylesheet" href="presentacion/historiaLaboral.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>HISTORIA LABORAL</h1>
+            <h1>TEMPORALES</h1>
+            
+            <div class="section">
+                <input type="text" value="JOHANA LILIANA JIMÉN" style="width: 100%; text-align: center; font-weight: bold; border: none; background: none;">
+            </div>
+            
+            <div class="section">
+                <h3>Datos Laborales</h3>
+                <div class="input-group">
+                    <label>C.C.</label>
+                    <input type="text">
+                    <label>Centro de Costo</label>
+                    <input type="text">
+                    <label>Celular</label>
+                    <input type="text">
+                </div>
+                <div class="input-group">
+                    <label>Establecimiento</label>
+                    <input type="text">
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Datos Personales</h3>
+                
+                <div class="input-group">
+                    <label>Cédula Ciudadanía</label>
+                    <div class="icon-buttons">
+                        <button><img src="presentacion/iconos/ojo.png" alt="Ver"></button>
+                        <button><img src="presentacion/iconos/.jpg" alt="Descargar"></button>
+                        <button><img src="presentacion/iconos/agregarDocumento.png" alt="Subir"></button>
+                    </div>
+                    <label>Inducción SST</label>
+                    <div class="icon-buttons">
+                        <button><img src="presentacion/iconos/ojo.png" alt="Ver"></button>
+                        <button><img src="presentacion/iconos/descargar.png" alt="Descargar"></button>
+                        <button><img src="presentacion/iconos/agregarDocumento.png" alt="Subir"></button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Documentos SAGRILAFT</label>
+                    <div class="icon-buttons">
+                        <button><img src="presentacion/iconos/ojo.png" alt="Ver"></button>
+                        <button><img src="presentacion/iconos/descargar.png" alt="Descargar"></button>
+                        <button><img src="presentacion/iconos/agregarDocumento.png" alt="Subir"></button>
+                    </div>
+                    <label>Inducción SGA</label>
+                    <div class="icon-buttons">
+                        <button><img src="presentacion/iconos/ojo.png" alt="Ver"></button>
+                        <button><img src="presentacion/iconos/descargar.png" alt="Descargar"></button>
+                        <button><img src="presentacion/iconos/agregarDocumento.png" alt="Subir"></button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Otros Documentos</label>
+                    <div class="icon-buttons">
+                        <button><img src="presentacion/iconos/ojo.png" alt="Ver"></button>
+                        <button><img src="presentacion/iconos/descargar.png" alt="Descargar"></button>
+                        <button><img src="presentacion/iconos/agregarDocumento.png" alt="Subir"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn-back">VOLVER</button>
+            </div>
+        </div>
+    </body>
+</html>
