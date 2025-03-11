@@ -82,7 +82,7 @@ h1 {
 .btn-volver {
     display: inline-block; /* Para que se comporte como botón */
     padding: 10px 20px;
-    background-color: gray;
+    background-color: #4CAF50;
     color: white;
     text-decoration: none; /* Quita el subrayado del enlace */
     border-radius: 5px;
