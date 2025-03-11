@@ -28,7 +28,7 @@ public class Cargo {
     }
 
     public Cargo(String id)  {    
-        String cadenaSQL = "select id,nombre,codigoCargo,descripcion from Cargo where id=" + id;
+        String cadenaSQL = "select id,nombre,codigoCargo,descripcion from cargo where id=" + id;
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
 
         try {

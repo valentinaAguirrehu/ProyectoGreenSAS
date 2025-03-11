@@ -30,8 +30,7 @@ public class DocumentosDuranteContratacion {
     }
 
     public DocumentosDuranteContratacion(String id) {
-        String consultaSQL = "select preavisosProrrogas, otrosSi, sustitucionPatronal, otrosDocumentos from documentos_durante_contratacion where id = " + id;
-        
+        String consultaSQL = "select preavisosProrrogas, otrosSi, sustitucionPatronal, otrosDocumentos from documentosDuranteContratacion where id = " + id;
         ResultSet resultado = ConectorBD.consultar(consultaSQL);
         
         try {
@@ -116,6 +115,21 @@ public class DocumentosDuranteContratacion {
     public boolean eliminar() {
         String consultaSQL = "delete from documentos_durante_contratacion where id = " + id;
         return ConectorBD.ejecutarQuery(consultaSQL);
+    }
+    
+        public static ResultSet getLista(String filtro, String orden) {
+        if (filtro != null && !filtro.trim().isEmpty()) {
+            filtro = " where " + filtro;
+        } else {
+            filtro = "";
+        }
+        if (orden != null && !orden.trim().isEmpty()) {
+            orden = " order by " + orden;
+        } else {
+            orden = "";
+        }
+        String cadenaSQL = "select preavisosProrrogas, otrosSi, sustitucionPatronal, otrosDocumentos from documentosDuranteContratacion " + filtro + orden;
+        return ConectorBD.consultar(cadenaSQL);
     }
 
     public static List<DocumentosDuranteContratacion> getListaEnObjetos(String filtro, String orden) {

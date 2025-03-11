@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.section {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.input-group label {
+    width: 200px;
+    font-weight: bold;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.icon-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.icon-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.buttons {
+    text-align: center;
+}
+
+button.btn-volver {
+    padding: 10px 20px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

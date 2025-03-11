@@ -26,7 +26,7 @@ public class PersonaHijos {
     }
 
     public PersonaHijos(String id) {
-        String cadenaSQL = "select id,identificacionPersona,idHijos from PersonaHijos where id=" + id;
+        String cadenaSQL = "select id,identificacionPersona,idHijos from personaHijos where id=" + id;
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
 
         try {
