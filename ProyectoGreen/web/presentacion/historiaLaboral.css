@@ -79,14 +79,22 @@ h1 {
     text-align: center;
 }
 
-button.btn-volver {
+.btn-volver {
+    display: inline-block; /* Para que se comporte como botón */
     padding: 10px 20px;
     background-color: gray;
     color: white;
-    border: none;
+    text-decoration: none; /* Quita el subrayado del enlace */
     border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
     cursor: pointer;
 }
+
+.btn-volver:hover {
+    background-color: #1c7430;
+}
+
 
 .campo-pequeno {
     width: 120px; /* Tamaño más pequeño del campo */

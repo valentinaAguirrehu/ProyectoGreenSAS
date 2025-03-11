@@ -73,8 +73,9 @@
             </div>
 
             <div class="buttons">
-                <button class="btn-volver">VOLVER</button>
+                <a href="principal.jsp" class="btn-volver">VOLVER</a>
             </div>
+
         </div>
     </body>
 </html>
