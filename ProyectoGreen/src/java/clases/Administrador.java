@@ -62,11 +62,11 @@ public class Administrador {
     }
 
     public String getTipo() {
-    if (tipo == null || tipo.trim().isEmpty()) {
-        tipo = "U";
+        if (tipo == null || tipo.trim().isEmpty()) {
+            tipo = "U";
+        }
+        return tipo;
     }
-    return tipo;
-}
 
     public void setTipo(String tipo) {
         if (tipo == null || tipo.trim().isEmpty()) {
@@ -113,19 +113,22 @@ public class Administrador {
     }
 
     public String getClave() {
-        if (clave == null || clave.trim().isEmpty()) {
-            clave = (identificacion != null) ? identificacion : "";
+        String resultado = clave;
+        if (clave == null) {
+            resultado = "";
         }
-
-        if (clave.length() < 32) {
-            return "md5('" + clave + "')";
-        } else {
-            return "'" + clave + "'";
-        }
+        return resultado;
     }
 
     public void setClave(String clave) {
-        this.clave = clave;
+        if (clave == null || clave.trim().length() == 0) {
+            clave = identificacion;
+        }
+        if (clave.length() < 32) {
+            this.clave = "md5 ('" + clave + "')";
+        } else {
+            this.clave = " '" + clave + "' ";
+        }
     }
 
     public String getEstado() {
@@ -162,7 +165,7 @@ public class Administrador {
                 + "nombres='" + nombres + "', "
                 + "celular='" + celular + "', "
                 + "email='" + email + "', "
-                + "clave=" + clave + ", " 
+                + "clave=" + clave + ", "
                 + "estado='" + estado + "' "
                 + "WHERE identificacion=" + identificacionAnterior;
         return ConectorBD.ejecutarQuery(cadenaSQL);
@@ -209,6 +212,23 @@ public class Administrador {
             }
         }
         return lista;
+    }
+
+    public static Administrador validar(String identificacion, String clave) {
+        Administrador administrador = null;
+        String query = "identificacion='" + identificacion + "' and clave=";
+
+        if (clave.length() == 32 && clave.matches("[a-fA-F0-9]+")) {
+            query += "'" + clave + "'";
+        } else {
+            query += "md5('" + clave + "')";
+        }
+
+        List<Administrador> lista = Administrador.getListaEnObjetos(query, null);
+        if (lista.size() > 0) {
+            administrador = lista.get(0); 
+        }
+        return administrador;
     }
 
 }

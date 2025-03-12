@@ -9,12 +9,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-String accion = request.getParameter("accion");
-String identificacion = request.getParameter("identificacion");
-Administrador usuario = new Administrador();
-if (accion.equals("Modificar")) {
-    usuario = new Administrador(identificacion);
-}
+    String accion = request.getParameter("accion");
+    String identificacion = request.getParameter("identificacion");
+    Administrador usuario = new Administrador();
+    if (accion.equals("Modificar")) {
+        usuario = new Administrador(identificacion);
+    }
 %>
 
 <h3><%=accion.toUpperCase()%> USUARIO</h3>
@@ -36,9 +36,26 @@ if (accion.equals("Modificar")) {
             <th>Email</th>
             <td><input class="recuadro" type="email" name="email" value="<%=usuario.getEmail()%>" size="50" maxlength="40" required></td>
         </tr>
+        </tr>
+        <tr>
+            <th>Permisos</th>
+            <td>
+                <label><input type="checkbox" name="permisos" value="leer"> Leer</label><br>
+                <label><input type="checkbox" name="permisos" value="editar"> Editar</label><br>
+                <label><input type="checkbox" name="permisos" value="agregar"> Agregar</label><br>
+                <label><input type="checkbox" name="permisos" value="eliminar"> Eliminar</label><br>
+                <label><input type="checkbox" name="permisos" value="descargar"> Descargar</label><br>
+            </td>
+        </tr>
+        <tr>
         <tr>
             <th>Estado</th>
-            <td><input class="recuadro" type="text" name="estado" value="Activo" size="50" maxlength="40" readonly></td>
+            <td>
+                <select class="recuadro" name="estado">
+                    <option value="Activo" selected>Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <th>Contraseña</th>
@@ -46,6 +63,8 @@ if (accion.equals("Modificar")) {
         </tr>
     </table>
 
-    <input class="submit" type="submit" name="accion" value="<%=accion%>">
+    <input type="hidden" name="identificacionAnterior" value="<%=usuario.getIdentificacion()%>">
+    <input type="hidden" name="accion" value="<%=accion%>">
+    <input class="submit" type="submit" value="Guardar">
     <input class="button" type="button" value="Cancelar" onClick="window.history.back()">
 </form>
