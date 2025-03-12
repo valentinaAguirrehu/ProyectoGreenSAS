@@ -1,0 +1,133 @@
+body { 
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 60%;
+    margin: auto;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Centrar los títulos de las secciones */
+h1 {
+    text-align: center;
+}
+
+.titulo-seccion {
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+/* Nombre centrado */
+.nombre {
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+    border: none;
+    background: none;
+    display: block;
+    margin: auto;
+}
+
+/* Organización de los campos */
+.input-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.campo label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.campo-pequeno {
+    width: 120px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.campo-mediano {
+    width: 180px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Estilo para la tabla de datos personales */
+.data-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-width: 600px;
+    margin: auto;
+    padding: 15px;
+    border: 2px solid black;
+}
+
+.data-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border: 2px solid black;
+}
+
+.ver-btn {
+    background: white;
+    border: 2px solid black;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+}
+
+.ver-btn:hover {
+    background: #4CAF50;
+}
+
+/* Botón de volver */
+.btn-volver {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-volver:hover {
+    background-color: #1c7430;
+}
+
+.buttons {
+    text-align: center;
+    margin-top: 20px;
+}
