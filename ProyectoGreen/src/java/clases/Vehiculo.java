@@ -5,12 +5,17 @@
 package clases;
 
 import clasesGenericas.ConectorBD;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author Angie
+ * @author Mary
  */
 public class Vehiculo {
 
@@ -51,8 +56,10 @@ public class Vehiculo {
     }
 
     public String getId() {
-        String resultado=id;
-        if(id==null) resultado="";
+        String resultado = id;
+        if (id == null) {
+            resultado = "";
+        }
         return resultado;
     }
 
@@ -61,8 +68,10 @@ public class Vehiculo {
     }
 
     public String getTipoVehiculo() {
-        String resultado=tipoVehiculo;
-        if(tipoVehiculo==null) resultado="";
+        String resultado = tipoVehiculo;
+        if (tipoVehiculo == null) {
+            resultado = "";
+        }
         return resultado;
     }
 
@@ -71,8 +80,10 @@ public class Vehiculo {
     }
 
     public String getNumeroPlaca() {
-        String resultado=numeroPlaca;
-        if(numeroPlaca==null) resultado="";
+        String resultado = numeroPlaca;
+        if (numeroPlaca == null) {
+            resultado = "";
+        }
         return resultado;
     }
 
@@ -81,8 +92,10 @@ public class Vehiculo {
     }
 
     public String getModeloVehiculo() {
-          String resultado=modeloVehiculo;
-        if(modeloVehiculo==null) resultado="";
+        String resultado = modeloVehiculo;
+        if (modeloVehiculo == null) {
+            resultado = "";
+        }
         return resultado;
     }
 
@@ -91,8 +104,10 @@ public class Vehiculo {
     }
 
     public String getLinea() {
-        String resultado=linea;
-        if(linea==null) resultado="";
+        String resultado = linea;
+        if (linea == null) {
+            resultado = "";
+        }
         return resultado;
     }
 
@@ -112,8 +127,10 @@ public class Vehiculo {
     }
 
     public String getColor() {
-        String resultado=color;
-        if(color==null) resultado="";
+        String resultado = color;
+        if (color == null) {
+            resultado = "";
+        }
         return resultado;
     }
 
@@ -122,8 +139,10 @@ public class Vehiculo {
     }
 
     public String getCilindraje() {
-        String resultado=cilindraje;
-        if(cilindraje==null) resultado="";
+        String resultado = cilindraje;
+        if (cilindraje == null) {
+            resultado = "";
+        }
         return resultado;
     }
 
@@ -132,8 +151,10 @@ public class Vehiculo {
     }
 
     public String getNumLicenciaTransito() {
-        String resultado=numLicenciaTransito;
-        if(numLicenciaTransito==null) resultado="";
+        String resultado = numLicenciaTransito;
+        if (numLicenciaTransito == null) {
+            resultado = "";
+        }
         return resultado;
     }
 
@@ -142,8 +163,10 @@ public class Vehiculo {
     }
 
     public String getFechaExpLicenciaTransito() {
-        String resultado=fechaExpLicenciaTransito;
-        if(fechaExpLicenciaTransito==null) resultado="";
+        String resultado = fechaExpLicenciaTransito;
+        if (fechaExpLicenciaTransito == null) {
+            resultado = "";
+        }
         return resultado;
     }
 
@@ -168,5 +191,85 @@ public class Vehiculo {
 
         return ConectorBD.consultar(cadenaSQL);
     }
+
+    public static List<Vehiculo> getListaEnObjetos(String filtro, String orden) {
+        List<Vehiculo> lista = new ArrayList<>();
+        ResultSet datos = Vehiculo.getLista(filtro, orden);
+
+        if (datos != null) {
+            try {
+                while (datos.next()) {
+                    Vehiculo vehiculo = new Vehiculo();
+                    vehiculo.setId(datos.getString("id"));
+                    vehiculo.setTipoVehiculo(datos.getString("tipoVehiculo"));
+                    vehiculo.setNumeroPlaca(datos.getString("numeroPlaca"));
+                    vehiculo.setModeloVehiculo(datos.getString("modeloVehiculo"));
+                    vehiculo.setLinea(datos.getString("linea"));
+                    vehiculo.setAno(datos.getString("ano"));
+                    vehiculo.setColor(datos.getString("color"));
+                    vehiculo.setCilindraje(datos.getString("cilindraje"));
+                    vehiculo.setNumLicenciaTransito(datos.getString("numLicenciaTransito"));
+                    vehiculo.setFechaExpLicenciaTransito(datos.getString("fechaExpLicenciaTransito"));
+                    lista.add(vehiculo);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Vehiculo.class.getName()).log(Level.SEVERE, "Error al obtener lista de vehículos", ex);
+            }
+        }
+
+        return lista;
+    }
+
+    public static String getListaEnOptions(String preseleccionado) {
+        StringBuilder lista = new StringBuilder();
+        List<Vehiculo> datos = getListaEnObjetos(null, "modeloVehiculo");
+
+        for (Vehiculo vehiculo : datos) {
+            String auxiliar = "";
+            if (preseleccionado != null && preseleccionado.equals(vehiculo.getId())) {
+                auxiliar = " selected";
+            }
+            lista.append("<option value='").append(vehiculo.getId()).append("'").append(auxiliar).append(">")
+                    .append(vehiculo.getModeloVehiculo()).append(" - ").append(vehiculo.getNumeroPlaca())
+                    .append("</option>");
+        }
+        return lista.toString();
+    }
+
+    
+            
+            
+            public Vehiculo getVehiculoPorIdentificacion(String identificacion) {
+    List<Vehiculo> vehiculos = Vehiculo.getListaEnObjetos("identificacion = '" + identificacion + "'", "");
+    return vehiculos.isEmpty() ? null : vehiculos.get(0); // Retorna el primer vehículo encontrado o null si no hay
+}
+
+    public static Vehiculo getVehiculoPorIdentificacion(String identificacion) {
+    Vehiculo vehiculo = null;
+    String query = "SELECT * FROM vehiculo WHERE identificacion = ?";
+    
+    try (Connection con = Conexion.getConexion();
+         PreparedStatement ps = con.prepareStatement(query)) {
+        ps.setString(1, identificacion);
+        ResultSet rs = ps.executeQuery();
+        
+        if (rs.next()) {
+            vehiculo = new Vehiculo();
+            vehiculo.setTipoVehiculo(rs.getString("tipoVehiculo"));
+            vehiculo.setNumeroPlaca(rs.getString("numeroPlaca"));
+            vehiculo.setModelo(rs.getString("modelo"));
+            vehiculo.setLinea(rs.getString("linea"));
+            vehiculo.setAno(rs.getInt("ano"));
+            vehiculo.setColor(rs.getString("color"));
+            vehiculo.setCilindraje(rs.getString("cilindraje"));
+            vehiculo.setNumLicenciaTransito(rs.getString("numLicenciaTransito"));
+            vehiculo.setFechaExpLicenciaTransito(rs.getString("fechaExpLicenciaTransito"));
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    
+    return vehiculo;
+}
 
 }
