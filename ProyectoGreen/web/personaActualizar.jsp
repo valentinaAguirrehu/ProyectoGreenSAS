@@ -1,24 +1,14 @@
-<%-- 
-    Document   : personaActualizar
-    Created on : 10/03/2025, 03:57:15 PM
-    Author     : Mary
---%>
 
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>categorias</title>
-<link rel="stylesheet" type="text/css" href="presentacion/estiloTablas.css">
-</head>
-</html>
 
 <%@page import="clases.Persona"%>
-<%
-    
-    String accion=request.getParameter("accion");
-    String identificacionAnterior=request.getParameter("identificacionAnterior");
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-    Persona persona = new Persona();
+<%
+ String accion=request.getParameter("accion");
+ String identificacionAnterior=request.getParameter("identificacionAnterior");
+
+Persona persona = new Persona();
+
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo(request.getParameter("tipo"));
     persona.setIdCargo(request.getParameter("idCargo"));
@@ -33,28 +23,28 @@
     persona.setLugarNacimiento(request.getParameter("lugarNacimiento"));
     persona.setTipoSangre(request.getParameter("tipoSangre"));
     persona.setTipoVivienda(request.getParameter("tipoVivienda"));
+    persona.setDireccion(request.getParameter("direccion")); // ✅ 
     persona.setBarrio(request.getParameter("barrio"));
-    persona.setEmail(request.getParameter("email"));
+    persona.setEmail(request.getParameter("email")); // ✅ 
     persona.setNivelEducativo(request.getParameter("nivelEducativo"));
-    persona.setEmail(request.getParameter("eps"));
+    persona.setEps(request.getParameter("eps")); // ✅ 
     persona.setEstadoCivil(request.getParameter("estadoCivil"));
-    persona.setFechaIngreso(request.getParameter("fechaIngreso"));
-    persona.setFechaRetiro(request.getParameter("fechaRetiro"));
-    persona.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
-    persona.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
+    persona.setFechaIngreso(request.getParameter("1998-16-11"));
+    persona.setFechaRetiro(request.getParameter("2000-11-11"));
+    persona.setFechaEtapaLectiva(request.getParameter("2000-11-11"));
+    persona.setFechaEtapaProductiva(request.getParameter("2000-11-11"));
     persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
     persona.setCentroCostos(request.getParameter("centroCostos"));
     persona.setEstablecimiento(request.getParameter("establecimiento"));
     persona.setArea(request.getParameter("area"));
-    persona.setTipo(request.getParameter("tipoCargo"));
     persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     persona.setSalario(request.getParameter("salario"));
-    persona.setPrimerRefNopmbre(request.getParameter("primerRefNopmbre"));
+    persona.setPrimerRefNombre(request.getParameter("primerRefNombre"));
     persona.setPrimerRefParentezco(request.getParameter("primerRefParentezco"));
     persona.setPrimerRefCelular(request.getParameter("primerRefCelular"));
     persona.setSegundaRefNombre(request.getParameter("segundaRefNombre"));
-    persona.setSegundaRefNombre(request.getParameter("segundaRefParentezco"));
+    persona.setSegundaRefParentezco(request.getParameter("segundaRefParentezco")); // ✅ Corregido
     persona.setSegundaRefCelular(request.getParameter("segundaRefCelular"));
     persona.setTieneHijos(request.getParameter("tieneHijos"));
     persona.setTallaCamisa(request.getParameter("tallaCamisa"));
@@ -62,32 +52,30 @@
     persona.setTallaPantalon(request.getParameter("tallaPantalon"));
     persona.setTallaCalzado(request.getParameter("tallaCalzado"));
     persona.setTieneVehiculo(request.getParameter("tieneVehiculo"));
-    persona.setNumLicenciaConduccion(request.getParameter("numLicenciaConduccion"));
+    persona.setNumLicenciaConduccion(request.getParameter("1"));
     persona.setFechaExpConduccion(request.getParameter("fechaExpConduccion"));
-    persona.setFechaVencimiento(request.getParameter("fechaVencimiento"));
+    persona.setFechaVencimiento(request.getParameter("2000-11-11"));
     persona.setRestricciones(request.getParameter("restricciones"));
-    persona.setClave(request.getParameter("clave"));
     persona.setEstado(request.getParameter("estado"));
-    persona.setVinculacionLaboral(request.getParameter("estado"));
-    persona.setIdVehiculo(request.getParameter("estado"));
-    switch(accion){
-        case "Adicionar":
-            persona.grabar();
-            break;
-        case "Modificar":
-            persona.setIdentificacion(request.getParameter("id"));
-            persona.modificar(identificacionAnterior);
-            break;
-        case "Eliminar":
-            persona.setId(request.getParameter("id"));
-            persona.eliminar();
-            break;
-    }
- //response.sendRedirect("principal.jsp?CONTENIDO=categorias.jsp");
-%>
-<script type="text/javascript">
-    document.location="principal.jsp?CONTENIDO=categorias.jsp";
-</script>
+    persona.setIdVehiculo(request.getParameter("idVehiculo"));
 
+
+
+switch(accion){
+    case "Adicionar":
+        persona.grabar();
+        break;
+    case "Modificar":
+        persona.modificar(identificacionAnterior);
+        break;
+    case "Eliminar":
+        persona.eliminar();
+        break;
+}
+%>
+
+<script type="text/javascript">
+    document.location="persona.jsp"
+</script>
 
 

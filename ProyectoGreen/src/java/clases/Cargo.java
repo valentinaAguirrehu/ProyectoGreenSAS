@@ -146,7 +146,23 @@ public class Cargo {
         }
         return lista;
     }
-    
+ 
+    public static String getListaEnOptions(String preseleccionado) {
+    StringBuilder lista = new StringBuilder();
+    List<Cargo> datos = getListaEnObjetos(null, "nombre"); // Ordenado por nombre
+
+    for (Cargo cargo : datos) {
+        String auxiliar = "";
+        if (preseleccionado != null && preseleccionado.equals(cargo.getId())) {
+            auxiliar = " selected";
+        }
+        lista.append("<option value='").append(cargo.getId()).append("'")
+             .append(auxiliar).append(">")
+             .append(cargo.getNombre()).append(" (").append(cargo.getCodigoCargo()).append(")</option>");
+    }
+    return lista.toString();
+}
+
 }
 
 

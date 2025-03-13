@@ -25,7 +25,6 @@ public class ConectorBD {
     public static Object getConnection() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
     private String servidor;
     private String puerto;
     private String usuario;
@@ -35,22 +34,25 @@ public class ConectorBD {
     private Connection conexion;
 
     public ConectorBD() {
-
-        servidor = "localhost";
-        puerto = "3306";
-        usuario = "adso";
-        clave = "utilizar";
-        baseDatos = "proyectoGreen";
-
+        servidor="localhost";
+        puerto="3306";
+        usuario="root";
+        clave="utilizar";
+        baseDatos="proyectoGreen";
+        
     }
 
     public boolean conectar() {
         boolean conectado = false;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String cadenaConexion = "jdbc:mysql://" + servidor + ":" + puerto + "/" + baseDatos + "?characterEncoding=utf8";
-            conexion = (Connection) DriverManager.getConnection(cadenaConexion, usuario, clave);
-            conectado = true;
+            System.out.println("Driver ok");
+            //jdbc:mysql://localhost:3306/tienda
+            String cadenaConexion="jdbc:mysql://"+servidor+":"+puerto+"/"+baseDatos+"?characterEncoding=utf8";
+            //el parametro character... nos permite agregar ñ, tildes..
+            conexion=(Connection) DriverManager.getConnection(cadenaConexion, usuario, clave);
+            System.out.println("Conectado a la BD");
+            conectado=true;
         } catch (ClassNotFoundException ex) {
             System.out.println("Error en el controlador en la base de datos" + ex.getMessage());
         } catch (SQLException ex) {
