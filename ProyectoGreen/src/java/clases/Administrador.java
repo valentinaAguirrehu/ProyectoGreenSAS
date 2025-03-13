@@ -30,7 +30,23 @@ public class Administrador {
     }
 
     public Administrador(String identificacion) {
-        this.identificacion = identificacion;
+        String cadenaSQL = "SELECT identificacion, tipo, nombres, celular, email, clave, estado FROM administrador where identificacion = '" + identificacion + "'";
+
+        ResultSet resultado = ConectorBD.consultar(cadenaSQL);
+
+        try {
+            if (resultado.next()) {
+                this.identificacion = identificacion;
+                tipo = resultado.getString("tipo");
+                nombres = resultado.getString("nombres");
+                celular = resultado.getString("celular");
+                email = resultado.getString("email");
+                clave = resultado.getString("clave");
+                estado = resultado.getString("estado");
+            }
+        } catch (Exception e) {
+            System.out.println("Error al consultar Administrador: " + e.getMessage());
+        }
     }
 
     public String getIdentificacion() {
@@ -46,14 +62,18 @@ public class Administrador {
     }
 
     public String getTipo() {
-        if (tipo == null) {
-            tipo = "";
+        if (tipo == null || tipo.trim().isEmpty()) {
+            tipo = "U";
         }
         return tipo;
     }
 
     public void setTipo(String tipo) {
-        this.tipo = tipo;
+        if (tipo == null || tipo.trim().isEmpty()) {
+            this.tipo = "U";
+        } else {
+            this.tipo = tipo;
+        }
     }
 
     public String getNombres() {
@@ -93,19 +113,22 @@ public class Administrador {
     }
 
     public String getClave() {
+        String resultado = clave;
+        if (clave == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setClave(String clave) {
         if (clave == null || clave.trim().length() == 0) {
             clave = identificacion;
         }
         if (clave.length() < 32) {
-            this.clave = "md5('" + clave + "')";
+            this.clave = "md5 ('" + clave + "')";
         } else {
-            this.clave = "'" + clave + "'";
+            this.clave = " '" + clave + "' ";
         }
-        return clave;
-    }
-
-    public void setClave(String clave) {
-        this.clave = clave;
     }
 
     public String getEstado() {
@@ -137,15 +160,14 @@ public class Administrador {
     }
 
     public boolean modificar(String identificacionAnterior) {
-        String cadenaSQL = "UPDATE administrador SET "
-                + "identificacion='" + identificacion + "', "
+        String cadenaSQL = "UPDATE administrador SET identificacion='" + identificacion + "', "
                 + "tipo='" + tipo + "', "
                 + "nombres='" + nombres + "', "
                 + "celular='" + celular + "', "
                 + "email='" + email + "', "
-                + "clave='" + clave + "', "
+                + "clave=" + clave + ", "
                 + "estado='" + estado + "' "
-                + "WHERE identificacion='" + identificacionAnterior + "'";
+                + "WHERE identificacion=" + identificacionAnterior;
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
@@ -190,6 +212,23 @@ public class Administrador {
             }
         }
         return lista;
+    }
+
+    public static Administrador validar(String identificacion, String clave) {
+        Administrador administrador = null;
+        String query = "identificacion='" + identificacion + "' and clave=";
+
+        if (clave.length() == 32 && clave.matches("[a-fA-F0-9]+")) {
+            query += "'" + clave + "'";
+        } else {
+            query += "md5('" + clave + "')";
+        }
+
+        List<Administrador> lista = Administrador.getListaEnObjetos(query, null);
+        if (lista.size() > 0) {
+            administrador = lista.get(0); 
+        }
+        return administrador;
     }
 
 }

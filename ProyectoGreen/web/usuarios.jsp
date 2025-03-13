@@ -4,8 +4,8 @@
     Author     : Angie
 --%>
 
-<%@page import="java.util.List"%>
 <%@page import="clases.Administrador"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     String lista = "";
@@ -17,8 +17,9 @@
         lista += "<td>" + usuario.getNombres() + "</td>";
         lista += "<td>" + usuario.getCelular() + "</td>";
         lista += "<td>" + usuario.getEmail() + "</td>";
+        lista += "<td>" + usuario.getEstado() + "</td>";
         lista += "<td>";
-        lista += "<a href='usuariosFormulario.jsp?accion=Modificar&id=" + usuario.getIdentificacion()
+        lista += "<a href='usuariosFormulario.jsp?accion=Modificar&identificacion=" + usuario.getIdentificacion()
                 + "' title='Modificar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a> ";
         lista += "<img src='presentacion/iconos/eliminar.png' width='25' height='25' title='Eliminar' onClick='eliminar(" + usuario.getIdentificacion() + ")'> ";
         lista += "</td>";
@@ -30,7 +31,7 @@
 <link rel="stylesheet" href="presentacion/style-Proyecto.css">
 <table class="table" border="1">
     <tr>
-        <th>Identificación</th><th>Nombres</th><th>Apellidos</th><th>Celular</th><th>Email</th>
+        <th>Identificación</th><th>Nombres</th><th>Celular</th><th>Email</th><th>Estado</th>
         <th><a href="usuariosFormulario.jsp?accion=Adicionar" title="Adicionar">
                 <img src="presentacion/iconos/agregar.png" width='30' height='30'> </a></th>
     </tr>

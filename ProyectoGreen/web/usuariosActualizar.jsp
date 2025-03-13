@@ -4,34 +4,40 @@
     Author     : Angie
 --%>
 
-<%@page import="clases.Persona"%>
+<%@page import="clases.Administrador"%>
 <%
-String accion=request.getParameter("accion");
-String identificacionAnterior=request.getParameter("identificacionAnterior");
+    String accion = request.getParameter("accion");
+    String identificacionAnterior = request.getParameter("identificacionAnterior");
 
-Persona usuario = new Persona();
+    Administrador usuario;
 
-usuario.setIdentificacion(request.getParameter("identificacion"));
-usuario.setNombres(request.getParameter("nombres"));
-usuario.setApellidos(request.getParameter("apellidos"));
-usuario.setCelular(request.getParameter("celular"));
-usuario.setEmail(request.getParameter("email"));
-usuario.setTipo(request.getParameter("tipo"));
-usuario.setClave(request.getParameter("clave"));
+    if ("Modificar".equals(accion)) {
+        usuario = new Administrador(identificacionAnterior);
+    } else {
+        usuario = new Administrador();
+    }
 
-switch(accion){
-    case "Adicionar":
-        usuario.grabar();
-        break;
-    case "Modificar":
-        usuario.modificar(identificacionAnterior);
-        break;
-    case "Eliminar":
-        usuario.eliminar();
-        break;
-}
+    usuario.setIdentificacion(request.getParameter("identificacion"));
+    usuario.setTipo(request.getParameter("tipo"));
+    usuario.setNombres(request.getParameter("nombres"));
+    usuario.setCelular(request.getParameter("celular"));
+    usuario.setEmail(request.getParameter("email"));
+    usuario.setClave(request.getParameter("clave"));
+    usuario.setEstado(request.getParameter("estado"));
+
+    switch (accion) {
+        case "Adicionar":
+            usuario.grabar();
+            break;
+        case "Modificar":
+            usuario.modificar(identificacionAnterior);
+            break;
+        case "Eliminar":
+            usuario.eliminar();
+            break;
+    }
 %>
 
 <script type="text/javascript">
-    document.location="usuarios.jsp"
+    document.location = "usuarios.jsp";
 </script>
