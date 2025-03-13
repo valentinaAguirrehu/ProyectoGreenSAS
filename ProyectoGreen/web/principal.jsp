@@ -24,6 +24,11 @@
             <ul>
                 <li><a href="#">Inicio</a></li>
                 <li><a href="cargos.jsp">Cargos</a></li>
+          
+                <li><a href="historiaLaboralGreen.jsp">Historia Laboral Activos </a></li>
+                <li><a href="historiaLaboral.jsp">Historia Laboral Temporales </a></li>
+                <li><a href="historiaLaboralAprendiz.jsp">Historia Laboral Aprendices </a></li>
+                <li><a href="historiaLaboralRetirado.jsp">Historia Laboral Retirados</a></li>
                 <li class="dropdown">
                     <a href="#">Colaboradores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
                     <ul class="dropdown-content">                           
@@ -45,13 +50,13 @@
                 </li>
             </ul>
             <ul class="bottom-menu">
-                <li><a href="#">Gestion de usuarios</a></li>
+                <li><a href="usuarios.jsp">Gestión de usuarios</a></li>
                 <li><a href="#">Cerrar Sesion</a></li>
             </ul>
         </nav>
         <main class="content">
             <div class="welcome-text">
-                <h1>¡Bienvenido al Portal de Gestion Humana de GREEN SAS!</h1>
+                <h1>¡Bienvenido al Portal de Gestión Humana de GREEN SAS!</h1>
             </div>
             <div class="quad-container">
                 <div class="quad">Politicas y Privacidad</div>

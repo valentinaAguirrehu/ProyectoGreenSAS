@@ -16,9 +16,10 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Mary
+ * @author Angie
  */
 public class Persona {
+
     private String identificacion;
     private String tipo;
     private String idCargo;
@@ -34,6 +35,7 @@ public class Persona {
     private String tipoVivienda;
     private String direccion;
     private String barrio;
+    private String celular;
     private String email;
     private String nivelEducativo;
     private String eps;
@@ -73,9 +75,9 @@ public class Persona {
     }
 
     public Persona(String identificacion) {
-        String cadenaSQL = "SELECT tipo, idCargo, tipoDocumento, fechaExpedicion, "
+        String cadenaSQL = "select identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, "
                 + "lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
-                + "tipoVivienda, direccion, barrio, email, nivelEducativo, eps, estadoCivil, fechaIngreso, "
+                + "tipoVivienda, direccion, barrio, celular, email, nivelEducativo, eps, estadoCivil, fechaIngreso, "
                 + "fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, "
                 + "establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNombre, "
                 + "primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, "
@@ -100,6 +102,7 @@ public class Persona {
                 tipoVivienda = resultado.getString("tipoVivienda");
                 direccion = resultado.getString("direccion");
                 barrio = resultado.getString("barrio");
+                celular = resultado.getString("celular");
                 email = resultado.getString("email");
                 nivelEducativo = resultado.getString("nivelEducativo");
                 eps = resultado.getString("eps");
@@ -276,6 +279,18 @@ public class Persona {
 
     public void setBarrio(String barrio) {
         this.barrio = barrio;
+    }
+
+    public String getCelular() {
+        String resultado = celular;
+        if (celular == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
     }
 
     public String getEmail() {
@@ -597,7 +612,7 @@ public class Persona {
 
         String datos = "";
         if (identificacion != null) {
-            datos = identificacion + " - " + nombres;
+            datos = identificacion + " - " + nombres + " - " + apellidos;
         }
         return datos;
     }
@@ -651,12 +666,12 @@ public class Persona {
         String cadenaSQL = "select identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, email, nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNombre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, tieneHijos, tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo, numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones, estado,  idVehiculo from persona " + filtro + orden;
         return ConectorBD.consultar(cadenaSQL);
     }
+
     public static List<Persona> getListaEnObjetos(String filtro, String orden) {
-        List<Persona> lista = new ArrayList<>(); 
-        ResultSet datos = Persona.getLista(filtro, orden); 
+        List<Persona> lista = new ArrayList<>();
+        ResultSet datos = Persona.getLista(filtro, orden);
         if (datos != null) {
             try {
-                // Recorrer los resultados y crear objetos de categoría
                 while (datos.next()) {
                 Persona persona = new Persona();
                 persona.setIdentificacion(datos.getString("identificacion"));
@@ -710,12 +725,21 @@ public class Persona {
                 persona.setIdVehiculo(datos.getString("idVehiculo"));
                 lista.add(persona);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(Persona.class.getName()).log(Level.SEVERE, "Error al obtener la lista de personas", ex);
         }
+        return lista;
     }
-    return lista;
-}
-    
 
+    public static String getListaEnArregloJS(String filtro, String orden) {
+        String lista = "[";
+        List<Persona> datos = Persona.getListaEnObjetos(filtro, orden);
+        for (int i = 0; i < datos.size(); i++) {
+            Persona persona = datos.get(i);
+            if (i > 0) {
+                lista += ", ";
+            }
+            lista += "'" + persona + "'";
+        }
+        lista += "];";
+        return lista;
+    }
 }
