@@ -1,0 +1,305 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12/03/2025, 03:51:45 PM
+    Author     : VALEN
+*/
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12/03/2025, 03:51:45 PM
+    Author     : VALEN
+*/
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 900px;
+    background: #ffffff;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Título principal */
+h1 {
+    color: #2C6E49;
+    margin-bottom: 10px;
+}
+
+/* Sección de documentos */
+.section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Botón Volver */
+.btn-volver {
+    background-color: #2C6E49;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-volver:hover {
+    background-color: #1F5337;
+}
+
+/* Campo de nombre */
+.nombre {
+    font-size: 16px;
+    padding: 8px;
+    width: 60%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Tabla de documentos */
+.documentos-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.documentos-tabla th, .documentos-tabla td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.documentos-tabla th {
+    background-color: #2C6E49;
+    color: white;
+}
+
+/* Estilos para los iconos */
+.documentos-tabla img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+/* Mensaje de error */
+.documentos-tabla td span {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+td img {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.botones {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+button img {
+    width: 20px;
+    height: 20px;
+}
+
+
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 900px;
+    background: #ffffff;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Título principal */
+h1 {
+    text-align: center;
+    color: black; /* O el color que necesites */
+    font-weight: bold;
+}
+
+/* Sección de documentos */
+.section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Botón Volver */
+.btn-volver {
+    background-color: #2C6E49;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-volver:hover {
+    background-color: #1F5337;
+}
+
+/* Campo de nombre */
+.nombre {
+    font-size: 16px;
+    padding: 8px;
+    width: 60%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Tabla de documentos */
+.documentos-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.documentos-tabla th, .documentos-tabla td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.documentos-tabla th {
+    background-color: #2C6E49;
+    color: white;
+}
+
+/* Estilos para los iconos */
+.documentos-tabla img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+/* Mensaje de error */
+.documentos-tabla td span {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+td img {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.botones {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+button img {
+    width: 20px;
+    height: 20px;
+}
+
+

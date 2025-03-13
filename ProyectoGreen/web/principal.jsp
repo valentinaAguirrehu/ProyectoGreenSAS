@@ -27,8 +27,8 @@
           
                 <li><a href="historiaLaboralGreen.jsp">Historia Laboral Activos </a></li>
                 <li><a href="historiaLaboral.jsp">Historia Laboral Temporales </a></li>
-                <li><a href="historiaLaboral.jsp">Historia Laboral Aprendices </a></li>
-                <li><a href="historiaLaboral.jsp">Historia Laboral Retirados</a></li>
+                <li><a href="historiaLaboralAprendiz.jsp">Historia Laboral Aprendices </a></li>
+                <li><a href="historiaLaboralRetirado.jsp">Historia Laboral Retirados</a></li>
                 <li class="dropdown">
                     <a href="#">Colaboradores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
                     <ul class="dropdown-content">                           
