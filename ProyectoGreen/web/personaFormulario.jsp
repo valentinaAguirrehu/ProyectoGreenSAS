@@ -10,14 +10,16 @@
     String identificacion = request.getParameter("identificacion");
     Persona persona = new Persona();
 
-    if (accion.equals("Modificar")) {
+    if ("Modificar".equals(accion)) {
         persona = new Persona(identificacion);
 
     }
     String opcionesCargos = Cargo.getListaEnOptions(persona.getIdentificacion());
- 
-    Vehiculo vehiculo = (Vehiculo) request.getAttribute("vehiculo");
-%>
+
+    // Vehiculo vehiculo = (Vehiculo) request.getAttribute("vehiculo");
+    String numeroPlaca = persona.obtenerNumeroPlacaVehiculo();
+    Vehiculo vehiculo = Vehiculo.obtenerPorPlaca(numeroPlaca);
+
 %>
 
 
@@ -35,11 +37,11 @@
             <td><input type="text" name="tipo" value="<%= persona.getTipo()%>" size="50" maxlength="50"></td>
         </tr>
         <th>Cargos</th>
-            <td>
-                <select name="idCargo" required>
-                    <%= opcionesCargos %>
-                </select>
-            </td>
+        <td>
+            <select name="idCargo" required>
+                <%= opcionesCargos%>
+            </select>
+        </td>
         <tr>
             <th>Tipo Documento</th>
             <td><input type="text" name="tipoDocumento" value="<%= persona.getTipoDocumento()%>" size="50" maxlength="50"></td>
@@ -60,10 +62,10 @@
             <th>Apellidos</th>
             <td><input type="text" name="apellidos" value="<%= persona.getApellidos()%>" size="50" maxlength="50"></td>
         </tr>
-        
-         <tr>
+
+        <tr>
             <th>Sexo</th>
-            <th><%=persona.getGeneroPersona().getRadioButtons() %></th>   
+            <th><%=persona.getGeneroPersona().getRadioButtons()%></th>   
         </tr>
         <tr>
             <th>Fecha de Nacimiento</th>
@@ -174,31 +176,31 @@
     </table>
 
     <h4>Familiares</h4>
-<table border="0">
-    <tr>
-        <th>Tiene Hijos</th>
-        <td>
-            <select name="tieneHijos" id="tieneHijos" onchange="mostrarFamiliares()">
-                <option value="No" <%= persona.getTieneHijos().equals("No") ? "selected" : "" %>>No</option>
-                <option value="Sí" <%= persona.getTieneHijos().equals("Sí") ? "selected" : "" %>>Sí</option>
-            </select>
-        </td>
-    </tr>
-</table>
-
-<!-- Sección de familiares (inicialmente oculta) -->
-<div id="familiaresSection" style="display: none;">
-    <h4>Información de Hijos</h4>
-    <table border="0" id="tablaHijos">
+    <table border="0">
         <tr>
-            <th>Nombre del Hijo</th>
-            <th>Fecha de Nacimiento</th>
-            <th>Acción</th>
+            <th>Tiene Hijos</th>
+            <td>
+                <select name="tieneHijos" id="tieneHijos" onchange="mostrarFamiliares()">
+                    <option value="No" <%= persona.getTieneHijos().equals("No") ? "selected" : ""%>>No</option>
+                    <option value="Sí" <%= persona.getTieneHijos().equals("Sí") ? "selected" : ""%>>Sí</option>
+                </select>
+            </td>
         </tr>
     </table>
-    
-    <button type="button" onclick="agregarHijo()">Agregar Hijo</button>
-</div>
+
+    <!-- Sección de familiares (inicialmente oculta) -->
+    <div id="familiaresSection" style="display: none;">
+        <h4>Información de Hijos</h4>
+        <table border="0" id="tablaHijos">
+            <tr>
+                <th>Nombre del Hijo</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Acción</th>
+            </tr>
+        </table>
+
+        <button type="button" onclick="agregarHijo()">Agregar Hijo</button>
+    </div>
 
 
     <!-- Formulario para Dotaciones -->
@@ -223,28 +225,58 @@
         <input type="hidden" name="identificacion" value="<%= persona.getIdentificacion()%>">
     </table>
 
-    <h2>Información del Vehículo</h2>
-<table>
-    <tr>
-        <th>Tipo de Vehículo:</th>
-        <td><input type="text" name="tipoVehiculo" value="<%= (vehiculo != null) ? vehiculo.getTipoVehiculo() : "" %>" size="50"></td>
-    </tr>
-    <tr>
-        <th>Número de Placa:</th>
-        <td><input type="text" name="numeroPlaca" value="<%= (vehiculo != null) ? vehiculo.getNumeroPlaca() : "" %>" size="50"></td>
-    </tr>
-    <tr>
-        <th>Modelo:</th>
-        <td><input type="text" name="modeloVehiculo" value="<%= (vehiculo != null) ? vehiculo.getModeloVehiculo() : "" %>" size="50"></td>
-    </tr>
-</table>
+    <table border="0">
+        <tr>
+            <th>Tiene Vehiculo</th>
+            <td>
+                <select name="numeroPlacaVehiculo" id="numeroPlacaVehiculo" onchange="mostrarVehiculo()">
+                    <option value="No" <%= persona.getNumeroPlacaVehiculo().equals("No") ? "selected" : ""%>>No</option>
+                    <option value="Sí" <%= persona.getNumeroPlacaVehiculo().equals("Sí") ? "selected" : ""%>>Sí</option>
+                </select>
+            </td>
+        </tr>
+    </table>  <!-- Formulario de vehículo (Oculto por defecto) -->
+    <div id="vehiculoSection" style="display: none;">
+        <h4>Información de Vehiculo</h4>
+        <table border="0" id="tablaHijos"> 
 
+            <label>Número de Placa:</label>
+            <input type="text" name="numeroPlaca" value="<%= (vehiculo != null) ? vehiculo.getNumeroPlaca() : ""%>">
+
+            <label>Tipo de Vehículo:</label>
+            <input type="text" name="tipoVehiculo" value="<%= (vehiculo != null) ? vehiculo.getTipoVehiculo() : ""%>">
+
+            <label>Modelo:</label>
+            <input type="text" name="modeloVehiculo" value="<%= (vehiculo != null) ? vehiculo.getModeloVehiculo() : ""%>">
+
+            <label>Línea:</label>
+            <input type="text" name="linea" value="<%= (vehiculo != null) ? vehiculo.getLinea() : ""%>">
+
+            <label>Año:</label>
+            <input type="text" name="ano" value="<%= (vehiculo != null) ? vehiculo.getAno() : ""%>">
+
+            <label>Color:</label>
+            <input type="text" name="color" value="<%= (vehiculo != null) ? vehiculo.getColor() : ""%>">
+
+            <label>Cilindraje:</label>
+            <input type="text" name="cilindraje" value="<%= (vehiculo != null) ? vehiculo.getCilindraje() : ""%>">
+
+            <label>Número Licencia de Tránsito:</label>
+            <input type="text" name="numLicenciaTransito" value="<%= (vehiculo != null) ? vehiculo.getNumLicenciaTransito() : ""%>">
+
+            <label>Fecha Exp. Licencia:</label>
+            <input type="text" name="fechaExpLicenciaTransito" value="<%= (vehiculo != null) ? vehiculo.getFechaExpLicenciaTransito() : ""%>">
+
+            <input type="submit" value="Guardar">
+
+        </table>
+    </div>
 
     <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>"><p>
         <input type="submit" name="accion" value="<%=accion%>">
         <input type="button" value="Cancelar" onClick="window.history.back()">
 </form>
-        
+
 <script>
     function mostrarFamiliares() {
         var tieneHijos = document.getElementById("tieneHijos").value;
@@ -294,7 +326,16 @@
         // Agregar la fila a la tabla
         tabla.appendChild(fila);
     }
-
+    function mostrarVehiculo() {
+        var numeroPlacaVehiculo = document.getElementById("numeroPlacaVehiculo").value;
+        var vehiculoSection = document.getElementById("vehiculoSection");
+        if (numeroPlacaVehiculo === "Sí") {
+            vehiculoSection.style.display = "block";
+        } else {
+            vehiculoSection.style.display = "none";
+        }
+    }
     // Ejecutar la función al cargar la página para reflejar el valor actual
     window.onload = mostrarFamiliares;
+    window.onload = mostrarVehiculo;
 </script>
