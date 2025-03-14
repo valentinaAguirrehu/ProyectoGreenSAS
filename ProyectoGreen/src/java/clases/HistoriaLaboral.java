@@ -204,21 +204,54 @@ public class HistoriaLaboral {
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
 
-    public static List<HistoriaLaboral> getListaEnObjetos(String filtro, String orden) {
+     public static List<HistoriaLaboral> getListaEnObjetos(String filtro, String orden) {
         List<HistoriaLaboral> lista = new ArrayList<>();
-        String consultaSQL = "select * from historia_laboral";
-        if (filtro != null && !filtro.isEmpty()) consultaSQL += " where " + filtro;
-        if (orden != null && !orden.isEmpty()) consultaSQL += " order by " + orden;
-
+        String consultaSQL = "SELECT * FROM historia_laboral";
+        if (filtro != null && !filtro.isEmpty()) {
+            consultaSQL += " WHERE " + filtro;
+        }
+        if (orden != null && !orden.isEmpty()) {
+            consultaSQL += " ORDER BY " + orden;
+        }
+        
         ResultSet datos = ConectorBD.consultar(consultaSQL);
-        try {
-            while (datos.next()) {
-                HistoriaLaboral historia = new HistoriaLaboral(datos.getString("id"));
-                lista.add(historia);
+        if (datos != null) {
+            try {
+                while (datos.next()) {
+                    HistoriaLaboral historia = new HistoriaLaboral();
+                    historia.id = datos.getString("id");
+                    historia.identificacionPersona = datos.getString("identificacionPersona");
+                    historia.idDocumentoIdentificacion = datos.getString("idDocumentoIdentificacion");
+                    historia.idHojaDeVida = datos.getString("idHojaDeVida");
+                    historia.idDocumentoContratacion = datos.getString("idDocumentoContratacion");
+                    historia.idAfiliaciones = datos.getString("idAfiliaciones");
+                    historia.idDuranteContratacion = datos.getString("idDuranteContratacion");
+                    historia.idAusentismos = datos.getString("idAusentismos");
+                    historia.idFinalizarContratacion = datos.getString("idFinalizarContratacion");
+                    historia.idDocumentosSST_SGA = datos.getString("idDocumentosSST_SGA");
+                    historia.observaciones = datos.getString("observaciones");
+                    lista.add(historia);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(HistoriaLaboral.class.getName()).log(Level.SEVERE, "Error al obtener la lista de historia laboral", ex);
             }
-        } catch (SQLException ex) {
-            System.out.println("Error al obtener la lista: " + ex.getMessage());
         }
         return lista;
     }
+
+    // Método para obtener la lista en formato de arreglo JavaScript
+    public static String getListaEnArregloJS(String filtro, String orden) {
+        String lista = "[";
+        List<HistoriaLaboral> datos = getListaEnObjetos(filtro, orden);
+        for (int i = 0; i < datos.size(); i++) {
+            HistoriaLaboral historiaLaboral = datos.get(i);
+            if (i > 0) {
+                lista += ", ";
+            }
+            lista += "'" + historiaLaboral.id + "'";
+        }
+        lista += "]";
+        return lista;
+    }
+
 }

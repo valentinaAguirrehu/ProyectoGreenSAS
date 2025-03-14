@@ -35,7 +35,7 @@
                         <li><a href="persona.jsp">Activos</a></li>
                         <li><a href="personaFormulario.jsp">Sumar</a></li>
                         <li><a href="">Aprendices</a></li>
-                        <li><a href="#">Retirados</a></li>
+                        <li><a href="retirados.jsp">Retirados</a></li>
                     </ul>
                 </li>
                 <li><a href="#">Dotaciones</a></li>
@@ -50,6 +50,7 @@
                 </li>
             </ul>
             <ul class="bottom-menu">
+                <li><a href="#">Perfil</a></li>
                 <li><a href="usuarios.jsp">Gestión de usuarios</a></li>
                 <li><a href="#">Cerrar Sesion</a></li>
             </ul>

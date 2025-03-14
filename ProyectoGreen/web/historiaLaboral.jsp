@@ -47,12 +47,12 @@
     </head>
     <body>
         <div class="container">
-            <h1>HISTORIA LABORAL ACTIVOS</h1>
+            <h1>HISTORIA LABORAL TEMPORALES </h1>
 
             <div class="section">
                 <input type="text" value="JOHANA LILIANA JIMÉN" class="nombre">
             </div>
-             <!-- Datos Laborales -->
+            <!-- Datos Laborales -->
             <div class="section">
                 <h3 class="titulo-seccion">Datos Laborales</h3>
                 <div class="input-group">
@@ -64,7 +64,7 @@
                         <label>Centro de Costo</label>
                         <input type="text" class="campo-mediano">
                     </div>
-                    
+
                     <div class="campo">
                         <label>Establecimiento</label>
                         <input type="text" class="campo-pequeno">
@@ -76,7 +76,7 @@
                 </div>
             </div>
 
-          
+
             <div class="section">
                 <h3 class="titulo-seccion">Datos Personales</h3>
                 <div class="data-grid">
@@ -91,6 +91,10 @@
                             <button class="descargar-btn" data-file="<%= rutaArchivoGuardado%>">
                                 <img src="presentacion/iconos/descargar.png" alt="Descargar">
                             </button>
+                            <button class="eliminar-btn">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar">
+                            </button>
+
                             <button class="upload-btn">
                                 <img src="presentacion/iconos/agregarDocumento.png" alt="Subir">
                             </button>
@@ -108,6 +112,10 @@
                             <button class="descargar-btn">
                                 <img src="presentacion/iconos/descargar.png" alt="Descargar">
                             </button>
+                            <button class="eliminar-btn">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar">
+                            </button>
+
                             <button class="upload-btn">
                                 <img src="presentacion/iconos/agregarDocumento.png" alt="Subir">
                             </button>
@@ -125,6 +133,10 @@
                             <button class="descargar-btn">
                                 <img src="presentacion/iconos/descargar.png" alt="Descargar">
                             </button>
+                            <button class="eliminar-btn">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar">
+                            </button>
+
                             <button class="upload-btn">
                                 <img src="presentacion/iconos/agregarDocumento.png" alt="Subir">
                             </button>
@@ -142,6 +154,10 @@
                             <button class="descargar-btn">
                                 <img src="presentacion/iconos/descargar.png" alt="Descargar">
                             </button>
+                            <button class="eliminar-btn">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar">
+                            </button>
+
                             <button class="upload-btn">
                                 <img src="presentacion/iconos/agregarDocumento.png" alt="Subir">
                             </button>
@@ -159,6 +175,10 @@
                             <button class="descargar-btn">
                                 <img src="presentacion/iconos/descargar.png" alt="Descargar">
                             </button>
+                            <button class="eliminar-btn">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar">
+                            </button>
+
                             <button class="upload-btn">
                                 <img src="presentacion/iconos/agregarDocumento.png" alt="Subir">
                             </button>
@@ -173,7 +193,7 @@
                 <a href="principal.jsp" class="btn-volver">VOLVER</a>
             </div>
         </div>
-        
+
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll('.upload-btn').forEach(button => {
@@ -202,45 +222,61 @@
                                 method: "POST",
                                 body: formData
                             })
-                            .then(response => response.text())
-                            .then(data => {
-                                alert("Archivo subido con éxito: " + file.name);
-                                let parent = this.closest(".icon-buttons");
-                                parent.querySelector(".ver-btn").setAttribute("data-file", data);
-                                parent.querySelector(".descargar-btn").setAttribute("data-file", data);
-                            })
-                            .catch(error => console.error("Error al subir archivo", error));
+                                    .then(response => response.text())
+                                    .then(data => {
+                                        alert("Archivo subido con éxito: " + file.name);
+                                        let parent = this.closest(".icon-buttons");
+                                        parent.querySelector(".ver-btn").setAttribute("data-file", data);
+                                        parent.querySelector(".descargar-btn").setAttribute("data-file", data);
+                                        parent.querySelector(".eliminar-btn").setAttribute("data-file", data);
+                                    })
+                                    .catch(error => console.error("Error al subir archivo", error));
                         }
                     });
                 });
 
+                function verificarArchivo(btn) {
+                    let file = btn.getAttribute("data-file");
+                    if (!file || file === "null") {
+                        alert("Debe subir un archivo antes de realizar esta acción.");
+                        return false;
+                    }
+                    return true;
+                }
+
                 document.querySelectorAll('.ver-btn').forEach(button => {
                     button.addEventListener('click', function () {
-                        let file = this.getAttribute("data-file");
-                        if (file) {
-                            window.open(file, "_blank");
-                        } else {
-                            alert("No hay archivo para ver");
+                        if (verificarArchivo(this)) {
+                            window.open(this.getAttribute("data-file"), "_blank");
                         }
                     });
                 });
 
                 document.querySelectorAll('.descargar-btn').forEach(button => {
                     button.addEventListener('click', function () {
-                        let file = this.getAttribute("data-file");
-                        if (file) {
+                        if (verificarArchivo(this)) {
                             let link = document.createElement("a");
-                            link.href = file;
-                            link.download = file.split('/').pop();
+                            link.href = this.getAttribute("data-file");
+                            link.download = this.getAttribute("data-file").split('/').pop();
                             document.body.appendChild(link);
                             link.click();
                             document.body.removeChild(link);
-                        } else {
-                            alert("No hay archivo para descargar");
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.eliminar-btn').forEach(button => {
+                    button.addEventListener('click', function () {
+                        if (verificarArchivo(this)) {
+                            if (confirm("¿Está seguro de eliminar este archivo?")) {
+                                alert("Archivo eliminado correctamente.");
+                                this.setAttribute("data-file", "");
+                            }
                         }
                     });
                 });
             });
         </script>
+
     </body>
 </html>
