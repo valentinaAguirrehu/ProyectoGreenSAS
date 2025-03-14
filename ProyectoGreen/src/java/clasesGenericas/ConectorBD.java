@@ -25,6 +25,10 @@ public class ConectorBD {
     public static Object getConnection() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
+
+   
     private String servidor;
     private String puerto;
     private String usuario;

@@ -51,13 +51,14 @@ Persona persona = new Persona();
     persona.setTallaChaqueta(request.getParameter("tallaChaqueta"));
     persona.setTallaPantalon(request.getParameter("tallaPantalon"));
     persona.setTallaCalzado(request.getParameter("tallaCalzado"));
-    persona.setTieneVehiculo(request.getParameter("tieneVehiculo"));
-    persona.setNumLicenciaConduccion(request.getParameter("1"));
+ //   persona.setTieneVehiculo(request.getParameter("tieneVehiculo"));
+    //persona.setNumLicenciaConduccion(request.getParameter("1"));
+    persona.setNumLicenciaConduccion(request.getParameter("numLicenciaConduccion"));
     persona.setFechaExpConduccion(request.getParameter("fechaExpConduccion"));
     persona.setFechaVencimiento(request.getParameter("2000-11-11"));
     persona.setRestricciones(request.getParameter("restricciones"));
     persona.setEstado(request.getParameter("estado"));
-    persona.setIdVehiculo(request.getParameter("idVehiculo"));
+    persona.setNumeroPlacaVehiculo(request.getParameter("numeroPlacaVehiculo"));
 
 
 
