@@ -145,20 +145,19 @@ public class Vehiculo {
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
-   public static boolean eliminarPorPlaca(String placa) {
-    // Primero eliminamos la relación en persona_vehiculo
-    String sqlRelacion = "DELETE FROM persona_vehiculo WHERE numeroPlacaVehiculo = '" + placa + "'";
-    boolean relacionEliminada = ConectorBD.ejecutarQuery(sqlRelacion);
+    public static boolean eliminarPorPlaca(String placa) {
+        // Primero eliminamos la relación en persona_vehiculo
+        String sqlRelacion = "DELETE FROM persona_vehiculo WHERE numeroPlacaVehiculo = '" + placa + "'";
+        boolean relacionEliminada = ConectorBD.ejecutarQuery(sqlRelacion);
 
-    if (relacionEliminada) {
-        // Ahora eliminamos el vehículo
-        String sqlVehiculo = "DELETE FROM vehiculo WHERE numeroPlaca = '" + placa + "'";
-        return ConectorBD.ejecutarQuery(sqlVehiculo);
+        if (relacionEliminada) {
+            // Ahora eliminamos el vehículo
+            String sqlVehiculo = "DELETE FROM vehiculo WHERE numeroPlaca = '" + placa + "'";
+            return ConectorBD.ejecutarQuery(sqlVehiculo);
+        }
+
+        return false; // No se pudo eliminar la relación, entonces no eliminamos el vehículo
     }
-
-    return false; // No se pudo eliminar la relación, entonces no eliminamos el vehículo
-}
-
 
     public static List<Vehiculo> getListaEnObjetos(String filtro, String orden) {
         List<Vehiculo> lista = new ArrayList<>();
@@ -212,5 +211,10 @@ public class Vehiculo {
             Logger.getLogger(Vehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
         return vehiculo;
+    }
+
+    public Vehiculo getVehiculoPorIdentificacion(String identificacion) {
+        List<Vehiculo> vehiculos = Vehiculo.getListaEnObjetos("identificacion = '" + identificacion + "'", "");
+        return vehiculos.isEmpty() ? null : vehiculos.get(0); // Retorna el primer vehículo encontrado o null si no hay
     }
 }

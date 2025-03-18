@@ -36,18 +36,29 @@
             <th>Email</th>
             <td><input class="recuadro" type="email" name="email" value="<%=usuario.getEmail()%>" size="50" maxlength="40" required></td>
         </tr>
-        </tr>
         <tr>
             <th>Permisos</th>
             <td>
-                <label><input type="checkbox" name="permisos" value="leer"> Leer</label><br>
-                <label><input type="checkbox" name="permisos" value="editar"> Editar</label><br>
-                <label><input type="checkbox" name="permisos" value="agregar"> Agregar</label><br>
-                <label><input type="checkbox" name="permisos" value="eliminar"> Eliminar</label><br>
-                <label><input type="checkbox" name="permisos" value="descargar"> Descargar</label><br>
+                <input type="checkbox" id="selectAll"> <label for="selectAll"><strong>Seleccionar todos</strong></label>
+                <br>
+                <div>
+                    <input type="checkbox" class="permiso" id="pLeer" name="pLeer" value="S" <%= "S".equals(usuario.getpLeer()) ? "checked" : ""%>>
+                    <label for="pLeer">Leer</label>
+
+                    <input type="checkbox" class="permiso" id="pEditar" name="pEditar" value="S" <%= "S".equals(usuario.getpEditar()) ? "checked" : ""%>>
+                    <label for="pEditar">Editar</label>
+
+                    <input type="checkbox" class="permiso" id="pAgregar" name="pAgregar" value="S" <%= "S".equals(usuario.getpAgregar()) ? "checked" : ""%>>
+                    <label for="pAgregar">Agregar</label>
+
+                    <input type="checkbox" class="permiso" id="pEliminar" name="pEliminar" value="S" <%= "S".equals(usuario.getpEliminar()) ? "checked" : ""%>>
+                    <label for="pEliminar">Eliminar</label>
+
+                    <input type="checkbox" class="permiso" id="pDescargar" name="pDescargar" value="S" <%= "S".equals(usuario.getpDescargar()) ? "checked" : ""%>>
+                    <label for="pDescargar">Descargar</label>
+                </div>
             </td>
         </tr>
-        <tr>
         <tr>
             <th>Estado</th>
             <td>
@@ -68,3 +79,43 @@
     <input class="submit" type="submit" value="Guardar">
     <input class="button" type="button" value="Cancelar" onClick="window.history.back()">
 </form>
+
+<script>
+
+    // Seleccionar todas las opciones a la vez
+    document.getElementById("selectAll").addEventListener("change", function () {
+        let checkboxes = document.querySelectorAll(".permiso");
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+    // Se desmarca "Seleccionar todos" cuando un permiso se desmarca
+    document.querySelectorAll(".permiso").forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            let allChecked = document.querySelectorAll(".permiso:checked").length === document.querySelectorAll(".permiso").length;
+            document.getElementById("selectAll").checked = allChecked;
+        });
+    });
+
+    // Enviar "N" si un permiso no se seleccionó
+    document.querySelector("form").addEventListener("submit", function () {
+        let permisos = document.querySelectorAll(".permiso");
+        permisos.forEach(permiso => {
+            if (!permiso.checked) {
+                let hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = permiso.name;
+                hiddenInput.value = "N";
+                this.appendChild(hiddenInput);
+            }
+        });
+    });
+
+    // Marcar o desmarcar "Seleccionar todos" según los permisos cargados
+    window.onload = function () {
+        let permisos = document.querySelectorAll(".permiso");
+        let allChecked = Array.from(permisos).every(permiso => permiso.checked);
+        document.getElementById("selectAll").checked = allChecked;
+    };
+</script>

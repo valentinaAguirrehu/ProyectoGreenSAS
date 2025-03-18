@@ -8,7 +8,14 @@
 <%@page import="java.util.List"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="clases.Administrador"%>
+
 <%
+    Administrador administrador = (Administrador) session.getAttribute("administrador");
+    if (administrador == null) {
+        administrador = new Administrador();
+    }
+
     String lista = "";
     ResultSet datos = null;
     try {
@@ -23,9 +30,9 @@
                 lista += "<td>" + cargo.getCodigoCargo() + "</td>";
                 lista += "<td>" + cargo.getDescripcion() + "</td>";
                 lista += "<td>";
-                lista += "<a href='cargosFormulario.jsp?accion=Modificar&id=" + cargo.getId()
+                lista += "<a class='iconoEditar' href='cargosFormulario.jsp?accion=Modificar&id=" + cargo.getId()
                         + "' title='Modificar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a> ";
-                lista += "<img src='presentacion/iconos/eliminar.png' width='25' height='25' title='Eliminar' onClick='eliminar(" + cargo.getId() + ")'> ";
+                lista += "<img src='presentacion/iconos/eliminar.png' width='25' height='25' class='iconoEliminar' title='Eliminar' onClick='eliminar(" + cargo.getId() + ")'> ";
                 lista += "</td>";
                 lista += "</tr>";
             }
@@ -46,6 +53,7 @@
     }
 %>
 
+<jsp:include page="permisos.jsp" />
 <h3 class="titulo">GESTIÓN DE CARGOS</h3>
 <link rel="stylesheet" href="presentacion/style-Cargo.css">
 
@@ -60,7 +68,7 @@
         <th>Cargo</th>
         <th>Código de Cargo</th>
         <th>Descripción</th>
-        <th><a href="cargosFormulario.jsp?accion=Adicionar" title="Adicionar"><img src="presentacion/iconos/agregar.png" width='25' height='25'></a></th>
+        <th><a href="cargosFormulario.jsp?accion=Adicionar" class="iconoAgregar" title="Adicionar"><img src="presentacion/iconos/agregar.png" width='25' height='25'></a></th>
     </tr>
     <%=lista%>
 </table>
@@ -95,4 +103,11 @@
         }
     }
 
+    document.addEventListener("DOMContentLoaded", function () {
+        controlarPermisos(
+    <%= administrador.getpEliminar()%>,
+    <%= administrador.getpEditar()%>,
+    <%= administrador.getpAgregar()%>
+        );
+    });
 </script>
