@@ -5,6 +5,8 @@
 package clases;
 
 import clasesGenericas.ConectorBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -342,7 +344,11 @@ public class Persona {
     }
 
     public String getFechaRetiro() {
-        return fechaRetiro;
+        String resultado = fechaRetiro;
+        if (fechaRetiro == null) {
+            resultado = "";
+        }
+        return resultado;
     }
 
     public void setFechaRetiro(String fechaRetiro) {
@@ -382,7 +388,11 @@ public class Persona {
     }
 
     public String getEstablecimiento() {
-        return establecimiento;
+           String resultado = establecimiento;
+        if (establecimiento == null) {
+            resultado = "";
+        }
+        return resultado;
     }
 
     public void setEstablecimiento(String establecimiento) {
@@ -707,5 +717,6 @@ public class Persona {
         lista += "];";
         return lista;
     }
-    
+   
+
 }
