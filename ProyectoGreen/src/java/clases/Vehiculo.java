@@ -243,7 +243,7 @@ public class Vehiculo {
     List<Vehiculo> vehiculos = Vehiculo.getListaEnObjetos("identificacion = '" + identificacion + "'", "");
     return vehiculos.isEmpty() ? null : vehiculos.get(0); // Retorna el primer vehículo encontrado o null si no hay
 }
-
+/*
     public static Vehiculo getVehiculoPorIdentificacion(String identificacion) {
     Vehiculo vehiculo = null;
     String query = "SELECT * FROM vehiculo WHERE identificacion = ?";
@@ -270,6 +270,6 @@ public class Vehiculo {
     }
     
     return vehiculo;
-}
+}*/
 
 }
