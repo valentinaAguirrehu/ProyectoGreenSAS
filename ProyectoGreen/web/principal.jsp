@@ -50,7 +50,7 @@
                 </li>
             </ul>
             <ul class="bottom-menu">
-                <li><a href="usuarios.jsp">Gestión de usuarios</a></li>
+                <li><a href="usuarios.jsp">Usuarios</a></li>
                 <li><a href="perfil.jsp">Perfil</a></li>
                 <li><a href="#">Cerrar sesión</a></li>
             </ul>
