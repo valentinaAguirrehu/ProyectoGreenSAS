@@ -80,10 +80,10 @@
             <div id="requisitosClave">
                 <p>La contraseña debe cumplir los siguientes requisitos:</p>
                 <ul>
-                    <li id="minimoCaracteres">Al menos 8 caracteres</li>
-                    <li id="letraMayuscula">Al menos una letra mayúscula</li>
-                    <li id="letraMinuscula">Al menos una letra minúscula</li>
-                    <li id="numero">Al menos un número</li>
+                    <li id="minimoCaracteres">Mínimo 8 caracteres</li>
+                    <li id="letraMayuscula">Una letra mayúscula</li>
+                    <li id="letraMinuscula">Una letra minúscula</li>
+                    <li id="numero">Un número</li>
                     <li id="coincidencia">Las contraseñas deben coincidir</li>
                 </ul>
             </div>
