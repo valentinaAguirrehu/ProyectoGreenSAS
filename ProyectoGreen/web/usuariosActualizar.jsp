@@ -5,6 +5,7 @@
 --%>
 
 <%@page import="clases.Administrador"%>
+
 <%
     String accion = request.getParameter("accion");
     String identificacionAnterior = request.getParameter("identificacionAnterior");
@@ -23,6 +24,11 @@
     usuario.setCelular(request.getParameter("celular"));
     usuario.setEmail(request.getParameter("email"));
     usuario.setClave(request.getParameter("clave"));
+    usuario.setpLeer(request.getParameter("pLeer"));
+    usuario.setpEditar(request.getParameter("pEditar"));
+    usuario.setpAgregar(request.getParameter("pAgregar"));
+    usuario.setpEliminar(request.getParameter("pEliminar"));
+    usuario.setpDescargar(request.getParameter("pDescargar"));
     usuario.setEstado(request.getParameter("estado"));
 
     switch (accion) {

@@ -25,15 +25,15 @@
                 <li><a href="#">Inicio</a></li>
                 <li><a href="cargos.jsp">Cargos</a></li>
           
-                <li><a href="historiaLaboralGreen.jsp">Historia Laboral Activos </a></li>
+                <%-- <li><a href="historiaLaboralGreen.jsp">Historia Laboral Activos </a></li>
                 <li><a href="historiaLaboral.jsp">Historia Laboral Temporales </a></li>
-                <li><a href="historiaLaboralAprendiz.jsp">Historia Laboral Aprendices </a></li>
-                <li><a href="historiaLaboralRetirado.jsp">Historia Laboral Retirados</a></li>
+                <li><a href="historiaLaboral.jsp">Historia Laboral Aprendices </a></li>
+                <li><a href="historiaLaboral.jsp">Historia Laboral Retirados</a></li> --%>
                 <li class="dropdown">
                     <a href="#">Colaboradores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
                     <ul class="dropdown-content">                           
                         <li><a href="persona.jsp">Activos</a></li>
-                        <li><a href="personaFormulario.jsp">Sumar</a></li>
+                        <li><a href="personaFormulario.jsp">Temporales</a></li>
                         <li><a href="">Aprendices</a></li>
                         <li><a href="#">Retirados</a></li>
                     </ul>
@@ -44,14 +44,15 @@
                     <ul class="dropdown-content">                           
                         <li><a href="#">Ingresos de colaboradores</a></li>
                         <li><a href="#">Retiros de colaboradores</a></li>
-                        <li><a href="#">Dotaciones Entregadas</a></li>
+                        <li><a href="#">Dotaciones entregadas</a></li>
                         <li><a href="#">Cumpleañeros del mes</a></li>
                     </ul>
                 </li>
             </ul>
             <ul class="bottom-menu">
                 <li><a href="usuarios.jsp">Gestión de usuarios</a></li>
-                <li><a href="#">Cerrar Sesion</a></li>
+                <li><a href="perfil.jsp">Perfil</a></li>
+                <li><a href="#">Cerrar sesión</a></li>
             </ul>
         </nav>
         <main class="content">
