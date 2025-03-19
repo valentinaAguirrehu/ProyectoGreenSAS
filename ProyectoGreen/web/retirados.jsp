@@ -1,3 +1,4 @@
+<%@page import="clases.Cargo"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Retirados"%>
 <%@page import="java.util.List"%>
@@ -9,13 +10,19 @@
         if (retirado.getIdentificacionPersona() != null) {
             Persona persona = new Persona(retirado.getIdentificacionPersona());
             if (persona != null && persona.getIdentificacion() != null) {
+                String nombreCargo = "";
+                if (persona.getIdCargo() != null) {
+                    Cargo cargo = new Cargo(persona.getIdCargo()); 
+                    nombreCargo = cargo.getNombre(); 
+                }
+
                 lista += "<tr>";
                 lista += "<td>" + persona.getIdentificacion() + "</td>";
                 lista += "<td>" + persona.getNombres() + " " + persona.getApellidos() + "</td>";
                 lista += "<td>" + persona.getEstablecimiento() + "</td>";
                 lista += "<td>" + persona.getFechaIngreso() + "</td>";
                 lista += "<td>" + persona.getFechaRetiro() + "</td>";
-                lista += "<td>" + persona.getIdCargo()+ "</td>";
+                lista += "<td>" + nombreCargo + "</td>"; 
                 lista += "<td>" + retirado.getNumCaja() + "</td>";
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
@@ -31,8 +38,8 @@
     } 
 %>
 
-<h3 class="titulo">GESTIÓN DE RETIRADOS</h3>
-<link rel="stylesheet" href="presentacion/style-Proyecto.css">
+<h3 class="titulo">COLABORADORES RETIRADOS</h3>
+<link rel="stylesheet" href="presentacion/style-Retirados.css">
 <table class="table" border="1">
     <tr>
         <th>Identificación</th>

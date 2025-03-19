@@ -35,13 +35,7 @@ public class Retirados {
                 this.numCaja = resultado.getString("numCaja");
                 this.numCarpeta = resultado.getString("numCarpeta");
 
-                // Mensaje de depuración para verificar los datos cargados
-                System.out.println("Datos cargados para ID: " + id);
-                System.out.println("Número de Caja: " + this.numCaja);
-                System.out.println("Número de Carpeta: " + this.numCarpeta);
-                System.out.println("Observaciones: " + this.observaciones);
             } else {
-                // Si no hay resultados
                 System.out.println("No se encontraron datos para el ID: " + id);
             }
         } catch (SQLException ex) {
@@ -108,7 +102,7 @@ public class Retirados {
                 + "', observaciones = '" + observaciones
                 + "', numCaja = '" + numCaja
                 + "', numCarpeta = '" + numCarpeta
-                + "' WHERE id = '" + id + "'";
+                + "' WHERE id = '" + idAnterior + "'";
 
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
