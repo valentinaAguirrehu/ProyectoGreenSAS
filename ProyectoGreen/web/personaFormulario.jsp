@@ -1,3 +1,4 @@
+<%@page import="clases.Hijo"%>
 <%@page import="clases.Vehiculo"%>
 <%@page import="clases.Cargo"%>
 <%@page import="clases.GeneroPersona"%>
@@ -175,33 +176,56 @@
         </tr>
     </table>
 
-    <h4>Familiares</h4>
+
+        
+        
+        <h4>Familiares</h4>
     <table border="0">
         <tr>
             <th>Tiene Hijos</th>
             <td>
                 <select name="tieneHijos" id="tieneHijos" onchange="mostrarFamiliares()">
-                    <option value="No" <%= persona.getTieneHijos().equals("No") ? "selected" : ""%>>No</option>
-                    <option value="Sí" <%= persona.getTieneHijos().equals("Sí") ? "selected" : ""%>>Sí</option>
+                    <option value="No" <%= persona.getHijos().equals("No") ? "selected" : ""%>>No</option>
+                    <option value="Sí" <%= persona.getHijos().equals("Sí") ? "selected" : ""%>>Sí</option>
                 </select>
             </td>
         </tr>
     </table>
 
     <!-- Sección de familiares (inicialmente oculta) -->
+!-- Sección de familiares (inicialmente oculta) -->
     <div id="familiaresSection" style="display: none;">
         <h4>Información de Hijos</h4>
         <table border="0" id="tablaHijos">
             <tr>
-                <th>Nombre del Hijo</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Acción</th>
-            </tr>
-        </table>
+    
+        <tr>
+            <th>Nombre del Hijo</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Acción</th>
+        </tr>
 
-        <button type="button" onclick="agregarHijo()">Agregar Hijo</button>
-    </div>
+        <% 
+            // Precargar hijos si existen
+            for (Hijo hijo : persona.obtenerHijos()) { 
+        %>
+        <tr>
+            <td><input type="text" name="nombreHijo[]" value="<%= hijo.getNombres() %>" size="50" maxlength="50"></td>
+            <td><input type="date" name="fechaNacimientoHijo[]" value="<%= hijo.getFechaNacimiento() %>"></td>
+            <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+        </tr>
+        <% } %>
 
+    </table>
+    <button type="button" onclick="agregarHijo()">Agregar Hijo</button>
+</div>
+
+
+    
+    
+    
+    
+    
 
     <!-- Formulario para Dotaciones -->
     <h4>Dotaciones</h4>
