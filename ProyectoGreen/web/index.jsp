@@ -11,10 +11,10 @@
     if (request.getParameter("error") != null) {
         switch (request.getParameter("error")) {
             case "1":
-                mensaje = "Usuario o contraseña no válido";
+                mensaje = "Usuario o contraseña incorrecta";
                 break;
             case "2":
-                mensaje = "Acceso denegado";
+                mensaje = "Acceso denegado. Usuario inactivo";
                 break;
             default:
                 mensaje = "Error desconocido";

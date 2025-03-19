@@ -5,19 +5,18 @@
 --%>
 
 <%@page import="clases.Administrador"%>
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%
-    
     String identificacion = request.getParameter("identificacion");
     String clave = request.getParameter("clave");
-    Administrador usuario = Administrador.validar(identificacion, clave);
-    if (usuario != null) {
-        HttpSession sesion = request.getSession();
-        sesion.setAttribute("usuario", usuario);
-        sesion.setAttribute("tipo", usuario.getTipo()); 
-        response.sendRedirect("principal.jsp");
+
+    Administrador usuario = Administrador.validar(identificacion, clave); 
+
+    if (usuario == null) {
+        response.sendRedirect("index.jsp?error=1"); 
+    } else if ("Inactivo".equalsIgnoreCase(usuario.getEstado())) {
+        response.sendRedirect("index.jsp?error=2"); 
     } else {
-        response.sendRedirect("index.jsp?error=1");
+        session.setAttribute("usuario", usuario);
+        response.sendRedirect("principal.jsp"); 
     }
 %>
