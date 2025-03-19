@@ -12,46 +12,46 @@
     String id = request.getParameter("id");
     Retirados retirado = new Retirados();
     Persona persona = new Persona();
-    
+
     if (accion.equals("Modificar")) {
         retirado = new Retirados(id);
         persona = new Persona(id);
     }
 %>
 
-    <h3><%=accion.toUpperCase()%> RETIRADO</h3>
-   <form name="formulario" method="post" action="retiradosActualizar.jsp">
+<h3><%=accion.toUpperCase()%> RETIRADO</h3>
+<form name="formulario" method="post" action="retiradosActualizar.jsp">
     <table class="table" border="1">
         <tr>
             <th>Cédula</th>
-            <td><input class="recuadro" type="text" name="cedula" value="<%=persona.getIdentificacion()%>" required></td>
+            <td><input class="recuadro" type="text" name="identificacion" value="<%=persona.getIdentificacion()%>" readonly></td>
         </tr>
         <tr>
-            <th>Nombres y Apellidos</th>
-            <td><input class="recuadro" type="text" name="nombres" value="<%=persona.getNombres()%>" required></td>
+            <th>Nombres y apellidos</th>
+            <td><input class="recuadro" type="text" name="nombres" value="<%=persona.getNombres()%>" readonly></td>
         </tr>
         <tr>
             <th>Cargo</th>
-            <td><input class="recuadro" type="text" name="cargo" value="<%=persona.getIdCargo()%>" required></td>
+            <td><input class="recuadro" type="text" name="cargo" value="<%=persona.getIdCargo()%>" readonly></td>
         </tr>
         <tr>
             <th>Establecimiento</th>
-            <td><input class="recuadro" type="text" name="establecimiento" value="<%=persona.getEstablecimiento()%>" required></td>
+            <td><input class="recuadro" type="text" name="establecimiento" value="<%=persona.getEstablecimiento()%>" readonly></td>
         </tr>
         <tr>
-            <th>Fecha Ingreso</th>
-            <td><input class="recuadro" type="date" name="fechaIngreso" value="<%= persona.getFechaIngreso()%>" required></td>
+            <th>Fecha de ingreso</th>
+            <td><input class="recuadro" type="date" name="fechaIngreso" value="<%= persona.getFechaIngreso()%>" readonly></td>
         </tr>
         <tr>
-            <th>Fecha Retiro</th>
+            <th>Fecha de retiro</th>
             <td><input class="recuadro" type="date" name="fechaRetiro" value="<%= persona.getFechaRetiro()%>" required></td>
         </tr>
         <tr>
-            <th>N° de Caja</th>
+            <th>N° de caja</th>
             <td><input class="recuadro" type="text" name="numCaja" value="<%=retirado.getNumCaja()%>" required></td>
         </tr>
         <tr>
-            <th>N° de Carpeta</th>
+            <th>N° de carpeta</th>
             <td><input class="recuadro" type="text" name="numCarpeta" value="<%=retirado.getNumCarpeta()%>" required></td>
         </tr>
         <tr>

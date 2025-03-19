@@ -11,12 +11,12 @@
 
 <%
     Map<String, String> variables = new HashMap<>();
-    boolean isMultipart = ServletFileUpload.isMultipartContent(request); // Verificamos si es un formulario con archivos
-   
+    boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+    
     if (!isMultipart) {
         variables.put("accion", request.getParameter("accion"));
-        variables.put("id", request.getParameter("id"));
-        variables.put("cedula", request.getParameter("cedula"));
+        variables.put("id", request.getParameter("id") != null && !request.getParameter("id").trim().isEmpty() ? request.getParameter("id") : null);
+        variables.put("identificacion", request.getParameter("identificacion"));
         variables.put("nombres", request.getParameter("nombres"));
         variables.put("establecimiento", request.getParameter("establecimiento"));
         variables.put("fechaIngreso", request.getParameter("fechaIngreso"));
@@ -26,48 +26,63 @@
         variables.put("numCarpeta", request.getParameter("numCarpeta"));
         variables.put("observaciones", request.getParameter("observaciones"));
     } else {
-        // Si es multipart, procesamos los campos del formulario
         ServletRequestContext origen = new ServletRequestContext(request);
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         List<FileItem> elementosFormulario = upload.parseRequest(origen);
         
-        // Extraemos los campos del formulario
         for (FileItem elemento : elementosFormulario) {
             if (elemento.isFormField()) {
-                variables.put(elemento.getFieldName(), elemento.getString());
+                String valor = elemento.getString().trim();
+                variables.put(elemento.getFieldName(), valor.isEmpty() ? null : valor);
             }
         }
     }
 
-    // Creamos las instancias de Persona y Retirados usando los datos extraídos
-    String identificacionAnterior = variables.get("id");
-    Persona persona = new Persona(identificacionAnterior);
-    Retirados retirado = new Retirados(identificacionAnterior);
-    
-    persona.setIdentificacion(variables.get("cedula"));
+    // Validamos que el ID no sea nulo antes de continuar
+    if (variables.get("id") == null) {
+        out.println("Error: ID no proporcionado.");
+        return;
+    }
+
+    // Crear instancias de Persona y Retirados
+    Persona persona = new Persona(variables.get("identificacion"));
+    Retirados retirado = new Retirados(variables.get("id"));
+
+    persona.setIdentificacion(variables.get("identificacion"));
     persona.setNombres(variables.get("nombres"));
     persona.setEstablecimiento(variables.get("establecimiento"));
     persona.setFechaIngreso(variables.get("fechaIngreso"));
     persona.setFechaRetiro(variables.get("fechaRetiro"));
-    
     persona.setIdCargo(variables.get("cargo"));
+
     retirado.setNumCaja(variables.get("numCaja"));
     retirado.setNumCarpeta(variables.get("numCarpeta"));
     retirado.setObservaciones(variables.get("observaciones"));
+
     
-    // Dependiendo de la acción (Adicionar, Modificar, Eliminar), realizamos la operación correspondiente
+    // Ejecutar acción según el caso
     switch (variables.get("accion")) {
         case "Adicionar":
             persona.grabar();
             retirado.grabar();
             break;
         case "Modificar":
-            persona.modificar(variables.get("identificacionAnterior"));
-            retirado.modificar(variables.get("id"));
+            if (variables.get("id") != null) {
+                persona.modificar(variables.get("identificacion"));
+                retirado.modificar(variables.get("id"));
+            } else {
+                out.println("Error: ID no válido para modificar.");
+                return;
+            }
             break;
         case "Eliminar":
-            retirado.eliminar(variables.get("id"));
+            if (variables.get("id") != null) {
+                retirado.eliminar(variables.get("id"));
+            } else {
+                out.println("Error: ID no válido para eliminar.");
+                return;
+            }
             break;
     }
 %>
