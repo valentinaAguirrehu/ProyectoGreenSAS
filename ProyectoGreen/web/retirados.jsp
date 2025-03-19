@@ -15,7 +15,7 @@
                 lista += "<td>" + persona.getEstablecimiento() + "</td>";
                 lista += "<td>" + persona.getFechaIngreso() + "</td>";
                 lista += "<td>" + persona.getFechaRetiro() + "</td>";
-                lista += "<td>" + retirado.getNombreCargo()+ "</td>";
+                lista += "<td>" + persona.getIdCargo()+ "</td>";
                 lista += "<td>" + retirado.getNumCaja() + "</td>";
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";

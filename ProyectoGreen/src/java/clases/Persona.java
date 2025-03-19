@@ -176,7 +176,11 @@ public class Persona {
     }
 
     public String getIdCargo() {
-        return idCargo;
+         String resultado = idCargo;
+        if (idCargo == null) {
+            resultado = "";
+        }
+        return resultado;
     }
 
     public void setIdCargo(String idCargo) {
