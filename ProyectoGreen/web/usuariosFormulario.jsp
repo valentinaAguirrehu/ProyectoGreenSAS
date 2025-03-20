@@ -63,8 +63,8 @@
             <th>Estado</th>
             <td>
                 <select class="recuadro" name="estado">
-                    <option value="Activo" selected>Activo</option>
-                    <option value="Inactivo">Inactivo</option>
+                    <option value="Activo" <%= "Activo".equals(usuario.getEstado()) ? "selected" : ""%>>Activo</option>
+                    <option value="Inactivo" <%= "Inactivo".equals(usuario.getEstado()) ? "selected" : ""%>>Inactivo</option>
                 </select>
             </td>
         </tr>

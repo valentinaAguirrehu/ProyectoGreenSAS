@@ -58,7 +58,7 @@
 <link rel="stylesheet" href="presentacion/style-Cargo.css">
 
 <div class="search-container">
-    <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar cargo ..." class="recuadro">
+    <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por cargo o código" class="recuadro">
     <img src="presentacion/iconos/lupa.png" width='18' height='18' alt="Buscar">
 </div>
 

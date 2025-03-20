@@ -177,49 +177,51 @@
     </table>
 
     <h4>Familiares</h4>
-    <table border="0">
-        <th>Tiene Hijos</th>
-        <td> 
-            <%
-                // Obtenemos el valor de tieneHijos de la persona (evitamos null)
-                String valorTieneHijos = (persona.getTieneHijos() != null && persona.getTieneHijos().equals("S")) ? "S" : "N";
-            %>
+<table border="0">
+    <th>Tiene Hijos</th>
+    <td> 
+        <%
+            // Obtenemos el valor de tieneHijos de la persona (evitamos null)
+            String valorTieneHijos = (persona.getTieneHijos() != null && persona.getTieneHijos().equals("S")) ? "S" : "N";
+        %>
 
-            <!-- Radio Button para "No" -->
-            <input type="radio" name="tieneHijos" value="N" <%= valorTieneHijos.equals("N") ? "checked" : ""%> onclick="mostrarFamiliares()"> No
+        <!-- Radio Button para "No" -->
+        <input type="radio" name="tieneHijos" value="N" <%= valorTieneHijos.equals("N") ? "checked" : ""%> onclick="mostrarFamiliares()"> No
 
-            <!-- Radio Button para "Sí" -->
-            <input type="radio" name="tieneHijos" value="S" <%= valorTieneHijos.equals("S") ? "checked" : ""%> onclick="mostrarFamiliares()"> Sí
-        </td>
+        <!-- Radio Button para "Sí" -->
+        <input type="radio" name="tieneHijos" value="S" <%= valorTieneHijos.equals("S") ? "checked" : ""%> onclick="mostrarFamiliares()"> Sí
+    </td>
+</table>
 
-        <!-- Sección de familiares (inicialmente oculta o visible según datos precargados) -->
-        <div id="familiaresSection" style="display: <%= valorTieneHijos.equals("S") ? "block" : "none"%>;">
-            <h4>Información de Hijos</h4>
+<!-- Sección de familiares (fuera de la tabla) -->
+<div id="familiaresSection" style="display: <%= valorTieneHijos.equals("S") ? "block" : "none"%>;">
+    <h4>Información de Hijos</h4>
 
-            <table border="0" id="tablaHijos">
-                <%
-                    if (persona.obtenerHijos() != null && !persona.obtenerHijos().isEmpty()) {
-                %>
-                <tr>
-                    <th>Nombre del Hijo</th>
-                    <th>Fecha de Nacimiento</th>
-                    <th>Acción</th>
-                </tr>
-                <%
-                    for (Hijo hijo : persona.obtenerHijos()) {
-                %>
-                <tr>
-                    <td><input type="text" name="nombreHijo[]" value="<%= hijo.getNombres()%>" size="50" maxlength="50"></td>
-                    <td><input type="date" name="fechaNacimientoHijo[]" value="<%= hijo.getFechaNacimiento()%>"></td>
-                    <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
-                </tr>
-                <% } %>
-                <% }%>
-                            <button type="button" onclick="agregarHijo()">Agregar Hijo</button>
+    <table border="0" id="tablaHijos">
+        <%
+            if (persona.obtenerHijos() != null && !persona.obtenerHijos().isEmpty()) {
+        %>
+        <tr>
+            <th>Nombre del Hijo</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Acción</th>
+        </tr>
+        <%
+            for (Hijo hijo : persona.obtenerHijos()) {
+        %>
+        <tr>
+            <td><input type="text" name="nombreHijo[]" value="<%= hijo.getNombres()%>" size="50" maxlength="50"></td>
+            <td><input type="date" name="fechaNacimientoHijo[]" value="<%= hijo.getFechaNacimiento()%>"></td>
+            <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+        </tr>
+        <% } %>
+        <% }%>
+        <tr>
+            <td colspan="3"><button type="button" onclick="agregarHijo()">Agregar Hijo</button></td>
+        </tr>
+    </table>
+</div>
 
-            </table>
-
-        </div>
         <!-- Formulario para Dotaciones -->
         <h4>Dotaciones</h4>
         <table border="0">
@@ -295,21 +297,13 @@
             </form>
 
             <script>
-                function mostrarFamiliares() {
-                    // Obtener el valor del radio button seleccionado
-                    var tieneHijos = document.querySelector('input[name="tieneHijos"]:checked').value;
-
-                    // Obtener la sección de familiares
-                    var familiaresSection = document.getElementById("familiaresSection");
-
-                    // Mostrar u ocultar la sección según la selección
-                    if (tieneHijos === "S") {
-                        familiaresSection.style.display = "block";
-                    } else {
-                        familiaresSection.style.display = "none";
-                    }
-                }
-
+function mostrarFamiliares() {
+    // Obtener los valores de los radio buttons
+    var tieneHijos = document.querySelector('input[name="tieneHijos"]:checked').value;
+    
+    // Mostrar u ocultar la sección de familiares
+    document.getElementById("familiaresSection").style.display = (tieneHijos === "S") ? "block" : "none";
+}
 
 
                 function agregarHijo() {
