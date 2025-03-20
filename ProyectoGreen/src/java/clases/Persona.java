@@ -5,12 +5,15 @@
 package clases;
 
 import clasesGenericas.ConectorBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -416,8 +419,8 @@ String resultado = celular;
     }
 
     public String getFechaRetiro() {
-        String resultado = fechaIngreso;
-        if (fechaIngreso == null) {
+        String resultado = fechaRetiro;    
+        if (fechaRetiro == null) {
             resultado = "";
         }
         return resultado;
@@ -994,6 +997,29 @@ String resultado = celular;
 
         return lista; // 
     }
+public static String getListaEnArregloJS(String filtro, String orden) throws SQLException {
+    StringBuilder lista = new StringBuilder("[");
+    List<Persona> datos = Persona.getListaEnObjetos(filtro, orden);
+    
+    for (int i = 0; i < datos.size(); i++) {
+        Persona persona = datos.get(i);
+        if (i > 0) {
+            lista.append(", ");
+        }
+        
+        lista.append("[")
+             .append("'").append(persona.getIdentificacion()).append("', ") // índice 0: Identificación
+             .append("'").append(persona.getNombres()).append("', ")          // índice 1: Nombre
+             .append("'").append(persona.getApellidos()).append("', ")          // índice 1: Nombre
+             .append("'").append(persona.getIdCargo()).append("', ")           // índice 2: Cargo
+             .append("'").append(persona.getEstablecimiento()).append("', ") // índice 3: Establecimiento
+             .append("'").append(persona.getFechaIngreso()).append("'")      // índice 4: Fecha de ingreso
+             .append("]");
+    }
+
+    lista.append("];");
+    return lista.toString();
+}
 
     public String obtenerNumeroPlacaVehiculo() {
         String numeroPlaca = null;
@@ -1010,5 +1036,6 @@ String resultado = celular;
 
         return numeroPlaca;
     }
-
+    
+    
 }
