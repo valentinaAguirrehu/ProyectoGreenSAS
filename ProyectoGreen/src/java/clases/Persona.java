@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,7 +68,7 @@ public class Persona {
     private String tallaChaqueta;
     private String tallaPantalon;
     private String tallaCalzado;
-    //private String tieneVehiculo;
+    private String tieneVehiculo;
     private Vehiculo vehiculo; 
     private String numLicenciaConduccion;
     private String fechaExpConduccion;
@@ -86,7 +87,7 @@ public class Persona {
                 + "fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, "
                 + "establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNombre, "
                 + "primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, tieneHijos, "
-                + " tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, "
+                + " tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tienevehiculo,"
                 + "numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones,  estado, "
                 + " numeroPlacaVehiculo FROM persona WHERE identificacion = '" + identificacion + "'";
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
@@ -136,7 +137,7 @@ public class Persona {
                 tallaChaqueta = resultado.getString("tallaChaqueta");
                 tallaPantalon = resultado.getString("tallaPantalon");
                 tallaCalzado = resultado.getString("tallaCalzado");
-                //tieneVehiculo = resultado.getString("tieneVehiculo");
+                tieneVehiculo = resultado.getString("tieneVehiculo");
                 String numeroPlaca = resultado.getString("numeroPlacaVehiculo");
 
                 // Si la persona tiene vehículo, inicio el objeto Vehiculo
@@ -418,7 +419,7 @@ String resultado = celular;
     }
 
     public String getFechaRetiro() {
-        String resultado = fechaRetiro;
+        String resultado = fechaRetiro;    
         if (fechaRetiro == null) {
             resultado = "";
         }
@@ -478,7 +479,7 @@ String resultado = celular;
     }
 
     public String getEstablecimiento() {
-           String resultado = establecimiento;
+        String resultado = establecimiento;
         if (establecimiento == null) {
             resultado = "";
         }
@@ -691,8 +692,22 @@ String resultado = celular;
         this.tallaCalzado = tallaCalzado;
     }
 
-   
-    
+    public String getTieneVehiculo() {
+   String resultado = tieneVehiculo;
+        if (tieneVehiculo == null) {
+            resultado = "";
+        }
+        return resultado;
+        }
+
+    public void setTieneVehiculo(String tieneVehiculo) {
+    if (tieneVehiculo == null || tieneVehiculo.isEmpty()) {
+        this.tieneVehiculo = "N"; // Por defecto "No"
+    } else {
+        this.tieneVehiculo = tieneVehiculo;
+    }
+}
+
     public Vehiculo getVehiculo() {
         return vehiculo;
     }
@@ -700,6 +715,10 @@ String resultado = celular;
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }
+
+   
+    
+   
 
     public String getNumLicenciaConduccion() {
         String resultado = numLicenciaConduccion;
@@ -811,8 +830,8 @@ String resultado = celular;
         + "nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, "
         + "unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, "
         + "primerRefNombre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, "
-        + "tieneHijos, tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, vehiculo numLicenciaConduccion, "
-        + "fechaExpConduccion, fechaVencimiento, restricciones, estado, numeroPlacaVehiculo) "
+        + "tieneHijos, tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo, numLicenciaConduccion, "
+        + "fechaExpConduccion, fechaVencimiento, restricciones, estado) "
         + "VALUES ('" + identificacion + "', '" + tipo + "', " + (idCargo != null ? idCargo : "NULL") + ", '" + tipoDocumento + "', "
         + (fechaExpedicion != null ? "'" + fechaExpedicion + "'" : "NULL") + ", '" + lugarExpedicion + "', '" + nombres + "', '" + apellidos + "', '"
         + sexo + "', " + (fechaNacimiento != null ? "'" + fechaNacimiento + "'" : "NULL") + ", '" + lugarNacimiento + "', '" + tipoSangre + "', '"
@@ -823,11 +842,13 @@ String resultado = celular;
         + establecimiento + "', '" + area + "', '" + tipoCargo + "', '" + cuentaBancaria + "', '" + numeroCuenta + "', " + salario + ", '"
         + primerRefNombre + "', '" + primerRefParentezco + "', '" + primerRefCelular + "', '" + segundaRefNombre + "', '" + segundaRefParentezco + "', '"
         + segundaRefCelular + "', '" + tieneHijos + "', '" + tallaCamisa + "', '" + tallaChaqueta + "', " + tallaPantalon + ", " + tallaCalzado + ", '"
-        + vehiculo + "', '" + numLicenciaConduccion + "', " + (fechaExpConduccion != null ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
-        + (fechaVencimiento != null ? "'" + fechaVencimiento + "'" : "NULL") + ", '" + restricciones + "', '" + estado + "', '" + numeroPlacaVehiculo + "')";
+        + getTieneVehiculo()  + "', '" + numLicenciaConduccion + "', " + (fechaExpConduccion != null ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
+        + (fechaVencimiento != null ? "'" + fechaVencimiento + "'" : "NULL") + ", '" + restricciones + "', '" + estado + "')";
 
     System.out.println("Cadena SQL: " + cadenaSQL); // Depuración
     System.out.println("Valor de tieneHijos antes de la inserción: " + getTieneHijos());
+System.out.println("tieneVehiculo: " + tieneVehiculo);
+System.out.println("numeroPlacaVehiculo: " + numeroPlacaVehiculo);
 
     boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
 
@@ -864,9 +885,9 @@ String resultado = celular;
 
             // Recorro la lista de hijos de cada persona
             for (Hijo hijo : hijos) {
-                //  método grabar() pero del hijo, que guarda  datos en la tabla `hijos` si  no existe
+                //  método grabar() pero del hijo, que guarda  datos en la tabla hijos si  no existe
                 if (hijo.grabar()) {
-                    // Inserto la relación entre la persona y el hijo en la tabla  `persona_hijos`
+                    // Inserto la relación entre la persona y el hijo en la tabla  persona_hijos
                     String relSQL = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) "
                             + "VALUES ('" + identificacion + "', '" + hijo.getIdentificacion() + "')";
 
@@ -897,7 +918,7 @@ String resultado = celular;
             orden = " ";
 
         }
-        String cadenaSQL = "select identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, celular, email, nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNombre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, tieneHijos,  tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, vehiculo,  numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones, estado,  numeroPlacaVehiculo from persona " + filtro + orden;
+        String cadenaSQL = "select identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, celular, email, nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNombre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, tieneHijos,  tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo,  numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones, estado,  numeroPlacaVehiculo from persona " + filtro + orden;
         return ConectorBD.consultar(cadenaSQL);
     }
 
@@ -952,7 +973,7 @@ String resultado = celular;
                     persona.setTallaChaqueta(datos.getString("tallaChaqueta"));
                     persona.setTallaPantalon(datos.getString("tallaPantalon"));
                     persona.setTallaCalzado(datos.getString("tallaCalzado"));
-                  //  persona.setTieneVehiculo(datos.getString("tieneVehiculo"));
+                    persona.setTieneVehiculo(datos.getString("tieneVehiculo"));
                     persona.setNumLicenciaConduccion(datos.getString("numLicenciaConduccion"));
                     persona.setFechaExpConduccion(datos.getString("fechaExpConduccion"));
                     persona.setFechaVencimiento(datos.getString("fechaVencimiento"));
@@ -988,6 +1009,29 @@ String resultado = celular;
 
         return lista; // 
     }
+public static String getListaEnArregloJS(String filtro, String orden) throws SQLException {
+    StringBuilder lista = new StringBuilder("[");
+    List<Persona> datos = Persona.getListaEnObjetos(filtro, orden);
+    
+    for (int i = 0; i < datos.size(); i++) {
+        Persona persona = datos.get(i);
+        if (i > 0) {
+            lista.append(", ");
+        }
+        
+        lista.append("[")
+             .append("'").append(persona.getIdentificacion()).append("', ") // índice 0: Identificación
+             .append("'").append(persona.getNombres()).append("', ")          // índice 1: Nombre
+             .append("'").append(persona.getApellidos()).append("', ")          // índice 1: Nombre
+             .append("'").append(persona.getIdCargo()).append("', ")           // índice 2: Cargo
+             .append("'").append(persona.getEstablecimiento()).append("', ") // índice 3: Establecimiento
+             .append("'").append(persona.getFechaIngreso()).append("'")      // índice 4: Fecha de ingreso
+             .append("]");
+    }
+
+    lista.append("];");
+    return lista.toString();
+}
 
     public String obtenerNumeroPlacaVehiculo() {
         String numeroPlaca = null;
@@ -1004,6 +1048,6 @@ String resultado = celular;
 
         return numeroPlaca;
     }
-   
-
+    
+    
 }
