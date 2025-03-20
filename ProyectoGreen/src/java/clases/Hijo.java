@@ -10,12 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+
 /**
  *
  * @author Mary 
  */
-
-
 
 public class Hijo {
     private String identificacion;

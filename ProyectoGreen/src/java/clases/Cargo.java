@@ -162,7 +162,20 @@ public class Cargo {
     }
     return lista.toString();
 }
+public static String getCargoPersona(String identificacionPersona) {
+    String sql = "SELECT c.nombre FROM cargo c " +
+                 "JOIN persona p ON p.idCargo = c.id " +
+                 "WHERE p.identificacion = '" + identificacionPersona + "'";
 
+    try {
+        ResultSet rs = ConectorBD.consultar(sql); // Asegúrate de usar el método correcto
+        if (rs.next()) {
+            return rs.getString("nombre"); // Devuelve solo el nombre del cargo
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return "Sin cargo"; // Si no tiene cargo, devuelve un mensaje por defecto
 }
-
-
+}

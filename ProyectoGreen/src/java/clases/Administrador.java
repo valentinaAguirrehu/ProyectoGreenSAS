@@ -5,6 +5,8 @@
 package clases;
 
 import clasesGenericas.ConectorBD;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,14 +26,18 @@ public class Administrador {
     private String celular;
     private String email;
     private String clave;
+    private String pLeer;
+    private String pEditar;
+    private String pAgregar;
+    private String pEliminar;
+    private String pDescargar;
     private String estado;
 
     public Administrador() {
     }
 
     public Administrador(String identificacion) {
-        String cadenaSQL = "SELECT identificacion, tipo, nombres, celular, email, clave, estado FROM administrador where identificacion = '" + identificacion + "'";
-
+        String cadenaSQL = "SELECT * FROM administrador WHERE identificacion = '" + identificacion + "'";
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
 
         try {
@@ -42,6 +48,11 @@ public class Administrador {
                 celular = resultado.getString("celular");
                 email = resultado.getString("email");
                 clave = resultado.getString("clave");
+                pLeer = resultado.getString("pLeer");
+                pEditar = resultado.getString("pEditar");
+                pAgregar = resultado.getString("pAgregar");
+                pEliminar = resultado.getString("pEliminar");
+                pDescargar = resultado.getString("pDescargar");
                 estado = resultado.getString("estado");
             }
         } catch (Exception e) {
@@ -121,14 +132,54 @@ public class Administrador {
     }
 
     public void setClave(String clave) {
-        if (clave == null || clave.trim().length() == 0) {
+        if (clave == null || clave.trim().isEmpty()) {
             clave = identificacion;
         }
         if (clave.length() < 32) {
-            this.clave = "md5 ('" + clave + "')";
+            this.clave = encriptarMD5(clave);
         } else {
-            this.clave = " '" + clave + "' ";
+            this.clave = clave;
         }
+    }
+
+    public String getpLeer() {
+        return pLeer;
+    }
+
+    public void setpLeer(String pLeer) {
+        this.pLeer = pLeer;
+    }
+
+    public String getpEditar() {
+        return pEditar;
+    }
+
+    public void setpEditar(String pEditar) {
+        this.pEditar = pEditar;
+    }
+
+    public String getpAgregar() {
+        return pAgregar;
+    }
+
+    public void setpAgregar(String pAgregar) {
+        this.pAgregar = pAgregar;
+    }
+
+    public String getpEliminar() {
+        return pEliminar;
+    }
+
+    public void setpEliminar(String pEliminar) {
+        this.pEliminar = pEliminar;
+    }
+
+    public String getpDescargar() {
+        return pDescargar;
+    }
+
+    public void setpDescargar(String pDescargar) {
+        this.pDescargar = pDescargar;
     }
 
     public String getEstado() {
@@ -154,20 +205,18 @@ public class Administrador {
     }
 
     public boolean grabar() {
-        String cadenaSQL = "INSERT INTO administrador (identificacion, tipo, nombres, celular, email, clave, estado) "
-                + "VALUES ('" + identificacion + "', '" + tipo + "', '" + nombres + "', '" + celular + "', '" + email + "', '" + clave + "', '" + estado + "')";
+        String cadenaSQL = "INSERT INTO administrador (identificacion, tipo, nombres, celular, email, clave, pLeer, pEditar, pAgregar, pEliminar, pDescargar, estado) "
+                + "VALUES ('" + identificacion + "', '" + tipo + "', '" + nombres + "', '" + celular + "', '" + email + "', '" + clave + "', '" + pLeer + "', '" + pEditar + "', '" + pAgregar + "', '" + pEliminar + "', '" + pDescargar + "', '" + estado + "')";
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
     public boolean modificar(String identificacionAnterior) {
         String cadenaSQL = "UPDATE administrador SET identificacion='" + identificacion + "', "
-                + "tipo='" + tipo + "', "
-                + "nombres='" + nombres + "', "
-                + "celular='" + celular + "', "
-                + "email='" + email + "', "
-                + "clave=" + clave + ", "
-                + "estado='" + estado + "' "
-                + "WHERE identificacion=" + identificacionAnterior;
+                + "tipo='" + tipo + "', nombres='" + nombres + "', celular='" + celular + "', "
+                + "email='" + email + "', clave='" + clave + "', pLeer='" + pLeer + "', "
+                + "pEditar='" + pEditar + "', pAgregar='" + pAgregar + "', pEliminar='" + pEliminar + "', "
+                + "pDescargar='" + pDescargar + "', estado='" + estado + "' "
+                + "WHERE identificacion='" + identificacionAnterior + "'";
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
@@ -177,17 +226,19 @@ public class Administrador {
     }
 
     public static ResultSet getLista(String filtro, String orden) {
-        if (filtro != null && !"".equals(filtro)) {
-            filtro = " where " + filtro;
+        if (filtro != null && !filtro.trim().isEmpty()) {
+            filtro = " WHERE " + filtro;
         } else {
-            filtro = " ";
+            filtro = "";
         }
-        if (orden != null && !"".equals(orden)) {
-            orden = " order by " + orden;
+        if (orden != null && !orden.trim().isEmpty()) {
+            orden = " ORDER BY " + orden;
         } else {
-            orden = " ";
+            orden = "";
         }
-        String cadenaSQL = "SELECT identificacion, tipo, nombres, celular, email, clave, estado FROM administrador " + filtro + orden;
+        String cadenaSQL = "SELECT identificacion, tipo, nombres, celular, email, clave, pLeer, pEditar, pAgregar, pEliminar, pDescargar, estado "
+                + "FROM administrador " + filtro + orden;
+
         return ConectorBD.consultar(cadenaSQL);
     }
 
@@ -204,6 +255,11 @@ public class Administrador {
                     administrador.setCelular(datos.getString("celular"));
                     administrador.setEmail(datos.getString("email"));
                     administrador.setClave(datos.getString("clave"));
+                    administrador.setpLeer(datos.getString("pLeer"));
+                    administrador.setpEditar(datos.getString("pEditar"));
+                    administrador.setpAgregar(datos.getString("pAgregar"));
+                    administrador.setpEliminar(datos.getString("pEliminar"));
+                    administrador.setpDescargar(datos.getString("pDescargar"));
                     administrador.setEstado(datos.getString("estado"));
                     lista.add(administrador);
                 }
@@ -226,9 +282,24 @@ public class Administrador {
 
         List<Administrador> lista = Administrador.getListaEnObjetos(query, null);
         if (lista.size() > 0) {
-            administrador = lista.get(0); 
+            administrador = lista.get(0);
         }
         return administrador;
+    }
+
+    private String encriptarMD5(String clave) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] hash = md.digest(clave.getBytes());
+
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                hexString.append(String.format("%02x", b));
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error al encriptar la clave en MD5", e);
+        }
     }
 
 }

@@ -9,7 +9,7 @@ package clases;
  * @author Angie
  */
 public class TipoPersona {
-    
+
     private String codigo;
     private String identificacion;
 
