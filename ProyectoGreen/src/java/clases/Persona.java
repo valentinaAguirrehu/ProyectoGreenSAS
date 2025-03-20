@@ -87,7 +87,7 @@ public class Persona {
                 + "fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, unidadNegocio, centroCostos, "
                 + "establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, primerRefNombre, "
                 + "primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, tieneHijos, "
-                + " tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo, "
+                + " tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tienevehiculo,"
                 + "numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones,  estado, "
                 + " numeroPlacaVehiculo FROM persona WHERE identificacion = '" + identificacion + "'";
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
@@ -693,17 +693,21 @@ String resultado = celular;
     }
 
     public String getTieneVehiculo() {
-        String resultado = tieneVehiculo;
+   String resultado = tieneVehiculo;
         if (tieneVehiculo == null) {
             resultado = "";
         }
         return resultado;
-    }
+        }
+
     public void setTieneVehiculo(String tieneVehiculo) {
+    if (tieneVehiculo == null || tieneVehiculo.isEmpty()) {
+        this.tieneVehiculo = "N"; // Por defecto "No"
+    } else {
         this.tieneVehiculo = tieneVehiculo;
     }
+}
 
-    
     public Vehiculo getVehiculo() {
         return vehiculo;
     }
@@ -711,6 +715,10 @@ String resultado = celular;
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }
+
+   
+    
+   
 
     public String getNumLicenciaConduccion() {
         String resultado = numLicenciaConduccion;
@@ -823,7 +831,7 @@ String resultado = celular;
         + "unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, "
         + "primerRefNombre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, "
         + "tieneHijos, tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo, numLicenciaConduccion, "
-        + "fechaExpConduccion, fechaVencimiento, restricciones, estado, numeroPlacaVehiculo) "
+        + "fechaExpConduccion, fechaVencimiento, restricciones, estado) "
         + "VALUES ('" + identificacion + "', '" + tipo + "', " + (idCargo != null ? idCargo : "NULL") + ", '" + tipoDocumento + "', "
         + (fechaExpedicion != null ? "'" + fechaExpedicion + "'" : "NULL") + ", '" + lugarExpedicion + "', '" + nombres + "', '" + apellidos + "', '"
         + sexo + "', " + (fechaNacimiento != null ? "'" + fechaNacimiento + "'" : "NULL") + ", '" + lugarNacimiento + "', '" + tipoSangre + "', '"
@@ -834,23 +842,44 @@ String resultado = celular;
         + establecimiento + "', '" + area + "', '" + tipoCargo + "', '" + cuentaBancaria + "', '" + numeroCuenta + "', " + salario + ", '"
         + primerRefNombre + "', '" + primerRefParentezco + "', '" + primerRefCelular + "', '" + segundaRefNombre + "', '" + segundaRefParentezco + "', '"
         + segundaRefCelular + "', '" + tieneHijos + "', '" + tallaCamisa + "', '" + tallaChaqueta + "', " + tallaPantalon + ", " + tallaCalzado + ", '"
-        + tieneVehiculo + "', '" + numLicenciaConduccion + "', " + (fechaExpConduccion != null ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
-        + (fechaVencimiento != null ? "'" + fechaVencimiento + "'" : "NULL") + ", '" + restricciones + "', '" + estado + "', '" + numeroPlacaVehiculo + "')";
+        + getTieneVehiculo()  + "', '" + numLicenciaConduccion + "', " + (fechaExpConduccion != null ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
+        + (fechaVencimiento != null ? "'" + fechaVencimiento + "'" : "NULL") + ", '" + restricciones + "', '" + estado + "')";
 
     System.out.println("Cadena SQL: " + cadenaSQL); // Depuración
-    boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
+    System.out.println("Valor de tieneHijos antes de la inserción: " + getTieneHijos());
+System.out.println("tieneVehiculo: " + tieneVehiculo);
+System.out.println("numeroPlacaVehiculo: " + numeroPlacaVehiculo);
 
-    if (resultado) {
-        for (Hijo hijo : hijos) {
-            if (hijo.grabar()) {
+   boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
+
+if (resultado) {
+    if (hijos == null) {
+        System.out.println("Error: Lista de hijos es null");
+        hijos = new ArrayList<>(); // Inicializar si es necesario
+    }
+
+    for (Hijo hijo : hijos) {
+        if (hijo != null) {
+            boolean hijoGuardado = hijo.grabar();
+            System.out.println("Guardando hijo: " + hijo.getIdentificacion() + " - Resultado: " + hijoGuardado);
+
+            if (hijoGuardado && identificacion != null && hijo.getIdentificacion() != null) {
                 String relSQL = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) "
                         + "VALUES ('" + identificacion + "', '" + hijo.getIdentificacion() + "')";
-                ConectorBD.ejecutarQuery(relSQL);
+                boolean relResultado = ConectorBD.ejecutarQuery(relSQL);
+                System.out.println("Resultado de insertar en persona_hijos: " + relResultado);
+            } else {
+                System.out.println("Error: hijo no guardado o identificaciones nulas");
             }
+        } else {
+            System.out.println("Error: hijo es null");
         }
     }
-    return resultado;
+} else {
+    System.out.println("Error: No se pudo insertar la persona en la BD");
 }
+        return false;
+    }    
 
 
     public boolean modificar(String identificacionAnterior) {

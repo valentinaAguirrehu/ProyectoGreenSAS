@@ -9,15 +9,15 @@
 
 <%
     String lista = "";
-    
+
     List<Persona> datos = Persona.getListaEnObjetos(null, null);
-    
+
     for (Persona persona : datos) {
         lista += "<tr>";
         lista += "<td align='right'>" + persona.getIdentificacion() + "</td>";
         lista += "<td>" + persona.getNombres() + "</td>";
         lista += "<td>" + persona.getApellidos() + "</td>";
-lista += "<td>" + Cargo.getCargoPersona(persona.getIdentificacion()) + "</td>";
+        lista += "<td>" + Cargo.getCargoPersona(persona.getIdentificacion()) + "</td>";
         lista += "<td>";
         lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + persona.getIdentificacion() + "' title='Modificar'>";
         lista += "<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
@@ -36,7 +36,7 @@ lista += "<td>" + Cargo.getCargoPersona(persona.getIdentificacion()) + "</td>";
         <th>Cargo</th>
         <th>Acciones</th>
     </tr>
-    <%= lista %> 
+    <%= lista%> 
 </table>
 
 <!-- Botón para agregar un nuevo colaborador -->
