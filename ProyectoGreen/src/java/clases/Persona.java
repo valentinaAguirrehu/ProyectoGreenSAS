@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -192,8 +193,6 @@ public class Persona {
 
     public String getIdCargo() {
         String resultado = idCargo;
-=======
-         String resultado = idCargo;
         if (idCargo == null) {
             resultado = "";
         }
@@ -420,10 +419,7 @@ String resultado = celular;
     }
 
     public String getFechaRetiro() {
-        String resultado = fechaIngreso;
-        if (fechaIngreso == null) {
-=======
-        String resultado = fechaRetiro;
+        String resultado = fechaRetiro;    
         if (fechaRetiro == null) {
             resultado = "";
         }
@@ -483,11 +479,7 @@ String resultado = celular;
     }
 
     public String getEstablecimiento() {
-
         String resultado = establecimiento;
-=======
-           String resultado = establecimiento;
-
         if (establecimiento == null) {
             resultado = "";
         }
@@ -881,9 +873,9 @@ String resultado = celular;
 
             // Recorro la lista de hijos de cada persona
             for (Hijo hijo : hijos) {
-                //  método grabar() pero del hijo, que guarda  datos en la tabla `hijos` si  no existe
+                //  método grabar() pero del hijo, que guarda  datos en la tabla hijos si  no existe
                 if (hijo.grabar()) {
-                    // Inserto la relación entre la persona y el hijo en la tabla  `persona_hijos`
+                    // Inserto la relación entre la persona y el hijo en la tabla  persona_hijos
                     String relSQL = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) "
                             + "VALUES ('" + identificacion + "', '" + hijo.getIdentificacion() + "')";
 
@@ -1005,6 +997,29 @@ String resultado = celular;
 
         return lista; // 
     }
+public static String getListaEnArregloJS(String filtro, String orden) throws SQLException {
+    StringBuilder lista = new StringBuilder("[");
+    List<Persona> datos = Persona.getListaEnObjetos(filtro, orden);
+    
+    for (int i = 0; i < datos.size(); i++) {
+        Persona persona = datos.get(i);
+        if (i > 0) {
+            lista.append(", ");
+        }
+        
+        lista.append("[")
+             .append("'").append(persona.getIdentificacion()).append("', ") // índice 0: Identificación
+             .append("'").append(persona.getNombres()).append("', ")          // índice 1: Nombre
+             .append("'").append(persona.getApellidos()).append("', ")          // índice 1: Nombre
+             .append("'").append(persona.getIdCargo()).append("', ")           // índice 2: Cargo
+             .append("'").append(persona.getEstablecimiento()).append("', ") // índice 3: Establecimiento
+             .append("'").append(persona.getFechaIngreso()).append("'")      // índice 4: Fecha de ingreso
+             .append("]");
+    }
+
+    lista.append("];");
+    return lista.toString();
+}
 
     public String obtenerNumeroPlacaVehiculo() {
         String numeroPlaca = null;
@@ -1021,9 +1036,6 @@ String resultado = celular;
 
         return numeroPlaca;
     }
-
-}
-=======
-   
-
+    
+    
 }

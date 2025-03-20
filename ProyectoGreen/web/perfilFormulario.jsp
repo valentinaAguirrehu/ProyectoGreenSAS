@@ -63,17 +63,17 @@
             </div>
 
             <div class="form-group">
-                <label for="email">Correo Electrónico:</label>
+                <label for="email">Correo electrónico:</label>
                 <input type="email" name="email" id="email" value="<%=usuarioActual.getEmail()%>">
             </div>
 
             <div class="form-group">
-                <label for="clave">Nueva Contraseña:</label>
+                <label for="clave">Nueva contraseña:</label>
                 <input type="password" name="clave" id="clave" onkeyup="validarClave();">
             </div>
 
             <div class="form-group">
-                <label for="confirmarClave">Confirmar Contraseña:</label>
+                <label for="confirmarClave">Confirmar contraseña:</label>
                 <input type="password" name="confirmarClave" id="confirmarClave" onkeyup="verificarCoincidencia();">
             </div>
 
@@ -89,8 +89,8 @@
             </div>
 
             <div class='btn-container'>
-                <button type="submit" class="btn-adicionar" name="accion" value="Modificar">Guardar Cambios</button>
-                <input type="button" class="btn-eliminar" value="Cancelar" onClick="window.history.back();">
+                <button type="button" class="btn-adicionar" name="accion" value="Modificar">Guardar Cambios</button>
+                <button type="button" class="btn-eliminar" value="Cancelar" onClick="window.history.back();">Cancelar</button>
             </div>
             <input type="hidden" name="identificacionAnterior" value="<%= usuarioActual.getIdentificacion() %>">
         </form>
