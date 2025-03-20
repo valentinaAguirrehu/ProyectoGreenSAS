@@ -1,4 +1,8 @@
-
+<%-- 
+    Document   : persona
+    Created on : 8/03/2025, 02:18:59 PM
+    Author     : Mary
+--%>
 
 <%@page import="clases.Persona"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -46,7 +50,7 @@ Persona persona = new Persona();
     persona.setSegundaRefNombre(request.getParameter("segundaRefNombre"));
     persona.setSegundaRefParentezco(request.getParameter("segundaRefParentezco")); // ✅ Corregido
     persona.setSegundaRefCelular(request.getParameter("segundaRefCelular"));
-    persona.setTieneHijos(request.getParameter("tieneHijos"));
+   // persona.setTieneHijos(request.getParameter("tieneHijos"));
     persona.setTallaCamisa(request.getParameter("tallaCamisa"));
     persona.setTallaChaqueta(request.getParameter("tallaChaqueta"));
     persona.setTallaPantalon(request.getParameter("tallaPantalon"));
