@@ -45,7 +45,7 @@
                         <li><a href="#">Ingresos de colaboradores</a></li>
                         <li><a href="#">Retiros de colaboradores</a></li>
                         <li><a href="#">Dotaciones entregadas</a></li>
-                        <li><a href="#">Cumpleañeros del mes</a></li>
+                        <li><a href="cumpleanos.jsp">Cumpleañeros del mes</a></li>
                     </ul>
                 </li>
             </ul>
