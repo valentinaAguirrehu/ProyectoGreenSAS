@@ -850,19 +850,36 @@ String resultado = celular;
 System.out.println("tieneVehiculo: " + tieneVehiculo);
 System.out.println("numeroPlacaVehiculo: " + numeroPlacaVehiculo);
 
-    boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
+   boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
 
-    if (resultado) {
-        for (Hijo hijo : hijos) {
-            if (hijo.grabar()) {
+if (resultado) {
+    if (hijos == null) {
+        System.out.println("Error: Lista de hijos es null");
+        hijos = new ArrayList<>(); // Inicializar si es necesario
+    }
+
+    for (Hijo hijo : hijos) {
+        if (hijo != null) {
+            boolean hijoGuardado = hijo.grabar();
+            System.out.println("Guardando hijo: " + hijo.getIdentificacion() + " - Resultado: " + hijoGuardado);
+
+            if (hijoGuardado && identificacion != null && hijo.getIdentificacion() != null) {
                 String relSQL = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) "
                         + "VALUES ('" + identificacion + "', '" + hijo.getIdentificacion() + "')";
-                ConectorBD.ejecutarQuery(relSQL);
+                boolean relResultado = ConectorBD.ejecutarQuery(relSQL);
+                System.out.println("Resultado de insertar en persona_hijos: " + relResultado);
+            } else {
+                System.out.println("Error: hijo no guardado o identificaciones nulas");
             }
+        } else {
+            System.out.println("Error: hijo es null");
         }
     }
-    return resultado;
+} else {
+    System.out.println("Error: No se pudo insertar la persona en la BD");
 }
+        return false;
+    }    
 
 
     public boolean modificar(String identificacionAnterior) {
