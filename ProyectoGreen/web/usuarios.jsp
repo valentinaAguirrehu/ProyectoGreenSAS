@@ -10,13 +10,35 @@
 <%
     String lista = "";
     List<Administrador> datos = Administrador.getListaEnObjetos("tipo<>'S'", null);
-    for (int i = 0; i < datos.size(); i++) {
-        Administrador usuario = datos.get(i);
+
+    for (Administrador usuario : datos) {
+        String permisos = "";
+        if (usuario.getpLeer().equals("S")) {
+            permisos += "Lectura - ";
+        }
+        if (usuario.getpEditar().equals("S")) {
+            permisos += "Edición - ";
+        }
+        if (usuario.getpAgregar().equals("S")) {
+            permisos += "Agregar - ";
+        }
+        if (usuario.getpEliminar().equals("S")) {
+            permisos += "Eliminar - ";
+        }
+        if (usuario.getpDescargar().equals("S")) {
+            permisos += "Descarga - ";
+        }
+
+        if (!permisos.isEmpty()) {
+            permisos = permisos.substring(0, permisos.length() - 3);
+        }
+
         lista += "<tr>";
         lista += "<td>" + usuario.getIdentificacion() + "</td>";
         lista += "<td>" + usuario.getNombres() + "</td>";
         lista += "<td>" + usuario.getCelular() + "</td>";
         lista += "<td>" + usuario.getEmail() + "</td>";
+        lista += "<td>" + permisos + "</td>";
         lista += "<td>" + usuario.getEstado() + "</td>";
         lista += "<td>";
         lista += "<a href='usuariosFormulario.jsp?accion=Modificar&identificacion=" + usuario.getIdentificacion()
@@ -29,9 +51,20 @@
 
 <h3 class="titulo">GESTIÓN DE USUARIOS</h3>
 <link rel="stylesheet" href="presentacion/style-Proyecto.css">
-<table class="table" border="1">
+
+<div class="search-container">
+    <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por nombre o identificación " class="recuadro">
+    <img src="presentacion/iconos/lupa.png" width='18' height='18' alt="Buscar">
+</div>
+
+<table class="table" border="1" id="usuariosTable">
     <tr>
-        <th>Identificación</th><th>Nombres</th><th>Celular</th><th>Email</th><th>Estado</th>
+        <th>Identificación</th>
+        <th>Nombre</th>
+        <th>Celular</th>
+        <th>Email</th>
+        <th>Permisos</th>
+        <th>Estado</th>
         <th><a href="usuariosFormulario.jsp?accion=Adicionar" title="Adicionar">
                 <img src="presentacion/iconos/agregar.png" width='30' height='30'> </a></th>
     </tr>
@@ -40,9 +73,34 @@
 
 <script type="text/javascript">
     function eliminar(identificacion) {
-        resultado = confirm("Realmente desea eliminar el usuario con identificacion" + identificacion + "?");
+        resultado = confirm("Realmente desea eliminar el usuario con identificación " + identificacion + "?");
         if (resultado) {
             document.location = "usuariosActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
     }
+
+    function filterNames() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById('usuariosTable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) { // Saltamos el encabezado
+            const cells = rows[i].getElementsByTagName('td');
+            if (cells.length > 0) {
+                const identificacion = cells[0].textContent || cells[0].innerText;
+                const nombres = cells[1].textContent || cells[1].innerText;
+
+                if (
+                        identificacion.toLowerCase().indexOf(filter) > -1 ||
+                        nombres.toLowerCase().indexOf(filter) > -1
+                        ) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+    }
+
 </script>

@@ -5,6 +5,8 @@
 package clases;
 
 import clasesGenericas.ConectorBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -190,6 +192,8 @@ public class Persona {
 
     public String getIdCargo() {
         String resultado = idCargo;
+=======
+         String resultado = idCargo;
         if (idCargo == null) {
             resultado = "";
         }
@@ -418,6 +422,9 @@ String resultado = celular;
     public String getFechaRetiro() {
         String resultado = fechaIngreso;
         if (fechaIngreso == null) {
+=======
+        String resultado = fechaRetiro;
+        if (fechaRetiro == null) {
             resultado = "";
         }
         return resultado;
@@ -476,7 +483,11 @@ String resultado = celular;
     }
 
     public String getEstablecimiento() {
+
         String resultado = establecimiento;
+=======
+           String resultado = establecimiento;
+
         if (establecimiento == null) {
             resultado = "";
         }
@@ -1010,5 +1021,9 @@ String resultado = celular;
 
         return numeroPlaca;
     }
+
+}
+=======
+   
 
 }
