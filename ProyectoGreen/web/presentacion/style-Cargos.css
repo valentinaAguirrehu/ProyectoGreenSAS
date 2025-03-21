@@ -1,0 +1,199 @@
+/* Centrar la tabla en la pantalla */
+.table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    border: 2px solid #388E3C;
+    background: linear-gradient(to bottom, #4CAF50, #66BB6A, #81C784);
+    border-radius: 10px;
+    overflow: hidden;
+    width: 60%; /* Reducido el ancho de 80% a 60% */
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Efecto al pasar el mouse sobre la tabla */
+.table:hover {
+    transform: scale(1.02);
+}
+
+/* Estilos para las celdas */
+.table th, .table td {
+    padding: 8px; /* Reducido de 12px para menor altura */
+    border: 1px solid #388E3C;
+    color: white;
+    font-size: 14px; /* Reducido de 16px para mejor ajuste */
+}
+
+/* Estilos para la cabecera */
+.table th {
+    background-color: #2E7D32;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px; /* Ajustado de 14px a 10px */
+}
+
+/* Estilos para las filas */
+.table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Cambia el color de fondo cuando pasas el cursor sobre una fila */
+.table tr:hover {
+    background-color: #1B5E20 !important;
+    color: white;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.iconoEliminar {
+    display: inline-block;
+    cursor: pointer;
+}
+/* Contenedor de iconos en línea */
+.acciones {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espaciado uniforme entre iconos */
+}
+
+/* Ajuste de tamaño para los iconos */
+.iconoAgregar,
+.iconoEditar,
+.iconoEliminar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; /* Tamaño fijo del contenedor circular */
+    height: 28px;
+    border-radius: 50%; /* Forma circular */
+    background: rgba(255, 255, 255, 0.1); /* Fondo sutil */
+    transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+/* Ajuste de las imágenes dentro del contenedor */
+.iconoAgregar img,
+.iconoEditar img,
+.iconoEliminar img {
+    width: 18px; /* Tamaño uniforme de los íconos */
+    height: 18px;
+    object-fit: contain; /* Evita deformaciones */
+    filter: brightness(1.2);
+}
+
+/* Efecto hover */
+.iconoAgregar:hover,
+.iconoEditar:hover,
+.iconoEliminar:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Ajuste del encabezado para evitar cortes */
+.table th:last-child {
+    width: 40px; /* Ajustado según necesidad */
+}
+
+/* Estilos para la barra de búsqueda */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    padding: 10px;
+    background: #E8F5E9;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-container input {
+    padding: 8px; /* Reducido de 10px */
+    border-radius: 8px;
+    border: 2px solid #2E7D32;
+    width: 240px; /* Reducido de 260px */
+    font-size: 14px; /* Reducido de 16px */
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.search-container input:focus {
+    border-color: #1B5E20;
+    box-shadow: 0px 0px 8px rgba(27, 94, 32, 0.5);
+}
+
+.search-container img {
+    margin-left: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.search-container img:hover {
+    transform: scale(1.1);
+}
+
+/* Estilo del título */
+.titulo {
+    text-align: center;
+    color: #2E7D32;
+    font-size: 24px; /* Reducido de 28px */
+    margin-bottom: 15px; /* Reducido de 20px */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Subrayado animado */
+.titulo::after {
+    content: "";
+    width: 40px; /* Reducido de 50px */
+    height: 4px;
+    background: #388E3C;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.3s ease-in-out;
+}
+
+.titulo:hover::after {
+    width: 100px; /* Reducido de 120px */
+}
+
+/* Botones */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Reducido de 15px */
+    margin-top: 15px; /* Reducido de 20px */
+}
+
+.button {
+    padding: 8px 16px; /* Reducido de 10px 20px */
+    border: none;
+    border-radius: 6px; /* Reducido de 8px */
+    font-size: 14px; /* Reducido de 16px */
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.button.adicionar {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button.adicionar:hover {
+    background-color: #1B5E20;
+}
+
+.button.cancelar {
+    background-color: #d32f2f;
+    color: white;
+}
+
+.button.cancelar:hover {
+    background-color: #b71c1c;
+}
