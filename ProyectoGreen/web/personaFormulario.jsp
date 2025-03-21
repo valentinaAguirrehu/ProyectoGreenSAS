@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="clases.Hijo"%>
 <%@page import="clases.Vehiculo"%>
 <%@page import="clases.Cargo"%>
@@ -93,6 +94,10 @@
             <td><input type="text" name="barrio" value="<%= persona.getBarrio()%>" size="50" maxlength="50"></td>
         </tr>
         <tr>
+            <th>Celular</th>
+            <td><input type="text" name="celular" value="<%= persona.getCelular()%>" size="50" maxlength="50"></td>
+        </tr>
+        <tr>
             <th>Email</th>
             <td><input type="email" name="email" value="<%= persona.getEmail()%>" size="50" maxlength="50"></td>
         </tr>
@@ -143,6 +148,13 @@
     <h4>Información de Trabajo</h4>
     <table border="0">
         <tr>
+            <th>Fecha de Ingreso</th>
+            <td><input type="date" name="fechaIngreso" value="<%= persona.getFechaIngreso()%>"></td>
+        </tr><tr>
+            <th>Fecha de Retiro</th>
+            <td><input type="date" name="fechaRetiro" value="<%= persona.getFechaRetiro()%>"></td>
+        </tr>
+        <tr>
             <th>Unidad de Negocio</th>
             <td><input type="text" name="unidadNegocio" value="<%= persona.getUnidadNegocio()%>" size="50" maxlength="50"></td>
         </tr>
@@ -174,9 +186,16 @@
             <th>Salario</th>
             <td><input type="text" name="salario" value="<%= persona.getSalario()%>" size="50" maxlength="50"></td>
         </tr>
-    </table>
 
-    <h4>Familiares</h4>
+        <!-- Formulario para referencia familiares -->
+
+    <table border="0">
+        <tr>
+            <th>Tiene Hijos</th>
+            <th><%=persona.getTieneHijos().getRadioButtons()%></th>
+        </tr>
+    </table>
+ <h4>Familiares</h4>
 <table border="0">
     <th>Tiene Hijos</th>
     <td> 
@@ -222,99 +241,90 @@
     </table>
 </div>
 
-        <!-- Formulario para Dotaciones -->
-        <h4>Dotaciones</h4>
-        <table border="0">
-            <tr>
-                <th>Talla Camisa</th>
-                <td><input type="text" name="tallaCamisa" value="<%= persona.getTallaCamisa()%>" size="50" maxlength="50"></td>
-            </tr>
-            <tr>
-                <th>Talla Chaqueta</th>
-                <td><input type="text" name="tallaChaqueta" value="<%= persona.getTallaChaqueta()%>"size="50" maxlength="50"></td>
-            </tr>
-            <tr>
-                <th>Talla Pantalón</th>
-                <td><input type="text" name="tallaPantalon" value="<%= persona.getTallaPantalon()%>"size="50" maxlength="50"></td>
-            </tr>
-            <tr>
-                <th>Talla Calzado</th>
-                <td><input type="text" name="tallaCalzado" value="<%= persona.getTallaCalzado()%>"size="50" maxlength="50"></td>
-            </tr>
-            <input type="hidden" name="identificacion" value="<%= persona.getIdentificacion()%>">
-        </table>
-
-     <table border="0">
-    
-
-<table border="0">
-    <tr>
-        <th>Tiene Vehículo</th>
-        <td>
-            <input type="radio" name="tieneVehiculo" id="vehiculoSi" value="S"
-                <%= "S".equals(persona.getTieneVehiculo()) ? "checked" : "" %>
-                onclick="mostrarVehiculo()">
-            <label for="vehiculoSi">Sí</label>
-
-            <input type="radio" name="tieneVehiculo" id="vehiculoNo" value="N"
-                <%= !"S".equals(persona.getTieneVehiculo()) ? "checked" : "" %>
-                onclick="mostrarVehiculo()">
-            <label for="vehiculoNo">No</label>
-        </td>
-    </tr>
-</table>
-
-<!-- Formulario de vehículo (Oculto por defecto) -->
-<div id="vehiculoSection" style="display: none;">
-    <h4>Información de Vehículo</h4>
+    <!-- Formulario para Dotaciones -->
+    <h4>Dotaciones</h4>
     <table border="0">
         <tr>
-            <td><label>Número de Placa:</label></td>
-            <td><input type="text" name="numeroPlaca" value="<%= (vehiculo != null) ? vehiculo.getNumeroPlaca() : ""%>"></td>
+            <th>Talla Camisa</th>
+            <td><input type="text" name="tallaCamisa" value="<%= persona.getTallaCamisa()%>" size="50" maxlength="50"></td>
         </tr>
         <tr>
-            <td><label>Tipo de Vehículo:</label></td>
-            <td><input type="text" name="tipoVehiculo" value="<%= (vehiculo != null) ? vehiculo.getTipoVehiculo() : ""%>"></td>
+            <th>Talla Chaqueta</th>
+            <td><input type="text" name="tallaChaqueta" value="<%= persona.getTallaChaqueta()%>"size="50" maxlength="50"></td>
         </tr>
         <tr>
-            <td><label>Modelo:</label></td>
-            <td><input type="text" name="modeloVehiculo" value="<%= (vehiculo != null) ? vehiculo.getModeloVehiculo() : ""%>"></td>
+            <th>Talla Pantalón</th>
+            <td><input type="text" name="tallaPantalon" value="<%= persona.getTallaPantalon()%>"size="50" maxlength="50"></td>
         </tr>
         <tr>
-            <td><label>Línea:</label></td>
-            <td><input type="text" name="linea" value="<%= (vehiculo != null) ? vehiculo.getLinea() : ""%>"></td>
+            <th>Talla Calzado</th>
+            <td><input type="text" name="tallaCalzado" value="<%= persona.getTallaCalzado()%>"size="50" maxlength="50"></td>
         </tr>
-        <tr>
-            <td><label>Año:</label></td>
-            <td><input type="text" name="ano" value="<%= (vehiculo != null) ? vehiculo.getAno() : ""%>"></td>
-        </tr>
-        <tr>
-            <td><label>Color:</label></td>
-            <td><input type="text" name="color" value="<%= (vehiculo != null) ? vehiculo.getColor() : ""%>"></td>
-        </tr>
-        <tr>
-            <td><label>Cilindraje:</label></td>
-            <td><input type="text" name="cilindraje" value="<%= (vehiculo != null) ? vehiculo.getCilindraje() : ""%>"></td>
-        </tr>
-        <tr>
-            <td><label>Número Licencia de Tránsito:</label></td>
-            <td><input type="text" name="numLicenciaTransito" value="<%= (vehiculo != null) ? vehiculo.getNumLicenciaTransito() : ""%>"></td>
-        </tr>
-        <tr>
-            <td><label>Fecha Exp. Licencia:</label></td>
-            <td><input type="text" name="fechaExpLicenciaTransito" value="<%= (vehiculo != null) ? vehiculo.getFechaExpLicenciaTransito() : ""%>"></td>
-        </tr>
-        <tr>
-            <td colspan="2"><input type="submit" value="Guardar"></td>
-        </tr>
+        <input type="hidden" name="identificacion" value="<%= persona.getIdentificacion()%>">
     </table>
-</div>
+
+    <table border="0">
+
+
+        <table border="0">
+            <tr>
+                <th>Tiene Vehículo</th>
+                <th><%=persona.getTieneVehiculo().getRadioButtons()%></th>
+            </tr>
+        </table>
+
+        <!-- Formulario de vehículo (Oculto por defecto) -->
+        <div id="vehiculoSection" style="display: none;">
+            <h4>Información de Vehículo</h4>
+            <table border="0">
+                <tr>
+                    <td><label>Número de Placa:</label></td>
+                    <td><input type="text" name="numeroPlaca" value="<%= (vehiculo != null) ? vehiculo.getNumeroPlaca() : ""%>"></td>
+                </tr>
+                <tr>
+                    <td><label>Tipo de Vehículo:</label></td>
+                    <td><input type="text" name="tipoVehiculo" value="<%= (vehiculo != null) ? vehiculo.getTipoVehiculo() : ""%>"></td>
+                </tr>
+                <tr>
+                    <td><label>Modelo:</label></td>
+                    <td><input type="text" name="modeloVehiculo" value="<%= (vehiculo != null) ? vehiculo.getModeloVehiculo() : ""%>"></td>
+                </tr>
+                <tr>
+                    <td><label>Línea:</label></td>
+                    <td><input type="text" name="linea" value="<%= (vehiculo != null) ? vehiculo.getLinea() : ""%>"></td>
+                </tr>
+                <tr>
+                    <td><label>Año:</label></td>
+                    <td><input type="text" name="ano" value="<%= (vehiculo != null) ? vehiculo.getAno() : ""%>"></td>
+                </tr>
+                <tr>
+                    <td><label>Color:</label></td>
+                    <td><input type="text" name="color" value="<%= (vehiculo != null) ? vehiculo.getColor() : ""%>"></td>
+                </tr>
+                <tr>
+                    <td><label>Cilindraje:</label></td>
+                    <td><input type="text" name="cilindraje" value="<%= (vehiculo != null) ? vehiculo.getCilindraje() : ""%>"></td>
+                </tr>
+                <tr>
+                    <td><label>Número Licencia de Tránsito:</label></td>
+                    <td><input type="text" name="numLicenciaTransito" value="<%= (vehiculo != null) ? vehiculo.getNumLicenciaTransito() : ""%>"></td>
+                </tr>
+                <tr>
+                    <td><label>Fecha Exp. Licencia:</label></td>
+                    <td><input type="text" name="fechaExpLicenciaTransito" value="<%= (vehiculo != null) ? vehiculo.getFechaExpLicenciaTransito() : ""%>"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Guardar"></td>
+                </tr>
+            </table>
+        </div>
 
         <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>"><p>
             <input type="submit" name="accion" value="<%=accion%>">
             <input type="button" value="Cancelar" onClick="window.history.back()">
             </form>
 
+            <script>
             <script>
 function mostrarFamiliares() {
     // Obtener los valores de los radio buttons
@@ -323,7 +333,6 @@ function mostrarFamiliares() {
     // Mostrar u ocultar la sección de familiares
     document.getElementById("familiaresSection").style.display = (tieneHijos === "S") ? "block" : "none";
 }
-
 
                 function agregarHijo() {
                     var tabla = document.getElementById("tablaHijos");
@@ -362,20 +371,20 @@ function mostrarFamiliares() {
 
                     // Agregar la fila a la tabla
                     tabla.appendChild(fila);
-                }
-                function mostrarVehiculo() {
-    var tieneVehiculo = document.querySelector('input[name="tieneVehiculo"]:checked').value;
-    var vehiculoSection = document.getElementById("vehiculoSection");
-
-    if (tieneVehiculo === "S") {  
-        vehiculoSection.style.display = "block";
-    } else {
-        vehiculoSection.style.display = "none";
+                    }
+                    
+    function mostrarVehiculo() {
+                        var tieneVehiculo = document.querySelector('input[name="tieneVehiculo"]:checked').value;
+                var vehiculoSection = document.getElementById("vehiculoSection");
+               
+                vehiculoSection.style.display = (tieneVehiculo === "S") ? "block" : "none";
     }
-}
-
-// Ejecutar la función al cargar la página para mostrar u ocultar la sección correctamente
+    
+    
+                // Ejecutar la función  al 
+                    cargar la página para mo
+                strar u ocultar la sección correctamente
 window.onload = function() {
-    mostrarVehiculo();
+                        mostrarVehiculo();
 };
-</script>
+            </script>
