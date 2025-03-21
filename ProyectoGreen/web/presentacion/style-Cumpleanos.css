@@ -73,3 +73,22 @@ body {
 #tablaCumpleanos td {
     border: 1px solid black;
 }
+
+.buttons {
+    display: flex;  /* Para alinear horizontalmente */
+    justify-content: center; /* Centrar las flechas */
+    gap: 380px; /* Espacio entre las flechas */
+    margin-top: 20px;
+}
+
+.icono {
+    width: 30px; /* Tamaño original */
+    height: auto;
+    cursor: pointer; /* Cambia el cursor a selección */
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.icono:hover {
+    transform: scale(1.2); /* Hace la imagen un 20% más grande */
+    filter: brightness(1.2); /* Le da un efecto de brillo */
+}
