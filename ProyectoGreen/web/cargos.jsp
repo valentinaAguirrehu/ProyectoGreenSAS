@@ -29,11 +29,12 @@
                 lista += "<td>" + cargo.getNombre() + "</td>";
                 lista += "<td>" + cargo.getCodigoCargo() + "</td>";
                 lista += "<td>" + cargo.getDescripcion() + "</td>";
-                lista += "<td>";
+                lista += "<td class='acciones'>"; // Agregamos la clase para estilos en línea
                 lista += "<a class='iconoEditar' href='cargosFormulario.jsp?accion=Modificar&id=" + cargo.getId()
-                        + "' title='Modificar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a> ";
-                lista += "<img src='presentacion/iconos/eliminar.png' width='25' height='25' class='iconoEliminar' title='Eliminar' onClick='eliminar(" + cargo.getId() + ")'> ";
+                        + "' title='Modificar'><img src='presentacion/iconos/modificar.png'></a>";
+                lista += "<img src='presentacion/iconos/eliminar.png' class='iconoEliminar' title='Eliminar' onclick='eliminar(\"" + cargo.getId() + "\")'>";
                 lista += "</td>";
+
                 lista += "</tr>";
             }
         } else {
@@ -55,11 +56,11 @@
 
 <jsp:include page="permisos.jsp" />
 <h3 class="titulo">GESTIÓN DE CARGOS</h3>
-<link rel="stylesheet" href="presentacion/style-Cargo.css">
+<link rel="stylesheet" href="presentacion/style-Cargos.css">
 
 <div class="search-container">
     <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por cargo o código" class="recuadro">
-    <img src="presentacion/iconos/lupa.png" width='18' height='18' alt="Buscar">
+    <img src="presentacion/iconos/lupa.png" width='20' height='20' alt="Buscar">
 </div>
 
 <table class="table" border="1" id="cargosTable">
@@ -68,7 +69,7 @@
         <th>Cargo</th>
         <th>Código de Cargo</th>
         <th>Descripción</th>
-        <th><a href="cargosFormulario.jsp?accion=Adicionar" class="iconoAgregar" title="Adicionar"><img src="presentacion/iconos/agregar.png" width='25' height='25'></a></th>
+        <th><a href="cargosFormulario.jsp?accion=Adicionar" class="iconoAgregar" title="Adicionar"><img src="presentacion/iconos/agregar.png" width='20' height='20'></a></th>
     </tr>
     <%=lista%>
 </table>
