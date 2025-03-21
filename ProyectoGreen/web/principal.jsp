@@ -33,8 +33,8 @@
                     <a href="#">Colaboradores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
                     <ul class="dropdown-content">                           
                         <li><a href="persona.jsp">Activos</a></li>
-                        <li><a href="personaFormulario.jsp">Temporales</a></li>
-                        <li><a href="">Aprendices</a></li>
+                        <li><a href="temporales.jsp">Temporales</a></li>
+                        <li><a href="aprendiz.jsp">Aprendices</a></li>
                         <li><a href="retirados.jsp">Retirados</a></li>
                     </ul>
                 </li>

@@ -6,11 +6,13 @@
 <%@page import="clases.Cargo"%>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+
+
 <%!
     // Función para obtener el nombre del mes en español
     String obtenerMesEnEspanol(int mesNumero) {
         String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-                          "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
         return meses[mesNumero - 1];
     }
 %>
@@ -32,25 +34,25 @@
         try {
             if (persona.getFechaNacimiento() != null && !persona.getFechaNacimiento().isEmpty()) {
                 LocalDate fechaNacimiento = LocalDate.parse(persona.getFechaNacimiento(), formatter);
-                
+
                 // Filtrar solo los que cumplen años en el mes seleccionado
                 if (fechaNacimiento.getMonthValue() == mesNumero) {
                     int edad = Period.between(fechaNacimiento, fechaActual).getYears();
-                    
+
                     // Obtener el nombre del cargo
                     String nombreCargo = "Sin cargo";
                     if (persona.getIdCargo() != null) {
                         Cargo cargo = new Cargo(persona.getIdCargo());
                         nombreCargo = cargo.getNombre();
                     }
-                    
+
                     lista.append("<tr>");
                     lista.append("<td align='center'><b>").append(fechaNacimiento.getDayOfMonth()).append("</b></td>");
                     lista.append("<td>").append(persona.getNombres()).append(" ").append(persona.getApellidos()).append("</td>");
                     lista.append("<td align='center'>").append(edad).append("</td>");
-                    lista.append("<td>").append(nombreCargo).append("</td>");
                     lista.append("<td align='center'>").append(persona.getFechaNacimiento()).append("</td>");
-                    lista.append("<td align='center'><a href='#'><img src='presentacion/iconos/ver.png' width='20'></a></td>");
+                    lista.append("<td>").append(nombreCargo).append("</td>");
+                    lista.append("<td align='center'><a href='#'><img src='presentacion/iconos/documentoId.png' width='20'></a></td>");
                     lista.append("</tr>");
                 }
             }
@@ -62,94 +64,71 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Cumpleaños del Mes</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        h1 {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-        table {
-            width: 80%;
-            margin: auto;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .buttons {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-    </style>
-</head>
-<body>
+    <head>
+        <title>Cumpleaños del Mes</title>
+        <link rel="stylesheet" href="presentacion/style-Cumpleanos.css">
+    </head>
+    <body>
 
-    <h1 id="tituloMes">CUMPLEAÑOS DEL MES: <%= mesActual %></h1>
+        <div id="tituloMes">
+            <h1>CUMPLEAÑEROS DEL MES</h1>
+            <div class="mes-con-iconos">
+                <img src="presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+                <h2><%= mesActual%></h2>
+                <img src="presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+            </div>
+        </div>
 
-    <table id="tablaCumpleanos">
-        <tr>
-            <th>DÍA</th>
-            <th>NOMBRE</th>
-            <th>EDAD</th>
-            <th>CARGO</th>
-            <th>FECHA NACIMIENTO</th>
-            <th>D.I</th>
-        </tr>
-        <%= lista.toString() %>
-    </table>
+        <table id="tablaCumpleanos">
+            <tr>
+                <th>Día</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Fecha de nacimiento</th>
+                <th>Cargo</th>
+                <th>Documento de identidad</th>
+            </tr>
+            <%= lista.toString()%>
+        </table>
 
-    <!-- Botones de navegación -->
-    <div class="buttons">
-        <button onclick="irAlMesAnterior()">MES ANTERIOR</button>
-        <button onclick="irAlSiguienteMes()">SIGUIENTE MES</button>
-    </div>
+        <!-- Botones de navegación -->
+        <div class="buttons">
+            <img src="presentacion/iconos/izquierda.png" alt="Mes Anterior" class="icono" onclick="irAlMesAnterior()">
+            <img src="presentacion/iconos/derecha.png" alt="Siguiente Mes" class="icono" onclick="irAlSiguienteMes()">
+        </div>
 
- <script>
-    let mesActualJS = <%= mesNumero %>;
-    let mesInicial = new Date().getMonth() + 1; // Mes actual en JavaScript (1-12)
-    
-    let limiteSuperior = mesInicial + 3;
-    let limiteInferior = mesInicial - 3;
-    
-    // Ajustar límites para manejar cambio de año
-    if (limiteInferior < 1) limiteInferior += 12;
-    if (limiteSuperior > 12) limiteSuperior -= 12;
+        <script>
+            let mesActualJS = <%= mesNumero%>;
+            let mesInicial = new Date().getMonth() + 1; // Mes actual en JavaScript (1-12)
 
-    function irAlSiguienteMes() {
-        // Si ya alcanzó el límite de 3 meses adelante, mostrar alerta
-        if (mesActualJS === limiteSuperior || (mesInicial > 9 && mesActualJS === 3)) {
-            alert("Solo se pueden ver los 3 siguientes meses a partir del mes actual.");
-        } else {
-            mesActualJS = (mesActualJS % 12) + 1; // Avanza al siguiente mes
-            window.location.href = "cumpleanos.jsp?mes=" + mesActualJS;
-        }
-    }
+            let limiteSuperior = mesInicial + 3;
+            let limiteInferior = mesInicial - 3;
 
-    function irAlMesAnterior() {
-        // Si ya alcanzó el límite de 3 meses atrás, mostrar alerta
-        if (mesActualJS === limiteInferior || (mesInicial < 4 && mesActualJS === 10)) {
-            alert("Solo se pueden ver los 3 meses anteriores al actual.");
-        } else {
-            mesActualJS = (mesActualJS - 1 < 1) ? 12 : mesActualJS - 1; // Retrocede un mes correctamente
-            window.location.href = "cumpleanos.jsp?mes=" + mesActualJS;
-        }
-    }
-</script>
+            // Ajustar límites para manejar cambio de año
+            if (limiteInferior < 1)
+                limiteInferior += 12;
+            if (limiteSuperior > 12)
+                limiteSuperior -= 12;
 
+            function irAlSiguienteMes() {
+                // Si ya alcanzó el límite de 3 meses adelante, mostrar alerta
+                if (mesActualJS === limiteSuperior || (mesInicial > 9 && mesActualJS === 3)) {
+                    alert("Solo se puede visualizar hasta tres meses posteriores al mes actual.");
+                } else {
+                    mesActualJS = (mesActualJS % 12) + 1; // Avanza al siguiente mes
+                    window.location.href = "cumpleanos.jsp?mes=" + mesActualJS;
+                }
+            }
 
-</body>
+            function irAlMesAnterior() {
+                // Si ya alcanzó el límite de 3 meses atrás, mostrar alerta
+                if (mesActualJS === limiteInferior || (mesInicial < 4 && mesActualJS === 10)) {
+                    alert("Solo se puede visualizar hasta tres meses anteriores al mes actual.");
+                } else {
+                    mesActualJS = (mesActualJS - 1 < 1) ? 12 : mesActualJS - 1; // Retrocede un mes correctamente
+                    window.location.href = "cumpleanos.jsp?mes=" + mesActualJS;
+                }
+            }
+        </script>
+    </body>
 </html>

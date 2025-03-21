@@ -39,11 +39,12 @@
         }
     }
 
-    // Validamos que el ID no sea nulo antes de continuar
-    if (variables.get("id") == null) {
-        out.println("Error: ID no proporcionado.");
+    if (variables.get("accion").equals("Modificar") || variables.get("accion").equals("Eliminar")) {
+    if (variables.get("id") == null || variables.get("id").isEmpty()) {
+        out.println("Error: ID no proporcionado para la acción " + variables.get("accion"));
         return;
     }
+}
 
     // Crear instancias de Persona y Retirados
     Persona persona = new Persona(variables.get("identificacion"));
