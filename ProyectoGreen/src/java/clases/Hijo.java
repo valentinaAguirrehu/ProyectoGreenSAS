@@ -14,13 +14,15 @@ import java.util.List;
 
 /**
  *
- * @author Mary 
+ * @author Mary
  */
 
 public class Hijo {
     private String identificacion;
     private String nombres;
     private String fechaNacimiento;
+    private String codigo;
+
 
     public Hijo() {}
 
@@ -29,16 +31,19 @@ public class Hijo {
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
         try {
             if (resultado.next()) {
+                this.codigo = codigo;
                 this.identificacion = resultado.getString("identificacion");
-                this.nombres = resultado.getString("nombres");
-                this.fechaNacimiento = resultado.getString("fechaNacimiento");
+                nombres = resultado.getString("nombres");
+                fechaNacimiento = resultado.getString("fechaNacimiento");
             }
         } catch (SQLException ex) {
             System.out.println("Error al consultar el hijo: " + ex.getMessage());
         }
     }
 
-    // Métodos getter y setter
+ 
+
+    
     public String getIdentificacion() { return identificacion; }
     public void setIdentificacion(String identificacion) { this.identificacion = identificacion; }
     public String getNombres() { return nombres; }
@@ -46,6 +51,57 @@ public class Hijo {
     public String getFechaNacimiento() { return fechaNacimiento; }
     public void setFechaNacimiento(String fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
 
+    
+    public String getCodigo() {
+        return (codigo == null) ? "" : codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getOpcion() {
+        String opcion;
+        switch (codigo) {
+            case "S":
+                opcion = "Sí";
+                break;
+            case "N":
+                opcion = "No";
+                break;
+            default:
+                opcion = "No Especificado";
+                break;
+        }
+        return opcion;
+    }
+
+    @Override
+    public String toString() {
+        return getOpcion();
+    }
+
+    public String getRadioButtons() {
+        String lista = "";
+        if (codigo == null || codigo.isEmpty()) {
+            codigo = "N"; // Por defecto "No"
+        }
+
+        switch (codigo) {
+            case "S":
+                lista = "<input type='radio' name='tieneHijos' value='S' checked onclick='mostrarHijos()'>Sí"
+                      + "<input type='radio' name='tieneHijos' value='N' onclick='mostrarHijos()'>No";
+                break;
+            case "N":
+            default:
+                lista = "<input type='radio' name='tieneHijos' value='S' onclick='mostrarHijos()'>Sí"
+                      + "<input type='radio' name='tieneHijos' value='N' checked onclick='mostrarHijos()'>No";
+                break;
+        }
+        return lista;
+    }
+
+    
     // Grabar hijo en la base de datos
     public boolean grabar() {
         String cadenaSQL = "INSERT INTO hijos (identificacion, nombres,  fechaNacimiento) "
@@ -133,4 +189,7 @@ public class Hijo {
         }
     }
     return lista;
-} }
+} 
+
+    
+}

@@ -27,6 +27,7 @@ public class Vehiculo {
     private String cilindraje;
     private String numLicenciaTransito;
     private String fechaExpLicenciaTransito;
+    private String codigo;
 
     public Vehiculo() {
     }
@@ -37,6 +38,7 @@ public class Vehiculo {
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
         try {
             if (resultado.next()) {
+                this.codigo = codigo;
                 this.numeroPlaca = resultado.getString("numeroPlaca");
                 tipoVehiculo = resultado.getString("tipoVehiculo");
                 modeloVehiculo = resultado.getString("modeloVehiculo");
@@ -50,6 +52,18 @@ public class Vehiculo {
         } catch (SQLException ex) {
             System.out.println("Error al consultar el vehículo: " + ex.getMessage());
         }
+    }
+
+    public String getCodigo() {
+        String resultado = codigo;
+        if (codigo == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getNumeroPlaca() {
@@ -123,6 +137,48 @@ public class Vehiculo {
     public void setFechaExpLicenciaTransito(String fechaExpLicenciaTransito) {
         this.fechaExpLicenciaTransito = fechaExpLicenciaTransito;
     }
+
+    public String getOpcion() {
+        String opcion = null;
+        switch (codigo) {
+            case "S":
+                opcion = "Sí";
+                break;
+            case "N":
+                opcion = "No";
+                break;
+            default:
+                opcion = "No Especificado";
+                break;
+        }
+        return opcion;
+    }
+
+    @Override
+    public String toString() {
+        return getOpcion();
+    }
+
+   public String getRadioButtons() {
+    String lista = "";
+    if (codigo == null || codigo.isEmpty()) {
+        codigo = "N"; // Si no hay valor, por defecto se elige "No"
+    }
+    
+    switch (codigo) {
+        case "S":
+            lista = "<input type='radio' name='tieneVehiculo' value='S' checked onclick='mostrarVehiculo()'>Sí"
+                  + "<input type='radio' name='tieneVehiculo' value='N' onclick='mostrarVehiculo()'>No";
+            break;
+        case "N":
+        default: // Si no hay valor, cae en este caso
+            lista = "<input type='radio' name='tieneVehiculo' value='S' onclick='mostrarVehiculo()'>Sí"
+                  + "<input type='radio' name='tieneVehiculo' value='N' checked onclick='mostrarVehiculo()'>No";
+            break;
+    }
+    return lista;
+}
+
 
     public boolean grabar() {
         String cadenaSQL = "INSERT INTO vehiculo (numeroPlaca, tipoVehiculo, modeloVehiculo, linea, ano, color, cilindraje, numLicenciaTransito, fechaExpLicenciaTransito) "
@@ -217,4 +273,5 @@ public class Vehiculo {
         List<Vehiculo> vehiculos = Vehiculo.getListaEnObjetos("identificacion = '" + identificacion + "'", "");
         return vehiculos.isEmpty() ? null : vehiculos.get(0); // Retorna el primer vehículo encontrado o null si no hay
     }
+
 }
