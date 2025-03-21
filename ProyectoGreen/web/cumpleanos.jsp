@@ -6,6 +6,8 @@
 <%@page import="clases.Cargo"%>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+   
+   
 <%!
     // Función para obtener el nombre del mes en español
     String obtenerMesEnEspanol(int mesNumero) {
@@ -64,41 +66,20 @@
 <html>
 <head>
     <title>Cumpleaños del Mes</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        h1 {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-        table {
-            width: 80%;
-            margin: auto;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .buttons {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-    </style>
+<link rel="stylesheet" href="presentacion/style-Cumpleanos.css">
 </head>
 <body>
 
-    <h1 id="tituloMes">CUMPLEAÑOS DEL MES: <%= mesActual %></h1>
+<div id="tituloMes">
+    <h1>CUMPLEAÑOS DEL MES</h1>
+    <div class="mes-con-iconos">
+        <img src="presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+        <h2><%= mesActual %></h2>
+        <img src="presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+    </div>
+</div>
+
+
 
     <table id="tablaCumpleanos">
         <tr>
@@ -113,10 +94,10 @@
     </table>
 
     <!-- Botones de navegación -->
-    <div class="buttons">
-        <button onclick="irAlMesAnterior()">MES ANTERIOR</button>
-        <button onclick="irAlSiguienteMes()">SIGUIENTE MES</button>
-    </div>
+  <div class="buttons">
+      <img src="presentacion/iconos/izquierda.png" alt="Mes Anterior" class="icono" onclick="irAlMesAnterior()">
+      <img src="presentacion/iconos/derecha.png" alt="Siguiente Mes" class="icono" onclick="irAlSiguienteMes()">
+</div>
 
  <script>
     let mesActualJS = <%= mesNumero %>;
@@ -149,7 +130,5 @@
         }
     }
 </script>
-
-
 </body>
 </html>
