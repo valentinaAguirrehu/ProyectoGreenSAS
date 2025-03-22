@@ -50,12 +50,14 @@
 %>
 
 <h3 class="titulo">GESTIÓN DE USUARIOS</h3>
-<link rel="stylesheet" href="presentacion/style-Proyecto.css">
-
+<link rel="stylesheet" href="presentacion/style-Usuarios.css">
 <div class="search-container">
-    <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por nombre o identificación " class="recuadro">
-    <img src="presentacion/iconos/lupa.png" width='18' height='18' alt="Buscar">
+    <div class="search-box">
+        <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por nombre o identificación " class="recuadro">
+        <img src="presentacion/iconos/lupa.png" alt="Buscar">
+    </div>
 </div>
+
 
 <table class="table" border="1" id="usuariosTable">
     <tr>

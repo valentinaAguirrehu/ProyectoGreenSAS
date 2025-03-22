@@ -1,9 +1,3 @@
-<%-- 
-    Document   : usuariosFormulario
-    Created on : 10 mar 2025, 14:52:32
-    Author     : Angie
---%>
-
 <%@page import="clases.Administrador"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -18,6 +12,7 @@
 %>
 
 <h3><%=accion.toUpperCase()%> USUARIO</h3>
+<link rel="stylesheet" href="presentacion/style-UsuariosFormulario.css">
 <form name="formulario" method="post" action="usuariosActualizar.jsp">
     <table class="table" border="1">
         <tr>
@@ -39,25 +34,38 @@
         <tr>
             <th>Permisos</th>
             <td>
-                <input type="checkbox" id="selectAll"> <label for="selectAll"><strong>Seleccionar todos</strong></label>
-                <br>
-                <div>
-                    <input type="checkbox" class="permiso" id="pLeer" name="pLeer" value="S" <%= "S".equals(usuario.getpLeer()) ? "checked" : ""%>>
-                    <label for="pLeer">Leer</label>
+                <!-- Contenedor de permisos en dos columnas -->
+                <div class="permiso-container">
+                    <!-- Primera columna -->
+                    <div class="permiso-item">
+                        <input type="checkbox" class="permiso" id="pLeer" name="pLeer" value="S" <%= "S".equals(usuario.getpLeer()) ? "checked" : ""%>>
+                        <label for="pLeer">Leer</label>
+                    </div>
+                    <div class="permiso-item">
+                        <input type="checkbox" class="permiso" id="pEliminar" name="pEliminar" value="S" <%= "S".equals(usuario.getpEliminar()) ? "checked" : ""%>>
+                        <label for="pEliminar">Eliminar</label>
+                    </div>
 
-                    <input type="checkbox" class="permiso" id="pEditar" name="pEditar" value="S" <%= "S".equals(usuario.getpEditar()) ? "checked" : ""%>>
-                    <label for="pEditar">Editar</label>
+                    <div class="permiso-item">
+                        <input type="checkbox" class="permiso" id="pEditar" name="pEditar" value="S" <%= "S".equals(usuario.getpEditar()) ? "checked" : ""%>>
+                        <label for="pEditar">Editar</label>
+                    </div>
+                    <div class="permiso-item">
+                        <input type="checkbox" class="permiso" id="pDescargar" name="pDescargar" value="S" <%= "S".equals(usuario.getpDescargar()) ? "checked" : ""%>>
+                        <label for="pDescargar">Descargar</label>
+                    </div>
 
-                    <input type="checkbox" class="permiso" id="pAgregar" name="pAgregar" value="S" <%= "S".equals(usuario.getpAgregar()) ? "checked" : ""%>>
-                    <label for="pAgregar">Agregar</label>
-
-                    <input type="checkbox" class="permiso" id="pEliminar" name="pEliminar" value="S" <%= "S".equals(usuario.getpEliminar()) ? "checked" : ""%>>
-                    <label for="pEliminar">Eliminar</label>
-
-                    <input type="checkbox" class="permiso" id="pDescargar" name="pDescargar" value="S" <%= "S".equals(usuario.getpDescargar()) ? "checked" : ""%>>
-                    <label for="pDescargar">Descargar</label>
+                    <div class="permiso-item">
+                        <input type="checkbox" class="permiso" id="pAgregar" name="pAgregar" value="S" <%= "S".equals(usuario.getpAgregar()) ? "checked" : ""%>>
+                        <label for="pAgregar">Agregar</label>
+                    </div>
+                    <div class="permiso-item">   <!-- Checkbox para seleccionar todos -->
+                        <input type="checkbox" id="selectAll"> 
+                        <label for="selectAll">Seleccionar todos</label>
+                    </div>
                 </div>
             </td>
+
         </tr>
         <tr>
             <th>Estado</th>
@@ -81,8 +89,6 @@
 </form>
 
 <script>
-
-    // Seleccionar todas las opciones a la vez
     document.getElementById("selectAll").addEventListener("change", function () {
         let checkboxes = document.querySelectorAll(".permiso");
         checkboxes.forEach(checkbox => {
@@ -90,7 +96,6 @@
         });
     });
 
-    // Se desmarca "Seleccionar todos" cuando un permiso se desmarca
     document.querySelectorAll(".permiso").forEach(checkbox => {
         checkbox.addEventListener("change", function () {
             let allChecked = document.querySelectorAll(".permiso:checked").length === document.querySelectorAll(".permiso").length;
@@ -98,7 +103,6 @@
         });
     });
 
-    // Enviar "N" si un permiso no se seleccionó
     document.querySelector("form").addEventListener("submit", function () {
         let permisos = document.querySelectorAll(".permiso");
         permisos.forEach(permiso => {
@@ -112,7 +116,6 @@
         });
     });
 
-    // Marcar o desmarcar "Seleccionar todos" según los permisos cargados
     window.onload = function () {
         let permisos = document.querySelectorAll(".permiso");
         let allChecked = Array.from(permisos).every(permiso => permiso.checked);

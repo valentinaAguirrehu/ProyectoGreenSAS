@@ -18,7 +18,7 @@
 %>
 
 <h3 class="titulo"><%=accion.toUpperCase()%> CARGO</h3>
-<link rel="stylesheet" href="presentacion/style-Cargo.css">
+<link rel="stylesheet" href="presentacion/style-CargoFormulario.css">
 
 <form name="formulario" method="post" action="cargosActualizar.jsp" enctype="multipart/form-data">
     <table class="table" border="1">
@@ -42,8 +42,11 @@
         </tr>
     </table> 
     <input type="hidden" name="id" value="<%=cargo.getId()%>">
+<div class="button-container">
     <input class="submit" type="submit" name="accion" value="<%=accion%>">
     <input class="button" type="button" value="Cancelar" onClick="window.history.back()">
+</div>
+
 </form>
 </body>
 </html>
