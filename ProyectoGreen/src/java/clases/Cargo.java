@@ -64,6 +64,7 @@ public class Cargo {
         }
         return  nombre;
     }
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }

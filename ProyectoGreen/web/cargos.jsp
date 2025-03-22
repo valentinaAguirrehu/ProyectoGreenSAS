@@ -31,8 +31,8 @@
                 lista += "<td>" + cargo.getDescripcion() + "</td>";
                 lista += "<td class='acciones'>"; // Agregamos la clase para estilos en línea
                 lista += "<a class='iconoEditar' href='cargosFormulario.jsp?accion=Modificar&id=" + cargo.getId()
-                        + "' title='Modificar'><img src='presentacion/iconos/modificar.png'></a>";
-                lista += "<img src='presentacion/iconos/eliminar.png' class='iconoEliminar' title='Eliminar' onclick='eliminar(\"" + cargo.getId() + "\")'>";
+                        + "' title='Modificar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a> ";
+                lista += "<img src='presentacion/iconos/eliminar.png' class='iconoEliminar' width='25' height='25' title='Eliminar' onclick='eliminar(\"" + cargo.getId() + "\")'>";
                 lista += "</td>";
 
                 lista += "</tr>";
@@ -58,23 +58,22 @@
 <h3 class="titulo">GESTIÓN DE CARGOS</h3>
 <link rel="stylesheet" href="presentacion/style-Cargos.css">
 
- <div class="search-bar-container">
-    <div class="search-container">
+ <div class="search-container">
+    <div class="search-box">
         <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por cargo o código" class="recuadro">
-        <img src="presentacion/iconos/lupa.png" width='20' height='20' alt="Buscar" class="icono-lupa">
+        <img src="presentacion/iconos/lupa.png"alt="Buscar">
     </div>
 </div>
-
 
 <table class="table" border="1" id="cargosTable">
     <tr>
         <th>Número</th>
         <th>Cargo</th>
-        <th>Código de Cargo</th>
+        <th>Código del Cargo</th>
         <th>Descripción</th>
         <th>
     <a href="cargosFormulario.jsp?accion=Adicionar" class="iconoAgregar" title="Adicionar">
-        <img src="presentacion/iconos/agregar.png" width="20" height="20">
+         <img src="presentacion/iconos/agregar.png" width='30' height='30'>
     </a>
 </th>
 

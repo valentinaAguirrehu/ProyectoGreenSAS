@@ -1,3 +1,12 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 20 mar 2025, 15:09:40
+    Author     : Valen
+*/
+
 /* Estilos generales */
 body {
     font-family: Arial, sans-serif;
@@ -6,12 +15,23 @@ body {
     padding: 20px;
 }
 
+/* Estilo del título */
 .titulo {
     text-align: center;
     font-size: 24px;
-    color: #2c6e49;
     font-weight: bold;
-    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    color: #2c6e49; 
+    position: relative;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra ligera para efecto 3D */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Efecto de elevación al pasar el mouse */
+.titulo:hover {
+    transform: scale(1.05);
 }
 
 /* Contenedor con fondo verde */
@@ -54,7 +74,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     background: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -72,7 +92,7 @@ body {
 }
 
 .table tr:hover {
-    background-color: #eaf4ea;
+    background-color: #daf2da;
 }
 
 /* Iconos de acciones */
@@ -91,12 +111,12 @@ body {
 }
 
 /* Diseño responsivo */
-@media (max-width: 768px) {
+@media (max-width: 450px) {
     .table th, .table td {
         padding: 8px;
-        font-size: 14px;
+        font-size: 8px;
     }
     .recuadro {
-        width: 100%;
+        width: 90%;
     }
 }
