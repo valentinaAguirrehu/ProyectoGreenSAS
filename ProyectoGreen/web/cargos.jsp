@@ -58,10 +58,13 @@
 <h3 class="titulo">GESTIÓN DE CARGOS</h3>
 <link rel="stylesheet" href="presentacion/style-Cargos.css">
 
-<div class="search-container">
-    <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por cargo o código" class="recuadro">
-    <img src="presentacion/iconos/lupa.png" width='20' height='20' alt="Buscar">
+ <div class="search-bar-container">
+    <div class="search-container">
+        <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por cargo o código" class="recuadro">
+        <img src="presentacion/iconos/lupa.png" width='20' height='20' alt="Buscar" class="icono-lupa">
+    </div>
 </div>
+
 
 <table class="table" border="1" id="cargosTable">
     <tr>
@@ -69,7 +72,12 @@
         <th>Cargo</th>
         <th>Código de Cargo</th>
         <th>Descripción</th>
-        <th><a href="cargosFormulario.jsp?accion=Adicionar" class="iconoAgregar" title="Adicionar"><img src="presentacion/iconos/agregar.png" width='20' height='20'></a></th>
+        <th>
+    <a href="cargosFormulario.jsp?accion=Adicionar" class="iconoAgregar" title="Adicionar">
+        <img src="presentacion/iconos/agregar.png" width="20" height="20">
+    </a>
+</th>
+
     </tr>
     <%=lista%>
 </table>
