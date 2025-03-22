@@ -22,6 +22,7 @@
         lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + persona.getIdentificacion() + "' title='Modificar'>";
         lista += "<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
         lista += "<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
+        lista += "<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")'> ";
         lista += "</td>";
         lista += "</tr>";
     }
@@ -54,6 +55,10 @@
             window.location.href = "personaActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
     }
+    function verDetalles(identificacion) {
+    document.location = "personaDetalles.jsp?identificacion=" + identificacion;
+}
+
 </script>
 
 <!-- Botón de cancelar para regresar a la página anterior -->
