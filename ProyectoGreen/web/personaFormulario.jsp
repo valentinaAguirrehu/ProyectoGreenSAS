@@ -28,8 +28,12 @@
 
         <tr>
             <th>Identificación</th>
-            <td><input type="text" name="identificacion" value="<%= persona.getIdentificacion()%>" size="50" maxlength="50"></td>
+            <td>
+                <input type="text" name="identificacion" value="<%= persona.getIdentificacion()%>" 
+
+            </td>
         </tr>
+
         <tr>
             <th>Fecha de Ingreso</th>
             <td><input type="date" name="fechaIngreso" value="<%= persona.getFechaIngreso()%>"></td>
@@ -45,8 +49,19 @@
         </td>
         <tr>
             <th>Tipo Documento</th>
-            <td><input type="text" name="tipoDocumento" value="<%= persona.getTipoDocumento()%>" size="50" maxlength="50"></td>
+            <td>
+                <select name="tipoDocumento" required>
+                    <option value="">Seleccione...</option>
+                    <option value="CC" <%= (persona.getTipoDocumento() == null || persona.getTipoDocumento().isEmpty() || persona.getTipoDocumento().equals("CC")) ? "selected" : ""%>>Cédula de Ciudadanía</option>
+                    <option value="TI" <%= "TI".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Tarjeta de Identidad</option>
+                    <option value="CE" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cédula de Extranjería</option>
+                    <option value="PA" <%= "PA".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Pasaporte</option>
+                    <option value="NIT" <%= "NIT".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Número de Identificación Tributaria (NIT)</option>
+                </select>
+            </td>
         </tr>
+
+
         <tr>
             <th>Fecha de Expedición</th>
             <td><input type="date" name="fechaExpedicion" value="<%= persona.getFechaExpedicion()%>"></td>
@@ -78,12 +93,32 @@
         </tr>
         <tr>
             <th>Tipo de Sangre</th>
-            <td><input type="text" name="tipoSangre" value="<%= persona.getTipoSangre()%>" size="50" maxlength="50"></td>
+            <td>
+                <select name="tipoSangre" required>
+                    <option value="O+" <%= persona.getTipoSangre() == null || persona.getTipoSangre().isEmpty() || "O+".equals(persona.getTipoSangre()) ? "selected" : ""%>>O+</option>
+                    <option value="O-" <%= "O-".equals(persona.getTipoSangre()) ? "selected" : ""%>>O-</option>
+                    <option value="A+" <%= "A+".equals(persona.getTipoSangre()) ? "selected" : ""%>>A+</option>
+                    <option value="A-" <%= "A-".equals(persona.getTipoSangre()) ? "selected" : ""%>>A-</option>
+                    <option value="B+" <%= "B+".equals(persona.getTipoSangre()) ? "selected" : ""%>>B+</option>
+                    <option value="B-" <%= "B-".equals(persona.getTipoSangre()) ? "selected" : ""%>>B-</option>
+                    <option value="AB+" <%= "AB+".equals(persona.getTipoSangre()) ? "selected" : ""%>>AB+</option>
+                    <option value="AB-" <%= "AB-".equals(persona.getTipoSangre()) ? "selected" : ""%>>AB-</option>
+                </select>
+            </td>
         </tr>
+
+
         <tr>
             <th>Tipo de Vivienda</th>
-            <td><input type="text" name="tipoVivienda" value="<%= persona.getTipoVivienda()%>" size="50" maxlength="50"></td>
+            <td>
+                <select name="tipoVivienda" required>
+                    <option value="Propia" <%= persona.getTipoVivienda() == null || persona.getTipoVivienda().isEmpty() || "Propia".equals(persona.getTipoVivienda()) ? "selected" : ""%>>Propia</option>
+                    <option value="Arrendada" <%= "Arrendada".equals(persona.getTipoVivienda()) ? "selected" : ""%>>Arrendada</option>
+                    <option value="Familiar" <%= "Familiar".equals(persona.getTipoVivienda()) ? "selected" : ""%>>Familiar</option>
+                </select>
+            </td>
         </tr>
+
         <tr>
             <th>Dirección</th>
             <td><input type="text" name="direccion" value="<%= persona.getDireccion()%>" size="50" maxlength="50"></td>
@@ -94,8 +129,13 @@
         </tr>
         <tr>
             <th>Celular</th>
-            <td><input type="text" name="celular" value="<%= persona.getCelular()%>" size="50" maxlength="50"></td>
+            <td>
+                <input type="text" name="celular" value="<%= persona.getCelular()%>" 
+                       size="50" maxlength="10" pattern="\d{10}" 
+                       title="Ingrese exactamente 10 números" required>
+            </td>
         </tr>
+
         <tr>
             <th>Email</th>
             <td><input type="email" name="email" value="<%= persona.getEmail()%>" size="50" maxlength="50"></td>
@@ -110,8 +150,17 @@
         </tr>
         <tr>
             <th>Estado Civil</th>
-            <td><input type="text" name="estadoCivil" value="<%= persona.getEstadoCivil()%>" size="50" maxlength="50"></td>
+            <td>
+                <select name="estadoCivil">
+                    <option value="Soltero" <%= (persona.getEstadoCivil() == null || persona.getEstadoCivil().isEmpty() || persona.getEstadoCivil().equals("Soltero")) ? "selected" : ""%>>Soltero</option>
+                    <option value="Casado" <%= "Casado".equals(persona.getEstadoCivil()) ? "selected" : ""%>>Casado</option>
+                    <option value="Divorciado" <%= "Divorciado".equals(persona.getEstadoCivil()) ? "selected" : ""%>>Divorciado</option>
+                    <option value="Viudo" <%= "Viudo".equals(persona.getEstadoCivil()) ? "selected" : ""%>>Viudo</option>
+                    <option value="Unión Libre" <%= "Unión Libre".equals(persona.getEstadoCivil()) ? "selected" : ""%>>Unión Libre</option>
+                </select>
+            </td>
         </tr>
+
     </table>
 
     <!-- Tabla de Referencias Personales -->
@@ -127,8 +176,13 @@
         </tr>
         <tr>
             <th>Primer Referencia Celular</th>
-            <td><input type="text" name="primerRefCelular" value="<%= persona.getPrimerRefCelular()%>" size="50" maxlength="50"></td>
+            <td>
+                <input type="text" name="primerRefCelular" value="<%= persona.getPrimerRefCelular()%>" 
+                       size="50" maxlength="10" pattern="\d{10}" 
+                       title="Ingrese exactamente 10 números" required>
+            </td>
         </tr>
+
         <tr>
             <th>Segunda Referencia Nombre</th>
             <td><input type="text" name="segundaRefNombre" value="<%= persona.getSegundaRefNombre()%>" size="50" maxlength="50"></td>
@@ -139,8 +193,13 @@
         </tr>
         <tr>
             <th>Segunda Referencia Celular</th>
-            <td><input type="text" name="segundaRefCelular" value="<%= persona.getSegundaRefCelular()%>" size="50" maxlength="50"></td>
+            <td>
+                <input type="text" name="segundaRefCelular" value="<%= persona.getSegundaRefCelular()%>" 
+                       size="50" maxlength="10" pattern="\d{10}" 
+                       title="Ingrese exactamente 10 números" required>
+            </td>
         </tr>
+
     </table>
 
     <!-- Tabla de Información de Trabajo -->
@@ -198,11 +257,11 @@
                 %>
                 <tr>
                     <td><input type="text" name="identificacionHijo[]" value="<%= hijo.getIdentificacion()%>" size="10" maxlength="10"></td></tr>
-        <tr>
+                <tr>
                     <td><input type="text" name="nombreHijo[]" value="<%= hijo.getNombres()%>" size="50" maxlength="50"></td></tr>
-        <tr>
+                <tr>
                     <td><input type="date" name="fechaNacimientoHijo[]" value="<%= hijo.getFechaNacimiento()%>"></td><br>
-                    <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+                <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
                 </tr>
                 <%
                         }
@@ -240,8 +299,15 @@
             </tr>
             <tr>
                 <td><label>Tipo de Vehículo:</label></td>
-                <td><input type="text" name="tipoVehiculo" value="<%= persona.getTipoVehiculo()%>"size="50" maxlength="50"></td>
+                <td>
+                    <select name="tipoVehiculo" required>
+                        <option value="Moto" <%= persona.getTipoVehiculo() == null || persona.getTipoVehiculo().isEmpty() || "Moto".equals(persona.getTipoVehiculo()) ? "selected" : ""%>>Moto</option>
+                        <option value="Carro" <%= "Carro".equals(persona.getTipoVehiculo()) ? "selected" : ""%>>Carro</option>
+                        <option value="Bicicleta" <%= "Bicicleta".equals(persona.getTipoVehiculo()) ? "selected" : ""%>>Bicicleta</option>
+                    </select>
+                </td>
             </tr>
+
             <tr>
                 <td><label>Modelo:</label></td>
                 <td><input type="text" name="modeloVehiculo" value="<%= persona.getModeloVehiculo()%>"size="50" maxlength="50"></td>
@@ -252,8 +318,19 @@
             </tr>
             <tr>
                 <td><label>Año:</label></td>
-                <td><input type="text" name="ano" value="<%= persona.getAno()%>"size="50" maxlength="50"></td>
+                <td>
+                    <select name="ano" required>
+                        <option value="">Seleccione...</option>
+                        <%
+                            int yearActual = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+                            for (int i = yearActual; i >= 1900; i--) {
+                        %>
+                        <option value="<%= i%>" <%= (String.valueOf(i).equals(persona.getAno())) ? "selected" : ""%>><%= i%></option>
+                        <% }%>
+                    </select>
+                </td>
             </tr>
+
             <tr>
                 <td><label>Color:</label></td>
                 <td><input type="text" name="color" value="<%= persona.getColor()%>"size="50" maxlength="50"></td>
@@ -309,34 +386,34 @@
             <input type="button" value="Cancelar" onClick="window.history.back()">
             </form>
 
-<script>
-    // Función para mostrar/ocultar la sección de hijos
-    function mostrarHijos() {
-        var tieneHijos = document.querySelector('input[name="tieneHijos"]:checked').value;
-        document.getElementById("familiaresSection").style.display = (tieneHijos === "S") ? "block" : "none";
-    }
+            <script>
+                // Función para mostrar/ocultar la sección de hijos
+                function mostrarHijos() {
+                    var tieneHijos = document.querySelector('input[name="tieneHijos"]:checked').value;
+                    document.getElementById("familiaresSection").style.display = (tieneHijos === "S") ? "block" : "none";
+                }
 
-    // Asignar evento a los radio buttons de "Tiene Hijos"
-    document.querySelectorAll('input[name="tieneHijos"]').forEach(function (radio) {
-        radio.addEventListener("change", mostrarHijos);
-    });
+                // Asignar evento a los radio buttons de "Tiene Hijos"
+                document.querySelectorAll('input[name="tieneHijos"]').forEach(function (radio) {
+                    radio.addEventListener("change", mostrarHijos);
+                });
 
-    // Función para agregar un nuevo hijo a la tabla
-    function agregarHijo() {
-        var tabla = document.getElementById("tablaHijos");
-        var fila = tabla.insertRow(tabla.rows.length - 1);
-        fila.innerHTML = `
-            <td><input type="text" name="identificacionHijo[]" size="10" maxlength="10" required></td>
-            <td><input type="text" name="nombreHijo[]" size="50" maxlength="50" required></td>
-            <td><input type="date" name="fechaNacimientoHijo[]" required></td>
-            <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
-        `;
-    }
+                // Función para agregar un nuevo hijo a la tabla
+                function agregarHijo() {
+                    var tabla = document.getElementById("tablaHijos");
+                    var fila = tabla.insertRow(tabla.rows.length - 1);
+                    fila.innerHTML = `
+                        <td><input type="text" name="identificacionHijo[]" size="10" maxlength="10" required></td>
+                        <td><input type="text" name="nombreHijo[]" size="50" maxlength="50" required></td>
+                        <td><input type="date" name="fechaNacimientoHijo[]" required></td>
+                        <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
+                    `;
+                }
 
-    // Función para eliminar una fila de la tabla de hijos
-    function eliminarFila(boton) {
-        var fila = boton.parentNode.parentNode;
-        fila.parentNode.removeChild(fila);
-    }
-</script>
+                // Función para eliminar una fila de la tabla de hijos
+                function eliminarFila(boton) {
+                    var fila = boton.parentNode.parentNode;
+                    fila.parentNode.removeChild(fila);
+                }
+            </script>
 
