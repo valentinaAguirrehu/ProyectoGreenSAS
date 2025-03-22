@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class Retirados {
 
     private String id;
-    private String identificacionPersona;
+    private String identificacion;
     private String observaciones;
     private String numCaja;
     private String numCarpeta;
@@ -24,13 +24,13 @@ public class Retirados {
     }
 
     public Retirados(String id) {
-        String cadenaSQL = "SELECT id, identificacionPersona, observaciones, numCaja, numCarpeta "
-                + "FROM retirados WHERE identificacionPersona = '" + id + "'";
+        String cadenaSQL = "SELECT id, identificacion, observaciones, numCaja, numCarpeta "
+                + "FROM retirados WHERE identificacion = '" + id + "'";
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
         try {
             if (resultado.next()) {
                 this.id = resultado.getString("id");
-                this.identificacionPersona = resultado.getString("identificacionPersona");
+                this.identificacion = resultado.getString("identificacion");
                 this.observaciones = resultado.getString("observaciones");
                 this.numCaja = resultado.getString("numCaja");
                 this.numCarpeta = resultado.getString("numCarpeta");
@@ -44,42 +44,54 @@ public class Retirados {
     }
 
     public String getId() {
-        if (id == null) {
+     if (id == null) {
             id = "";
         }
-        return id;
+        return  id;
     }
-
+    
     public void setId(String id) {
         this.id = id;
     }
-
-    public String getIdentificacionPersona() {
-        return identificacionPersona == null ? "" : identificacionPersona;
+    
+    public String getIdentificacion() {
+     if (identificacion == null) {
+            identificacion = "";
+        }
+        return  identificacion;
     }
 
-    public void setIdentificacionPersona(String identificacionPersona) {
-        this.identificacionPersona = identificacionPersona;
+    
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 
     public String getObservaciones() {
-        return observaciones == null ? "" : observaciones;
+     if (observaciones == null) {
+            observaciones = "";
+        }
+        return  observaciones;
     }
-
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
 
     public String getNumCaja() {
-        return numCaja == null ? "" : numCaja;
+     if (numCaja == null) {
+            numCaja = "";
+        }
+        return  numCaja;
     }
-
+    
     public void setNumCaja(String numCaja) {
         this.numCaja = numCaja;
     }
 
     public String getNumCarpeta() {
-        return numCarpeta == null ? "" : numCarpeta;
+     if (numCarpeta == null) {
+            numCarpeta = "";
+        }
+        return  numCarpeta;
     }
 
     public void setNumCarpeta(String numCarpeta) {
@@ -88,27 +100,27 @@ public class Retirados {
 
     @Override
     public String toString() {
-        return id + "  " + identificacionPersona;
+        return id + "  " + identificacion;
     }
 
     public boolean grabar() {
-        String cadenaSQL = "INSERT INTO retirados (identificacionPersona, observaciones, numCaja, numCarpeta) VALUES ('"
-                + identificacionPersona + "', '" + observaciones + "', '" + numCaja + "', '" + numCarpeta + "')";
+        String cadenaSQL = "INSERT INTO retirados (identificacion, observaciones, numCaja, numCarpeta) VALUES ('"
+                + identificacion + "', '" + observaciones + "', '" + numCaja + "', '" + numCarpeta + "')";
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
     public boolean modificar(String idAnterior) {
-        String cadenaSQL = "UPDATE retirados SET identificacionPersona = '" + identificacionPersona
+        String cadenaSQL = "UPDATE retirados SET identificacion = '" + identificacion
                 + "', observaciones = '" + observaciones
                 + "', numCaja = '" + numCaja
                 + "', numCarpeta = '" + numCarpeta
-                + "' WHERE id = '" + idAnterior + "'";
+                + "' WHERE identificacion = '" + idAnterior + "'";
 
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
     public boolean eliminar(String id) {
-        String cadenaSQL = "DELETE FROM retirados WHERE id = " + id;
+        String cadenaSQL = "DELETE FROM retirados WHERE identificacion = " + id;
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
@@ -125,12 +137,12 @@ public class Retirados {
         }
 
         String cadenaSQL = "SELECT "
-                + "r.id, r.identificacionPersona, r.observaciones, r.numCaja, r.numCarpeta, "
+                + "r.id, r.identificacion, r.observaciones, r.numCaja, r.numCarpeta, "
                 + "p.identificacion, p.nombres, p.apellidos, p.establecimiento, "
                 + "p.fechaIngreso, p.fechaRetiro "
                 + "FROM retirados r "
-                + "JOIN persona p ON r.identificacionPersona = p.identificacion "
-                + "WHERE p.tipo = 'R' AND r.identificacionPersona IS NOT NULL "
+                + "JOIN persona p ON r.identificacion = p.identificacion "
+                + "WHERE p.tipo = 'R' AND r.identificacion IS NOT NULL "
                 + filtro + orden;
 
         return ConectorBD.consultar(cadenaSQL);
@@ -144,7 +156,7 @@ public class Retirados {
                 while (datos.next()) {
                     Retirados retirado = new Retirados();
                     retirado.setId(datos.getString("id"));
-                    retirado.setIdentificacionPersona(datos.getString("identificacionPersona"));
+                    retirado.setIdentificacion(datos.getString("identificacion"));
                     retirado.setObservaciones(datos.getString("observaciones"));
                     retirado.setNumCaja(datos.getString("numCaja"));
                     retirado.setNumCarpeta(datos.getString("numCarpeta"));
@@ -169,7 +181,7 @@ public class Retirados {
             }
             lista.append("<option value='").append(retirado.getId()).append("'")
                     .append(auxiliar).append(">") 
-                    .append(retirado.getIdentificacionPersona()).append("</option>");
+                    .append(retirado.getIdentificacion()).append("</option>");
         }
         return lista.toString();
     }

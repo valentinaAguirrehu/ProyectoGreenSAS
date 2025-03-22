@@ -12,16 +12,13 @@
 <%
     Map<String, String> variables = new HashMap<>();
     boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-    
+
     if (!isMultipart) {
         variables.put("accion", request.getParameter("accion"));
         variables.put("id", request.getParameter("id") != null && !request.getParameter("id").trim().isEmpty() ? request.getParameter("id") : null);
-        variables.put("identificacion", request.getParameter("identificacion"));
-        variables.put("nombres", request.getParameter("nombres"));
-        variables.put("establecimiento", request.getParameter("establecimiento"));
-        variables.put("fechaIngreso", request.getParameter("fechaIngreso"));
+        variables.put("identificacion", request.getParameter("identificacion") != null && !request.getParameter("identificacion").trim().isEmpty() ? request.getParameter("identificacion") : null);
+
         variables.put("fechaRetiro", request.getParameter("fechaRetiro"));
-        variables.put("cargo", request.getParameter("cargo"));
         variables.put("numCaja", request.getParameter("numCaja"));
         variables.put("numCarpeta", request.getParameter("numCarpeta"));
         variables.put("observaciones", request.getParameter("observaciones"));
@@ -30,7 +27,7 @@
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletFileUpload upload = new ServletFileUpload(factory);
         List<FileItem> elementosFormulario = upload.parseRequest(origen);
-        
+
         for (FileItem elemento : elementosFormulario) {
             if (elemento.isFormField()) {
                 String valor = elemento.getString().trim();
@@ -40,34 +37,30 @@
     }
 
     if (variables.get("accion").equals("Modificar") || variables.get("accion").equals("Eliminar")) {
-    if (variables.get("id") == null || variables.get("id").isEmpty()) {
-        out.println("Error: ID no proporcionado para la acción " + variables.get("accion"));
-        return;
+        if (variables.get("id") == null || variables.get("id").isEmpty()) {
+            out.println("Error: ID no proporcionado para la acción " + variables.get("accion"));
+            return;
+        }
     }
-}
 
     // Crear instancias de Persona y Retirados
     Persona persona = new Persona(variables.get("identificacion"));
     Retirados retirado = new Retirados(variables.get("id"));
 
-    persona.setIdentificacion(variables.get("identificacion"));
-    persona.setNombres(variables.get("nombres"));
-    persona.setEstablecimiento(variables.get("establecimiento"));
-    persona.setFechaIngreso(variables.get("fechaIngreso"));
     persona.setFechaRetiro(variables.get("fechaRetiro"));
-    persona.setIdCargo(variables.get("cargo"));
 
+    retirado.setIdentificacion(variables.get("identificacion"));
     retirado.setNumCaja(variables.get("numCaja"));
     retirado.setNumCarpeta(variables.get("numCarpeta"));
     retirado.setObservaciones(variables.get("observaciones"));
 
-    
     // Ejecutar acción según el caso
     switch (variables.get("accion")) {
         case "Adicionar":
-            persona.grabar();
+            persona.setTipo("R");
+            persona.modificar(variables.get("identificacion")); // Asegura que se actualice en la BD
             retirado.grabar();
-            break;
+        break;
         case "Modificar":
             if (variables.get("id") != null) {
                 persona.modificar(variables.get("identificacion"));
@@ -78,13 +71,14 @@
             }
             break;
         case "Eliminar":
-            if (variables.get("id") != null) {
-                retirado.eliminar(variables.get("id"));
-            } else {
-                out.println("Error: ID no válido para eliminar.");
-                return;
-            }
-            break;
+    if (variables.get("id") != null) {
+        retirado.eliminar(variables.get("id")); 
+    } else {
+        out.println("Error: ID no válido para eliminar.");
+        return;
+    }
+    break;
+
     }
 %>
 

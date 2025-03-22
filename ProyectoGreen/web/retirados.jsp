@@ -7,8 +7,8 @@
     String lista = "";
     List<Retirados> datos = Retirados.getListaEnObjetos(null, null);
     for (Retirados retirado : datos) {
-        if (retirado.getIdentificacionPersona() != null) {
-            Persona persona = new Persona(retirado.getIdentificacionPersona());
+        if (retirado.getIdentificacion() != null) {
+            Persona persona = new Persona(retirado.getIdentificacion());
             if (persona != null && persona.getIdentificacion() != null) {
                 String nombreCargo = "";
                 if (persona.getIdCargo() != null) {
@@ -27,11 +27,12 @@
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
                 lista += "<td>";
+                lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral'>";
                 lista += "<a href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
                         + "' title='Modificar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a> ";
                 lista += "<img src='presentacion/iconos/eliminar.png' width='25' height='25' title='Eliminar' onClick='eliminar("
                         + persona.getIdentificacion() + ")'> ";
-                lista += "</td>";
+               lista += "</td>";
                 lista += "</tr>";
             }
         }
