@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package clases;
 
@@ -11,47 +10,59 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- *
- * @author Mary
- */
-
 public class Hijo {
+
     private String identificacion;
     private String nombres;
     private String fechaNacimiento;
     private String codigo;
 
-
-    public Hijo() {}
+    /**
+     *
+     * @author Mary
+     */
+    public Hijo() {
+    }
 
     public Hijo(String identificacion) {
-        String cadenaSQL = "SELECT identificacion, nombres, apellidos, fechaNacimiento FROM hijos WHERE identificacion='" + identificacion + "'";
+        String cadenaSQL = "SELECT identificacion, nombres, fechaNacimiento FROM hijos WHERE identificacion='" + identificacion + "'";
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
         try {
             if (resultado.next()) {
-                this.codigo = codigo;
                 this.identificacion = resultado.getString("identificacion");
-                nombres = resultado.getString("nombres");
-                fechaNacimiento = resultado.getString("fechaNacimiento");
+                this.nombres = resultado.getString("nombres");
+                this.fechaNacimiento = resultado.getString("fechaNacimiento");
+                this.codigo = "N"; // Evitar NullPointerException
             }
         } catch (SQLException ex) {
             System.out.println("Error al consultar el hijo: " + ex.getMessage());
         }
     }
 
- 
+    public String getIdentificacion() {
+        return identificacion;
+    }
 
-    
-    public String getIdentificacion() { return identificacion; }
-    public void setIdentificacion(String identificacion) { this.identificacion = identificacion; }
-    public String getNombres() { return nombres; }
-    public void setNombres(String nombres) { this.nombres = nombres; }
-    public String getFechaNacimiento() { return fechaNacimiento; }
-    public void setFechaNacimiento(String fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
+    }
 
-    
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
     public String getCodigo() {
         return (codigo == null) ? "" : codigo;
     }
@@ -61,19 +72,14 @@ public class Hijo {
     }
 
     public String getOpcion() {
-        String opcion;
         switch (codigo) {
             case "S":
-                opcion = "Sí";
-                break;
+                return "Sí";
             case "N":
-                opcion = "No";
-                break;
+                return "No";
             default:
-                opcion = "No Especificado";
-                break;
+                return "No Especificado";
         }
-        return opcion;
     }
 
     @Override
@@ -82,46 +88,36 @@ public class Hijo {
     }
 
     public String getRadioButtons() {
-        String lista = "";
         if (codigo == null || codigo.isEmpty()) {
-            codigo = "N"; // Por defecto "No"
+            codigo = "N";
         }
-
-        switch (codigo) {
-            case "S":
-                lista = "<input type='radio' name='tieneHijos' value='S' checked onclick='mostrarHijos()'>Sí"
-                      + "<input type='radio' name='tieneHijos' value='N' onclick='mostrarHijos()'>No";
-                break;
-            case "N":
-            default:
-                lista = "<input type='radio' name='tieneHijos' value='S' onclick='mostrarHijos()'>Sí"
-                      + "<input type='radio' name='tieneHijos' value='N' checked onclick='mostrarHijos()'>No";
-                break;
-        }
-        return lista;
+        return (codigo.equals("S"))
+                ? "<input type='radio' name='tieneHijos' value='S' checked onclick='mostrarHijos()'>Sí"
+                + "<input type='radio' name='tieneHijos' value='N' onclick='mostrarHijos()'>No"
+                : "<input type='radio' name='tieneHijos' value='S' onclick='mostrarHijos()'>Sí"
+                + "<input type='radio' name='tieneHijos' value='N' checked onclick='mostrarHijos()'>No";
     }
 
-    
-    // Grabar hijo en la base de datos
     public boolean grabar() {
-        String cadenaSQL = "INSERT INTO hijos (identificacion, nombres,  fechaNacimiento) "
-                + "VALUES ('" + identificacion + "', '" + nombres + "',  '" + fechaNacimiento + "')";
-        return ConectorBD.ejecutarQuery(cadenaSQL);
-    }
+    String sql = "INSERT INTO hijos (identificacion, nombres, fechaNacimiento) VALUES ("
+            + "'" + identificacion + "', "
+            + "'" + nombres + "', "
+            + "'" + fechaNacimiento + "')";
 
-    // Modificar un hijo existente
+    System.out.println("SQL para insertar hijo: " + sql);
+    return ConectorBD.ejecutarQuery(sql);
+}
+
+
     public boolean modificar(String identificacionHijoAnterior) {
-        String cadenaSQL = "UPDATE hijos SET nombres = '" + nombres + "', "
-                + " fechaNacimiento = '" + fechaNacimiento + "' "
-                + "WHERE identificacionHijoAnterior = '" + identificacionHijoAnterior + "'";
+        String cadenaSQL = "UPDATE hijos SET nombres = '" + nombres + "', fechaNacimiento = '" + fechaNacimiento + "' "
+                + "WHERE identificacion = '" + identificacionHijoAnterior + "'";
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
-    // Eliminar un hijo y su relación con la persona
     public static boolean eliminarPorIdentificacion(String identificacion) {
         String sqlRelacion = "DELETE FROM persona_hijos WHERE identificacionHijo = '" + identificacion + "'";
         boolean relacionEliminada = ConectorBD.ejecutarQuery(sqlRelacion);
-
         if (relacionEliminada) {
             String sqlHijo = "DELETE FROM hijos WHERE identificacion = '" + identificacion + "'";
             return ConectorBD.ejecutarQuery(sqlHijo);
@@ -129,7 +125,6 @@ public class Hijo {
         return false;
     }
 
-    // Obtener lista de hijos por filtros
     public static List<Hijo> getListaEnObjetos(String filtro, String orden) {
         List<Hijo> lista = new ArrayList<>();
         String cadenaSQL = "SELECT * FROM hijos";
@@ -155,41 +150,37 @@ public class Hijo {
         return lista;
     }
 
-    // Obtener los hijos de una persona
     public static List<Hijo> obtenerHijosDePersona(String identificacionPersona) {
-    List<Hijo> lista = new ArrayList<>();
-    String sqlHijos = "SELECT h.* FROM hijos h "
-                    + "JOIN persona_hijos ph ON h.identificacion = ph.identificacionHijo "
-                    + "WHERE ph.identificacionPersona = '" + identificacionPersona + "'";
+        List<Hijo> lista = new ArrayList<>();
+        String sqlHijos = "SELECT h.* FROM hijos h "
+                + "JOIN persona_hijos ph ON h.identificacion = ph.identificacionHijo "
+                + "WHERE ph.identificacionPersona = '" + identificacionPersona + "'";
 
-    ResultSet datos = ConectorBD.consultar(sqlHijos);
-
-    if (datos == null) {
-        System.out.println("No se pudo obtener los hijos de la persona. Consulta: " + sqlHijos);
-        return lista;
-    }
-
-    try {
-        while (datos.next()) {
-            Hijo hijo = new Hijo();
-            hijo.setIdentificacion(datos.getString("identificacion"));
-            hijo.setNombres(datos.getString("nombres"));
-            hijo.setFechaNacimiento(datos.getString("fechaNacimiento"));
-            lista.add(hijo);
+        ResultSet datos = ConectorBD.consultar(sqlHijos);
+        if (datos == null) {
+            System.out.println("No se pudo obtener los hijos de la persona. Consulta: " + sqlHijos);
+            return lista;
         }
-    } catch (SQLException ex) {
-        System.out.println("Error al obtener los hijos de la persona: " + ex.getMessage());
-    } finally {
+
         try {
-            if (datos != null) {
-                datos.close(); // Cerrar ResultSet
+            while (datos.next()) {
+                Hijo hijo = new Hijo();
+                hijo.setIdentificacion(datos.getString("identificacion"));
+                hijo.setNombres(datos.getString("nombres"));
+                hijo.setFechaNacimiento(datos.getString("fechaNacimiento"));
+                lista.add(hijo);
             }
         } catch (SQLException ex) {
-            System.out.println("Error al cerrar ResultSet: " + ex.getMessage());
+            System.out.println("Error al obtener los hijos de la persona: " + ex.getMessage());
+        } finally {
+            try {
+                if (datos != null) {
+                    datos.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error al cerrar ResultSet: " + ex.getMessage());
+            }
         }
+        return lista;
     }
-    return lista;
-} 
-
-    
 }
