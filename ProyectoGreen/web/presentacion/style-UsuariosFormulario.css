@@ -16,7 +16,7 @@ form {
     background: #ffffff;
     padding: 25px;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0.2, 0.4);
     width: 45%;
     max-width: 450px;
     text-align: center;
@@ -28,33 +28,22 @@ form:hover {
 }
 
 /* Estilos del título */
-h3 {
-    color: #2E7D32;
-    font-size: 22px;
+.titulo {
+    text-align: center;
+    font-size: 24px;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    text-align: center;
-    margin-bottom: 12px;
-    width: 100%;
-    max-width: 100%;
-    display: block;
-    word-wrap: break-word;
+    letter-spacing: 2px;
+    font-weight: bold;
+    color: #2c6e49; 
+    position: relative;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra ligera para efecto 3D */
+    transition: transform 0.3s ease-in-out;
 }
 
-/* Línea decorativa */
-h3::after {
-    content: "";
-    width: 50px;
-    height: 3px;
-    background: #388E3C;
-    display: block;
-    margin: 6px auto;
-    transition: width 0.3s ease-in-out;
-}
-
-h3:hover::after {
-    width: 90px;
+/* Efecto de elevación al pasar el mouse */
+.titulo:hover {
+    transform: scale(1.05);
 }
 
 /* Tabla más pequeña */
@@ -67,8 +56,7 @@ h3:hover::after {
 }
 
 .table {
-    width: 75%;
-    max-width: 350px;
+    max-width: 500px;
     border-collapse: collapse;
     margin-top: 8px;
     border: none;
@@ -107,7 +95,7 @@ h3:hover::after {
 .recuadro:focus {
     border-color: #1B5E20;
     outline: none;
-    box-shadow: 0px 0px 6px rgba(27, 94, 32, 0.5);
+    box-shadow: 0px 0px 6px rgba(27, 94, 32, 0.8);
 }
 
 /* Contenedor de permisos */
@@ -169,6 +157,7 @@ h3:hover::after {
 .submit {
     background-color: #2E7D32;
     color: white;
+    border-radius: 10px; 
 }
 
 .submit:hover {
@@ -179,6 +168,7 @@ h3:hover::after {
 .button {
     background-color: #d32f2f;
     color: white;
+    border-radius: 10px; 
 }
 
 .button:hover {

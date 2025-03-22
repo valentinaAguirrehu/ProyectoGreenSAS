@@ -8,7 +8,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 */
 .card {
     border: 2px solid #2e7d32; /* Verde oscuro */
-    background: linear-gradient(to bottom, #145a32, #1e8449, #2ecc71);
+    background: #2c6e49;
     width: 340px;
     padding: 25px;
     text-align: center;
@@ -81,7 +81,7 @@ button:hover {
 }
 
 #requisitosClave {
-    background: linear-gradient(to right, #145a32, #1e8449);
+   background: linear-gradient(to bottom, #0f3d25, #166534, #1e8449, #2e8b57);
     color: white;
     padding: 15px;
     border-radius: 10px;
