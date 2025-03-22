@@ -1,3 +1,9 @@
+<%-- 
+    Document   : persona
+    Created on : 8/03/2025, 02:18:59 PM
+    Author     : Mary
+--%>
+
 <%@page import="java.util.List"%>
 <%@page import="clases.Hijo"%>
 <%@page import="clases.Cargo"%>
@@ -304,6 +310,7 @@
                         <option value="Moto" <%= persona.getTipoVehiculo() == null || persona.getTipoVehiculo().isEmpty() || "Moto".equals(persona.getTipoVehiculo()) ? "selected" : ""%>>Moto</option>
                         <option value="Carro" <%= "Carro".equals(persona.getTipoVehiculo()) ? "selected" : ""%>>Carro</option>
                         <option value="Bicicleta" <%= "Bicicleta".equals(persona.getTipoVehiculo()) ? "selected" : ""%>>Bicicleta</option>
+                        <option value="NoAplica" <%= "NoAplica".equals(persona.getTipoVehiculo()) ? "selected" : ""%>>No aplica</option>
                     </select>
                 </td>
             </tr>

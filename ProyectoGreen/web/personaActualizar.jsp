@@ -1,3 +1,8 @@
+<%-- 
+    Document   : persona
+    Created on : 8/03/2025, 02:18:59 PM
+    Author     : Mary
+--%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Hijo"%>
 <%@page import="clasesGenericas.ConectorBD"%>

@@ -34,7 +34,9 @@
         <th>Identificación</th>
         <th>Nombre</th>
         <th>Apellidos</th>
-        <th>Cargo</th>
+        <th>Cargo</th>      
+        <th>Acciones</th>
+
         <th>
             <a href="aprendizFormulario.jsp?accion=Adicionar" title="Agregar">
                 <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;">
@@ -44,6 +46,12 @@
     <%= lista %> 
 </table>
 
+<!-- Botón para agregar un nuevo colaborador -->
+<div class="add-button" style="margin-top: 10px;">
+    <a href="aprendizFormulario.jsp?accion=Adicionar" title="Agregar">
+        <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;"> Agregar Colaboradores
+    </a>
+</div>
 
 <!-- Script para eliminar una persona con confirmación -->
 <script type="text/javascript">
@@ -53,6 +61,10 @@
             window.location.href = "aprendizActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
     }
+    function verDetalles(identificacion) {
+    document.location = "aprendizDetalles.jsp?identificacion=" + identificacion;
+}
+
 </script>
 
 <!-- Botón de cancelar para regresar a la página anterior -->
