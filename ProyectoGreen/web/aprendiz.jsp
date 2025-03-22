@@ -23,6 +23,7 @@
             lista.append("<a href='aprendizFormulario.jsp?accion=Modificar&identificacion=").append(persona.getIdentificacion()).append("' title='Modificar'>");
             lista.append("<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ");
             lista.append("<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
+            lista.append("<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
             lista.append("</td>");
             lista.append("</tr>");
         }
@@ -35,7 +36,6 @@
         <th>Nombre</th>
         <th>Apellidos</th>
         <th>Cargo</th>      
-        <th>Acciones</th>
 
         <th>
             <a href="aprendizFormulario.jsp?accion=Adicionar" title="Agregar">
