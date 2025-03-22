@@ -17,9 +17,9 @@
 
 %>
 
-<h3><%=accion.toUpperCase()%> RETIRADO</h3>
+<h3 class="titulo"><%=accion.toUpperCase()%> RETIRADO</h3>
 <form name="formulario" method="post" action="retiradosActualizar.jsp">
-    <link rel="stylesheet" href="presentacion/style-Retirados.css">
+    <link rel="stylesheet" href="presentacion/style-RetiradosFormulario.css">
     <table class="table" border="1">
         <tr>
             <th>Identificación</th>

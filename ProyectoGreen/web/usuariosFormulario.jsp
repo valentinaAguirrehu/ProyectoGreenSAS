@@ -11,7 +11,7 @@
     }
 %>
 
-<h3><%=accion.toUpperCase()%> USUARIO</h3>
+<h3 class="titulo"><%=accion.toUpperCase()%> USUARIO</h3>
 <link rel="stylesheet" href="presentacion/style-UsuariosFormulario.css">
 <form name="formulario" method="post" action="usuariosActualizar.jsp">
     <table class="table" border="1">

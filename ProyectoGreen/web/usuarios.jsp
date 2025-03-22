@@ -64,7 +64,7 @@
         <th>Identificación</th>
         <th>Nombre</th>
         <th>Celular</th>
-        <th>Email</th>
+        <th>Correo electrónico</th>
         <th>Permisos</th>
         <th>Estado</th>
         <th><a href="usuariosFormulario.jsp?accion=Adicionar" title="Adicionar">
