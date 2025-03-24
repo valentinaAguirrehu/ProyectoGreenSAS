@@ -7,8 +7,8 @@
     String lista = "";
     List<Retirados> datos = Retirados.getListaEnObjetos(null, null);
     for (Retirados retirado : datos) {
-        if (retirado.getIdentificacion() != null) {
-            Persona persona = new Persona(retirado.getIdentificacion());
+        if (retirado.getIdentificacionPersona() != null) {
+            Persona persona = new Persona(retirado.getIdentificacionPersona());
             if (persona != null && persona.getIdentificacion() != null) {
                 String nombreCargo = "";
                 if (persona.getIdCargo() != null) {
@@ -40,6 +40,10 @@
     } 
 %>
 
+<jsp:include page="permisos.jsp" />
+<%@ include file="menu.jsp" %>
+
+<div class="content">
 <h3 class="titulo">COLABORADORES RETIRADOS</h3>
 <link rel="stylesheet" href="presentacion/style-Retirados.css">
 
@@ -69,6 +73,7 @@
     </tr>
     <%= lista%>
 </table>
+</div>
 
 <script type="text/javascript">
     function eliminar(identificacion) {

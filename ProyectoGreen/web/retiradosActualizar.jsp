@@ -49,7 +49,7 @@
 
     persona.setFechaRetiro(variables.get("fechaRetiro"));
 
-    retirado.setIdentificacion(variables.get("identificacion"));
+    retirado.setIdentificacionPersona(variables.get("identificacionPersona"));
     retirado.setNumCaja(variables.get("numCaja"));
     retirado.setNumCarpeta(variables.get("numCarpeta"));
     retirado.setObservaciones(variables.get("observaciones"));
