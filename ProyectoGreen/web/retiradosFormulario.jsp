@@ -81,7 +81,7 @@
         var fechaIngresoSpan = document.getElementById("fechaIngreso");
 
         // SELECCIONAR LA CÉDULA
-        var personas = <%= Persona.getListaEnArregloJS("tipo='C' OR tipo='T' OR tipo='A'", null) %>;
+        var personas = <%= Persona.getListaEnArreglosJS("tipo='C' OR tipo='T' OR tipo='A'", null) %>;
 
         inputIdentificacion.addEventListener("input", function () {
             var valor = this.value.trim();

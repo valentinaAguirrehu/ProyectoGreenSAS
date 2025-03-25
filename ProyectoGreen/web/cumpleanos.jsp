@@ -60,75 +60,85 @@
             out.println("<tr><td colspan='6' style='color:red;'>Error procesando la fecha de nacimiento de " + persona.getNombres() + "</td></tr>");
         }
     }
+    out.println("<p>Total de personas encontradas: " + datos.size() + "</p>");
 %>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Cumpleaños del Mes</title>
+        <title>Cumpleañeros</title>
         <link rel="stylesheet" href="presentacion/style-Cumpleanos.css">
     </head>
-    <body>
 
-        <div id="tituloMes">
-            <h1>CUMPLEAÑEROS DEL MES</h1>
-            <div class="mes-con-iconos">
-                <img src="presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
-                <h2><%= mesActual%></h2>
-                <img src="presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+    <%@ include file="menu.jsp" %>
+
+    <div class="content">
+        <body>
+            <div id="tituloMes">
+                <h1>CUMPLEAÑEROS DEL MES</h1>
+                <div class="mes-con-iconos">
+                    <img src="presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+                    <h2><%= mesActual%></h2>
+                    <img src="presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+                </div>
             </div>
-        </div>
 
-        <table id="tablaCumpleanos">
-            <tr>
-                <th>Día</th>
-                <th>Nombre</th>
-                <th>Edad</th>
-                <th>Fecha de nacimiento</th>
-                <th>Cargo</th>
-                <th>Documento de identidad</th>
-            </tr>
-            <%= lista.toString()%>
-        </table>
+            <table id="tablaCumpleanos">
+                <thead>
+                    <tr>
+                        <th>Día</th>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Fecha de nacimiento</th>
+                        <th>Cargo</th>
+                        <th>Documento de identidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%= lista.toString()%>
+                </tbody>
+            </table>
 
-        <!-- Botones de navegación -->
-        <div class="buttons">
-            <img src="presentacion/iconos/izquierda.png" alt="Mes Anterior" class="icono" onclick="irAlMesAnterior()">
-            <img src="presentacion/iconos/derecha.png" alt="Siguiente Mes" class="icono" onclick="irAlSiguienteMes()">
-        </div>
 
-        <script>
-            let mesActualJS = <%= mesNumero%>;
-            let mesInicial = new Date().getMonth() + 1; // Mes actual en JavaScript (1-12)
+            <!-- Botones de navegación -->
+            <div class="buttons">
+                <img src="presentacion/iconos/izquierda.png" alt="Mes Anterior" class="icono" onclick="irAlMesAnterior()">
+                <img src="presentacion/iconos/derecha.png" alt="Siguiente Mes" class="icono" onclick="irAlSiguienteMes()">
+            </div>
+    </div>
 
-            let limiteSuperior = mesInicial + 3;
-            let limiteInferior = mesInicial - 3;
+    <script>
+        let mesActualJS = <%= mesNumero%>;
+        let mesInicial = new Date().getMonth() + 1; // Mes actual en JavaScript (1-12)
 
-            // Ajustar límites para manejar cambio de año
-            if (limiteInferior < 1)
-                limiteInferior += 12;
-            if (limiteSuperior > 12)
-                limiteSuperior -= 12;
+        let limiteSuperior = mesInicial + 3;
+        let limiteInferior = mesInicial - 3;
 
-            function irAlSiguienteMes() {
-                // Si ya alcanzó el límite de 3 meses adelante, mostrar alerta
-                if (mesActualJS === limiteSuperior || (mesInicial > 9 && mesActualJS === 3)) {
-                    alert("Solo se puede visualizar hasta tres meses posteriores al mes actual.");
-                } else {
-                    mesActualJS = (mesActualJS % 12) + 1; // Avanza al siguiente mes
-                    window.location.href = "cumpleanos.jsp?mes=" + mesActualJS;
-                }
+        // Ajustar límites para manejar cambio de año
+        if (limiteInferior < 1)
+            limiteInferior += 12;
+        if (limiteSuperior > 12)
+            limiteSuperior -= 12;
+
+        function irAlSiguienteMes() {
+            // Si ya alcanzó el límite de 3 meses adelante, mostrar alerta
+            if (mesActualJS === limiteSuperior || (mesInicial > 9 && mesActualJS === 3)) {
+                alert("Solo se puede visualizar hasta tres meses posteriores al mes actual.");
+            } else {
+                mesActualJS = (mesActualJS % 12) + 1; // Avanza al siguiente mes
+                window.location.href = "cumpleanos.jsp?mes=" + mesActualJS;
             }
+        }
 
-            function irAlMesAnterior() {
-                // Si ya alcanzó el límite de 3 meses atrás, mostrar alerta
-                if (mesActualJS === limiteInferior || (mesInicial < 4 && mesActualJS === 10)) {
-                    alert("Solo se puede visualizar hasta tres meses anteriores al mes actual.");
-                } else {
-                    mesActualJS = (mesActualJS - 1 < 1) ? 12 : mesActualJS - 1; // Retrocede un mes correctamente
-                    window.location.href = "cumpleanos.jsp?mes=" + mesActualJS;
-                }
+        function irAlMesAnterior() {
+            // Si ya alcanzó el límite de 3 meses atrás, mostrar alerta
+            if (mesActualJS === limiteInferior || (mesInicial < 4 && mesActualJS === 10)) {
+                alert("Solo se puede visualizar hasta tres meses anteriores al mes actual.");
+            } else {
+                mesActualJS = (mesActualJS - 1 < 1) ? 12 : mesActualJS - 1; // Retrocede un mes correctamente
+                window.location.href = "cumpleanos.jsp?mes=" + mesActualJS;
             }
-        </script>
-    </body>
+        }
+    </script>
+</body>
 </html>
