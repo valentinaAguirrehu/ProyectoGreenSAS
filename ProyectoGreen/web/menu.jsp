@@ -4,6 +4,17 @@
     Author     : Angie
 --%>
 
+<%@ page import="clases.Administrador" %>
+
+<div class="logo-container">
+    <img src="presentacion/imagenes/LogoGreen.png" alt="Logo de Green">
+</div>
+
+<%
+    Administrador usuarioMenu = (Administrador) session.getAttribute("usuario");
+    String tipoUsuario = (usuarioMenu != null) ? usuarioMenu.getTipo() : "";
+%>
+
 <div class="logo-container">
     <img src="presentacion/imagenes/LogoGreen.png" alt="Logo de Green">
 </div>
@@ -35,7 +46,9 @@
         </li>
     </ul>
     <ul class="bottom-menu">
-        <li><a href="usuarios.jsp">Usuarios</a></li>
+        <% if ("S".equals(tipoUsuario)) { %>
+            <li><a href="usuarios.jsp">Usuarios</a></li>
+        <% } %>
         <li><a href="perfil.jsp">Perfil</a></li>
         <li><a href="index.jsp">Cerrar sesión</a></li>
     </ul>

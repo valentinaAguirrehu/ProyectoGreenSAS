@@ -25,24 +25,24 @@
 <!DOCTYPE html>
 
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GREEN SAS</title>
-    <link rel="stylesheet" href="presentacion/style-Index.css">
-    <link rel="icon" href="presentacion/imagenes/Logo.png" type="image/x-icon">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GREEN SAS</title>
+        <link rel="stylesheet" href="presentacion/style-Index.css">
+    </head>
+    <body>
     <div class="login-container">
         <div class="left-section">
+            <img src="presentacion/imagenes/LogoGreen.png" alt="Logo de GREEN S.A.S" class="logo">
             <p>BIENVENIDO</p>
             <p>A</p>
-            <p>GREEN SAS</p>
+            <p>GREEN S.A.S</p>
         </div>
-        
+
         <div class="right-section">
             <h2>GESTIÓN HUMANA</h2>
-            <p id="error"><%= mensaje %></p>
+            <p id="error"><%= mensaje%></p>
             <form method="post" action="validar.jsp">
                 <div class="input-box">
                     <label for="usuario">Identificación</label>
