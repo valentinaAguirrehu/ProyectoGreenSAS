@@ -60,7 +60,6 @@
             out.println("<tr><td colspan='6' style='color:red;'>Error procesando la fecha de nacimiento de " + persona.getNombres() + "</td></tr>");
         }
     }
-    out.println("<p>Total de personas encontradas: " + datos.size() + "</p>");
 %>
 
 <!DOCTYPE html>

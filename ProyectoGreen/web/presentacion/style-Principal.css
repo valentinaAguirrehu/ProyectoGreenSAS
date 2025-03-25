@@ -28,7 +28,7 @@ body {
 
 /* Estilo del texto de bienvenida */
 .welcome-text {
-    font-size: 1.5em; 
+    font-size: 1.4em; /* Reduce el tamaño de la fuente */
     font-weight: bold;
     margin-bottom: 20px;
 }
