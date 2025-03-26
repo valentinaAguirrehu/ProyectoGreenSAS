@@ -6,7 +6,7 @@
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
-
+<link rel="stylesheet" href="presentacion/style-colaboradores.css">
 <%
     StringBuilder lista = new StringBuilder();
 
@@ -30,7 +30,7 @@
     }
 %>
 <h3>Lista  Temporales</h3>
-<table border="1">
+<table class="table">
     <tr>
         <th>Identificación</th>
         <th>Nombre</th>
