@@ -6,7 +6,7 @@
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
-
+<link rel="stylesheet" href="presentacion/style-colaboradores.css">
 <%
     StringBuilder lista = new StringBuilder();
 
@@ -31,9 +31,9 @@
     }
 %>
 <h3>Lista  Temporales</h3>
-<table border="1">
+<table class="table">
     <tr>
-        <th>Identificación</th>
+        <th>IdentificaciÃ³n</th>
         <th>Nombre</th>
         <th>Apellidos</th>
         <th>Cargo</th>
@@ -49,7 +49,7 @@
 
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("¿Realmente desea eliminar el registro del colaborador temporal?");
+        var respuesta = confirm("Â¿Realmente desea eliminar el registro del colaborador temporal?");
         if (respuesta) {
             window.location.href = "temporalesActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -63,5 +63,5 @@
 
 </script>
 
-<!-- Botón de cancelar para regresar a la página anterior -->
+<!-- BotÃ³n de cancelar para regresar a la pÃ¡gina anterior -->
 <input type="button" value="Cancelar" onClick="window.history.back()">

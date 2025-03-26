@@ -74,6 +74,21 @@
     persona.setNumLicenciaTransito(request.getParameter("numLicenciaTransito"));
     persona.setFechaExpLicenciaTransito(request.getParameter("fechaExpLicenciaTransito"));
 
+    // Capturar valores del formulario
+    String idDepartamentoExpedicion = request.getParameter("departamentoExpedicion");
+    String idMunicipioExpedicion = request.getParameter("lugarExpedicion");
+
+    String idDepartamentoNacimiento = request.getParameter("departamentoNacimiento");
+    String idMunicipioNacimiento = request.getParameter("lugarNacimiento");
+
+//  Concatenar valores
+    String lugarExpedicion = idDepartamentoExpedicion + "-" + idMunicipioExpedicion;
+    String lugarNacimiento = idDepartamentoNacimiento + "-" + idMunicipioNacimiento;
+
+// Guardar en el objeto Persona
+    persona.setLugarExpedicion(lugarExpedicion);
+    persona.setLugarNacimiento(lugarNacimiento);
+
     // Capturar datos de los hijos
     String[] identificacionesHijos = request.getParameterValues("identificacionHijo[]");
     String[] nombresHijos = request.getParameterValues("nombreHijo[]");
@@ -97,7 +112,7 @@
     if (personaGuardada && identificacionesHijos != null) {
         for (int i = 0; i < identificacionesHijos.length; i++) {
             if (!identificacionesHijos[i].trim().isEmpty() && !nombresHijos[i].trim().isEmpty() && !fechasNacimientoHijos[i].trim().isEmpty()) {
-                
+
                 // Insertar en la tabla hijos si no existe
                 String sqlHijo = "INSERT INTO hijos (identificacion, nombres, fechaNacimiento) VALUES ('"
                         + identificacionesHijos[i] + "', '" + nombresHijos[i] + "', '" + fechasNacimientoHijos[i] + "') "
@@ -107,7 +122,7 @@
                 // Insertar en persona_hijos con autoincremental id
                 String sqlRelacion = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) VALUES ('"
                         + persona.getIdentificacion() + "', '" + identificacionesHijos[i] + "')";
-                
+
                 System.out.println("SQL Relación: " + sqlRelacion); // <-- Agregado para depurar
                 ConectorBD.ejecutarQuery(sqlRelacion);
             }
@@ -120,5 +135,5 @@
 %>
 
 <script type="text/javascript">
-    document.location="persona.jsp";
+    document.location = "persona.jsp";
 </script>

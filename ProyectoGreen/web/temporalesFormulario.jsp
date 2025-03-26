@@ -423,4 +423,106 @@
                     fila.parentNode.removeChild(fila);
                 }
             </script>
+<style>
 
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f9f4;
+    margin: 0;
+    padding: 0;
+}
+
+h4 {
+    color: #2e6e3f; /* Verde más oscuro */
+    font-size: 1.2em;
+    border-bottom: 2px solid #2e6e3f; /* Verde más oscuro */
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+/* Estilo de las tablas */
+table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #388e3c; /* Verde más oscuro */
+    color: white;
+    padding: 8px;
+    text-align: left;
+}
+
+td {
+    background-color: #ffffff;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Estilo de los inputs */
+input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: #f4fdf4;
+    margin: 5px 0;
+}
+
+input[type="text"]:focus, input[type="date"]:focus, select:focus {
+    border-color: #388e3c; /* Verde más oscuro */
+    outline: none;
+}
+
+/* Botones */
+input[type="submit"], input[type="button"] {
+    background-color: #388e3c; /* Verde más oscuro */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 10px 0;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: #2e6e3f; /* Verde más oscuro */
+}
+
+/* Sección de hijos */
+#familiaresSection {
+    background-color: #e8f5e9;
+    padding: 20px;
+    border-radius: 5px;
+    display: none;
+}
+
+button[type="button"] {
+    background-color: #f44336;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="button"]:hover {
+    background-color: #e53935;
+}
+
+/* Estilo de los labels */
+label {
+    font-weight: bold;
+    color: #2e6e3f; /* Verde más oscuro */
+    margin-right: 10px;
+}
+
+/* Estilo de los elementos al seleccionar */
+select option:checked {
+    background-color: #388e3c; /* Verde más oscuro */
+    color: white;
+}

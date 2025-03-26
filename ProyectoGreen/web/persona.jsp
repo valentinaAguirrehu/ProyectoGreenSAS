@@ -1,59 +1,86 @@
-<%-- 
-    Document   : persona
-    Created on : 8/03/2025, 02:18:59 PM
-    Author     : Mary
---%>
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
-<link rel="stylesheet" href="presentacion/style-Colaboradores.css">
+<link rel="stylesheet" href="presentacion/style-colaboradores.css">
 
 <%
-    String lista = "";
+    // Obtener el par谩metro de b煤squeda
+    String filtro = request.getParameter("filtro");
+    if (filtro == null) {
+        filtro = "";
+    }
 
+    String lista = "";
     List<Persona> datos = Persona.getListaEnObjetos(null, null);
 
     for (Persona persona : datos) {
-        lista += "<tr>";
-        lista += "<td align='right'>" + persona.getIdentificacion() + "</td>";
-        lista += "<td>" + persona.getNombres() + "</td>";
-        lista += "<td>" + persona.getApellidos() + "</td>";
-        lista += "<td>" + Cargo.getCargoPersona(persona.getIdentificacion()) + "</td>";
-        lista += "<td>";
-        lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + persona.getIdentificacion() + "' title='Modificar'>";
-        lista += "<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
-        lista += "<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/> ";
-        lista += "<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")'> ";
-        lista += "<img src='presentacion/iconos/verDocumento.png' title='Historia Laboral' onClick='verHistoriaLaboral(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/> ";
-        lista += "</td>";
-        lista += "</tr>";
+        String identificacion = persona.getIdentificacion();
+        String nombres = persona.getNombres();
+        String apellidos = persona.getApellidos();
+        String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
+        String establecimiento = persona.getEstablecimiento();
+        String fechaIngreso = persona.getFechaIngreso();
+
+        // Verificar si el filtro coincide con alguno de los campos
+        if (identificacion.toLowerCase().contains(filtro.toLowerCase()) ||
+            nombres.toLowerCase().contains(filtro.toLowerCase()) ||
+            apellidos.toLowerCase().contains(filtro.toLowerCase()) ||
+            cargo.toLowerCase().contains(filtro.toLowerCase()) ||
+            establecimiento.toLowerCase().contains(filtro.toLowerCase()) ||
+            fechaIngreso.toLowerCase().contains(filtro.toLowerCase()) ||
+            filtro.isEmpty()) {
+            
+            lista += "<tr>";
+            lista += "<td align='right'>" + identificacion + "</td>";
+            lista += "<td>" + nombres + "</td>";
+            lista += "<td>" + apellidos + "</td>";
+            lista += "<td>" + cargo + "</td>";
+            lista += "<td>" + establecimiento + "</td>";
+            lista += "<td>" + fechaIngreso + "</td>";
+            lista += "<td>";
+            lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
+            lista += "<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
+            lista += "<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
+            lista += "<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
+            lista += "</td>";
+            lista += "</tr>";
+        }
     }
 %>
 
 
 <h3>Lista de Colaboradores</h3>
-<table border="1">
+
+<!-- Campo de b煤squeda -->
+<form method="GET">
+    <input type="text" name="filtro" value="<%= filtro %>" placeholder="Buscar por identificaci贸n, nombre, cargo, establecimiento o fecha de ingreso" class="recuadro">
+    <button type="submit">Buscar</button>
+</form>
+
+<table class="table">
     <tr>
-        <th>Identificaci髇</th>
+        <th>Identificaci贸n</th>
         <th>Nombre</th>
         <th>Apellidos</th>
         <th>Cargo</th>
+        <th>Establecimiento</th>
+        <th>Fecha de Ingreso</th>
         <th>Acciones</th>
     </tr>
-    <%= lista%> 
+    <%= lista %> 
 </table>
 
-<!-- Bot髇 para agregar un nuevo colaborador -->
+<!-- Bot贸n para agregar un nuevo colaborador -->
 <div class="add-button" style="margin-top: 10px;">
     <a href="personaFormulario.jsp?accion=Adicionar" title="Agregar">
         <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;"> Agregar Colaboradores
     </a>
 </div>
 
-<!-- Script para eliminar una persona con confirmaci髇 -->
+<!-- Script para eliminar una persona con confirmaci贸n -->
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("縍ealmente desea eliminar el registro del colaborador?");
+        var respuesta = confirm("驴Realmente desea eliminar el registro del colaborador?");
         if (respuesta) {
             window.location.href = "personaActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -68,5 +95,5 @@
 
 </script>
 
-<!-- Bot髇 de cancelar para regresar a la p醙ina anterior -->
+<!-- Bot贸n de cancelar para regresar a la p谩gina anterior -->
 <input type="button" value="Cancelar" onClick="window.history.back()">
