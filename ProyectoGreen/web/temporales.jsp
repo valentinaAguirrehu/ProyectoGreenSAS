@@ -24,6 +24,7 @@
             lista.append("<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ");
             lista.append("<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
             lista.append("<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
+            lista.append("<img src='presentacion/iconos/verDocumento.png' title='Historia Laboral' onClick='verHistoriaLaboral(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
             lista.append("</td>");
             lista.append("</tr>");
         }
@@ -56,6 +57,10 @@
     function verDetalles(identificacion) {
     document.location = "temporalesDetalle.jsp?identificacion=" + identificacion;
 }
+     function verHistoriaLaboral(identificacion) {
+        window.location.href = "historiaLaboral.jsp?identificacion=" + identificacion;
+    }
+
 </script>
 
 <!-- Botón de cancelar para regresar a la página anterior -->

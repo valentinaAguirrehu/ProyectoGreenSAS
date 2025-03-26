@@ -203,22 +203,54 @@ public class HistoriaLaboral {
         String consultaSQL = "delete from historia_laboral where id = " + id;
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
+public static ResultSet getLista(String filtro, String orden) {
+    if (filtro != null && !filtro.isEmpty()) {
+        filtro = " WHERE " + filtro;
+    } else {
+        filtro = "";
+    }
+    if (orden != null && !orden.isEmpty()) {
+        orden = " ORDER BY " + orden;
+    } else {
+        orden = "";
+    }
 
-    public static List<HistoriaLaboral> getListaEnObjetos(String filtro, String orden) {
-        List<HistoriaLaboral> lista = new ArrayList<>();
-        String consultaSQL = "select * from historia_laboral";
-        if (filtro != null && !filtro.isEmpty()) consultaSQL += " where " + filtro;
-        if (orden != null && !orden.isEmpty()) consultaSQL += " order by " + orden;
+    String cadenaSQL = "SELECT " +
+            "p.identificacion AS identificacionPersona, " +
+            "p.nombres, " +
+            "p.apellidos, " +
+            "p.centroCostos, " +
+            "p.celular, " +
+            "p.establecimiento, " +
+            "h.idDocumentoIdentificacion, " +
+            "h.idDocumentosContratacion, " +
+            "h.idDocumentosSST_SGA " +
+            "FROM Persona p " +
+            "JOIN HistoriaLaboral h ON p.identificacion = h.identificacionPersona " +
+            filtro + orden;
 
-        ResultSet datos = ConectorBD.consultar(consultaSQL);
+    return ConectorBD.consultar(cadenaSQL);
+}
+
+public static List<HistoriaLaboral> getListaEnObjetos(String filtro, String orden) {
+    List<HistoriaLaboral> lista = new ArrayList<>();
+    ResultSet datos = getLista(filtro, orden);
+    
+    if (datos != null) {
         try {
             while (datos.next()) {
-                HistoriaLaboral historia = new HistoriaLaboral(datos.getString("id"));
+                HistoriaLaboral historia = new HistoriaLaboral();
+                historia.setIdentificacionPersona(datos.getString("identificacionPersona"));
+                historia.setIdDocumentoIdentificacion(datos.getString("idDocumentoIdentificacion"));
+                historia.setIdDocumentoContratacion(datos.getString("idDocumentosContratacion"));
+                historia.setIdDocumentosSST_SGA(datos.getString("idDocumentosSST_SGA"));
+                
                 lista.add(historia);
             }
         } catch (SQLException ex) {
-            System.out.println("Error al obtener la lista: " + ex.getMessage());
+            Logger.getLogger(HistoriaLaboral.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return lista;
     }
+    return lista;
+}
 }
