@@ -6,7 +6,7 @@
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
-
+<link rel="stylesheet" href="presentacion/style-colaboradores.css">
 <%
     StringBuilder lista = new StringBuilder();
 
@@ -31,9 +31,9 @@
     }
 %>
 <h3>Lista de Aprendices</h3>
-<table border="1">
+<table class="table">
     <tr>
-        <th>Identificaci髇</th>
+        <th>Identificaci贸n</th>
         <th>Nombre</th>
         <th>Apellidos</th>
         <th>Cargo</th>      
@@ -47,17 +47,17 @@
     <%= lista %> 
 </table>
 
-<!-- Bot髇 para agregar un nuevo colaborador -->
+<!-- Bot贸n para agregar un nuevo colaborador -->
 <div class="add-button" style="margin-top: 10px;">
     <a href="aprendizFormulario.jsp?accion=Adicionar" title="Agregar">
         <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;"> Agregar Colaboradores
     </a>
 </div>
 
-<!-- Script para eliminar una persona con confirmaci髇 -->
+<!-- Script para eliminar una persona con confirmaci贸n -->
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("縍ealmente desea eliminar el registro del aprendiz?");
+        var respuesta = confirm("驴Realmente desea eliminar el registro del aprendiz?");
         if (respuesta) {
             window.location.href = "aprendizActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -70,5 +70,5 @@
     }
 </script>
 
-<!-- Bot髇 de cancelar para regresar a la p醙ina anterior -->
+<!-- Bot贸n de cancelar para regresar a la p谩gina anterior -->
 <input type="button" value="Cancelar" onClick="window.history.back()">

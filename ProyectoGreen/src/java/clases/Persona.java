@@ -1397,7 +1397,6 @@ public class Persona {
                            eps.equals("Famisanar"));
 }
 
-
     public static boolean esTipoDocumentoPredefinido(String tipo) {
         return tipo != null && (tipo.equals("CC") || tipo.equals("TI") || tipo.equals("CE")
                 || tipo.equals("PA") || tipo.equals("NIT") || tipo.equals("EXT"));
