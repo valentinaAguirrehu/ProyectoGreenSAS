@@ -24,6 +24,7 @@
             lista.append("<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ");
             lista.append("<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
             lista.append("<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
+            lista.append("<img src='presentacion/iconos/verDocumento.png' title='Historia Laboral' onClick='verHistoriaLaboral(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
             lista.append("</td>");
             lista.append("</tr>");
         }
@@ -32,7 +33,7 @@
 <h3>Lista  Temporales</h3>
 <table class="table">
     <tr>
-        <th>Identificación</th>
+        <th>IdentificaciÃ³n</th>
         <th>Nombre</th>
         <th>Apellidos</th>
         <th>Cargo</th>
@@ -48,7 +49,7 @@
 
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("¿Realmente desea eliminar el registro del colaborador temporal?");
+        var respuesta = confirm("Â¿Realmente desea eliminar el registro del colaborador temporal?");
         if (respuesta) {
             window.location.href = "temporalesActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -56,7 +57,11 @@
     function verDetalles(identificacion) {
     document.location = "temporalesDetalle.jsp?identificacion=" + identificacion;
 }
+     function verHistoriaLaboral(identificacion) {
+        window.location.href = "historiaLaboral.jsp?identificacion=" + identificacion;
+    }
+
 </script>
 
-<!-- Botón de cancelar para regresar a la página anterior -->
+<!-- BotÃ³n de cancelar para regresar a la pÃ¡gina anterior -->
 <input type="button" value="Cancelar" onClick="window.history.back()">

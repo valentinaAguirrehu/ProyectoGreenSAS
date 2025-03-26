@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class Retirados {
 
     private String id;
-    private String identificacion;
+    private String identificacionPersona;
     private String observaciones;
     private String numCaja;
     private String numCarpeta;
@@ -24,13 +24,13 @@ public class Retirados {
     }
 
     public Retirados(String id) {
-        String cadenaSQL = "SELECT id, identificacion, observaciones, numCaja, numCarpeta "
-                + "FROM retirados WHERE identificacion = '" + id + "'";
+        String cadenaSQL = "SELECT id, identificacionPersona, observaciones, numCaja, numCarpeta "
+                + "FROM retirados WHERE identificacionPersona = '" + id + "'";
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
         try {
             if (resultado.next()) {
                 this.id = resultado.getString("id");
-                this.identificacion = resultado.getString("identificacion");
+                this.identificacionPersona = resultado.getString("identificacionPersona");
                 this.observaciones = resultado.getString("observaciones");
                 this.numCaja = resultado.getString("numCaja");
                 this.numCarpeta = resultado.getString("numCarpeta");
@@ -54,16 +54,16 @@ public class Retirados {
         this.id = id;
     }
     
-    public String getIdentificacion() {
-     if (identificacion == null) {
-            identificacion = "";
+    public String getIdentificacionPersona() {
+     if (identificacionPersona == null) {
+            identificacionPersona = "";
         }
-        return  identificacion;
+        return  identificacionPersona;
     }
 
     
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
+    public void setIdentificacionPersona(String identificacionPersona) {
+        this.identificacionPersona = identificacionPersona;
     }
 
     public String getObservaciones() {
@@ -100,27 +100,27 @@ public class Retirados {
 
     @Override
     public String toString() {
-        return id + "  " + identificacion;
+        return id + "  " + identificacionPersona;
     }
 
     public boolean grabar() {
-        String cadenaSQL = "INSERT INTO retirados (identificacion, observaciones, numCaja, numCarpeta) VALUES ('"
-                + identificacion + "', '" + observaciones + "', '" + numCaja + "', '" + numCarpeta + "')";
+        String cadenaSQL = "INSERT INTO retirados (identificacionPersona, observaciones, numCaja, numCarpeta) VALUES ('"
+                + identificacionPersona + "', '" + observaciones + "', '" + numCaja + "', '" + numCarpeta + "')";
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
     public boolean modificar(String idAnterior) {
-        String cadenaSQL = "UPDATE retirados SET identificacion = '" + identificacion
+        String cadenaSQL = "UPDATE retirados SET identificacionPersona = '" + identificacionPersona
                 + "', observaciones = '" + observaciones
                 + "', numCaja = '" + numCaja
                 + "', numCarpeta = '" + numCarpeta
-                + "' WHERE identificacion = '" + idAnterior + "'";
+                + "' WHERE identificacionPersona = '" + idAnterior + "'";
 
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
     public boolean eliminar(String id) {
-        String cadenaSQL = "DELETE FROM retirados WHERE identificacion = " + id;
+        String cadenaSQL = "DELETE FROM retirados WHERE identificacionPersona = " + id;
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
@@ -137,12 +137,12 @@ public class Retirados {
         }
 
         String cadenaSQL = "SELECT "
-                + "r.id, r.identificacion, r.observaciones, r.numCaja, r.numCarpeta, "
+                + "r.id, r.identificacionPersona, r.observaciones, r.numCaja, r.numCarpeta, "
                 + "p.identificacion, p.nombres, p.apellidos, p.establecimiento, "
                 + "p.fechaIngreso, p.fechaRetiro "
                 + "FROM retirados r "
-                + "JOIN persona p ON r.identificacion = p.identificacion "
-                + "WHERE p.tipo = 'R' AND r.identificacion IS NOT NULL "
+                + "JOIN persona p ON r.identificacionPersona = p.identificacion "
+                + "WHERE p.tipo = 'R' AND r.identificacionPersona IS NOT NULL "
                 + filtro + orden;
 
         return ConectorBD.consultar(cadenaSQL);
@@ -156,7 +156,7 @@ public class Retirados {
                 while (datos.next()) {
                     Retirados retirado = new Retirados();
                     retirado.setId(datos.getString("id"));
-                    retirado.setIdentificacion(datos.getString("identificacion"));
+                    retirado.setIdentificacionPersona(datos.getString("identificacionPersona"));
                     retirado.setObservaciones(datos.getString("observaciones"));
                     retirado.setNumCaja(datos.getString("numCaja"));
                     retirado.setNumCarpeta(datos.getString("numCarpeta"));
@@ -181,7 +181,7 @@ public class Retirados {
             }
             lista.append("<option value='").append(retirado.getId()).append("'")
                     .append(auxiliar).append(">") 
-                    .append(retirado.getIdentificacion()).append("</option>");
+                    .append(retirado.getIdentificacionPersona()).append("</option>");
         }
         return lista.toString();
     }

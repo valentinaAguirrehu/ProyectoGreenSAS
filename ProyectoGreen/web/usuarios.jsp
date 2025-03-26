@@ -12,7 +12,16 @@
     List<Administrador> datos = Administrador.getListaEnObjetos("tipo<>'S'", null);
 
     for (Administrador usuario : datos) {
-        String permisos = "";
+    boolean tieneTodos = usuario.getpLeer().equals("S") &&
+                         usuario.getpEditar().equals("S") &&
+                         usuario.getpAgregar().equals("S") &&
+                         usuario.getpEliminar().equals("S") &&
+                         usuario.getpDescargar().equals("S");
+
+    String permisos = "";
+    if (tieneTodos) {
+        permisos = "Acceso completo";
+    } else {
         if (usuario.getpLeer().equals("S")) {
             permisos += "Lectura - ";
         }
@@ -32,6 +41,7 @@
         if (!permisos.isEmpty()) {
             permisos = permisos.substring(0, permisos.length() - 3);
         }
+    }
 
         lista += "<tr>";
         lista += "<td>" + usuario.getIdentificacion() + "</td>";
@@ -49,6 +59,10 @@
     }
 %>
 
+<%@ include file="menu.jsp" %>
+
+
+<div class="content">
 <h3 class="titulo">GESTIÓN DE USUARIOS</h3>
 <link rel="stylesheet" href="presentacion/style-Usuarios.css">
 <div class="search-container">
@@ -72,6 +86,7 @@
     </tr>
     <%=lista%>
 </table>
+</div>
 
 <script type="text/javascript">
     function eliminar(identificacion) {

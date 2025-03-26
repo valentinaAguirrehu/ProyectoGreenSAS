@@ -35,35 +35,42 @@
     <link rel="stylesheet" href="presentacion/style-Perfil.css">
 </head>
 
-<div class="card">
-    <div class="titulo">
-        <h2>MI PERFIL</h2>
-    </div>
-    <div class="card-body">
-        <div class="form-group">
-            <label for="identificacion">Identificación:</label>
-            <input type="text" name="identificacion" id="identificacion" value="<%=usuarioActual.getIdentificacion()%>" readonly>
+<%@ include file="menu.jsp" %>
+
+<div class="content">
+    <div class="card">
+        <div class="titulo">
+            <h2>MI PERFIL</h2>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="identificacion">Identificación:</label>
+                <input type="text" name="identificacion" id="identificacion" value="<%=usuarioActual.getIdentificacion()%>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="nombres">Nombres:</label>
+                <input type="text" name="nombres" id="nombres" value="<%=usuarioActual.getNombres()%>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="celular">Celular:</label>
+                <input type="text" name="celular" id="celular" value="<%=usuarioActual.getCelular()%>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo electrónico:</label>
+                <input type="text" name="email" id="email" value="<%=usuarioActual.getEmail()%>" readonly>
+            </div>
+
+        </div>
+        <div class='btn-container'>
+            <% if ("S".equals(usuarioActual.getTipo())) { %>
+            <a href='perfilFormulario.jsp' title='Modificar'>
+                <button class='btn-adicionar' title='Modificar'> Modificar </button>
+            </a>
+            <% }%>
         </div>
 
-        <div class="form-group">
-            <label for="nombres">Nombres:</label>
-            <input type="text" name="nombres" id="nombres" value="<%=usuarioActual.getNombres()%>" readonly>
-        </div>
-
-        <div class="form-group">
-            <label for="celular">Celular:</label>
-            <input type="text" name="celular" id="celular" value="<%=usuarioActual.getCelular()%>" readonly>
-        </div>
-
-        <div class="form-group">
-            <label for="email">Correo Electrónico:</label>
-            <input type="text" name="email" id="email" value="<%=usuarioActual.getEmail()%>" readonly>
-        </div>
-
-    </div>
-  <div class='btn-container'>
-        <a href='perfilFormulario.jsp' title='Modificar'>
-            <button class='btn-adicionar' title='Modificar'> Modificar </button>
-        </a>
     </div>
 </div>

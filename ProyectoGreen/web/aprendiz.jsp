@@ -24,6 +24,7 @@
             lista.append("<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ");
             lista.append("<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
             lista.append("<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
+            lista.append("<img src='presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboral(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
             lista.append("</td>");
             lista.append("</tr>");
         }
@@ -32,7 +33,7 @@
 <h3>Lista de Aprendices</h3>
 <table class="table">
     <tr>
-        <th>Identificaci髇</th>
+        <th>Identificaci贸n</th>
         <th>Nombre</th>
         <th>Apellidos</th>
         <th>Cargo</th>      
@@ -46,17 +47,17 @@
     <%= lista %> 
 </table>
 
-<!-- Bot髇 para agregar un nuevo colaborador -->
+<!-- Bot贸n para agregar un nuevo colaborador -->
 <div class="add-button" style="margin-top: 10px;">
     <a href="aprendizFormulario.jsp?accion=Adicionar" title="Agregar">
         <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;"> Agregar Colaboradores
     </a>
 </div>
 
-<!-- Script para eliminar una persona con confirmaci髇 -->
+<!-- Script para eliminar una persona con confirmaci贸n -->
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("縍ealmente desea eliminar el registro del aprendiz?");
+        var respuesta = confirm("驴Realmente desea eliminar el registro del aprendiz?");
         if (respuesta) {
             window.location.href = "aprendizActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -64,8 +65,10 @@
     function verDetalles(identificacion) {
     document.location = "aprendizDetalles.jsp?identificacion=" + identificacion;
 }
-
+ function verHistoriaLaboral(identificacion) {
+        window.location.href = "historiaLaboralAprendiz.jsp?identificacion=" + identificacion;
+    }
 </script>
 
-<!-- Bot髇 de cancelar para regresar a la p醙ina anterior -->
+<!-- Bot贸n de cancelar para regresar a la p谩gina anterior -->
 <input type="button" value="Cancelar" onClick="window.history.back()">

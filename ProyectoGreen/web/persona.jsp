@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="presentacion/style-colaboradores.css">
 
 <%
-    // Obtener el par醡etro de b鷖queda
+    // Obtener el par谩metro de b煤squeda
     String filtro = request.getParameter("filtro");
     if (filtro == null) {
         filtro = "";
@@ -48,17 +48,18 @@
     }
 %>
 
+
 <h3>Lista de Colaboradores</h3>
 
-<!-- Campo de b鷖queda -->
+<!-- Campo de b煤squeda -->
 <form method="GET">
-    <input type="text" name="filtro" value="<%= filtro %>" placeholder="Buscar por identificaci髇, nombre, cargo, establecimiento o fecha de ingreso" class="recuadro">
+    <input type="text" name="filtro" value="<%= filtro %>" placeholder="Buscar por identificaci贸n, nombre, cargo, establecimiento o fecha de ingreso" class="recuadro">
     <button type="submit">Buscar</button>
 </form>
 
 <table class="table">
     <tr>
-        <th>Identificaci髇</th>
+        <th>Identificaci贸n</th>
         <th>Nombre</th>
         <th>Apellidos</th>
         <th>Cargo</th>
@@ -69,17 +70,17 @@
     <%= lista %> 
 </table>
 
-<!-- Bot髇 para agregar un nuevo colaborador -->
+<!-- Bot贸n para agregar un nuevo colaborador -->
 <div class="add-button" style="margin-top: 10px;">
     <a href="personaFormulario.jsp?accion=Adicionar" title="Agregar">
         <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;"> Agregar Colaboradores
     </a>
 </div>
 
-<!-- Script para eliminar una persona con confirmaci髇 -->
+<!-- Script para eliminar una persona con confirmaci贸n -->
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("縍ealmente desea eliminar el registro del colaborador?");
+        var respuesta = confirm("驴Realmente desea eliminar el registro del colaborador?");
         if (respuesta) {
             window.location.href = "personaActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -87,7 +88,12 @@
     function verDetalles(identificacion) {
         document.location = "personaDetalles.jsp?identificacion=" + identificacion;
     }
+    function verHistoriaLaboral(identificacion) {
+        window.location.href = "historiaLaboralGreen.jsp?identificacion=" + identificacion;
+    }
+
+
 </script>
 
-<!-- Bot髇 de cancelar para regresar a la p醙ina anterior -->
+<!-- Bot贸n de cancelar para regresar a la p谩gina anterior -->
 <input type="button" value="Cancelar" onClick="window.history.back()">

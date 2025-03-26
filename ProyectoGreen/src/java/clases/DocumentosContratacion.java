@@ -28,13 +28,14 @@ public class DocumentosContratacion {
      private String actaPausasActivas;
      private String induccionCargo;
      private String documentoSagrilaft;
+     private String otrosDocumentos;
 
     public DocumentosContratacion() {
     }
 
     public DocumentosContratacion(String id) {
                     String consultaSQL = "select id,contratoTrabajo,tratamientoDatos,autorizacionExamenesRequisas,profesiograma,"
-                            + "induccionSST,induccionSGA,actaPausasActivas,induccionCargo,documentoSagrilaft "
+                            + "induccionSST,induccionSGA,actaPausasActivas,induccionCargo,documentoSagrilaft,otrosDocumentos "
                       + "from documentoContratacion where id = " + id;
               ResultSet resultado = ConectorBD.consultar(consultaSQL);  
         try {
@@ -49,6 +50,7 @@ public class DocumentosContratacion {
                 actaPausasActivas = resultado.getString("actaPausasActivas");
                 induccionCargo = resultado.getString("induccionCargo");
                 documentoSagrilaft = resultado.getString("documentoSagrilaft");
+                otrosDocumentos = resultado.getString("otrosDocumentos");
              
             }
         } catch (SQLException ex) {
@@ -135,83 +137,85 @@ public class DocumentosContratacion {
     public void setDocumentoSagrilaft(String documentoSagrilaft) {
         this.documentoSagrilaft = documentoSagrilaft;
     }
-    
-     public boolean grabar() {
-        String consultaSQL = "INSERT INTO documentosContratacion (id, contratoTrabajo, tratamientoDatos, " +
-                "autorizacionExamenesRequisas, profesiograma, induccionSST, induccionSGA, " +
-                "actaPausasActivas, induccionCargo, documentoSagrilaft) VALUES ('" +
-                id + "', '" + contratoTrabajo + "', '" + tratamientoDatos + "', '" +
-                autorizacionExamenesRequisas + "', '" + profesiograma + "', '" + induccionSST + "', '" +
-                induccionSGA + "', '" + actaPausasActivas + "', '" + induccionCargo + "', '" +
-                documentoSagrilaft + "')";
-        return ConectorBD.ejecutarQuery(consultaSQL);
+
+    public String getOtrosDocumentos() {
+        return otrosDocumentos;
     }
 
-    public boolean modificar() {
-        String consultaSQL = "UPDATE documentosContratacion SET " +
-                "contratoTrabajo = '" + contratoTrabajo + "', " +
-                "tratamientoDatos = '" + tratamientoDatos + "', " +
-                "autorizacionExamenesRequisas = '" + autorizacionExamenesRequisas + "', " +
-                "profesiograma = '" + profesiograma + "', " +
-                "induccionSST = '" + induccionSST + "', " +
-                "induccionSGA = '" + induccionSGA + "', " +
-                "actaPausasActivas = '" + actaPausasActivas + "', " +
-                "induccionCargo = '" + induccionCargo + "', " +
-                "documentoSagrilaft = '" + documentoSagrilaft + "' " +
-                "WHERE id = '" + id + "'";
-        return ConectorBD.ejecutarQuery(consultaSQL);
-    }
-     
-     
-    public boolean eliminar() {
-        String consultaSQL = "delete from documentosContratacion where id = " + id;
-        return ConectorBD.ejecutarQuery(consultaSQL);
+    public void setOtrosDocumentos(String otrosDocumentos) {
+        this.otrosDocumentos = otrosDocumentos;
     }
     
-    public static ResultSet getLista(String filtro, String orden) {
-        if (filtro != null && !filtro.trim().isEmpty()) {
-            filtro = " where " + filtro;
-        } else {
-            filtro = "";
-        }
-        if (orden != null && !orden.trim().isEmpty()) {
-            orden = " order by " + orden;
-        } else {
-            orden = "";
-        }
-        String cadenaSQL = "select id,contratoTrabajo,tratamientoDatos,autorizacionExamenesRequisas,profesiograma,"
-                            + "induccionSST,induccionSGA,actaPausasActivas,induccionCargo,documentoSagrilaft "
-                      + "from documentoContratacion " + filtro + orden;
-        return ConectorBD.consultar(cadenaSQL);
+ public boolean grabar() { 
+    String consultaSQL = "INSERT INTO documentosContratacion (id, contratoTrabajo, tratamientoDatos, " +
+            "autorizacionExamenesRequisas, profesiograma, induccionSST, induccionSGA, " +
+            "actaPausasActivas, induccionCargo, documentoSagrilaft, otrosDocumentos) VALUES ('" +
+            id + "', '" + contratoTrabajo + "', '" + tratamientoDatos + "', '" +
+            autorizacionExamenesRequisas + "', '" + profesiograma + "', '" + induccionSST + "', '" +
+            induccionSGA + "', '" + actaPausasActivas + "', '" + induccionCargo + "', '" +
+            documentoSagrilaft + "', '" + otrosDocumentos + "')";
+    return ConectorBD.ejecutarQuery(consultaSQL);
+}
+
+public boolean modificar() {
+    String consultaSQL = "UPDATE documentosContratacion SET " +
+            "contratoTrabajo = '" + contratoTrabajo + "', " +
+            "tratamientoDatos = '" + tratamientoDatos + "', " +
+            "autorizacionExamenesRequisas = '" + autorizacionExamenesRequisas + "', " +
+            "profesiograma = '" + profesiograma + "', " +
+            "induccionSST = '" + induccionSST + "', " +
+            "induccionSGA = '" + induccionSGA + "', " +
+            "actaPausasActivas = '" + actaPausasActivas + "', " +
+            "induccionCargo = '" + induccionCargo + "', " +
+            "documentoSagrilaft = '" + documentoSagrilaft + "', " +
+            "otrosDocumentos = '" + otrosDocumentos + "' " +
+            "WHERE id = '" + id + "'";
+    return ConectorBD.ejecutarQuery(consultaSQL);
+}
+
+public static ResultSet getLista(String filtro, String orden) {
+    if (filtro != null && !filtro.trim().isEmpty()) {
+        filtro = " where " + filtro;
+    } else {
+        filtro = "";
     }
+    if (orden != null && !orden.trim().isEmpty()) {
+        orden = " order by " + orden;
+    } else {
+        orden = "";
+    }
+    String cadenaSQL = "select id, contratoTrabajo, tratamientoDatos, autorizacionExamenesRequisas, profesiograma, "
+                        + "induccionSST, induccionSGA, actaPausasActivas, induccionCargo, documentoSagrilaft, otrosDocumentos "
+                        + "from documentosContratacion " + filtro + orden;
+    return ConectorBD.consultar(cadenaSQL);
+}
 
-  
- public static List<DocumentosContratacion> getListaEnObjetos(String filtro, String orden) {
-        List<DocumentosContratacion> lista = new ArrayList<>();
-        ResultSet datos = DocumentosContratacion.getLista(filtro, orden);
-        if (datos != null) {
-            try {
-                while (datos.next()) {
-                    DocumentosContratacion documentoContratacion = new DocumentosContratacion();
-                    documentoContratacion.setId(datos.getString("id"));
-                    documentoContratacion.setContratoTrabajo(datos.getString("contratoTrabajo"));
-                    documentoContratacion.setTratamientoDatos(datos.getString("tratamientoDatos"));
-                    documentoContratacion.setAutorizacionExamenesRequisas(datos.getString("autorizacionExamenesRequisas"));
-                    documentoContratacion.setProfesiograma(datos.getString("profesiograma"));
-                    documentoContratacion.setInduccionSST(datos.getString("induccionSST"));
-                    documentoContratacion.setInduccionSGA(datos.getString("induccionSGA"));
-                    documentoContratacion.setActaPausasActivas(datos.getString("actaPausasActivas"));
-                    documentoContratacion.setInduccionCargo(datos.getString("induccionCargo"));
-                    documentoContratacion.setDocumentoSagrilaft(datos.getString("documentoSagrilaft"));
-
-                    lista.add(documentoContratacion);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(DocumentosContratacion.class.getName()).log(Level.SEVERE, null, ex);
+public static List<DocumentosContratacion> getListaEnObjetos(String filtro, String orden) {
+    List<DocumentosContratacion> lista = new ArrayList<>();
+    ResultSet datos = DocumentosContratacion.getLista(filtro, orden);
+    if (datos != null) {
+        try {
+            while (datos.next()) {
+                DocumentosContratacion documentoContratacion = new DocumentosContratacion();
+                documentoContratacion.setId(datos.getString("id"));
+                documentoContratacion.setContratoTrabajo(datos.getString("contratoTrabajo"));
+                documentoContratacion.setTratamientoDatos(datos.getString("tratamientoDatos"));
+                documentoContratacion.setAutorizacionExamenesRequisas(datos.getString("autorizacionExamenesRequisas"));
+                documentoContratacion.setProfesiograma(datos.getString("profesiograma"));
+                documentoContratacion.setInduccionSST(datos.getString("induccionSST"));
+                documentoContratacion.setInduccionSGA(datos.getString("induccionSGA"));
+                documentoContratacion.setActaPausasActivas(datos.getString("actaPausasActivas"));
+                documentoContratacion.setInduccionCargo(datos.getString("induccionCargo"));
+                documentoContratacion.setDocumentoSagrilaft(datos.getString("documentoSagrilaft"));
+                documentoContratacion.setOtrosDocumentos(datos.getString("otrosDocumentos"));
+                lista.add(documentoContratacion);
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(DocumentosContratacion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return lista;
     }
+    return lista;
+}
 
 
 }

@@ -26,10 +26,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7f6;
+    display: flex;
+    min-height: 10vh;
     margin: 0;
-    padding: 20px;
 }
 
 /* Estilo del título */
@@ -63,10 +62,12 @@ body {
 }
 
 /* Estilos de la barra de búsqueda */
+
 .search-box {
     position: relative;
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .recuadro {
@@ -98,7 +99,6 @@ body {
 
 .table th, .table td {
     padding: 12px;
-    text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
@@ -125,6 +125,27 @@ body {
 /* Botón de añadir */
 .table th:last-child {
     text-align: center;
+}
+
+/* Se ajusta segun al menú */
+.content {
+    flex-grow: 1;
+    overflow-x: auto; 
+    margin-left: 220px; /* Desplazar el contenido a la derecha */
+    padding: 20px;
+}
+
+/* ICONOS*/
+
+.iconoLeer, .iconoVer, .iconoEditar img, .iconoEliminar {
+    margin-right: 10px; /* Espacio entre los iconos */
+    cursor: pointer; /* Cambia el cursor al pasar sobre los iconos */
+    vertical-align: middle; /* Alinea todos los iconos */
+    display: inline-block; /* Asegura que estén alineados en la misma línea */
+}
+
+.iconoEditar img, .iconoEliminar img {
+    vertical-align: middle; /* Alinea los iconos con el texto */
 }
 
 /* Diseño responsivo */

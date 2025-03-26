@@ -1,0 +1,118 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 23 mar 2025, 0:17:00
+    Author     : Angie
+*/
+/* Diseño General */
+body {
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.sidebar {
+    width: 190px;
+    background: #145a32; /* Color del menú */
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    position: fixed;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    position: relative; 
+    padding: 10px;
+    border-bottom: 1px solid #388e3c; /* Color de las líneas separadoras */
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar ul li:hover {
+    background: #388e3c; /* Color al pasar el cursor*/
+}
+
+.sidebar ul li:hover a {
+    color: #013819; /* Color de las letras al pasar el cursor */
+}
+
+.sidebar .dropdown-content li a {
+    color: white !important; /* Color de las letras del sub-Menu */
+}
+
+.sidebar ul li:last-child {
+    border-bottom: none; /* Elimina la línea verde solo del último elemento */
+}
+
+.sidebar .dropdown-content li:hover a {
+    color: #013819 !important; /* Color de las letras del sub-Menu al pasar el cursor */
+}
+
+/* Menú desplegable */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #145a32; /* Color del Sub-menú desplegable */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content li {
+    padding: 10px;
+    white-space: nowrap;
+}
+
+/* Menú inferior */
+
+.bottom-menu {
+    position: relative;
+    bottom: 5%;
+    border-top: 1px solid #388e3c;
+}
+
+/* Iconos */
+
+.icono-menu {
+    width: 12px; /* Ajusta el tamaño del icono */
+    height: auto;
+    margin-left: 10px; /* Espacio entre el texto y el icono */
+    vertical-align: middle; /* Centra el icono con el texto */
+}
+
+.dropdown a img {
+    transition: transform 0.3s ease;
+}
+.dropdown:hover a img {
+    transform: rotate(270deg);
+}
+
+/* Logo */
+.logo-container {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+}
+
+.logo-container img {
+    height: 40px; 
+}

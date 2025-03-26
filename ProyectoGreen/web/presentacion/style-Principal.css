@@ -14,145 +14,54 @@ body {
     margin: 0;
 }
 
-.sidebar {
-    width: 200px;
-    background: #145a32; /* Color del menú */
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar ul li {
-    position: relative; 
-    padding: 10px;
-    border-bottom: 1px solid #388e3c; /* Color de las líneas separadoras */
-}
-
-.sidebar ul li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-}
-
-.sidebar ul li:hover {
-    background: #388e3c; /* Color al pasar el cursor*/
-}
-
-.sidebar ul li:hover a {
-    color: #013819; /* Color de las letras al pasar el cursor */
-}
-
-.sidebar .dropdown-content li a {
-    color: white !important; /* Color de las letras del sub-Menu */
-}
-
-.sidebar .dropdown-content li:hover a {
-    color: #013819 !important; /* Color de las letras del sub-Menu al pasar el cursor */
-}
-
-/* Menú desplegable */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    background-color: #145a32; /* Color del Sub-menú desplegable */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown-content li {
-    padding: 10px;
-    white-space: nowrap;
-}
-
-/* Menú inferior */
-.bottom-menu {
-    position: relative;
-    border-top: 1px solid #388e3c;
-}
-/* Iconos */
-
-.icono-menu {
-    width: 12px; /* Ajusta el tamaño del icono */
-    height: auto;
-    margin-left: 20px; /* Espacio entre el texto y el icono */
-    vertical-align: middle; /* Centra el icono con el texto */
-}
-
-.dropdown a img {
-    transition: transform 0.3s ease;
-}
-.dropdown:hover a img {
-    transform: rotate(270deg);
-}
-
-/* Logo */
-.logo-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.logo-container img {
-    height: 60px; 
-}
-
-/* Contenido Principal */
+/* Asegura que el main no se solape con el menú */
 .content {
-    flex-grow: 1;
+    margin-left: 220px; /* Ajusta esto según el ancho de tu menú */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.welcome-text {
     text-align: center;
+    min-height: 100vh; /* Ocupa toda la pantalla */
+    padding: 20px;
 }
 
+/* Estilo del texto de bienvenida */
+.welcome-text {
+    font-size: 1.4em; /* Reduce el tamaño de la fuente */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de los botones */
 .quad-container {
     display: flex;
     justify-content: center;
-    width: 600px;
-    margin-top: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
+/* Botones */
 .quad {
     width: 280px;
     height: 100px;
     background-color: white;
     border: 2px solid black;
-    margin: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     font-weight: bold;
     font-size: 1.2em;
-    border-radius: 10px; 
-    transition: all 0.3s ease-in-out; 
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8); 
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
 }
 
-/* Efecto al pasar el cursor */
 .quad:hover {
-    background-color: #4CAF50; 
-    color: white; 
-    transform: scale(1.1); 
-    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3); 
-    border-color: #2E7D32; 
+    background-color: #4CAF50;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.3);
+    border-color: #2E7D32;
 }
-
