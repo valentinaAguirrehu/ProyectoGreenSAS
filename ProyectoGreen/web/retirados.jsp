@@ -33,6 +33,7 @@
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
                 lista += "<td>";
+
                 lista += "<img class='iconoLeer' src='presentacion/iconos/ojo.png' width='25' height='25' title='Ver detalles'>";
                 lista += "<img class='iconoVer' src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral'>";
                 lista += "<a href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
@@ -56,6 +57,8 @@
 
     <div class="search-container">
         <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por nombre o identificación " class="recuadro">
+
             <select id="searchType" class="recuadro">
                 <option value="identificacion">Identificación</option>
                 <option value="nombre">Nombre</option>
@@ -64,6 +67,7 @@
                 <option value="carpeta">Número de carpeta</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
+
             <img src="presentacion/iconos/lupa.png" alt="Buscar">
         </div>
     </div>
@@ -76,10 +80,20 @@
             <th>Fecha de ingreso</th>
             <th>Fecha de retiro</th>
             <th>Cargo</th>
+            <th>Nº de caja</th>
+            <th>Nº de carpeta</th>
+            <th>Observaciones</th>
+            <th>
+                <a href="retiradosFormulario.jsp?accion=Adicionar" title="Adicionar">
+                    <img src="presentacion/iconos/agregar.png" width='30' height='30'>
+                </a>
+            </th>
+
             <th>Número de caja</th>
             <th>Número de carpeta</th>
             <th>Observaciones</th>
             <th>Acciones</th>
+
         </tr>
         <%= lista%>
     </table>
@@ -93,9 +107,15 @@
         }
     }
 
+    function filterNames() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+
+
     function filterResults() {
         const searchType = document.getElementById('searchType').value;
         const input = document.getElementById('searchInput').value.toLowerCase();
+
         const table = document.getElementById('usuariosTable');
         const rows = table.getElementsByTagName('tr');
 
@@ -127,6 +147,8 @@
         }
     }
 
+
+
     // PERMISOS
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -137,5 +159,6 @@
     <%= administrador.getpLeer()%>
         );
     });
+
 
 </script>

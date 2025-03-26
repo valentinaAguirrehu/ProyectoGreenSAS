@@ -1,3 +1,23 @@
+<%@page import="java.util.List"%>
+<%@page import="clases.HistoriaLaboral"%>
+<%@page import="clases.Persona"%>
+<% String identificacion = request.getParameter("identificacion");
+    Persona persona = null;
+    HistoriaLaboral historiaLaboral = null;
+    
+    if (identificacion != null && !identificacion.isEmpty()) {
+        persona = new Persona(identificacion);
+    } else {
+        List<HistoriaLaboral> datos = HistoriaLaboral.getListaEnObjetos(null, null);
+        if (datos != null && !datos.isEmpty()) {
+            historiaLaboral = datos.get(0);
+            if (historiaLaboral != null && historiaLaboral.getIdentificacionPersona() != null) {
+                persona = new Persona(historiaLaboral.getIdentificacionPersona());
+            }
+        }
+    }%>
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,7 +33,7 @@
                 <div class="buttons">
                     <a href="principal.jsp" class="btn-volver">VOLVER</a>
                 </div>
-                <input type="text" value="ANGE FLORENCIA JOOJA" class="nombre">
+                <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() : "" %>" class="nombre" readonly>
             </div>
         <table class="documentos-tabla">
     <thead>

@@ -6,6 +6,7 @@
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
+<link rel="stylesheet" href="presentacion/style-Colaboradores.css">
 
 <%
     String lista = "";
@@ -21,12 +22,14 @@
         lista += "<td>";
         lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + persona.getIdentificacion() + "' title='Modificar'>";
         lista += "<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
-        lista += "<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
+        lista += "<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/> ";
         lista += "<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")'> ";
+        lista += "<img src='presentacion/iconos/verDocumento.png' title='Historia Laboral' onClick='verHistoriaLaboral(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/> ";
         lista += "</td>";
         lista += "</tr>";
     }
 %>
+
 
 <h3>Lista de Colaboradores</h3>
 <table border="1">
@@ -56,8 +59,12 @@
         }
     }
     function verDetalles(identificacion) {
-    document.location = "personaDetalles.jsp?identificacion=" + identificacion;
-}
+        document.location = "personaDetalles.jsp?identificacion=" + identificacion;
+    }
+    function verHistoriaLaboral(identificacion) {
+        window.location.href = "historiaLaboralGreen.jsp?identificacion=" + identificacion;
+    }
+
 
 </script>
 

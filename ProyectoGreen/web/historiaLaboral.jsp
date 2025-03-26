@@ -1,5 +1,7 @@
+<%@page import="clases.HistoriaLaboral"%>
+<%@page import="clases.Persona"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, java.util.Iterator, java.util.Map, java.util.HashMap" %>
+<%@ page import="java.util.List" %>
 <%@ page import="org.apache.tomcat.util.http.fileupload.FileItem" %>
 <%@ page import="org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory" %>
 <%@ page import="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload" %>
@@ -7,13 +9,28 @@
 <%@ page import="java.io.File" %>
 
 <%
+    String identificacion = request.getParameter("identificacion");
+    Persona persona = null;
+    HistoriaLaboral historiaLaboral = null;
+    
+    if (identificacion != null && !identificacion.isEmpty()) {
+        persona = new Persona(identificacion);
+    } else {
+        List<HistoriaLaboral> datos = HistoriaLaboral.getListaEnObjetos(null, null);
+        if (datos != null && !datos.isEmpty()) {
+            historiaLaboral = datos.get(0);
+            if (historiaLaboral != null && historiaLaboral.getIdentificacionPersona() != null) {
+                persona = new Persona(historiaLaboral.getIdentificacionPersona());
+            }
+        }
+    }
+    
     String rutaArchivoGuardado = null;
     String nombreArchivoGuardado = null;
     boolean subioArchivo = false;
 
     String rutaArchivos = getServletContext().getRealPath("/") + "uploads/";
     File destino = new File(rutaArchivos);
-
     if (!destino.exists()) {
         destino.mkdirs();
     }
@@ -31,7 +48,7 @@
                     File archivoGuardado = new File(destino, nombreArchivoGuardado);
                     item.write(archivoGuardado);
                     subioArchivo = true;
-                    rutaArchivoGuardado = "uploads/" + nombreArchivoGuardado; // Ruta relativa
+                    rutaArchivoGuardado = "uploads/" + nombreArchivoGuardado;
                 }
             }
         }
@@ -47,37 +64,34 @@
     </head>
     <body>
         <div class="container">
-            <h1>HISTORIA LABORAL ACTIVOS</h1>
+            <h1>HISTORIA LABORAL TEMPORALES</h1>
 
             <div class="section">
-                <input type="text" value="JOHANA LILIANA JIMÉN" class="nombre">
+                <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() : "" %>" class="nombre" readonly>
             </div>
-             <!-- Datos Laborales -->
+
             <div class="section">
                 <h3 class="titulo-seccion">Datos Laborales</h3>
                 <div class="input-group">
                     <div class="campo">
                         <label>C.C.</label>
-                        <input type="text" class="campo-pequeno">
+                        <input type="text" class="campo-pequeno" value="<%= (persona != null) ? persona.getIdentificacion() : "" %>" readonly>
                     </div>
                     <div class="campo">
                         <label>Centro de Costo</label>
-                        <input type="text" class="campo-mediano">
+                        <input type="text" class="campo-mediano" value="<%= (persona != null) ? persona.getCentroCostos() : "" %>" readonly>
                     </div>
-                    
                     <div class="campo">
                         <label>Establecimiento</label>
-                        <input type="text" class="campo-pequeno">
+                        <input type="text" class="campo-pequeno" value="<%= (persona != null) ? persona.getEstablecimiento() : "" %>" readonly>
                     </div>
                     <div class="campo">
                         <label>Celular</label>
-                        <input type="text" class="campo-pequeno">
+                        <input type="text" class="campo-pequeno" value="<%= (persona != null) ? persona.getCelular() : "" %>" readonly>
                     </div>
                 </div>
             </div>
-
-          
-            <div class="section">
+        </<div class="section">
                 <h3 class="titulo-seccion">Datos Personales</h3>
                 <div class="data-grid">
 
@@ -169,13 +183,33 @@
                 </div>
             </div>
 
+
             <div class="buttons">
                 <a href="principal.jsp" class="btn-volver">VOLVER</a>
             </div>
         </div>
         
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+       function openModal(imageSrc) {
+    var modal = document.getElementById("modal");
+    var modalImage = document.getElementById("modalImage");
+    
+    // Verifica si es una imagen
+    if (imageSrc.endsWith('.png') || imageSrc.endsWith('.jpg') || imageSrc.endsWith('.jpeg')) {
+        modal.style.display = "block";
+        modalImage.src = imageSrc;  // Usamos la imagen almacenada
+    }
+}
+
+
+    function closeModal() {
+        var modal = document.getElementById("modal");
+        modal.style.display = "none";
+    }
+    
+    
+    
+    document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll('.upload-btn').forEach(button => {
                     button.addEventListener('click', function () {
                         let fileInput = this.nextElementSibling;
@@ -202,14 +236,14 @@
                                 method: "POST",
                                 body: formData
                             })
-                            .then(response => response.text())
-                            .then(data => {
-                                alert("Archivo subido con éxito: " + file.name);
-                                let parent = this.closest(".icon-buttons");
-                                parent.querySelector(".ver-btn").setAttribute("data-file", data);
-                                parent.querySelector(".descargar-btn").setAttribute("data-file", data);
-                            })
-                            .catch(error => console.error("Error al subir archivo", error));
+                                    .then(response => response.text())
+                                    .then(data => {
+                                        alert("Archivo subido con éxito: " + file.name);
+                                        let parent = this.closest(".icon-buttons");
+                                        parent.querySelector(".ver-btn").setAttribute("data-file", data);
+                                        parent.querySelector(".descargar-btn").setAttribute("data-file", data);
+                                    })
+                                    .catch(error => console.error("Error al subir archivo", error));
                         }
                     });
                 });
