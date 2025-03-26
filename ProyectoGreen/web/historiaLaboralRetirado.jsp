@@ -1,8 +1,15 @@
 <%@page import="java.util.List"%>
 <%@page import="clases.HistoriaLaboral"%>
 <%@page import="clases.Persona"%>
+<%@page import="clases.Administrador"%>
 
-<% String identificacion = request.getParameter("identificacion");
+<%
+    Administrador administrador = (Administrador) session.getAttribute("administrador");
+    if (administrador == null) {
+        administrador = new Administrador();
+    }
+    
+    String identificacion = request.getParameter("identificacion");
     Persona persona = null;
     HistoriaLaboral historiaLaboral = null;
 
@@ -214,5 +221,17 @@
             });
         });
     });
+    
+    // PERMISOS
+
+    document.addEventListener("DOMContentLoaded", function () {
+        controlarPermisos(
+    <%= administrador.getpEliminar()%>,
+    <%= administrador.getpAgregar()%>,
+    <%= administrador.getpLeer()%>,
+    <%= administrador.getpDescargar()%>
+        );
+    });
+    
 </script>
 

@@ -33,11 +33,11 @@
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
                 lista += "<td>";
-                lista += "<img class='iconoLeer' src='presentacion/iconos/ojo.png' width='25' height='25' title='Ver detalles'>";
-                lista += "<img class='iconoVer' src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboralRetirados(" + persona.getIdentificacion() + ")'>";
+                lista += "<img class='ver' src='presentacion/iconos/ojo.png' width='25' height='25' title='Ver detalles'>";
+                lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboralRetirados(" + persona.getIdentificacion() + ")'>";
                 lista += "<a href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
-                        + "' title='Modificar' class='iconoEditar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a>";
-                lista += "<img src='presentacion/iconos/eliminar.png' class='iconoEliminar' width='25' height='25' title='Eliminar' onClick='eliminar("
+                        + "' title='Modificar' class='editar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a>";
+                lista += "<img src='presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar' onClick='eliminar("
                         + persona.getIdentificacion() + ")'>";
                 lista += "</td>";
                 lista += "</tr>";
