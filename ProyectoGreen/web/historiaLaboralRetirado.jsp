@@ -1,10 +1,11 @@
 <%@page import="java.util.List"%>
 <%@page import="clases.HistoriaLaboral"%>
 <%@page import="clases.Persona"%>
+
 <% String identificacion = request.getParameter("identificacion");
     Persona persona = null;
     HistoriaLaboral historiaLaboral = null;
-    
+
     if (identificacion != null && !identificacion.isEmpty()) {
         persona = new Persona(identificacion);
     } else {
@@ -19,6 +20,10 @@
 
 
 <!DOCTYPE html>
+<jsp:include page="permisos.jsp" />
+<%@ include file="menu.jsp" %>
+
+<div class="content">
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -27,119 +32,122 @@
     </head>
     <body>
         <div class="container">
-            <h1>HISTORIA LABORAL RETIRADOS</h1>
+            <h1>HISTORIA LABORAL</h1>
             <div class="section">
-                <h2>DOCUMENTOS DE RETIRADOS</h2>
-                <div class="buttons">
-                    <a href="principal.jsp" class="btn-volver">VOLVER</a>
-                </div>
-                <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() : "" %>" class="nombre" readonly>
+                <h2>COLABORADOR RETIRADO</h2>
+                <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() : ""%>" class="nombre" readonly>
             </div>
-        <table class="documentos-tabla">
-    <thead>
-        <tr>
-            <th>DOCUMENTOS</th>
-            <th>ARCHIVO</th>
-            <th>OTRO</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>HOJA DE VIDA</td>
-            <td class="archivo">
-                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-            </td>
-            <td>
-                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
-            </td>
-        </tr>
-        <tr>
-            <td>DOCUMENTOS CONTRATACIÓN</td>
-            <td class="archivo">
-                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-            </td>
-            <td>
-                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
-            </td>
-        </tr>
-        <tr>
-            <td>AFILIACIONES</td>
-            <td class="archivo">
-                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-            </td>
-            <td>
-                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
-            </td>
-        </tr>
-        <tr>
-            <td>DOCUMENTOS DURANTE LA CONTRATACIÓN</td>
-            <td class="archivo">
-                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-            </td>
-            <td>
-                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
-            </td>
-        </tr>
-        <tr>
-            <td>AUSENTISMOS</td>
-            <td class="archivo">
-                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-            </td>
-            <td>
-                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
-            </td>
-        </tr>
-        <tr>
-            <td>DOCUMENTOS AL FINALIZAR LA CONTRATACIÓN</td>
-            <td class="archivo">
-                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-            </td>
-            <td>
-                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
-            </td>
-        </tr>
-        <tr>
-            <td>SST-SGA</td>
-            <td class="archivo">
-                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-            </td>
-            <td>
-                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+            <table class="documentos-tabla">
+                <thead>
+                    <tr>
+                        <th>DOCUMENTOS</th>
+                        <th>ARCHIVO</th>
+                        <th>OTRO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HOJA DE VIDA</td>
+                        <td class="archivo">
+                            <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                        </td>
+                        <td>
+                            <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                            <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                            <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                            <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                            <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DOCUMENTOS CONTRATACIÓN</td>
+                        <td class="archivo">
+                            <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                        </td>
+                        <td>
+                            <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                            <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                            <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                            <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                            <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AFILIACIONES</td>
+                        <td class="archivo">
+                            <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                        </td>
+                        <td>
+                            <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                            <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                            <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                            <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                            <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DOCUMENTOS DURANTE LA CONTRATACIÓN</td>
+                        <td class="archivo">
+                            <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                        </td>
+                        <td>
+                            <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                            <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                            <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                            <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                            <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>AUSENTISMOS</td>
+                        <td class="archivo">
+                            <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                        </td>
+                        <td>
+                            <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                            <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                            <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                            <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                            <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DOCUMENTOS AL FINALIZAR LA CONTRATACIÓN</td>
+                        <td class="archivo">
+                            <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                        </td>
+                        <td>
+                            <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                            <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                            <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                            <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                            <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>SST-SGA</td>
+                        <td class="archivo">
+                            <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                        </td>
+                        <td>
+                            <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                            <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                            <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                            <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                            <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="buttons">
+                <a href="retirados.jsp" class="btn-volver">VOLVER</a>
+            </div>
         </div>
-  <script>
+    </body>
+</html>
+</div>
+
+<script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("tr").forEach(row => {
             let uploadBtn = row.querySelector(".subir");   // Subir archivo
@@ -150,7 +158,8 @@
             let fileInput = row.querySelector(".input-file"); // Input de archivo
             let fileData = null;
 
-            if (!uploadBtn || !deleteBtn || !viewBtn || !downloadBtn || !fileMessage || !fileInput) return;
+            if (!uploadBtn || !deleteBtn || !viewBtn || !downloadBtn || !fileMessage || !fileInput)
+                return;
 
             // Subir Archivo
             uploadBtn.addEventListener("click", function () {
@@ -189,24 +198,21 @@
                 }
             });
 
-                // Eliminar Archivo con Confirmación
-                deleteBtn.addEventListener("click", function () {
-                    if (fileData) {
-                        let confirmacion = confirm("¿Estás seguro de eliminar este archivo?");
-                        if (confirmacion) {
-                            fileData = null;
-                            fileMessage.style.color = "red";
-                            fileMessage.textContent = "NO HAY NINGÚN ARCHIVO CARGADO";
-                            fileInput.value = ""; // Limpiar input
-                        }
-                    } else {
-                        alert("No hay ningún archivo para eliminar");
-                    } 
+            // Eliminar Archivo con Confirmación
+            deleteBtn.addEventListener("click", function () {
+                if (fileData) {
+                    let confirmacion = confirm("¿Estás seguro de eliminar este archivo?");
+                    if (confirmacion) {
+                        fileData = null;
+                        fileMessage.style.color = "red";
+                        fileMessage.textContent = "NO HAY NINGÚN ARCHIVO CARGADO";
+                        fileInput.value = ""; // Limpiar input
+                    }
+                } else {
+                    alert("No hay ningún archivo para eliminar");
+                }
             });
         });
     });
 </script>
 
-
-    </body>
-</html>
