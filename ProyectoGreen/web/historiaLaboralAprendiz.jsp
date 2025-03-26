@@ -66,46 +66,47 @@
             </div>
             <!-- Datos Personales -->
             <div class="section">
-                <h3 class="titulo-seccion">Datos Personales</h3>
+                <h3 class="titulo-seccion">DOCUMENTOS</h3>
 
-                <div class="data-grid">
+                   <div class="data-grid"> 
                     <div class="data-item">
                         <span>DOCUMENTO DE IDENTIDAD</span>
-                        <button class="ver-btn">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verDocumentoIdentidad.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>DURANTE CONTRATACIÓN</span>
-                        <button class="ver-btn">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verDuranteContratacion.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>HOJA DE VIDA</span>
-                        <button class="ver-btn">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verHojaDeVida.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>AUSENTISMOS</span>
-                        <button class="ver-btn">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verAusentismos.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>DOCUMENTOS CONTRATACIÓN</span>
-                        <button class="ver-btn">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verDocumentosContratacion.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>DOCUMENTOS SST-SGA</span>
-                        <button class="ver-btn">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verDocumentosSSTSGA.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>AFILIACIONES</span>
-                        <button class="ver-btn">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verAfiliaciones.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>FINALIZAR CONTRATACIÓN</span>
-                        <button class="ver-btn">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verFinalizacionContrato.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
+                </div>
                 </div>
             </div>
 
             <div class="buttons">
-                <a href="principal.jsp" class="btn-volver">VOLVER</a>
+                <a href="aprendiz.jsp" class="btn-volver">VOLVER</a>
             </div>
         </div>
     </body>

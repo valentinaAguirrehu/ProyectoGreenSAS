@@ -42,6 +42,7 @@
             lista += "<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
             lista += "<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
             lista += "<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
+             lista += "<img src='presentacion/iconos/verDocumento.png' title='Historia Laboral' onClick='verHistoriaLaboral(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/> ";
             lista += "</td>";
             lista += "</tr>";
         }
