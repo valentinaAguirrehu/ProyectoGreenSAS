@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Mary
+ * @author Mary2
  */
 public class Persona {
 
@@ -62,6 +62,12 @@ public class Persona {
     private String segundaRefNombre;
     private String segundaRefParentezco;
     private String segundaRefCelular;
+    private String terceraRefNombre;
+    private String terceraRefParentezco;
+    private String terceraRefCelular;
+    private String cuartaRefNombre;
+    private String cuartaRefParentezco;
+    private String cuartaRefCelular;
     private String tieneHijos;
     private List<Hijo> hijos = new ArrayList<>();
     private String tallaCamisa;
@@ -141,6 +147,12 @@ public class Persona {
                 segundaRefNombre = resultado.getString("segundaRefNombre");
                 segundaRefParentezco = resultado.getString("segundaRefParentezco");
                 segundaRefCelular = resultado.getString("segundaRefCelular");
+                terceraRefNombre = resultado.getString("terceraRefNombre");
+                terceraRefParentezco = resultado.getString("terceraRefParentezco");
+                terceraRefCelular = resultado.getString("terceraRefCelular");
+                cuartaRefNombre = resultado.getString("cuartaRefNombre");
+                cuartaRefParentezco = resultado.getString("cuartaRefParentezco");
+                cuartaRefCelular = resultado.getString("cuartaRefCelular");
                 tieneHijos = resultado.getString("tieneHijos");
                 tallaCamisa = resultado.getString("tallaCamisa");
                 tallaChaqueta = resultado.getString("tallaChaqueta");
@@ -168,8 +180,7 @@ public class Persona {
                 fechaProEntrega = resultado.getString("fechaProEntrega");
                 profesion = resultado.getString("profesion");
                 
-
-                //  consutoh los hijos de las persona
+//  consutoh los hijos de las persona
                 this.hijos = Hijo.obtenerHijosDePersona(identificacion);
             }
         } catch (SQLException ex) {
@@ -184,6 +195,7 @@ public class Persona {
             }
         }
     }
+
 
     public String getTipoVehiculo() {
         String resultado = tipoVehiculo;
@@ -730,6 +742,74 @@ public class Persona {
         this.segundaRefCelular = segundaRefCelular;
     }
 
+    public String getTerceraRefNombre() {
+        String resultado = terceraRefNombre;
+        if (terceraRefNombre == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setTerceraRefNombre(String terceraRefNombre) {
+        this.terceraRefNombre = terceraRefNombre;
+    }
+
+    public String getTerceraRefParentezco() {
+        String resultado = terceraRefParentezco;
+        if (terceraRefParentezco == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setTerceraRefParentezco(String terceraRefParentezco) {
+        this.terceraRefParentezco = terceraRefParentezco;
+    }
+
+    public String getTerceraRefCelular() {
+        return terceraRefCelular;
+    }
+
+    public void setTerceraRefCelular(String terceraRefCelular) {
+        this.terceraRefCelular = terceraRefCelular;
+    }
+
+    public String getCuartaRefNombre() {
+        String resultado = cuartaRefNombre;
+        if (cuartaRefNombre == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setCuartaRefNombre(String cuartaRefNombre) {
+        this.cuartaRefNombre = cuartaRefNombre;
+    }
+
+    public String getCuartaRefParentezco() {
+        String resultado = cuartaRefParentezco;
+        if (cuartaRefParentezco == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setCuartaRefParentezco(String cuartaRefParentezco) {
+        this.cuartaRefParentezco = cuartaRefParentezco;
+    }
+
+    public String getCuartaRefCelular() {
+       String resultado = cuartaRefCelular;
+        if (cuartaRefCelular == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setCuartaRefCelular(String cuartaRefCelular) {
+        this.cuartaRefCelular = cuartaRefCelular;
+    }
+
     public Hijo getTieneHijos() {
         return new Hijo(tieneHijos);
 
@@ -1002,6 +1082,7 @@ public class Persona {
     // Otros getters y setters según corresponda...
 
     
+    
     @Override
     public String toString() {
 
@@ -1031,102 +1112,116 @@ public class Persona {
 
     public boolean grabar() {
         // 1. Insertar persona con los datos del vehículo incluidos
-        String cadenaSQL = "INSERT INTO persona (identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
-                + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, "
-                + "celular, email, nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, "
-                + "unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, "
-                + "primerRefNombre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, "
-                + "tieneHijos, tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo, numLicenciaConduccion, "
-                + "fechaExpConduccion, fechaVencimiento, restricciones, estado, numeroPlacaVehiculo, tipoVehiculo, modeloVehiculo, "
-                + "linea, ano, color, cilindraje, numLicenciaTransito, fechaExpLicenciaTransito) VALUES ("
-                + "'" + identificacion + "', "
-                + "'" + tipo + "', "
-                + idCargo + ", "
-                + "'" + tipoDocumento + "', "
-                + (fechaExpedicion != null ? "'" + fechaExpedicion + "'" : "NULL") + ", "
-                + "'" + lugarExpedicion + "', "
-                + "'" + nombres + "', "
-                + "'" + apellidos + "', "
-                + "'" + sexo + "', "
-                + (fechaNacimiento != null ? "'" + fechaNacimiento + "'" : "NULL") + ", "
-                + "'" + lugarNacimiento + "', "
-                + "'" + tipoSangre + "', "
-                + "'" + tipoVivienda + "', "
-                + "'" + direccion + "', "
-                + "'" + barrio + "', "
-                + "'" + celular + "', "
-                + "'" + email + "', "
-                + "'" + nivelEducativo + "', "
-                + "'" + eps + "', "
-                + "'" + estadoCivil + "', "
-                + (fechaIngreso != null ? "'" + fechaIngreso + "'" : "NULL") + ", "
-                + (fechaRetiro != null ? "'" + fechaRetiro + "'" : "NULL") + ", "
-                + (fechaEtapaLectiva != null ? "'" + fechaEtapaLectiva + "'" : "NULL") + ", "
-                + (fechaEtapaProductiva != null ? "'" + fechaEtapaProductiva + "'" : "NULL") + ", "
-                + "'" + unidadNegocio + "', "
-                + centroCostos + ", "
-                + "'" + establecimiento + "', "
-                + "'" + area + "', "
-                + "'" + tipoCargo + "', "
-                + "'" + cuentaBancaria + "', "
-                + "'" + numeroCuenta + "', "
-                + salario + ", "
-                + "'" + primerRefNombre + "', "
-                + "'" + primerRefParentezco + "', "
-                + "'" + primerRefCelular + "', "
-                + "'" + segundaRefNombre + "', "
-                + "'" + segundaRefParentezco + "', "
-                + "'" + segundaRefCelular + "', "
-                + "'" + tieneHijos + "', "
-                + "'" + tallaCamisa + "', "
-                + "'" + tallaChaqueta + "', "
-                + tallaPantalon + ", "
-                + tallaCalzado + ", "
-                + "'" + tieneVehiculo + "', "
-                + "'" + numLicenciaConduccion + "', "
-                + (fechaExpConduccion != null ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
-                + (fechaVencimiento != null ? "'" + fechaVencimiento + "'" : "NULL") + ", "
-                + "'" + restricciones + "', "
-                + "'" + estado + "', "
-                + "'" + numeroPlacaVehiculo + "', "
-                + "'" + tipoVehiculo + "', "
-                + "'" + modeloVehiculo + "', "
-                + "'" + linea + "', "
-                + "'" + ano + "', "
-                + "'" + color + "', "
-                + "'" + cilindraje + "', "
-                + "'" + numLicenciaTransito + "', "
-                + (fechaExpLicenciaTransito != null ? "'" + fechaExpLicenciaTransito + "'" : "NULL") + ")";
+        String cadenaSQL  = "INSERT INTO persona (identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
+        + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, "
+        + "celular, email, nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, "
+        + "unidadNegocio, centroCostos, establecimiento, area, tipoCargo, cuentaBancaria, numeroCuenta, salario, "
+        + "primerRefNombre, primerRefParentezco, primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, "
+        + "terceraRefNombre, terceraRefParentezco, terceraRefCelular, cuartaRefNombre, cuartaRefParentezco, cuartaRefCelular, "
+        + "tieneHijos, tallaCamisa, tallaChaqueta, tallaPantalon, tallaCalzado, tieneVehiculo, numLicenciaConduccion, "
+        + "fechaExpConduccion, fechaVencimiento, restricciones, estado, numeroPlacaVehiculo, tipoVehiculo, modeloVehiculo, "
+        + "linea, ano, color, cilindraje, numLicenciaTransito, fechaExpLicenciaTransito, fechaTerPriContrato, fondoPensiones, "
+        + "fondoCesantias, fechaUltiEntrega, fechaProEntrega, profesion) VALUES ("
+        + "'" + identificacion + "', "
+        + "'" + tipo + "', "
+        + idCargo + ", "
+        + (tipoDocumento.isEmpty() ? "NULL" : "'" + tipoDocumento + "'") + ", "
+        + (fechaExpedicion.isEmpty() ? "NULL" : "'" + fechaExpedicion + "'") + ", "
+        + "'" + lugarExpedicion + "', "
+        + "'" + nombres + "', "
+        + "'" + apellidos + "', "
+        + "'" + sexo + "', "
+        + (fechaNacimiento.isEmpty() ? "NULL" : "'" + fechaNacimiento + "'") + ", "
+        + "'" + lugarNacimiento + "', "
+        + "'" + tipoSangre + "', "
+        + "'" + tipoVivienda + "', "
+        + "'" + direccion + "', "
+        + "'" + barrio + "', "
+        + "'" + celular + "', "
+        + "'" + email + "', "
+        + "'" + nivelEducativo + "', "
+        + "'" + eps + "', "
+        + "'" + estadoCivil + "', "
+        + (fechaIngreso.isEmpty() ? "NULL" : "'" + fechaIngreso + "'") + ", "
+        + (fechaRetiro.isEmpty() ? "NULL" : "'" + fechaRetiro + "'") + ", "
+        + (fechaEtapaLectiva.isEmpty() ? "NULL" : "'" + fechaEtapaLectiva + "'") + ", "
+        + (fechaEtapaProductiva.isEmpty() ? "NULL" : "'" + fechaEtapaProductiva + "'") + ", "
+        + "'" + unidadNegocio + "', "
+        + centroCostos + ", "
+        + "'" + establecimiento + "', "
+        + "'" + area + "', "
+        + "'" + tipoCargo + "', "
+        + "'" + cuentaBancaria + "', "
+        + "'" + numeroCuenta + "', "
+        + salario + ", "
+        + "'" + primerRefNombre + "', "
+        + "'" + primerRefParentezco + "', "
+        + "'" + primerRefCelular + "', "
+        + "'" + segundaRefNombre + "', "
+        + "'" + segundaRefParentezco + "', "
+        + "'" + segundaRefCelular + "', "
+        + "'" + terceraRefNombre + "', "
+        + "'" + terceraRefParentezco + "', "
+        + "'" + terceraRefCelular + "', "
+        + "'" + cuartaRefNombre + "', "
+        + "'" + cuartaRefParentezco + "', "
+        + "'" + cuartaRefCelular + "', "
+        + "'" + tieneHijos + "', "
+        + "'" + tallaCamisa + "', "
+        + "'" + tallaChaqueta + "', "
+        + tallaPantalon + ", "
+        + tallaCalzado + ", "
+        + "'" + tieneVehiculo + "', "
+        + "'" + numLicenciaConduccion + "', "
+        + (fechaExpConduccion.isEmpty() ? "NULL" : "'" + fechaExpConduccion + "'") + ", "
+        + (fechaVencimiento.isEmpty() ? "NULL" : "'" + fechaVencimiento + "'") + ", "
+        + "'" + restricciones + "', "
+        + "'" + estado + "', "
+        + "'" + numeroPlacaVehiculo + "', "
+        + "'" + tipoVehiculo + "', "
+        + "'" + modeloVehiculo + "', "
+        + "'" + linea + "', "
+        + "'" + ano + "', "
+        + "'" + color + "', "
+        + "'" + cilindraje + "', "
+        + "'" + numLicenciaTransito + "', "
+        + (fechaExpLicenciaTransito.isEmpty() ? "NULL" : "'" + fechaExpLicenciaTransito + "'") + ", "
+        + (fechaTerPriContrato.isEmpty() ? "NULL" : "'" + fechaTerPriContrato + "'") + ", "
+        + "'" + fondoPensiones + "', "
+        + "'" + fondoCesantias + "', "
+        + (fechaUltiEntrega.isEmpty() ? "NULL" : "'" + fechaUltiEntrega + "'") + ", "
+        + "'" + fechaProEntrega + "', "
+        + "'" + profesion + "'"
+        + ")";
 
-// Ejecutar la consulta
-        System.out.println("Cadena SQL: " + cadenaSQL);
 
-        boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
+    boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
 
-        if (!resultado) {
-            System.out.println("Error: No se pudo insertar la persona en la BD");
-            return false;
-        }
+    if (!resultado) {
+        System.out.println("Error: No se pudo insertar la persona en la BD");
+        return false;
+    }
 
-        // 2. Insertar hijos si tieneHijos = "S"
-        if ("S".equals(tieneHijos) && hijos != null) {
-            for (Hijo hijo : hijos) {
-                if (hijo != null) {
-                    boolean hijoGuardado = hijo.grabar();
-                    System.out.println("Guardando hijo: " + hijo.getIdentificacion() + " - Resultado: " + hijoGuardado);
+    // 2. Insertar hijos si tieneHijos = "S"
+    if ("S".equals(tieneHijos) && hijos != null) {
+        for (Hijo hijo : hijos) {
+            if (hijo != null) {
+                boolean hijoGuardado = hijo.grabar();
+                System.out.println("Guardando hijo: " + hijo.getIdentificacion() + " - Resultado: " + hijoGuardado);
 
-                    if (hijoGuardado && identificacion != null && hijo.getIdentificacion() != null) {
-                        String relSQL = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) "
-                                + "VALUES ('" + identificacion + "', '" + hijo.getIdentificacion() + "')";
-                        boolean relResultado = ConectorBD.ejecutarQuery(relSQL);
-                        System.out.println("Resultado de insertar en persona_hijos: " + relResultado);
-                    }
+                if (hijoGuardado && identificacion != null && hijo.getIdentificacion() != null) {
+                    String relSQL = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) "
+                            + "VALUES ('" + identificacion + "', '" + hijo.getIdentificacion() + "')";
+                    boolean relResultado = ConectorBD.ejecutarQuery(relSQL);
+                    System.out.println("Resultado de insertar en persona_hijos: " + relResultado);
                 }
             }
         }
-
-        return true;
     }
+
+    return true;
+}
+
 
     public boolean modificar(String identificacionAnterior) {
         if (identificacion == null || identificacionAnterior == null) {
@@ -1346,8 +1441,31 @@ public class Persona {
                     datos.getString("cuentaBancaria"),
                     datos.getString("numeroCuenta"),
                     datos.getString("salario"),
+                    datos.getString("primerRefNombre"),
+                    datos.getString("primerRefParentezco"),
+                    datos.getString("primerRefCelular"),
+                    datos.getString("segundaRefNombre"),
+                    datos.getString("segundaRefParentezco"),
+                    datos.getString("segundaRefCelular"),
                     datos.getString("tieneHijos"),
+                    datos.getString("tallaCamisa"),
+                    datos.getString("tallaChaqueta"),
+                    datos.getString("tallaPantalon"),
+                    datos.getString("tallaCalzado"),
                     datos.getString("tieneVehiculo"),
+                    datos.getString("numeroPlacaVehiculo"),
+                    datos.getString("tipoVehiculo"),
+                    datos.getString("modeloVehiculo"),
+                    datos.getString("linea"),
+                    datos.getString("ano"),
+                    datos.getString("color"),
+                    datos.getString("cilindraje"),
+                    datos.getString("numLicenciaTransito"),
+                    datos.getString("fechaExpLicenciaTransito"),
+                    datos.getString("numLicenciaConduccion"),
+                    datos.getString("fechaExpConduccion"),
+                    datos.getString("fechaVencimiento"),
+                    datos.getString("restricciones"),
                     datos.getString("estado"),
                     datos.getString("fechaTerPriContrato"),
                     datos.getString("fondoPensiones"),
@@ -1364,5 +1482,4 @@ public class Persona {
     }
     return lista;
 }
-
 }
