@@ -50,7 +50,6 @@ body {
     transform: scale(1.05);
 }
 
-
 /* Contenedor con fondo verde */
 .search-container {
     display: flex;
@@ -63,10 +62,12 @@ body {
 }
 
 /* Estilos de la barra de búsqueda */
+
 .search-box {
     position: relative;
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .recuadro {
@@ -132,6 +133,19 @@ body {
     overflow-x: auto; 
     margin-left: 220px; /* Desplazar el contenido a la derecha */
     padding: 20px;
+}
+
+/* ICONOS*/
+
+.iconoLeer, .iconoVer, .iconoEditar img, .iconoEliminar {
+    margin-right: 10px; /* Espacio entre los iconos */
+    cursor: pointer; /* Cambia el cursor al pasar sobre los iconos */
+    vertical-align: middle; /* Alinea todos los iconos */
+    display: inline-block; /* Asegura que estén alineados en la misma línea */
+}
+
+.iconoEditar img, .iconoEliminar img {
+    vertical-align: middle; /* Alinea los iconos con el texto */
 }
 
 /* Diseño responsivo */

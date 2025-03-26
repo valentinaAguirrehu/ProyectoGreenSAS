@@ -65,9 +65,12 @@
 
         </div>
         <div class='btn-container'>
+            <% if ("S".equals(usuarioActual.getTipo())) { %>
             <a href='perfilFormulario.jsp' title='Modificar'>
                 <button class='btn-adicionar' title='Modificar'> Modificar </button>
             </a>
+            <% }%>
         </div>
+
     </div>
 </div>
