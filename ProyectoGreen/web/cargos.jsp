@@ -112,6 +112,8 @@
             }
         }
     }
+    
+    // PERMISOS
 
     document.addEventListener("DOMContentLoaded", function () {
         controlarPermisos(
@@ -120,4 +122,5 @@
     <%= administrador.getpAgregar()%>
         );
     });
+    
 </script>
