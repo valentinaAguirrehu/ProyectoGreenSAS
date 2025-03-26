@@ -37,7 +37,7 @@
         console.log("Permisos recibidos en JS:", pEliminar, pEditar, pAgregar, pLeer, pDescargar);
 
         if (pEliminar !== "S") {
-            document.querySelectorAll(".iconoEliminar").forEach(icono => {
+            document.querySelectorAll(".eliminar").forEach(icono => {
                 icono.style.pointerEvents = "none";
                 icono.style.opacity = "0.5";
                 icono.title = "No tiene permiso para eliminar";
@@ -45,7 +45,7 @@
         }
 
         if (pEditar !== "S") {
-            document.querySelectorAll(".iconoEditar").forEach(icono => {
+            document.querySelectorAll(".editar").forEach(icono => {
                 icono.style.pointerEvents = "none";
                 icono.style.opacity = "0.5";
                 icono.title = "No tiene permiso para editar";
@@ -53,7 +53,7 @@
         }
 
         if (pAgregar !== "S") {
-            document.querySelectorAll(".iconoAgregar").forEach(icono => {
+            document.querySelectorAll(".subir").forEach(icono => {
                 icono.style.pointerEvents = "none";
                 icono.style.opacity = "0.5";
                 icono.style.cursor = "not-allowed";
@@ -62,7 +62,7 @@
         }
 
         if (pLeer !== "S") {
-            document.querySelectorAll(".iconoLeer").forEach(icono => {
+            document.querySelectorAll(".ver").forEach(icono => {
                 icono.style.pointerEvents = "none";
                 icono.style.opacity = "0.5";
                 icono.title = "No tiene permiso para ver detalles de esta información";
@@ -70,7 +70,7 @@
         }
 
         if (pDescargar !== "S") {
-            document.querySelectorAll(".iconoDescargar").forEach(icono => {
+            document.querySelectorAll(".descargar").forEach(icono => {
                 icono.style.pointerEvents = "none";
                 icono.style.opacity = "0.5";
                 icono.style.cursor = "not-allowed";

@@ -30,9 +30,9 @@
                 lista += "<td>" + cargo.getCodigoCargo() + "</td>";
                 lista += "<td>" + cargo.getDescripcion() + "</td>";
                 lista += "<td class='acciones'>"; // Agregamos la clase para estilos en línea
-                lista += "<a class='iconoEditar' href='cargosFormulario.jsp?accion=Modificar&id=" + cargo.getId()
+                lista += "<a class='editar' href='cargosFormulario.jsp?accion=Modificar&id=" + cargo.getId()
                         + "' title='Modificar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a> ";
-                lista += "<img src='presentacion/iconos/eliminar.png' class='iconoEliminar' width='25' height='25' title='Eliminar' onclick='eliminar(\"" + cargo.getId() + "\")'>";
+                lista += "<img src='presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar' onclick='eliminar(\"" + cargo.getId() + "\")'>";
                 lista += "</td>";
 
                 lista += "</tr>";
@@ -75,7 +75,7 @@
             <th>Código del Cargo</th>
             <th>Descripción</th>
             <th>
-                <a href="cargosFormulario.jsp?accion=Adicionar" class="iconoAgregar" title="Adicionar">
+                <a href="cargosFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
                     <img src="presentacion/iconos/agregar.png" width='30' height='30'>
                 </a>
             </th>
