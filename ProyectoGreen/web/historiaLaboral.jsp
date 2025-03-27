@@ -89,10 +89,14 @@
                         <label>Celular</label>
                         <input type="text" class="campo-pequeno" value="<%= (persona != null) ? persona.getCelular() : "" %>" readonly>
                     </div>
+                        <div class="campo">
+                        <label>Fecha de inicio del contrato</label>
+                        <input type="text" class="campo-mediano" value="<%= (persona != null) ? persona.getFechaIngreso(): ""%>" readonly>
+                    </div>
                 </div>
             </div>
         </<div class="section">
-                <h3 class="titulo-seccion">Datos Personales</h3>
+                <h3 class="titulo-seccion">Documentos</h3>
                 <div class="data-grid">
 
                     <!-- Cédula Ciudadanía -->
@@ -111,41 +115,6 @@
                             <input type="file" class="file-input" accept=".pdf,.jpg,.png" hidden>
                         </div>
                     </div>
-
-                    <!-- Documentos SAGRILAFT -->
-                    <div class="data-item">
-                        <span>Documentos SAGRILAFT</span>
-                        <div class="icon-buttons">
-                            <button class="ver-btn">
-                                <img src="presentacion/iconos/ojo.png" alt="Ver">
-                            </button>
-                            <button class="descargar-btn">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar">
-                            </button>
-                            <button class="upload-btn">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir">
-                            </button>
-                            <input type="file" class="file-input" accept=".pdf,.jpg,.png" hidden>
-                        </div>
-                    </div>
-
-                    <!-- Otros Documentos -->
-                    <div class="data-item">
-                        <span>Otros Documentos</span>
-                        <div class="icon-buttons">
-                            <button class="ver-btn">
-                                <img src="presentacion/iconos/ojo.png" alt="Ver">
-                            </button>
-                            <button class="descargar-btn">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar">
-                            </button>
-                            <button class="upload-btn">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir">
-                            </button>
-                            <input type="file" class="file-input" accept=".pdf,.jpg,.png" hidden>
-                        </div>
-                    </div>
-
                     <!-- Inducción SST -->
                     <div class="data-item">
                         <span>Inducción SST</span>
@@ -166,6 +135,23 @@
                     <!-- Inducción SGA -->
                     <div class="data-item">
                         <span>Inducción SGA</span>
+                        <div class="icon-buttons">
+                            <button class="ver-btn">
+                                <img src="presentacion/iconos/ojo.png" alt="Ver">
+                            </button>
+                            <button class="descargar-btn">
+                                <img src="presentacion/iconos/descargar.png" alt="Descargar">
+                            </button>
+                            <button class="upload-btn">
+                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir">
+                            </button>
+                            <input type="file" class="file-input" accept=".pdf,.jpg,.png" hidden>
+                        </div>
+                    </div>
+                    
+                    <!-- Otros Documentos -->
+                    <div class="data-item">
+                        <span>Otros Documentos</span>
                         <div class="icon-buttons">
                             <button class="ver-btn">
                                 <img src="presentacion/iconos/ojo.png" alt="Ver">

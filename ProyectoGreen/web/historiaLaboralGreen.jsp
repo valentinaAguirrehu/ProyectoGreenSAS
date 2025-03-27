@@ -58,6 +58,10 @@
                         <label>Celular</label>
                         <input type="text" class="campo-pequeno" value="<%= (persona != null) ? persona.getCelular() : ""%>" readonly>
                     </div>
+                      <div class="campo">
+                        <label>Fecha de inicio del contrato</label>
+                        <input type="text" class="campo-mediano" value="<%= (persona != null) ? persona.getFechaIngreso(): ""%>" readonly>
+                    </div>
                 </div>
             </div>
 
@@ -93,6 +97,10 @@
                     <div class="data-item">
                         <span>AFILIACIONES</span>
                         <button class="ver-btn" onclick="window.location.href = 'verAfiliaciones.jsp?identificacion=<%= identificacion %>'">VER</button>
+                    </div>
+                     <div class="data-item">
+                        <span>PREAVISOS Y PRORROGAS</span>
+                        <button class="ver-btn" onclick="window.location.href = 'verPreavisosProrrogas.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>FINALIZAR CONTRATACIÓN</span>
