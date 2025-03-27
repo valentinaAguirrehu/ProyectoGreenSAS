@@ -135,19 +135,6 @@ body {
     padding: 20px;
 }
 
-/* ICONOS*/
-
-.iconoLeer, .iconoVer, .iconoEditar img, .iconoEliminar {
-    margin-right: 10px; /* Espacio entre los iconos */
-    cursor: pointer; /* Cambia el cursor al pasar sobre los iconos */
-    vertical-align: middle; /* Alinea todos los iconos */
-    display: inline-block; /* Asegura que estén alineados en la misma línea */
-}
-
-.iconoEditar img, .iconoEliminar img {
-    vertical-align: middle; /* Alinea los iconos con el texto */
-}
-
 /* Diseño responsivo */
 @media (max-width: 450px) {
     .table th, .table td {
