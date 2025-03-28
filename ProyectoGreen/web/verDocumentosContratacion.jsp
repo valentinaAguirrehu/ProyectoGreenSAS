@@ -37,7 +37,7 @@
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>Documentos contratación</h2>
+                    <h2>DOCUMENTOS CONTRATACIÓN</h2>
                     <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() +" - "+ persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
@@ -45,125 +45,98 @@
                         <tr>
                             <th>DOCUMENTOS</th>
                             <th>ARCHIVO</th>
-                            <th>OTRO</th>
+                           
                         </tr>
                     </thead>
                     <tbody> 
                         <tr>
-                            <td>Contrato trabajo</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            <td>Contrato de trabajo</td>
+                              <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CTotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Tratamiento datos</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
+                            <td>Tratamiento de datos</td>
                             <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=TDotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Autorizacion examenes  y requisas</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            <td>Autorización de examenes  y requisas</td>
+                              <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=AERotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
                             <td>Profesiograma</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
                             <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=PRotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Induccion SST</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            <td>Inducción SST</td>
+                          <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SSTotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Induccion SGA</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            <td>Inducción SGA</td>
+                              <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SGAotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
                             <td>Acta pausas activas</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                              <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=APACotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Induccion al Cargo</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            <td>Inducción al cargo</td>
+                              <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ICAotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Documentos Sagrilaft</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            <td>Documentos SAGRILAFT</td>
+                                <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SGRILAFTotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                     </tbody>
