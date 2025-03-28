@@ -28,19 +28,21 @@
             lista += "<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
             lista += "<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
             lista += "<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
+             lista += "<img src='presentacion/iconos/verDocumento.png' title='Historia Laboral' onClick='verHistoriaLaboral(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/> ";
             lista += "</td>";
             lista += "</tr>";
         }
     
 %>
 
+
 <h3>Lista de Colaboradores</h3>
 
-<!-- Nuevo buscador dinámico -->
+<!-- Nuevo buscador dinï¿½mico -->
 <div class="search-container">
     <div class="search-box">
         <select id="searchType" class="recuadro">
-            <option value="identificacion">Identificación</option>
+            <option value="identificacion">Identificaciï¿½n</option>
             <option value="nombre">Nombre</option>
             <option value="apellido">Apellidos</option>
             <option value="cargo">Cargo</option>
@@ -54,7 +56,7 @@
 
 <table class="table" id="colaboradoresTable">
     <tr>
-        <th>Identificación</th>
+        <th>IdentificaciÃ³n</th>
         <th>Nombre</th>
         <th>Apellidos</th>
         <th>Cargo</th>
@@ -65,17 +67,17 @@
     <%= lista%> 
 </table>
 
-<!-- Botón para agregar un nuevo colaborador -->
+<!-- BotÃ³n para agregar un nuevo colaborador -->
 <div class="add-button" style="margin-top: 10px;">
     <a href="personaFormulario.jsp?accion=Adicionar" title="Agregar">
         <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;"> Agregar Colaboradores
     </a>
 </div>
 
-<!-- Script para eliminar una persona con confirmación -->
+<!-- Script para eliminar una persona con confirmaciÃ³n -->
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("¿Realmente desea eliminar el registro del colaborador?");
+        var respuesta = confirm("Â¿Realmente desea eliminar el registro del colaborador?");
         if (respuesta) {
             window.location.href = "personaActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -87,7 +89,7 @@
         window.location.href = "historiaLaboralGreen.jsp?identificacion=" + identificacion;
     }
 
-    // Buscador dinámico con opción de filtro por columna
+    // Buscador dinï¿½mico con opciï¿½n de filtro por columna
     function filterResults() {
         const searchType = document.getElementById('searchType').value;
         const input = document.getElementById('searchInput').value.toLowerCase();
@@ -124,7 +126,8 @@
             }
         }
     }
+
 </script>
 
-<!-- Botón de cancelar para regresar a la página anterior -->
+<!-- BotÃ³n de cancelar para regresar a la pÃ¡gina anterior -->
 <input type="button" value="Cancelar" onClick="window.history.back()">

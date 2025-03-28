@@ -9,10 +9,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 /* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7f6;
+    display: flex;
+    min-height: 10vh;
     margin: 0;
-    padding: 20px;
 }
 
 /* Estilo del título */
@@ -33,7 +32,6 @@ body {
 .titulo:hover {
     transform: scale(1.05);
 }
-
 
 /* Contenedor con fondo verde */
 .search-container {
@@ -82,7 +80,6 @@ body {
 
 .table th, .table td {
     padding: 12px;
-    text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
@@ -109,6 +106,14 @@ body {
 /* Botón de añadir */
 .table th:last-child {
     text-align: center;
+}
+
+/* Se ajusta segun al menú */
+.content {
+    flex-grow: 1;
+    overflow-x: auto; 
+    margin-left: 220px; /* Desplazar el contenido a la derecha */
+    padding: 20px;
 }
 
 /* Diseño responsivo */

@@ -1,14 +1,8 @@
 /* Estilos generales */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7f6;
-    margin: 0;
-    padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
+    min-height: 10vh;
+    margin: 0;
 }
 
 /* Contenedor del formulario */
@@ -29,7 +23,6 @@ form:hover {
 
 /* Estilos del título */
 .titulo {
-    text-align: center;
     font-size: 24px;
     font-weight: bold;
     text-transform: uppercase;
@@ -65,14 +58,13 @@ form:hover {
 .table th, .table td {
     padding: 6px;
     text-align: center;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .table th {
     background-color: #2c6e49;
     color: white;
     font-weight: bold;
-    text-transform: uppercase;
 }
 
 .table td {
@@ -132,6 +124,15 @@ form:hover {
     transform: scale(1.05);
 }
 
+/* Se ajusta segun al menú */
+
+.content {
+    flex-grow: 1;
+    overflow-x: auto; 
+    margin-left: 550px; /* Desplazar el contenido a la derecha */
+    padding: 20px;
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
     form {
@@ -144,4 +145,6 @@ form:hover {
         grid-template-columns: repeat(1, 1fr);
         align-items: center;
     }
+    
 }
+

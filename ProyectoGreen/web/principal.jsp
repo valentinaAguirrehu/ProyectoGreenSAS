@@ -4,6 +4,7 @@
     Author     : Angie
 --%>
 
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,52 +17,14 @@
         <script src="recursos/jquery-ui-1.13.3.custom/jquery-ui.min.js"></script>
     </head>
     <body>
-        <div class="logo-container">
-            <img src="presentacion/imagenes/LogoGreen.png" alt="Logo de Green">
-        </div>
-
-        <nav class="sidebar">
-            <ul>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="cargos.jsp">Cargos</a></li>
-          
-                <%-- <li><a href="historiaLaboralGreen.jsp">Historia Laboral Activos </a></li>
-                <li><a href="historiaLaboral.jsp">Historia Laboral Temporales </a></li>
-                <li><a href="historiaLaboral.jsp">Historia Laboral Aprendices </a></li>
-                <li><a href="historiaLaboral.jsp">Historia Laboral Retirados</a></li> --%>
-                <li class="dropdown">
-                    <a href="#">Colaboradores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
-                    <ul class="dropdown-content">                           
-                        <li><a href="persona.jsp">Activos</a></li>
-                        <li><a href="temporales.jsp">Temporales</a></li>
-                        <li><a href="aprendiz.jsp">Aprendices</a></li>
-                        <li><a href="retirados.jsp">Retirados</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Dotaciones</a></li>
-                <li class="dropdown">
-                    <a href="#">Reportes e indicadores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
-                    <ul class="dropdown-content">                           
-                        <li><a href="#">Ingresos de colaboradores</a></li>
-                        <li><a href="#">Retiros de colaboradores</a></li>
-                        <li><a href="#">Dotaciones entregadas</a></li>
-                        <li><a href="cumpleanos.jsp">Cumpleañeros del mes</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="bottom-menu">
-                <li><a href="usuarios.jsp">Usuarios</a></li>
-                <li><a href="perfil.jsp">Perfil</a></li>
-                <li><a href="index.jsp">Cerrar sesión</a></li>
-            </ul>
-        </nav>
+        <%@ include file="menu.jsp" %>
         <main class="content">
             <div class="welcome-text">
-                <h1>¡Bienvenido al Portal de Gestión Humana de GREEN SAS!</h1>
+                <h1>Â¡Bienvenido al portal de GestiÃ³n Humana de GREEN S.A.S.!</h1>
             </div>
             <div class="quad-container">
-                <div class="quad">Politicas y Privacidad</div>
-                <div class="quad">Manual de Uso</div>
+                <div class="quad">PolÃ­ticas y privacidad</div>
+                <div class="quad">Manual de uso</div>
             </div>
         </main>
     </body>

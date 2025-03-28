@@ -415,6 +415,13 @@
                         <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
                     `;
                 }
+                // Función para eliminar una fila de la tabla de hijos
+                function eliminarFila(boton) {
+                    var fila = boton.parentNode.parentNode;
+                    fila.parentNode.removeChild(fila);
+                }
+            </script>
+
 
                 // Función para eliminar una fila de la tabla de hijos
                 function eliminarFila(boton) {

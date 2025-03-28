@@ -11,29 +11,32 @@
     }
 %>
 
-<h3 class="titulo"><%=accion.toUpperCase()%> USUARIO</h3>
+<%@ include file="menu.jsp" %>
+
 <link rel="stylesheet" href="presentacion/style-UsuariosFormulario.css">
-<form name="formulario" method="post" action="usuariosActualizar.jsp">
-    <table class="table" border="1">
-        <tr>
-            <th>Identificación</th>
-            <td><input class="recuadro" type="text" name="identificacion" maxlength="12" value="<%=usuario.getIdentificacion()%>" size="50" required></td>
-        </tr>
-        <tr>
-            <th>Nombres</th>
-            <td><input class="recuadro" type="text" name="nombres" value="<%=usuario.getNombres()%>" size="50" maxlength="40" required></td>
-        </tr>
-        <tr>
-            <th>Celular</th>
-            <td><input class="recuadro" type="tel" name="celular" value="<%=usuario.getCelular()%>" size="50" maxlength="40" required></td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td><input class="recuadro" type="email" name="email" value="<%=usuario.getEmail()%>" size="50" maxlength="40" required></td>
-        </tr>
-        <tr>
-            <th>Permisos</th>
-            <td>
+<div class="content">
+    <form name="formulario" method="post" action="usuariosActualizar.jsp">
+        <h3 class="titulo"><%=accion.toUpperCase()%> USUARIO</h3>
+        <table class="table" border="1">
+            <tr>
+                <th>Identificación</th>
+                <td><input class="recuadro" type="text" name="identificacion" maxlength="12" value="<%=usuario.getIdentificacion()%>" size="50" required></td>
+            </tr>
+            <tr>
+                <th>Nombres</th>
+                <td><input class="recuadro" type="text" name="nombres" value="<%=usuario.getNombres()%>" size="50" maxlength="40" required></td>
+            </tr>
+            <tr>
+                <th>Celular</th>
+                <td><input class="recuadro" type="tel" name="celular" value="<%=usuario.getCelular()%>" size="50" maxlength="40" required></td>
+            </tr>
+            <tr>
+                <th>Correo electrónico</th>
+                <td><input class="recuadro" type="email" name="email" value="<%=usuario.getEmail()%>" size="50" maxlength="40" required></td>
+            </tr>
+            <tr>
+                <th>Permisos</th>
+                <td>
                 <!-- Contenedor de permisos en dos columnas -->
                 <div class="permiso-container">
                     <!-- Primera columna -->
@@ -64,30 +67,45 @@
                         <label for="selectAll">Seleccionar todos</label>
                     </div>
                 </div>
-            </td>
+                </td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>
+                    <select class="recuadro" name="estado">
+                        <option value="Activo" <%= "Activo".equals(usuario.getEstado()) ? "selected" : ""%>>Activo</option>
+                        <option value="Inactivo" <%= "Inactivo".equals(usuario.getEstado()) ? "selected" : ""%>>Inactivo</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Nueva contraseña</th>
+                <td><input class="recuadro" type="password" name="clave" id="clave" onkeyup="validarClave();"></td>
+            </tr>
+            <tr>
+                <th>Confirmar contraseña</th>
+                <td><input class="recuadro" type="password" name="confirmarClave" id="confirmarClave" onkeyup="verificarCoincidencia();"></td>
+            </tr>
+        </table>
 
-        </tr>
-        <tr>
-            <th>Estado</th>
-            <td>
-                <select class="recuadro" name="estado">
-                    <option value="Activo" <%= "Activo".equals(usuario.getEstado()) ? "selected" : ""%>>Activo</option>
-                    <option value="Inactivo" <%= "Inactivo".equals(usuario.getEstado()) ? "selected" : ""%>>Inactivo</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th>Contraseña</th>
-            <td><input class="recuadro" type="password" name="clave" value="<%=usuario.getClave()%>" size="50" maxlength="40" required></td>
-        </tr>
-    </table>
+        <div id="requisitosClave">
+            <p>La contraseña debe cumplir los siguientes requisitos:</p>
+            <ul>
+                <li id="minimoCaracteres">Mínimo 8 caracteres</li>
+                <li id="letraMayuscula">Una letra mayúscula</li>
+                <li id="letraMinuscula">Una letra minúscula</li>
+                <li id="numero">Un número</li>
+                <li id="coincidencia">Las contraseñas deben coincidir</li>
+            </ul>
+        </div>
 
-    <input type="hidden" name="identificacionAnterior" value="<%=usuario.getIdentificacion()%>">
-    <input type="hidden" name="accion" value="<%=accion%>">
-    <input class="submit" type="submit" value="Guardar">
-    <input class="button" type="button" value="Cancelar" onClick="window.history.back()">
-</form>
 
+        <input type="hidden" name="identificacionAnterior" value="<%=usuario.getIdentificacion()%>">
+        <input type="hidden" name="accion" value="<%=accion%>">
+        <input class="submit" type="submit" value="Guardar">
+        <input class="button" type="button" value="Cancelar" onClick="window.history.back()">
+    </form>
+</div>
 <script>
     document.getElementById("selectAll").addEventListener("change", function () {
         let checkboxes = document.querySelectorAll(".permiso");
@@ -121,4 +139,19 @@
         let allChecked = Array.from(permisos).every(permiso => permiso.checked);
         document.getElementById("selectAll").checked = allChecked;
     };
+    
+    function validarClave() {
+        let clave = document.getElementById("clave").value;
+        document.getElementById("minimoCaracteres").style.color = clave.length >= 8 ? "green" : "red";
+        document.getElementById("letraMayuscula").style.color = /[A-Z]/.test(clave) ? "green" : "red";
+        document.getElementById("letraMinuscula").style.color = /[a-z]/.test(clave) ? "green" : "red";
+        document.getElementById("numero").style.color = /\d/.test(clave) ? "green" : "red";
+    }
+
+    function verificarCoincidencia() {
+        let clave = document.getElementById("clave").value;
+        let confirmarClave = document.getElementById("confirmarClave").value;
+        document.getElementById("coincidencia").style.color = clave === confirmarClave ? "green" : "red";
+    }
+
 </script>

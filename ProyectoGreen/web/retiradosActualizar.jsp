@@ -1,3 +1,4 @@
+<%@page import="clasesGenericas.ConectorBD"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Retirados"%>
 <%@page import="java.util.Map"%>
@@ -15,9 +16,8 @@
 
     if (!isMultipart) {
         variables.put("accion", request.getParameter("accion"));
-        variables.put("id", request.getParameter("id") != null && !request.getParameter("id").trim().isEmpty() ? request.getParameter("id") : null);
-        variables.put("identificacion", request.getParameter("identificacion") != null && !request.getParameter("identificacion").trim().isEmpty() ? request.getParameter("identificacion") : null);
-
+        variables.put("id", request.getParameter("id"));
+        variables.put("identificacion", request.getParameter("identificacion"));
         variables.put("fechaRetiro", request.getParameter("fechaRetiro"));
         variables.put("numCaja", request.getParameter("numCaja"));
         variables.put("numCarpeta", request.getParameter("numCarpeta"));
@@ -30,55 +30,48 @@
 
         for (FileItem elemento : elementosFormulario) {
             if (elemento.isFormField()) {
-                String valor = elemento.getString().trim();
-                variables.put(elemento.getFieldName(), valor.isEmpty() ? null : valor);
+                variables.put(elemento.getFieldName(), elemento.getString().trim());
             }
         }
     }
 
-    if (variables.get("accion").equals("Modificar") || variables.get("accion").equals("Eliminar")) {
-        if (variables.get("id") == null || variables.get("id").isEmpty()) {
-            out.println("Error: ID no proporcionado para la acción " + variables.get("accion"));
-            return;
-        }
+    if (variables.get("identificacion") == null || variables.get("identificacion").trim().isEmpty()) {
+        return;
     }
 
-    // Crear instancias de Persona y Retirados
     Persona persona = new Persona(variables.get("identificacion"));
-    Retirados retirado = new Retirados(variables.get("id"));
-
     persona.setFechaRetiro(variables.get("fechaRetiro"));
+    persona.setTipo("R");
 
-    retirado.setIdentificacion(variables.get("identificacion"));
+    Retirados retirado = new Retirados(variables.get("id"));
+    retirado.setIdentificacionPersona(variables.get("identificacion"));
     retirado.setNumCaja(variables.get("numCaja"));
     retirado.setNumCarpeta(variables.get("numCarpeta"));
     retirado.setObservaciones(variables.get("observaciones"));
 
-    // Ejecutar acción según el caso
     switch (variables.get("accion")) {
         case "Adicionar":
-            persona.setTipo("R");
-            persona.modificar(variables.get("identificacion")); // Asegura que se actualice en la BD
-            retirado.grabar();
-        break;
+            persona.setTipo("R"); // Cambiar tipo a "R"
+            persona.modificar(variables.get("identificacion")); // Guardar en la BD 
+            retirado.grabar(); // Insertar en la tabla 'retirados'
+            break;
         case "Modificar":
-            if (variables.get("id") != null) {
-                persona.modificar(variables.get("identificacion"));
-                retirado.modificar(variables.get("id"));
-            } else {
-                out.println("Error: ID no válido para modificar.");
-                return;
+            if (variables.get("id") != null && variables.get("fechaRetiro") != null) {
+                String identificacion = request.getParameter("identificacion");
+                String nuevaFechaRetiro = variables.get("fechaRetiro");
+                String cadenaSQL = "UPDATE persona SET fechaRetiro = '" + nuevaFechaRetiro + "' WHERE identificacion = '" + identificacion + "'";
+                boolean actualizado = ConectorBD.ejecutarQuery(cadenaSQL);
+
+                if (actualizado) {
+                    retirado.modificar(variables.get("id"));
+                }
             }
             break;
         case "Eliminar":
-    if (variables.get("id") != null) {
-        retirado.eliminar(variables.get("id")); 
-    } else {
-        out.println("Error: ID no válido para eliminar.");
-        return;
-    }
-    break;
-
+            if (variables.get("id") != null) {
+                retirado.eliminar(variables.get("id"));
+            }
+            break;
     }
 %>
 

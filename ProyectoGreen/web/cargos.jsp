@@ -30,9 +30,9 @@
                 lista += "<td>" + cargo.getCodigoCargo() + "</td>";
                 lista += "<td>" + cargo.getDescripcion() + "</td>";
                 lista += "<td class='acciones'>"; // Agregamos la clase para estilos en línea
-                lista += "<a class='iconoEditar' href='cargosFormulario.jsp?accion=Modificar&id=" + cargo.getId()
+                lista += "<a class='editar' href='cargosFormulario.jsp?accion=Modificar&id=" + cargo.getId()
                         + "' title='Modificar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a> ";
-                lista += "<img src='presentacion/iconos/eliminar.png' class='iconoEliminar' width='25' height='25' title='Eliminar' onclick='eliminar(\"" + cargo.getId() + "\")'>";
+                lista += "<img src='presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar' onclick='eliminar(\"" + cargo.getId() + "\")'>";
                 lista += "</td>";
 
                 lista += "</tr>";
@@ -55,33 +55,35 @@
 %>
 
 <jsp:include page="permisos.jsp" />
-<h3 class="titulo">GESTIÓN DE CARGOS</h3>
-<link rel="stylesheet" href="presentacion/style-Cargos.css">
+<%@ include file="menu.jsp" %>
 
- <div class="search-container">
-    <div class="search-box">
-        <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por cargo o código" class="recuadro">
-        <img src="presentacion/iconos/lupa.png"alt="Buscar">
+<div class="content">
+    <h3 class="titulo">GESTIÓN DE CARGOS</h3>
+    <link rel="stylesheet" href="presentacion/style-Cargos.css">
+
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por cargo o código" class="recuadro">
+            <img src="presentacion/iconos/lupa.png" alt="Buscar">
+        </div>
     </div>
+
+    <table class="table" border="1" id="cargosTable">
+        <tr>
+            <th>Número</th>
+            <th>Cargo</th>
+            <th>Código del Cargo</th>
+            <th>Descripción</th>
+            <th>
+                <a href="cargosFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
+                    <img src="presentacion/iconos/agregar.png" width='30' height='30'>
+                </a>
+            </th>
+        </tr>
+        <%=lista%>
+    </table>
 </div>
-
-<table class="table" border="1" id="cargosTable">
-    <tr>
-        <th>Número</th>
-        <th>Cargo</th>
-        <th>Código del Cargo</th>
-        <th>Descripción</th>
-        <th>
-    <a href="cargosFormulario.jsp?accion=Adicionar" class="iconoAgregar" title="Adicionar">
-         <img src="presentacion/iconos/agregar.png" width='30' height='30'>
-    </a>
-</th>
-
-    </tr>
-    <%=lista%>
-</table>
-
-<script>
+    <script>
 
     function eliminar(id) {
         var respuesta = confirm("¿Realmente desea eliminar el cargo?");
@@ -110,6 +112,8 @@
             }
         }
     }
+    
+    // PERMISOS
 
     document.addEventListener("DOMContentLoaded", function () {
         controlarPermisos(
@@ -118,4 +122,5 @@
     <%= administrador.getpAgregar()%>
         );
     });
+    
 </script>

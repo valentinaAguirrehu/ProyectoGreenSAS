@@ -90,10 +90,11 @@ public class Cargo {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    @Override
      public String toString(){
      return nombre+ " " +codigoCargo;
  }
-
 
     public boolean grabar() {
         String cadenaSQL = "insert into cargo (nombre, codigoCargo, descripcion) "

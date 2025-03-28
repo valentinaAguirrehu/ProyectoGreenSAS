@@ -1,130 +1,149 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : 12 mar 2025, 17:09:02
-    Author     : Angie
-*/
-
+/* Estilo general */
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: "Poppins", sans-serif;
     display: flex;
     height: 100vh;
-    background: linear-gradient(to right, #145a32, #1c7430);
+    background: linear-gradient(to right, #0f3d21, #1c7430);
     justify-content: center;
     align-items: center;
 }
 
+/* Contenedor del login */
 .login-container {
     display: flex;
-    width: 800px;
-    border-radius: 10px;
+    width: 850px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    border: 2px solid #fff;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
 }
 
+/* Sección izquierda */
 .left-section {
     width: 50%;
-    background: #145a32;
+    background: rgba(20, 90, 50, 0.85);
     color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 30px;
     text-align: center;
 }
 
-.left-section h2 {
-    margin-bottom: 10px;
+/* Estilo del logo */
+.logo {
+    width: 90px;
+    height: auto;
+    margin-bottom: 15px;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
 }
 
+/* Texto de bienvenida */
 .left-section p {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: 600;
     color: white;
+    margin: 5px 0;
 }
 
+/* Sección derecha */
 .right-section {
     width: 50%;
-    padding: 40px;
-    background: white; /* Fondo blanco */
+    padding: 50px;
+    background: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 0 15px 15px 0;
 }
 
-h2 {
-    margin-bottom: 20px;
-    text-align: center;
-    color: #145a32;
-}
-
+/* Título */
 .right-section h2 {
-    color: green;
+    color: #145a32;
+    font-size: 22px;
+    margin-bottom: 20px;
 }
 
+/* Caja de entrada */
 .input-box {
     margin-bottom: 15px;
     width: 100%;
-    text-align: center; /* Centra el texto de los labels */
+    text-align: center;
 }
 
+/* Etiquetas */
 .input-box label {
     font-weight: bold;
-
     margin-bottom: 5px;
     color: #145a32;
-    text-align: center; /* Centra el texto */
+    text-align: center;
+    display: block;
 }
 
+/* Contenedor del input con icono */
 .icon-input {
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px;
-    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.7);
     width: 100%;
+    transition: all 0.3s;
 }
 
 .icon-input input {
     flex: 1;
     border: none;
     outline: none;
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
     background: transparent;
 }
 
 .icon-input img {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     margin-right: 10px;
 }
 
-input:focus {
-    border: 2px solid #388e3c;
+/* Efecto cuando el input está en foco */
+.icon-input:focus-within {
+    border-color: #2e7d32;
+    box-shadow: 0 0 8px rgba(46, 125, 50, 0.5);
 }
 
+/* Botón */
 button {
     width: 100%;
-    padding: 10px;
-    background-color: #388e3c;
+    padding: 12px;
+    background: linear-gradient(to right, #43a047, #2e7d32);
     border: none;
     color: white;
-    font-size: 16px;
-    border-radius: 5px;
+    font-size: 18px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
+    margin-top: 15px;
+    font-weight: bold;
+    transition: all 0.3s;
 }
 
+/* Efecto hover en botón */
 button:hover {
-    background-color: #2e7d32;
+    background: linear-gradient(to right, #388e3c, #1b5e20);
+    transform: scale(1.05);
+}
+
+/* Estilo del logo */
+.logo {
+    width: 180px; /* Ajusta el tamaño del logo */
+    height: auto;
+    margin-bottom: 50px; /* Aumenta el espacio entre el logo y el texto */
+    filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.3));
 }
