@@ -4,12 +4,6 @@
 <link rel="stylesheet" href="presentacion/style-colaboradores.css">
 
 <%
-    // Obtener el parámetro de búsqueda
-    String filtro = request.getParameter("filtro");
-    if (filtro == null) {
-        filtro = "";
-    }
-
     String lista = "";
     List<Persona> datos = Persona.getListaEnObjetos(null, null);
 
@@ -19,18 +13,10 @@
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
         String establecimiento = persona.getEstablecimiento();
+        
         String fechaIngreso = persona.getFechaIngreso();
 
-        // Verificar si el filtro coincide con alguno de los campos
-        if (identificacion.toLowerCase().contains(filtro.toLowerCase()) ||
-            nombres.toLowerCase().contains(filtro.toLowerCase()) ||
-            apellidos.toLowerCase().contains(filtro.toLowerCase()) ||
-            cargo.toLowerCase().contains(filtro.toLowerCase()) ||
-            establecimiento.toLowerCase().contains(filtro.toLowerCase()) ||
-            fechaIngreso.toLowerCase().contains(filtro.toLowerCase()) ||
-            filtro.isEmpty()) {
-            
-            lista += "<tr>";
+       lista += "<tr>";
             lista += "<td align='right'>" + identificacion + "</td>";
             lista += "<td>" + nombres + "</td>";
             lista += "<td>" + apellidos + "</td>";
@@ -46,19 +32,29 @@
             lista += "</td>";
             lista += "</tr>";
         }
-    }
+    
 %>
 
 
 <h3>Lista de Colaboradores</h3>
 
-<!-- Campo de búsqueda -->
-<form method="GET">
-    <input type="text" name="filtro" value="<%= filtro %>" placeholder="Buscar por identificación, nombre, cargo, establecimiento o fecha de ingreso" class="recuadro">
-    <button type="submit">Buscar</button>
-</form>
+<!-- Nuevo buscador din�mico -->
+<div class="search-container">
+    <div class="search-box">
+        <select id="searchType" class="recuadro">
+            <option value="identificacion">Identificaci�n</option>
+            <option value="nombre">Nombre</option>
+            <option value="apellido">Apellidos</option>
+            <option value="cargo">Cargo</option>
+            <option value="establecimiento">Establecimiento</option>
+            <option value="fechaIngreso">Fecha de Ingreso</option>
+        </select>
+        <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
+        <img src="presentacion/iconos/lupa.png" alt="Buscar">
+    </div>
+</div>
 
-<table class="table">
+<table class="table" id="colaboradoresTable">
     <tr>
         <th>Identificación</th>
         <th>Nombre</th>
@@ -68,7 +64,7 @@
         <th>Fecha de Ingreso</th>
         <th>Acciones</th>
     </tr>
-    <%= lista %> 
+    <%= lista%> 
 </table>
 
 <!-- Botón para agregar un nuevo colaborador -->
@@ -93,6 +89,43 @@
         window.location.href = "historiaLaboralGreen.jsp?identificacion=" + identificacion;
     }
 
+    // Buscador din�mico con opci�n de filtro por columna
+    function filterResults() {
+        const searchType = document.getElementById('searchType').value;
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const table = document.getElementById("colaboradoresTable");
+        const rows = table.getElementsByTagName("tr");
+
+        let columnIndex;
+        switch (searchType) {
+            case "identificacion":
+                columnIndex = 0;
+                break;
+            case "nombre":
+                columnIndex = 1;
+                break;
+            case "apellido":
+                columnIndex = 2;
+                break;
+            case "cargo":
+                columnIndex = 3;
+                break;
+            case "establecimiento":
+                columnIndex = 4;
+                break;
+            case "fechaIngreso":
+                columnIndex = 5;
+                break;
+        }
+
+        for (let i = 1; i < rows.length; i++) {
+            const cell = rows[i].getElementsByTagName("td")[columnIndex];
+            if (cell) {
+                const text = cell.textContent || cell.innerText;
+                rows[i].style.display = text.toLowerCase().includes(input) ? "" : "none";
+            }
+        }
+    }
 
 </script>
 
