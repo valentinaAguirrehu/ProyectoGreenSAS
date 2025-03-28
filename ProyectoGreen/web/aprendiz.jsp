@@ -24,6 +24,7 @@
             lista.append("<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ");
             lista.append("<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
             lista.append("<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
+            lista.append("<img src='presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboral(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
             lista.append("</td>");
             lista.append("</tr>");
         }
@@ -64,7 +65,9 @@
     function verDetalles(identificacion) {
     document.location = "aprendizDetalles.jsp?identificacion=" + identificacion;
 }
-
+ function verHistoriaLaboral(identificacion) {
+        window.location.href = "historiaLaboralAprendiz.jsp?identificacion=" + identificacion;
+    }
 </script>
 
 <!-- Botón de cancelar para regresar a la página anterior -->
