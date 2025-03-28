@@ -114,7 +114,7 @@ public class Retirados {
                 + "', observaciones = '" + observaciones
                 + "', numCaja = '" + numCaja
                 + "', numCarpeta = '" + numCarpeta
-                + "' WHERE identificacionPersona = '" + idAnterior + "'";
+                + "' WHERE id = '" + idAnterior + "'";
 
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
