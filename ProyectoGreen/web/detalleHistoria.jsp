@@ -14,17 +14,29 @@
     String titulo = "";
 
     switch (tipo) {
-        case "Dotro":
-            titulo = "OTROS SI";
+        case "Dotros":
+            titulo = "Otros si";
             break;
-
-        case "Votro":
+        case "Votros":
             titulo = "Vacaciones";
             break;
-
+        case "HVotros":
+            titulo = "Hoja de Vida";
+            break;
+        case "DVotros":
+            titulo = "Datos del vehículo";
+            break;
+        case "Lotros":
+            titulo = "Liquidación";
+            break;
+        case "LNotros":
+            titulo = "Licencia no remunerada";
+            break;
+        case "DAotros":
+            titulo = "Otros documentos";
+            break;
         case "OtraOpcion":
             break;
-
         default:
             break;
     }
