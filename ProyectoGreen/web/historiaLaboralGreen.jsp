@@ -1,4 +1,3 @@
-<%@page import="clases.HistoriaLaboral"%>
 <%@page import="clases.Persona"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.Iterator, java.util.Map, java.util.HashMap" %>
@@ -9,18 +8,9 @@
 <%@ page import="java.io.File" %>
 <% String identificacion = request.getParameter("identificacion");
     Persona persona = null;
-    HistoriaLaboral historiaLaboral = null;
-
+    
     if (identificacion != null && !identificacion.isEmpty()) {
         persona = new Persona(identificacion);
-    } else {
-        List<HistoriaLaboral> datos = HistoriaLaboral.getListaEnObjetos(null, null);
-        if (datos != null && !datos.isEmpty()) {
-            historiaLaboral = datos.get(0);
-            if (historiaLaboral != null && historiaLaboral.getIdentificacionPersona() != null) {
-                persona = new Persona(historiaLaboral.getIdentificacionPersona());
-            }
-        }
     }%>
 
 <!DOCTYPE html>
@@ -32,7 +22,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>HISTORIA LABORAL GREEN ACTIVOS</h1>
+            <h1>HISTORIA LABORAL ACTIVOS</h1>
             <!-- Datos Laborales -->
 
             <div class="section">
@@ -40,7 +30,7 @@
             </div>
 
             <div class="section">
-                <h3 class="titulo-seccion">Datos Laborales</h3>
+                <h3 class="titulo-seccion">DATOS DEL COLABORADOR </h3>
                 <div class="input-group">
                     <div class="campo">
                         <label>C.C.</label>
@@ -57,6 +47,10 @@
                     <div class="campo">
                         <label>Celular</label>
                         <input type="text" class="campo-pequeno" value="<%= (persona != null) ? persona.getCelular() : ""%>" readonly>
+                    </div>
+                      <div class="campo">
+                        <label>Fecha de inicio del contrato</label>
+                        <input type="text" class="campo-mediano" value="<%= (persona != null) ? persona.getFechaIngreso(): ""%>" readonly>
                     </div>
                 </div>
             </div>
@@ -84,7 +78,7 @@
                     </div>
                     <div class="data-item">
                         <span>DOCUMENTOS CONTRATACIÓN</span>
-                        <button class="ver-btn" onclick="window.location.href = 'verDocumentosContratacion.jsp?identificacion=<%= identificacion %>'">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verDocumentosContratacion.jsp?identificacion=<%= identificacion %>&tipo=hojadevida'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>DOCUMENTOS SST-SGA</span>

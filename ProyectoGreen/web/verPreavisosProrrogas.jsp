@@ -1,10 +1,17 @@
 <%-- 
-    Document   : verAusentismos
-    Created on : 26/03/2025, 04:27:25 PM
+    Document   : verPreavisosProrrogas
+    Created on : 27/03/2025, 03:26:30 PM
+    Author     : VALEN
+--%>
+
+<%-- 
+    Document   : verDuranteContratacion
+    Created on : 26/03/2025, 04:01:35 PM
     Author     : VALEN
 --%>
 
 <%@page import="java.util.List"%>
+<%@page import="clases.HistoriaLaboral"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Administrador"%>
 
@@ -16,10 +23,19 @@
 
  String identificacion = request.getParameter("identificacion");
     Persona persona = null;
+    HistoriaLaboral historiaLaboral = null;
 
     if (identificacion != null && !identificacion.isEmpty()) {
         persona = new Persona(identificacion);
-    } %>
+    } else {
+        List<HistoriaLaboral> datos = HistoriaLaboral.getListaEnObjetos(null, null);
+        if (datos != null && !datos.isEmpty()) {
+            historiaLaboral = datos.get(0);
+            if (historiaLaboral != null && historiaLaboral.getIdentificacionPersona() != null) {
+                persona = new Persona(historiaLaboral.getIdentificacionPersona());
+            }
+        }
+    }%>
 
 
 <!DOCTYPE html>
@@ -37,13 +53,14 @@
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>Ausentismos</h2>
+                    <h2>Preavisos y prorrogas</h2>
                     <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() +" - "+ persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
                     <thead>
                         <tr>
                             <th>DOCUMENTOS</th>
+                      
                             <th>ARCHIVO</th>
                             <th>OTRO</th>
                         </tr>
@@ -51,20 +68,7 @@
                     <tbody>
 
                         <tr>
-                            <td>Vacaciónes</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>   <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Votros'" 
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                    
-                        <tr>
-                            <td>Licencia no remunerada</td>
+                            <td>Primer preaviso</td>
                             <td class="archivo">
                                 <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
                             </td>
@@ -76,9 +80,64 @@
                                 <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
                             </td>
                         </tr>
-
+                             <tr>
+                            <td>Primera prorroga</td>
+                            <td class="archivo">
+                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                            </td>
+                            <td>
+                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            </td>
+                        </tr>
                         <tr>
-                            <td>Otros documentos</td>
+                            <td>Segundo preaviso</td>
+                            <td class="archivo">
+                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                            </td>
+                            <td>
+                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            </td>
+                        </tr>
+                        
+                          <tr>
+                            <td>Segunda prorroga</td>
+                            <td class="archivo">
+                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                            </td>
+                            <td>
+                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tercer preaviso</td>
+                            <td class="archivo">
+                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                            </td>
+                            <td>
+                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            </td>
+                        </tr>
+                  
+                  
+                         
+                           <tr>
+                            <td>Tercera prorroga</td>
                             <td class="archivo">
                                 <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
                             </td>

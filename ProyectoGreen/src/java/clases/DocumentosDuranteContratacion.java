@@ -20,7 +20,7 @@ public class DocumentosDuranteContratacion {
     
     // Atributos
     private String id;
-    private String preavisosProrrogas;
+    private String idpreavisosProrrogas;
     private String otrosSi;
     private String sustitucionPatronal;
     private String otrosDocumentos;
@@ -30,13 +30,13 @@ public class DocumentosDuranteContratacion {
     }
 
     public DocumentosDuranteContratacion(String id) {
-        String consultaSQL = "select preavisosProrrogas, otrosSi, sustitucionPatronal, otrosDocumentos from documentosDuranteContratacion where id = " + id;
+        String consultaSQL = "select idpreavisosProrrogas, otrosSi, sustitucionPatronal, otrosDocumentos from documentosDuranteContratacion where id = " + id;
         ResultSet resultado = ConectorBD.consultar(consultaSQL);
         
         try {
             if (resultado.next()) {
                 this.id = id;
-                preavisosProrrogas = resultado.getString("preavisosProrrogas");
+                idpreavisosProrrogas = resultado.getString("idpreavisosProrrogas");
                 otrosSi = resultado.getString("otrosSi");
                 sustitucionPatronal = resultado.getString("sustitucionPatronal");
                 otrosDocumentos = resultado.getString("otrosDocumentos");
@@ -57,14 +57,14 @@ public class DocumentosDuranteContratacion {
         this.id = id;
     }
 
-    public String getPreavisosProrrogas() {
-        String resultado = preavisosProrrogas;
-        if (preavisosProrrogas == null) resultado = "";
+    public String getIdpreavisosProrrogas() {
+        String resultado = idpreavisosProrrogas;
+        if (idpreavisosProrrogas == null) resultado = "";
         return resultado;
     }
 
-    public void setPreavisosProrrogas(String preavisosProrrogas) {
-        this.preavisosProrrogas = preavisosProrrogas;
+    public void setIdpreavisosProrrogas(String idpreavisosProrrogas) {
+        this.idpreavisosProrrogas = idpreavisosProrrogas;
     }
 
     public String getOtrosSi() {
@@ -99,13 +99,13 @@ public class DocumentosDuranteContratacion {
 
     // Métodos de Base de Datos
     public boolean grabar() {
-        String consultaSQL = "insert into documentos_durante_contratacion (preavisosProrrogas, otrosSi, sustitucionPatronal, otrosDocumentos) VALUES ('" 
-                + preavisosProrrogas + "', '" + otrosSi + "', '" + sustitucionPatronal + "', '" + otrosDocumentos + "')";
+        String consultaSQL = "insert into documentos_durante_contratacion (idpreavisosProrrogas, otrosSi, sustitucionPatronal, otrosDocumentos) VALUES ('" 
+                + idpreavisosProrrogas + "', '" + otrosSi + "', '" + sustitucionPatronal + "', '" + otrosDocumentos + "')";
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
 
     public boolean modificar() {
-        String consultaSQL = "update documentos_durante_contratacion set preavisosProrrogas = '" + preavisosProrrogas
+        String consultaSQL = "update documentos_durante_contratacion set idpreavisosProrrogas = '" + idpreavisosProrrogas
                 + "', otrosSi = '" + otrosSi
                 + "', sustitucionPatronal = '" + sustitucionPatronal
                 + "', otrosDocumentos = '" + otrosDocumentos + "' where id = " + id;
@@ -128,7 +128,7 @@ public class DocumentosDuranteContratacion {
         } else {
             orden = "";
         }
-        String cadenaSQL = "select preavisosProrrogas, otrosSi, sustitucionPatronal, otrosDocumentos from documentosDuranteContratacion " + filtro + orden;
+        String cadenaSQL = "select idpreavisosProrrogas, otrosSi, sustitucionPatronal, otrosDocumentos from documentosDuranteContratacion " + filtro + orden;
         return ConectorBD.consultar(cadenaSQL);
     }
 
