@@ -52,7 +52,7 @@
                     <tbody>
 
                         <tr>
-                            <td>OTROS SI</td>
+                            <td>Otros si</td>
                             <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Dotros'" 
@@ -75,7 +75,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>OTROS DOCUMENTOS</td>
+                            <td>Otros Documentos</td>
                             <td class="archivo">
                                 <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
                             </td>

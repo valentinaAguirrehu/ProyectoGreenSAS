@@ -62,7 +62,7 @@
                 <div class="data-grid"> 
                     <div class="data-item">
                         <span>DOCUMENTO DE IDENTIDAD</span>
-                        <button class="ver-btn" onclick="window.location.href = 'verDocumentoIdentidad.jsp?identificacion=<%= identificacion %>'">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=documentoIdentidad'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>DURANTE CONTRATACIÓN</span>
@@ -78,7 +78,7 @@
                     </div>
                     <div class="data-item">
                         <span>DOCUMENTOS CONTRATACIÓN</span>
-                        <button class="ver-btn" onclick="window.location.href = 'verDocumentosContratacion.jsp?identificacion=<%= identificacion %>&tipo=hojadevida'">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verDocumentosContratacion.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
                         <span>DOCUMENTOS SST-SGA</span>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="data-item">
                         <span>FINALIZAR CONTRATACIÓN</span>
-                        <button class="ver-btn" onclick="window.location.href = 'verFinalizacionContrato.jsp?identificacion=<%= identificacion %>'">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=Lotros'">VER</button>
                     </div>
                 </div>
 
