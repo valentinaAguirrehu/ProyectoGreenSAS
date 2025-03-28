@@ -38,7 +38,7 @@
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>Documentos SST-SGA</h2>
+                    <h2>DOCUMENTOS SST-SGA</h2>
                     <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() +" - "+ persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
@@ -46,47 +46,45 @@
                         <tr>
                             <th>DOCUMENTOS</th>
                             <th>ARCHIVO</th>
-                            <th>OTRO</th>
+                           
                         </tr>
                     </thead>
                     <tbody> 
                         <tr>
-                            <td>Reinduccion</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            <td>Reinducción</td>
+                           
+                         <td><button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=RInduccionotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Emo</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                            <td>Emo periodico</td>
+                             <td><button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOPotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                        </tr>
+                          <tr>
+                            <td>Emo post-incapacidad</td>
+                             <td><button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOINotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
                             <td>Otros documentos</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            <td><button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=DSTSGAotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                       

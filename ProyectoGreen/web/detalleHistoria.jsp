@@ -14,27 +14,133 @@
     String titulo = "";
 
     switch (tipo) {
-        case "Dotros":
-            titulo = "Otros si";
+
+        //DOCUMENTOIDENTIDAD
+        case "documentoIdentidad":
+            titulo = "DOCUMENTO IDENTIDAD";
             break;
-        case "Votros":
-            titulo = "Vacaciones";
-            break;
+
+        //HOJA DE VIDA
         case "HVotros":
-            titulo = "Hoja de Vida";
+            titulo = "HOJA DE VIDA";
             break;
         case "DVotros":
-            titulo = "Datos del vehículo";
+            titulo = "DATOS DEL VEHÍCULO";
             break;
-        case "Lotros":
-            titulo = "Liquidación";
+
+        //DOCUMENTOS DE CONTRATACION
+        case "CTotros":
+            titulo = "CONTRATO DE TRABAJO";
+            break;
+        case "TDotros":
+            titulo = "TRATAMIENTO DATOS";
+            break;
+        case "AERotros":
+            titulo = "AUTORIZACION EXAMENES Y REQUISAS";
+            break;
+        case "PRotros":
+            titulo = "PROFESIOGRAMA";
+            break;
+        case "SSTotros":
+            titulo = "INDUCCIÓN SST";
+            break;
+        case "SGAotros":
+            titulo = "INDUCCIÓN SGA";
+            break;
+        case "APACotros":
+            titulo = "ACTA PAUSAS ACTIVAS";
+            break;
+        case "ICAotros":
+            titulo = "INDUCCIÓN AL CARGO";
+            break;
+        case "SGRILAFTotros":
+            titulo = "DOCUMENTO SAGRILAFT";
+            break;
+
+        //AFILIACIONES
+        case "EPSotros":
+            titulo = "EPS";
+            break;
+        case "ARLotros":
+            titulo = "ARL";
+            break;
+        case "FDPotross":
+            titulo = "FONDO DE PENSIONES";
+            break;
+        case "CESAotros":
+            titulo = "FONDO DE CESANTIAS";
+            break;
+        case "CCPotros":
+            titulo = "COMFAMILIAR";
+            break;
+
+        //DOCUMENTOS DURANTE LA CONTRATACION
+        case "Dotros":
+            titulo = "OTROS SI";
+            break;
+        case "SPAotros":
+            titulo = "SUSTITUCION PATRONAL";
+            break;
+        case "PPROGGASotros":
+            titulo = "PREAVISOS Y PRORROGAS";
+            break;
+        case "DUCONotros":
+            titulo = "OTROS DOCUMENTOS";
+            break;
+
+        //AUSENTISMOS  
+        case "Votros":
+            titulo = "VACACIONES";
             break;
         case "LNotros":
-            titulo = "Licencia no remunerada";
+            titulo = "LICENCIA NO REMUNERADA";
             break;
         case "DAotros":
-            titulo = "Otros documentos";
+            titulo = "OTROS DOCUMENTOS";
             break;
+
+        //DOCUMENTOSSST-SGAA
+        case "RInduccionotros":
+            titulo = "REINDUCCIÓN";
+            break;
+
+        case "EMOPotros":
+            titulo = "EMO PERIODICO";
+            break;
+
+        case "EMOINotros":
+            titulo = "EMO POST-INCAPACIDAD";
+            break;
+        case "DSTSGAotros":
+            titulo = "OTROS DOCUMENTOS";
+            break;
+
+        //DOCUMENTOS AL FINALIZAR LA CONTRATACIÓN
+        case "Lotros":
+            titulo = "LIQUIDACIÓN";
+            break;
+
+        //temporales
+        case "induccionSST":
+            titulo = "INDUCCIÓN SST";
+            break;
+        case "induccionSGA":
+            titulo = "INDUCCIÓN SGA";
+            break;
+
+        case "otrosDocumentosT":
+            titulo = "OTROS DOCUMENTOS";
+            break;
+
+        //Aprendiz 
+        case "EPSotrosAp":
+            titulo = "EPS APRENDIZ";
+            break;
+
+        case "ARLotrosAp":
+            titulo = "ARL APRENDIZ";
+            break;
+
         case "OtraOpcion":
             break;
         default:
@@ -96,7 +202,7 @@
                     </thead>
                     <tbody>
                         <% if (listaDetalles != null && !listaDetalles.isEmpty()) {
-            for (DetallesHistoria detalle : listaDetalles) {%>
+                                for (DetallesHistoria detalle : listaDetalles) {%>
                         <tr>
                             <td><%= detalle.getNombreDocumento()%></td>
                             <td><%= detalle.getDocumentoPDF() != null ? detalle.getDocumentoPDF() : "No disponible"%></td>
@@ -122,18 +228,19 @@
                             </td>
                         </tr>
                         <% }
-    } else { %>
+                        } else { %>
                         <tr>
                             <td colspan="4">No hay documentos disponibles</td>
+
                         </tr>
                         <% }%>
                     </tbody>
 
                 </table>
                 <div class="buttons">
-                    <a href="historiaLaboralGreen.jsp?identificacion=<%= identificacion%>" class="btn-volver">VOLVER</a>
+                    <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
                 </div>
-            </div>
+            </div>s
         </body>
     </html>
 </div>

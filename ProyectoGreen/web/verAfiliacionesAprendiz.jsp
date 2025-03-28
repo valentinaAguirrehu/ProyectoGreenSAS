@@ -1,6 +1,11 @@
 <%-- 
-    Document   : verDuranteContratacion
-    Created on : 26/03/2025, 04:01:35 PM
+    Document   : verAfiliacionesAprendiz
+    Created on : 28/03/2025, 04:50:08 PM
+    Author     : VALEN
+--%>
+<%-- 
+    Document   : verAfiliaciones
+    Created on : 26/03/2025, 05:08:59 PM
     Author     : VALEN
 --%>
 
@@ -37,63 +42,43 @@
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>DOCUMENTOS DURANTE CONTRATACIÓN</h2>
-                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() +" - "+ persona.getIdentificacion() : ""%>" class="nombre" readonly>
-                  
+                    <h2>AFILIACIONES</h2>
+                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
                     <thead>
                         <tr>
                             <th>DOCUMENTOS</th>
                             <th>ARCHIVO</th>
-                           
+
                         </tr>
                     </thead>
-                    <tbody>
-
+                    <tbody> 
                         <tr>
-                            <td>Otros si</td>
+                            <td>EPS</td>
                             <td>
                                 <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Dotros'" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EPSotrosAp'" 
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Sustitición patronal</td>
-                             <td>
+                            <td>ARL</td>
+                                 <td>
                                 <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SPAotros'" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ARLotrosAp'" 
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
-                   
-
-                        <tr>
-                            <td>Preavisos y prorrogas</td>
-                            <td>
-                                       <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=PPROGGASotros'" 
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-     <tr>
-                            <td>Otros documentos</td>
-                            <td>
-                                <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=DUCONotros'" 
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
+                     
+                     
+                          
                     </tbody>
+
                 </table>
                 <div class="buttons">
                     <a href="historiaLaboralGreen.jsp?identificacion=<%= identificacion%>" class="btn-volver">VOLVER</a>

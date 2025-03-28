@@ -33,8 +33,8 @@
                 <h3 class="titulo-seccion">DATOS DEL COLABORADOR </h3>
                 <div class="input-group">
                     <div class="campo">
-                        <label>C.C.</label>
-                        <input type="text" class="campo-pequeno" value="<%= (persona != null) ? persona.getIdentificacion() : ""%>" readonly>
+                        <label>Numero de identificación</label>
+                        <input type="text" class="campo-mediano" value="<%= (persona != null) ? persona.getIdentificacion() : ""%>" readonly>
                     </div>
                     <div class="campo">
                         <label>Centro de Costo</label>
