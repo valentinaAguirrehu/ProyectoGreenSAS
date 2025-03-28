@@ -23,14 +23,16 @@
                 }
 
                 lista += "<tr>";
+                lista += "<td>" + persona.getTipoDocumento() + "</td>";
                 lista += "<td>" + persona.getIdentificacion() + "</td>";
                 lista += "<td>" + persona.getNombres() + " " + persona.getApellidos() + "</td>";
                 lista += "<td>" + persona.getEstablecimiento() + "</td>";
+                lista += "<td>" + nombreCargo + "</td>";
                 lista += "<td>" + persona.getFechaIngreso() + "</td>";
                 lista += "<td>" + persona.getFechaRetiro() + "</td>";
-                lista += "<td>" + nombreCargo + "</td>";
                 lista += "<td>" + retirado.getNumCaja() + "</td>";
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
+                lista += "<td>" + persona.getUnidadNegocio() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
                 lista += "<td>";
                 lista += "<img class='ver' src='presentacion/iconos/ojo.png' width='25' height='25' title='Ver detalles'>";
@@ -59,9 +61,12 @@
             <select id="searchType" class="recuadro">
                 <option value="identificacion">Identificación</option>
                 <option value="nombre">Nombre</option>
-                <option value="fechaRetiro">Fecha de retiro</option>
+                <option value="cargo">Cargo</option>
+                <option value="unidadNegocio">Unidad de negocio</option>
+                <option value="establecimiento">Establecimiento</option>                 
                 <option value="caja">Número de caja</option>
                 <option value="carpeta">Número de carpeta</option>
+                <option value="fechaRetiro">Fecha de retiro</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
             <img src="presentacion/iconos/lupa.png" alt="Buscar">
@@ -70,14 +75,16 @@
 
     <table class="table" border="1" id="usuariosTable">
         <tr>
-            <th>Identificación</th>
+            <th>Tipo del documento</th>
+            <th>Documento</th>
             <th>Nombre</th>
             <th>Establecimiento</th>
+            <th>Cargo</th>
             <th>Fecha de ingreso</th>
             <th>Fecha de retiro</th>
-            <th>Cargo</th>
             <th>Número de caja</th>
-            <th>Número de carpeta</th>
+            <th>Número de carpeta</th>          
+            <th>Unidad de negocio</th>
             <th>Observaciones</th>
             <th>Acciones</th>
         </tr>
@@ -92,10 +99,10 @@
             document.location = "retiradosActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
     }
-    function verHistoriaLaboralRetirados(identificacion) {
-    window.location.href = "historiaLaboralRetirado.jsp?identificacion=" + identificacion;
-}
 
+    function verHistoriaLaboralRetirados(identificacion) {
+        window.location.href = "historiaLaboralRetirado.jsp?identificacion=" + identificacion;
+    }
 
     function filterResults() {
         const searchType = document.getElementById('searchType').value;
@@ -106,19 +113,28 @@
         let columnIndex;
         switch (searchType) {
             case "identificacion":
-                columnIndex = 0;
-                break;
-            case "nombre":
                 columnIndex = 1;
                 break;
-            case "caja":
-                columnIndex = 6;
+            case "nombre":
+                columnIndex = 2;
                 break;
-            case "carpeta":
-                columnIndex = 7;
+            case "establecimiento":
+                columnIndex = 3;
+                break;
+            case "cargo":
+                columnIndex = 4;
                 break;
             case "fechaRetiro":
-                columnIndex = 4;
+                columnIndex = 6;
+                break;
+            case "caja":
+                columnIndex = 7;
+                break;
+            case "carpeta":
+                columnIndex = 8;
+                break;
+            case "unidadNegocio":
+                columnIndex = 9;
                 break;
         }
 
