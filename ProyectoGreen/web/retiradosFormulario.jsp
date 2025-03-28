@@ -98,10 +98,12 @@
                 </td>
             </tr>
         </table>
+                    
         <input type="hidden" name="id" value="<%= (retirado != null) ? retirado.getId() : ""%>">
         <input type="hidden" name="accion" value="<%= accion%>">
         <input type="hidden" name="identificacion" value="<%= request.getParameter("identificacion")%>">
         <button type="submit" class="submit"><%= textoBoton%></button>
         <input class="button" type="button" value="Cancelar" onClick="window.history.back()">
+        
     </form>
 </div>

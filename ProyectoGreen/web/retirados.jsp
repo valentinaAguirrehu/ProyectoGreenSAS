@@ -52,7 +52,8 @@
 <jsp:include page="permisos.jsp" />
 <%@ include file="menu.jsp" %>
 
-<div class="content">
+<div class="content">  
+    
     <h3 class="titulo">COLABORADORES RETIRADOS</h3>
     <link rel="stylesheet" href="presentacion/style-Retirados.css">
 
