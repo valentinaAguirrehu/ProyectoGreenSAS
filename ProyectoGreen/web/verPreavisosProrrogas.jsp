@@ -54,7 +54,7 @@
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
                     <h2>Preavisos y prorrogas</h2>
-                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() : ""%>" class="nombre" readonly>
+                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() +" - "+ persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
                     <thead>
@@ -80,8 +80,35 @@
                                 <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
                             </td>
                         </tr>
+                             <tr>
+                            <td>Primera prorroga</td>
+                            <td class="archivo">
+                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                            </td>
+                            <td>
+                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            </td>
+                        </tr>
                         <tr>
                             <td>Segundo preaviso</td>
+                            <td class="archivo">
+                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
+                            </td>
+                            <td>
+                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
+                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
+                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
+                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
+                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                            </td>
+                        </tr>
+                        
+                          <tr>
+                            <td>Segunda prorroga</td>
                             <td class="archivo">
                                 <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
                             </td>
@@ -107,32 +134,8 @@
                             </td>
                         </tr>
                   
-                            <tr>
-                            <td>Primera prorroga</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
-                            </td>
-                        </tr>
-                           <tr>
-                            <td>Segunda prorroga</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
-                            <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
-                            </td>
-                        </tr>
+                  
+                         
                            <tr>
                             <td>Tercera prorroga</td>
                             <td class="archivo">

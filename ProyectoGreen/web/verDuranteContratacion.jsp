@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="java.util.List"%>
-<%@page import="clases.HistoriaLaboral"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Administrador"%>
 
@@ -15,20 +14,11 @@
         administrador = new Administrador();
     }
 
- String identificacion = request.getParameter("identificacion");
+    String identificacion = request.getParameter("identificacion");
     Persona persona = null;
-    HistoriaLaboral historiaLaboral = null;
 
     if (identificacion != null && !identificacion.isEmpty()) {
         persona = new Persona(identificacion);
-    } else {
-        List<HistoriaLaboral> datos = HistoriaLaboral.getListaEnObjetos(null, null);
-        if (datos != null && !datos.isEmpty()) {
-            historiaLaboral = datos.get(0);
-            if (historiaLaboral != null && historiaLaboral.getIdentificacionPersona() != null) {
-                persona = new Persona(historiaLaboral.getIdentificacionPersona());
-            }
-        }
     }%>
 
 
@@ -48,7 +38,8 @@
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
                     <h2>Documentos durante la contratación</h2>
-                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() : ""%>" class="nombre" readonly>
+                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() +" - "+ persona.getIdentificacion() : ""%>" class="nombre" readonly>
+                  
                 </div>
                 <table class="documentos-tabla">
                     <thead>
@@ -62,15 +53,12 @@
 
                         <tr>
                             <td>OTROS SI</td>
-                            <td class="archivo">
-                                <span class="estado" style="color:red; font-size:12px;">NO HAY NINGÚN ARCHIVO CARGADO</span>
-                            </td>
                             <td>
-                                <img src="presentacion/iconos/ojo.png" alt="Ver" class="ver">
-                                <img src="presentacion/iconos/descargar.png" alt="Descargar" class="descargar">
-                                <img src="presentacion/iconos/eliminar.png" alt="Eliminar" class="eliminar">
-                                <input type="file" class="input-file" accept=".pdf,.png,.jpg" style="display: none;">
-                                <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Dotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
                             </td>
                         </tr>
                         <tr>
@@ -99,6 +87,18 @@
                                 <img src="presentacion/iconos/agregarDocumento.png" alt="Subir" class="subir">
                             </td>
                         </tr>
+
+                        <tr>
+                            <td>PREAVISOS Y PRORROGAS</td>
+                            <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'verPreavisosProrrogas.jsp?identificacion=<%= identificacion%>'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
                 <div class="buttons">
