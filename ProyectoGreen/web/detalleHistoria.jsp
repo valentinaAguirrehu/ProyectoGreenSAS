@@ -17,7 +17,7 @@
 
         //DOCUMENTOIDENTIDAD
         case "documentoIdentidad":
-            titulo = "DOCUMENTO IDENTIDAD";
+            titulo = "DOCUMENTO DE IDENTIDAD";
             break;
 
         //HOJA DE VIDA
@@ -33,10 +33,10 @@
             titulo = "CONTRATO DE TRABAJO";
             break;
         case "TDotros":
-            titulo = "TRATAMIENTO DATOS";
+            titulo = "TRATAMIENTO DE DATOS";
             break;
         case "AERotros":
-            titulo = "AUTORIZACION EXAMENES Y REQUISAS";
+            titulo = "AUTORIZACIÓN DE EXÁMENES Y REQUISAS";
             break;
         case "PRotros":
             titulo = "PROFESIOGRAMA";
@@ -48,7 +48,7 @@
             titulo = "INDUCCIÓN SGA";
             break;
         case "APACotros":
-            titulo = "ACTA PAUSAS ACTIVAS";
+            titulo = "ACTA DE PAUSAS ACTIVAS";
             break;
         case "ICAotros":
             titulo = "INDUCCIÓN AL CARGO";
@@ -79,7 +79,7 @@
             titulo = "OTROS SI";
             break;
         case "SPAotros":
-            titulo = "SUSTITUCION PATRONAL";
+            titulo = "SUSTITUCIÓN PATRONAL";
             break;
         case "PPROGGASotros":
             titulo = "PREAVISOS Y PRORROGAS";
@@ -172,6 +172,7 @@
 %>
 
 <!DOCTYPE html>
+
 <jsp:include page="permisos.jsp" />
 <%@ include file="menu.jsp" %>
 
@@ -189,15 +190,17 @@
                     <h2><%= titulo%></h2>
                     <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
-                <div class="buttons">
-                    <a href="detalleFormulario.jsp?identificacion=<%= identificacion%>&tipo=<%= tipo%>" class="btn-agregar">AGREGAR DOCUMENTO</a>
-                </div>
+
                 <table class="documentos-tabla">
                     <thead>
                         <tr>
-                            <th>Nombre Documento</th>
-                            <th>Nombre Archivo</th>
-                            <th>Ver</th>
+                            <th>Nombre del documento</th>
+                            <th>Nombre del archivo</th>
+                            <th colspan="2">
+                                <a href="detalleFormulario.jsp?identificacion=<%= identificacion%>&tipo=<%= tipo%>">
+                                    <img src="presentacion/iconos/agregar.png" class="subir" alt="Agregar Documento">
+                                </a>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -208,7 +211,9 @@
                             <td><%= detalle.getDocumentoPDF() != null ? detalle.getDocumentoPDF() : "No disponible"%></td>
                             <td>
                                 <% if (detalle.getDocumentoPDF() != null && !detalle.getDocumentoPDF().isEmpty()) {%>
-                                <a href="<%= detalle.getDocumentoPDF()%>" target="_blank">Ver PDF</a>
+                                <a href="<%= detalle.getDocumentoPDF()%>" target="_blank">
+                                    <img class="ver" src="presentacion/iconos/ojo.png" alt="Ver PDF">
+                                </a>
                                 <% } else { %>
                                 No disponible
                                 <% }%>
@@ -220,12 +225,12 @@
                                     <input type="hidden" name="idPersona" id="idPersona" value="<%= detalle.getIdPersona()%>">
                                     <input type="hidden" name="tipo" id="tipo" value="<%= detalle.getTipo()%>">
                                     <input type="hidden" name="accion" value="Eliminar">
-                                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este documento?');">
-                                        Eliminar
+                                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este documento?');" style="border: none; background: none; cursor: pointer;">
+                                        <img src="presentacion/iconos/eliminar.png" class="eliminar" alt="Eliminar">
                                     </button>
                                 </form>
-
                             </td>
+
                         </tr>
                         <% }
                         } else { %>
@@ -240,11 +245,10 @@
                 <div class="buttons">
                     <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
                 </div>
-            </div>s
+            </div>
         </body>
     </html>
 </div>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("tr").forEach(row => {
@@ -268,12 +272,13 @@
     });
 
     // PERMISOS
-    document.addEventListener("DOMContentLoaded", function () {
-        controlarPermisos(
-    <%= administrador.getpEliminar()%>,
-    <%= administrador.getpAgregar()%>,
-    <%= administrador.getpLeer()%>,
-    <%= administrador.getpDescargar()%>
-        );
-    });
+
+document.addEventListener("DOMContentLoaded", function () {
+    controlarPermisos(
+        "<%= administrador.getpEliminar() %>",
+        "<%= administrador.getpLeer() %>",
+        "<%= administrador.getpAgregar() %>"
+    );
+});
+
 </script>

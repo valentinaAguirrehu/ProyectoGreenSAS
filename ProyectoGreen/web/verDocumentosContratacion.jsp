@@ -143,7 +143,7 @@
 
                 </table>
                 <div class="buttons">
-                    <a href="historiaLaboralGreen.jsp?identificacion=<%= identificacion%>" class="btn-volver">VOLVER</a>
+                    <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
                 </div>
             </div>
         </body>

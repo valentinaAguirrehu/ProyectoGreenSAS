@@ -35,7 +35,7 @@
             permisos += "Eliminar - ";
         }
         if (usuario.getpDescargar().equals("S")) {
-            permisos += "Descarga - ";
+            permisos += "Ver y descargar - ";
         }
 
         if (!permisos.isEmpty()) {

@@ -59,11 +59,9 @@
                         </tr>
                     </table>
 
-                    <input type="submit" value="<%= (codigoDocumento != null) ? "Actualizar" : "Guardar"%>">
+                    <input class="btn-guardar"  type="submit" value="<%= (codigoDocumento != null) ? "Actualizar" : "Guardar"%>">
+                    <a href="detalleHistoria.jsp?identificacion=<%= identificacion%>" class="btn-volver">VOLVER</a>
                 </form>
-
-
-                <a href="detalleHistoria.jsp?identificacion=<%= identificacion%>" class="btn-volver">VOLVER</a>
             </div>
         </body>
     </html>

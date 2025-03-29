@@ -55,7 +55,7 @@
                     </div>
                     <div class="permiso-item">
                         <input type="checkbox" class="permiso" id="pDescargar" name="pDescargar" value="S" <%= "S".equals(usuario.getpDescargar()) ? "checked" : ""%>>
-                        <label for="pDescargar">Descargar</label>
+                        <label for="pDescargar">Ver y descargar</label>
                     </div>
 
                     <div class="permiso-item">
