@@ -713,24 +713,20 @@ public class Persona {
         }
         return resultado;
     }
-    
-public boolean guardarHijos(String identificacionPersona, String datosHijos) {
-    if (datosHijos == null || datosHijos.trim().isEmpty()) {
-        return false;
+
+    public boolean guardarHijos(String identificacionPersona, String datosHijos) {
+        if (datosHijos == null || datosHijos.trim().isEmpty()) {
+            return false;
+        }
+
+        // Reemplazar posibles comillas problemáticas en SQL
+        datosHijos = datosHijos.replace("'", "''");
+
+        String sql = "CALL guardar_hijos('" + identificacionPersona + "', '" + datosHijos + "')";
+        System.out.println("Ejecutando procedimiento: " + sql);
+
+        return ConectorBD.ejecutarQuery(sql);
     }
-
-    // Reemplazar posibles comillas problemáticas en SQL
-    datosHijos = datosHijos.replace("'", "''");
-
-    String sql = "CALL guardar_hijos('" + identificacionPersona + "', '" + datosHijos + "')";
-    System.out.println("Ejecutando procedimiento: " + sql);
-
-    return ConectorBD.ejecutarQuery(sql);
-}
-
-
-
-
 
     public void setPrimerRefCelular(String primerRefCelular) {
         this.primerRefCelular = primerRefCelular;
@@ -1092,18 +1088,22 @@ public boolean guardarHijos(String identificacionPersona, String datosHijos) {
         }
     }
 
-    // Getter y Setter para idDepartamento (campo virtual)
     public String getIdDepartamento() {
-        return idDepartamento;
+        if (lugarExpedicion != null && lugarExpedicion.contains("-")) {
+            return lugarExpedicion.split("-")[0];  // Extrae el id del departamento
+        }
+        return null;
     }
 
     public void setIdDepartamento(String idDepartamento) {
         this.idDepartamento = idDepartamento;
     }
 
-    // Getter y Setter para idMunicipio (campo virtual)
     public String getIdMunicipio() {
-        return idMunicipio;
+        if (lugarExpedicion != null && lugarExpedicion.contains("-")) {
+            return lugarExpedicion.split("-")[1];  // Extrae el id del municipio
+        }
+        return null;
     }
 
     public void setIdMunicipio(String idMunicipio) {
@@ -1405,7 +1405,7 @@ public boolean guardarHijos(String identificacionPersona, String datosHijos) {
 
     public static List<Persona> getListaEnObjetos(String filtro, String orden) throws SQLException {
         List<Persona> lista = new ArrayList<>();
-        try (ResultSet datos = Persona.getLista(filtro, orden)) {
+        try ( ResultSet datos = Persona.getLista(filtro, orden)) {
             if (datos != null) {
                 while (datos.next()) {
                     Persona persona = new Persona();
@@ -1489,7 +1489,7 @@ public boolean guardarHijos(String identificacionPersona, String datosHijos) {
                             + "WHERE ph.identificacionPersona = '" + persona.getIdentificacion() + "'";
 
                     List<Hijo> listaHijos = new ArrayList<>();
-                    try (ResultSet datosHijos = ConectorBD.consultar(sqlHijos)) {
+                    try ( ResultSet datosHijos = ConectorBD.consultar(sqlHijos)) {
                         if (datosHijos != null) {
                             while (datosHijos.next()) {
                                 Hijo hijo = new Hijo();
@@ -1539,7 +1539,7 @@ public boolean guardarHijos(String identificacionPersona, String datosHijos) {
 
     public static List<String[]> getListaEnArreglosJS(String filtro, String orden) throws SQLException {
         List<String[]> lista = new ArrayList<>();
-    try (ResultSet datos = Persona.getLista(filtro, orden)) {
+        try ( ResultSet datos = Persona.getLista(filtro, orden)) {
             if (datos != null) {
                 while (datos.next()) {
                     String[] persona = new String[]{
@@ -1616,4 +1616,5 @@ public boolean guardarHijos(String identificacionPersona, String datosHijos) {
         }
         return lista;
     }
+
 }
