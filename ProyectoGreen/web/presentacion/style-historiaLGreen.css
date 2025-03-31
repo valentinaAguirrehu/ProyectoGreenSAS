@@ -1,19 +1,23 @@
-body { 
-    font-family: Arial, sans-serif;
+body {
+    display: flex;
+    min-height: 10vh;
+    margin: 0;
 }
 
 .container {
     width: 60%;
     margin: auto;
     padding: 20px;
-    border: 2px solid black;
-    border-radius: 10px;
-    background-color: #f9f9f9;
+    border-radius: 15px;
+    background-color: #2c6e49;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Centrar los títulos de las secciones */
 h1 {
     text-align: center;
+    color: white;
+    margin-bottom: 20px;
 }
 
 .titulo-seccion {
@@ -21,14 +25,16 @@ h1 {
     font-size: 1.2em;
     margin-bottom: 15px;
     text-transform: uppercase;
+    color: #2c6e49;
 }
 
+/* Sección con sombra */
 .section {
     margin-bottom: 20px;
     padding: 15px;
-    border: 1px solid black;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #ffffff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* Nombre centrado */
@@ -36,10 +42,12 @@ h1 {
     width: 50%;
     text-align: center;
     font-weight: bold;
+    font-size: 1.1em;
     border: none;
     background: none;
     display: block;
     margin: auto;
+    color: #2c6e49;
 }
 
 /* Organización de los campos */
@@ -53,28 +61,39 @@ h1 {
 .campo {
     display: flex;
     flex-direction: column;
-    text-align: center;
+    text-align: left;
 }
 
 .campo label {
     font-weight: bold;
     margin-bottom: 5px;
+    color: #2c6e49;
+    text-align: center;
+}
+
+/* Campos con bordes redondeados y sombra */
+.campo-pequeno, .campo-mediano {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background-color: #b0eab5;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .campo-pequeno {
     width: 120px;
-    padding: 5px;
-    border: 1px solid black;
-    border-radius: 5px;
-    text-align: center;
 }
 
 .campo-mediano {
     width: 180px;
-    padding: 5px;
-    border: 1px solid black;
-    border-radius: 5px;
-    text-align: center;
+}
+
+.campo-pequeno:focus, .campo-mediano:focus {
+    outline: none;
+    border-color: #2c6e49;
+    box-shadow: 0 0 5px rgba(44, 110, 73, 0.5);
 }
 
 /* Estilo para la tabla de datos personales */
@@ -85,42 +104,50 @@ h1 {
     max-width: 600px;
     margin: auto;
     padding: 15px;
-    border: 2px solid black;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .data-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px;
-    border: 2px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Botón moderno */
 .ver-btn {
-    background: white;
-    border: 2px solid black;
-    padding: 5px 10px;
+    background: #ffffff;
+    border: 2px solid #2c6e49;
+    padding: 8px 15px;
     cursor: pointer;
     font-weight: bold;
-    min-width: 50px;
-    text-align: center;
+    border-radius: 20px;
+    transition: all 0.3s ease;
 }
 
 .ver-btn:hover {
-    background: #4CAF50;
+    background: #2c6e49;
+    color: white;
 }
 
-/* Botón de volver */
+/* Botón de volver con bordes más redondeados */
 .btn-volver {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 12px 24px;
     background-color: #4CAF50;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 30px;
     text-align: center;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .btn-volver:hover {
@@ -130,4 +157,35 @@ h1 {
 .buttons {
     text-align: center;
     margin-top: 20px;
+}
+
+/* Estilos para los iconos */
+.documentos-tabla img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.documentos-tabla img:hover {
+    transform: scale(1.1);
+}
+
+/* Se ajusta segun al menú */
+.content {
+    flex-grow: 1;
+    overflow-x: auto; 
+    margin-left: 220px; /* Desplazar el contenido a la derecha */
+    padding: 20px;
+}
+
+/* Diseño responsivo */
+@media (max-width: 450px) {
+    .table th, .table td {
+        padding: 8px;
+        font-size: 8px;
+    }
+    .recuadro {
+        width: 90%;
+    }
 }

@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Mary2
+ * @author Mary
  */
 public class Persona {
 
@@ -713,6 +713,24 @@ public class Persona {
         }
         return resultado;
     }
+    
+public boolean guardarHijos(String identificacionPersona, String datosHijos) {
+    if (datosHijos == null || datosHijos.trim().isEmpty()) {
+        return false;
+    }
+
+    // Reemplazar posibles comillas problemáticas en SQL
+    datosHijos = datosHijos.replace("'", "''");
+
+    String sql = "CALL guardar_hijos('" + identificacionPersona + "', '" + datosHijos + "')";
+    System.out.println("Ejecutando procedimiento: " + sql);
+
+    return ConectorBD.ejecutarQuery(sql);
+}
+
+
+
+
 
     public void setPrimerRefCelular(String primerRefCelular) {
         this.primerRefCelular = primerRefCelular;
@@ -1129,10 +1147,15 @@ public class Persona {
     }
 
     public String getTallaOverol() {
-        String resultado = tallaOverol;
+        String resultado = this.tallaOverol;
+        System.out.println("Talla overol"
+                + resultado);
         if (tallaOverol == null) {
             resultado = "";
         }
+        System.out.println("Talla overol"
+                + resultado);
+
         return resultado;
     }
 
@@ -1515,82 +1538,82 @@ public class Persona {
     }
 
     public static List<String[]> getListaEnArreglosJS(String filtro, String orden) throws SQLException {
-    List<String[]> lista = new ArrayList<>();
+        List<String[]> lista = new ArrayList<>();
     try (ResultSet datos = Persona.getLista(filtro, orden)) {
-        if (datos != null) {
-            while (datos.next()) {
-                String[] persona = new String[]{
-                    datos.getString("identificacion"),
-                    datos.getString("tipo"),
-                    datos.getString("idCargo"),
-                    datos.getString("tipoDocumento"),
-                    datos.getString("fechaExpedicion"),
-                    datos.getString("lugarExpedicion"),
-                    datos.getString("nombres"),
-                    datos.getString("apellidos"),
-                    datos.getString("sexo"),
-                    datos.getString("fechaNacimiento"),
-                    datos.getString("lugarNacimiento"),
-                    datos.getString("tipoSangre"),
-                    datos.getString("tipoVivienda"),
-                    datos.getString("direccion"),
-                    datos.getString("barrio"),
-                    datos.getString("celular"),
-                    datos.getString("email"),
-                    datos.getString("nivelEducativo"),
-                    datos.getString("eps"),
-                    datos.getString("estadoCivil"),
-                    datos.getString("fechaIngreso"),
-                    datos.getString("fechaRetiro"),
-                    datos.getString("fechaEtapaLectiva"),
-                    datos.getString("fechaEtapaProductiva"),
-                    datos.getString("unidadNegocio"),
-                    datos.getString("centroCostos"),
-                    datos.getString("establecimiento"),
-                    datos.getString("area"),
-                    datos.getString("tipoCargo"),
-                    datos.getString("cuentaBancaria"),
-                    datos.getString("numeroCuenta"),
-                    datos.getString("salario"),
-                    datos.getString("primerRefNombre"),
-                    datos.getString("primerRefParentezco"),
-                    datos.getString("primerRefCelular"),
-                    datos.getString("segundaRefNombre"),
-                    datos.getString("segundaRefParentezco"),
-                    datos.getString("segundaRefCelular"),
-                    datos.getString("tieneHijos"),
-                    datos.getString("tallaCamisa"),
-                    datos.getString("tallaChaqueta"),
-                    datos.getString("tallaPantalon"),
-                    datos.getString("tallaCalzado"),
-                    datos.getString("tieneVehiculo"),
-                    datos.getString("numeroPlacaVehiculo"),
-                    datos.getString("tipoVehiculo"),
-                    datos.getString("modeloVehiculo"),
-                    datos.getString("linea"),
-                    datos.getString("ano"),
-                    datos.getString("color"),
-                    datos.getString("cilindraje"),
-                    datos.getString("numLicenciaTransito"),
-                    datos.getString("fechaExpLicenciaTransito"),
-                    datos.getString("numLicenciaConduccion"),
-                    datos.getString("fechaExpConduccion"),
-                    datos.getString("fechaVencimiento"),
-                    datos.getString("restricciones"),
-                    datos.getString("estado"),
-                    datos.getString("fechaTerPriContrato"),
-                    datos.getString("fondoPensiones"),
-                    datos.getString("fondoCesantias"),
-                    datos.getString("fechaUltiEntrega"),
-                    datos.getString("fechaProEntrega"),
-                    datos.getString("profesion")
-                };
-                lista.add(persona);
+            if (datos != null) {
+                while (datos.next()) {
+                    String[] persona = new String[]{
+                        datos.getString("identificacion"),
+                        datos.getString("tipo"),
+                        datos.getString("idCargo"),
+                        datos.getString("tipoDocumento"),
+                        datos.getString("fechaExpedicion"),
+                        datos.getString("lugarExpedicion"),
+                        datos.getString("nombres"),
+                        datos.getString("apellidos"),
+                        datos.getString("sexo"),
+                        datos.getString("fechaNacimiento"),
+                        datos.getString("lugarNacimiento"),
+                        datos.getString("tipoSangre"),
+                        datos.getString("tipoVivienda"),
+                        datos.getString("direccion"),
+                        datos.getString("barrio"),
+                        datos.getString("celular"),
+                        datos.getString("email"),
+                        datos.getString("nivelEducativo"),
+                        datos.getString("eps"),
+                        datos.getString("estadoCivil"),
+                        datos.getString("fechaIngreso"),
+                        datos.getString("fechaRetiro"),
+                        datos.getString("fechaEtapaLectiva"),
+                        datos.getString("fechaEtapaProductiva"),
+                        datos.getString("unidadNegocio"),
+                        datos.getString("centroCostos"),
+                        datos.getString("establecimiento"),
+                        datos.getString("area"),
+                        datos.getString("tipoCargo"),
+                        datos.getString("cuentaBancaria"),
+                        datos.getString("numeroCuenta"),
+                        datos.getString("salario"),
+                        datos.getString("primerRefNombre"),
+                        datos.getString("primerRefParentezco"),
+                        datos.getString("primerRefCelular"),
+                        datos.getString("segundaRefNombre"),
+                        datos.getString("segundaRefParentezco"),
+                        datos.getString("segundaRefCelular"),
+                        datos.getString("tieneHijos"),
+                        datos.getString("tallaCamisa"),
+                        datos.getString("tallaChaqueta"),
+                        datos.getString("tallaPantalon"),
+                        datos.getString("tallaCalzado"),
+                        datos.getString("tieneVehiculo"),
+                        datos.getString("numeroPlacaVehiculo"),
+                        datos.getString("tipoVehiculo"),
+                        datos.getString("modeloVehiculo"),
+                        datos.getString("linea"),
+                        datos.getString("ano"),
+                        datos.getString("color"),
+                        datos.getString("cilindraje"),
+                        datos.getString("numLicenciaTransito"),
+                        datos.getString("fechaExpLicenciaTransito"),
+                        datos.getString("numLicenciaConduccion"),
+                        datos.getString("fechaExpConduccion"),
+                        datos.getString("fechaVencimiento"),
+                        datos.getString("restricciones"),
+                        datos.getString("estado"),
+                        datos.getString("fechaTerPriContrato"),
+                        datos.getString("fondoPensiones"),
+                        datos.getString("fondoCesantias"),
+                        datos.getString("fechaUltiEntrega"),
+                        datos.getString("fechaProEntrega"),
+                        datos.getString("profesion")
+                    };
+                    lista.add(persona);
+                }
             }
+        } catch (SQLException e) {
+            Logger.getLogger(Persona.class.getName()).log(Level.SEVERE, "Error al obtener lista de personas en arreglo JS", e);
         }
-    } catch (SQLException e) {
-        Logger.getLogger(Persona.class.getName()).log(Level.SEVERE, "Error al obtener lista de personas en arreglo JS", e);
+        return lista;
     }
-    return lista;
-}
 }

@@ -43,12 +43,6 @@
 
                     <table>
                         <tr>
-                            <th>Nombre Documento:</th>
-                            <td>
-                                <input type="text" id="nombreDocumento" name="nombreDocumento" value="<%= nombreDocumento%>" required>
-                            </td>
-                        </tr>
-                        <tr>
                             <th>Archivo PDF:</th>
                             <td>
                                 <input type="file" id="documentoPDF" name="documentoPDF" accept="application/pdf">
@@ -57,13 +51,17 @@
                                 <% }%>
                             </td>
                         </tr>
+                         <tr>
+                            <th>Observación:</th>
+                            <td>
+                                <input type="text" id="nombreDocumento" name="nombreDocumento" value="<%= nombreDocumento%>" required>
+                            </td>
+                        </tr>
                     </table>
 
-                    <input type="submit" value="<%= (codigoDocumento != null) ? "Actualizar" : "Guardar"%>">
+                    <input class="btn-guardar"  type="submit" value="<%= (codigoDocumento != null) ? "Actualizar" : "Guardar"%>">
+                    <a href="detalleHistoria.jsp?identificacion=<%= identificacion%>" class="btn-volver">VOLVER</a>
                 </form>
-
-
-                <a href="detalleHistoria.jsp?identificacion=<%= identificacion%>" class="btn-volver">VOLVER</a>
             </div>
         </body>
     </html>

@@ -7,6 +7,9 @@ package clases;
 import clasesGenericas.ConectorBD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +42,17 @@ public class Hijo {
         }
     }
 
+      public String calcularEdad() {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate fechaNac = LocalDate.parse(this.fechaNacimiento, formatter);
+            int edad = Period.between(fechaNac, LocalDate.now()).getYears();
+            return edad >= 0 ? edad + " años" : "Fecha inválida";
+        } catch (Exception e) {
+            return "Fecha inválida";
+        }
+    }
+    
     public String getIdentificacion() {
         return identificacion;
     }

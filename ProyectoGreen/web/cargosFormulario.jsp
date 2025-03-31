@@ -19,40 +19,41 @@
 
 <%@ include file="menu.jsp" %>
 
-<div class="content">
+<head>
     <link rel="stylesheet" href="presentacion/style-CargoFormulario.css">
-
-    <form name="formulario" method="post" action="cargosActualizar.jsp" enctype="multipart/form-data">
-        <table class="table">
-            <h3 class="titulo"><%=accion.toUpperCase()%> CARGO</h3>
-            <tr>
-                <th>Nombre</th>
-                <td>
-                    <input class="recuadro" type="text" name="nombre" value="<%=cargo.getNombre()%>" maxlength="50" size="40" required>
-                </td>
-            </tr>
-            <tr>
-                <th>Código del cargo</th>
-                <td>
-                    <input class="recuadro" type="number" name="codigoCargo" value="<%=cargo.getCodigoCargo()%>" maxlength="50" size="40" placeholder="Campo numérico" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                </td>
-            </tr>
-
-            <tr>
-                <th>Descripción</th>
-                <td>
-                    <textarea class="recuadro" name="descripcion" rows="4" cols="40" required><%=cargo.getDescripcion()%></textarea>
-                </td>
-            </tr>
-        </table> 
-        <input type="hidden" name="id" value="<%=cargo.getId()%>">
-        <div class="button-container">
-            <input class="submit" type="submit" name="accion" value="<%=accion%>">
-            <input class="button" type="button" value="Cancelar" onClick="window.history.back()">
-        </div>
-
-    </form>
+</head>
+<body>
+    <div class="content">
+        <form name="formulario" method="post" action="cargosActualizar.jsp" enctype="multipart/form-data">
+            <table class="table">
+                <h3 class="titulo"><%=accion.toUpperCase()%> CARGO</h3>
+                <tr>
+                    <th>Nombre</th>
+                    <td>
+                        <textarea class="recuadro" type="text" name="nombre" value="<%=cargo.getNombre()%>" maxlength="50" size="40" required></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Código del cargo</th>
+                    <td>
+                        <input class="recuadro" type="number" name="codigoCargo" value="<%=cargo.getCodigoCargo()%>" maxlength="50" size="40" placeholder="Campo numérico" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Descripción</th>
+                    <td>
+                        <textarea class="recuadro" name="descripcion" rows="4" cols="40" required><%=cargo.getDescripcion()%></textarea>
+                    </td>
+                </tr>         
+            </table> 
+            <input type="hidden" name="id" value="<%=cargo.getId()%>">
+            <div class="button-container">
+                <input class="submit" type="submit" name="accion" value="<%=accion%>">
+                <input class="button" type="button" value="Cancelar" onClick="window.history.back()">
+            </div>
+        </form>
+        <script src="js/typo.js"></script>
+        <script src="js/script.js"></script>
+    </div>
 </body>
-</html>
-</div>
 

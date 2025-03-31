@@ -53,20 +53,8 @@ h1 {
     margin-bottom: 15px;
 }
 
-/* Botón Volver */
-.btn-volver {
-    background-color: #2C6E49;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
-.btn-volver:hover {
-    background-color: #1F5337;
-}
+
 
 /* Campo de nombre */
 .nombre {
@@ -96,13 +84,6 @@ h1 {
     color: white;
 }
 
-/* Estilos para los iconos */
-.documentos-tabla img {
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    margin: 0 5px;
-}
 
 /* Mensaje de error */
 .documentos-tabla td span {
@@ -137,11 +118,6 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
-td img {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 5px;
-}
 
 .botones {
     display: flex;
@@ -154,11 +130,6 @@ button {
     border: none;
     cursor: pointer;
     padding: 5px;
-}
-
-button img {
-    width: 20px;
-    height: 20px;
 }
 
 /* Contenedor principal */
@@ -180,19 +151,44 @@ button img {
     margin-bottom: 15px;
 }
 
-/* Botón Volver */
-.btn-volver {
-    background-color: #2C6E49;
+/* Botón Guardar - Azul */
+.btn-guardar {
+    background-color: #2967ad;  
     color: white;
     border: none;
-    padding: 8px 15px;
-    font-size: 14px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
     cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+    box-shadow: 2px 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-guardar:hover {
+    background-color: #1c416c;  
+    transform: scale(1.05);
+    box-shadow: 3px 3px 10px rgba(0, 123, 255, 0.5);
+}
+
+/* Botón Volver - Verde */
+.btn-volver {
+    background-color: #2C6E49; /* Verde */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+    box-shadow: 2px 2px 8px rgba(44, 110, 73, 0.3);
 }
 
 .btn-volver:hover {
-    background-color: #1F5337;
+    background-color: #1F5337; /* Verde más oscuro */
+    transform: scale(1.05);
+    box-shadow: 3px 3px 10px rgba(44, 110, 73, 0.5);
 }
 
 /* Campo de nombre */
@@ -223,20 +219,13 @@ button img {
     color: white;
 }
 
-/* Estilos para los iconos */
-.documentos-tabla img {
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    margin: 0 5px;
-}
-
 /* Mensaje de error */
 .documentos-tabla td span {
     display: block;
     font-size: 12px;
     margin-top: 5px;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -264,11 +253,6 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
-td img {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 5px;
-}
 
 .botones {
     display: flex;
@@ -283,10 +267,22 @@ button {
     padding: 5px;
 }
 
-button img {
-    width: 20px;
-    height: 20px;
+/* Estilos para los iconos */
+.documentos-tabla img {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
+
+.documentos-tabla img:hover {
+    transform: scale(1.1);
+}
+
+/* Formulario */
+
+
+
 
 /* Se ajusta segun al menú */
 .content {

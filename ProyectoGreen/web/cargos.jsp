@@ -57,70 +57,74 @@
 <jsp:include page="permisos.jsp" />
 <%@ include file="menu.jsp" %>
 
-<div class="content">
-    <h3 class="titulo">GESTIÓN DE CARGOS</h3>
+<head>
     <link rel="stylesheet" href="presentacion/style-Cargos.css">
+</head>
+<body>
+    <div class="content">
+        <h3 class="titulo">GESTIÓN DE CARGOS</h3>
 
-    <div class="search-container">
-        <div class="search-box">
-            <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por cargo o código" class="recuadro">
-            <img src="presentacion/iconos/lupa.png" alt="Buscar">
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por cargo o código" class="recuadro">
+                <img src="presentacion/iconos/lupa.png" alt="Buscar">
+            </div>
         </div>
+        <table class="table" border="1" id="cargosTable">
+            <tr>
+                <th>Número</th>
+                <th>Cargo</th>
+                <th>Código del Cargo</th>
+                <th>Descripción</th>
+                <th>
+                    <a href="cargosFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
+                        <img src="presentacion/iconos/agregar.png" width='30' height='30'>
+                    </a>
+                </th>
+            </tr>
+            <%=lista%>
+        </table>
     </div>
+</body>
 
-    <table class="table" border="1" id="cargosTable">
-        <tr>
-            <th>Número</th>
-            <th>Cargo</th>
-            <th>Código del Cargo</th>
-            <th>Descripción</th>
-            <th>
-                <a href="cargosFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
-                    <img src="presentacion/iconos/agregar.png" width='30' height='30'>
-                </a>
-            </th>
-        </tr>
-        <%=lista%>
-    </table>
-</div>
-    <script>
+<script>
 
-    function eliminar(id) {
-        var respuesta = confirm("¿Realmente desea eliminar el cargo?");
-        if (respuesta) {
-            document.location = "cargosActualizar.jsp?accion=Eliminar&id=" + id;
-        }
+function eliminar(id) {
+    var respuesta = confirm("¿Realmente desea eliminar el cargo?");
+    if (respuesta) {
+      document.location = "cargosActualizar.jsp?accion=Eliminar&id=" + id;
     }
+}
 
-    function filterNames() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toLowerCase();
-        const table = document.getElementById('cargosTable');
-        const rows = table.getElementsByTagName('tr');
+function filterNames() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById('cargosTable');
+    const rows = table.getElementsByTagName('tr');
 
-        for (let i = 1; i < rows.length; i++) {
-            const cells = rows[i].getElementsByTagName('td');
-            if (cells.length > 0) {
-                const cargo = cells[1].textContent || cells[1].innerText;
-                const codigo = cells[2].textContent || cells[2].innerText;
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+                if (cells.length > 0) {
+                    const cargo = cells[1].textContent || cells[1].innerText;
+                    const codigo = cells[2].textContent || cells[2].innerText;
 
-                if (cargo.toLowerCase().indexOf(filter) > -1 || codigo.toLowerCase().indexOf(filter) > -1) {
-                    rows[i].style.display = "";
-                } else {
-                    rows[i].style.display = "none";
+                    if (cargo.toLowerCase().indexOf(filter) > -1 || codigo.toLowerCase().indexOf(filter) > -1) {
+                                    rows[i].style.display = "";
+                    } else {
+                                    rows[i].style.display = "none";
                 }
             }
         }
     }
-    
-    // PERMISOS
+
+// PERMISOS
 
     document.addEventListener("DOMContentLoaded", function () {
-        controlarPermisos(
+    controlarPermisos(
     <%= administrador.getpEliminar()%>,
     <%= administrador.getpEditar()%>,
     <%= administrador.getpAgregar()%>
-        );
-    });
-    
+    );
+});
+
 </script>
