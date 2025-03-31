@@ -49,15 +49,15 @@ public class GeneroPersona {
     switch(codigo){
         case "M":
             lista="<input type='radio' name='sexo' value='M' checked>Masculino"
-                    + "<input type='radio' name='genero' value='F'>Femenino";
+                    + "<input type='radio' name='sexo' value='F'>Femenino";
             break;
         case "F":
              lista="<input type='radio' name='sexo' value='M' >Masculino"
-                    + "<input type='radio' name='genero' value='F' checked>Femenino";
+                    + "<input type='radio' name='sexo' value='F' checked>Femenino";
              break;
         default:
             lista="<input type='radio' name='sexo' value='M' checked>Masculino"
-                    + "<input type='radio' name='genero' value='F'>Femenino";
+                    + "<input type='radio' name='sexo' value='F'>Femenino";
             break;
     }
     return lista;
