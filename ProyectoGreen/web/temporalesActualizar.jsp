@@ -17,11 +17,10 @@
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("T");
-    persona.setIdCargo(request.getParameter("idCargo"));
+persona.setIdCargo(request.getParameter("idCargo"));
     persona.setTipoCargo(request.getParameter("tipoCargo"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
-    persona.setLugarExpedicion(request.getParameter("lugarExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
     persona.setApellidos(request.getParameter("apellidos"));
     persona.setSexo(request.getParameter("sexo"));
@@ -53,26 +52,61 @@
     persona.setSegundaRefNombre(request.getParameter("segundaRefNombre"));
     persona.setSegundaRefParentezco(request.getParameter("segundaRefParentezco"));
     persona.setSegundaRefCelular(request.getParameter("segundaRefCelular"));
+    persona.setTerceraRefNombre(request.getParameter("terceraRefNombre"));
+    persona.setTerceraRefParentezco(request.getParameter("terceraRefParentezco"));
+    persona.setTerceraRefCelular(request.getParameter("terceraRefCelular"));
+    persona.setCuartaRefNombre(request.getParameter("cuartaRefNombre"));
+    persona.setCuartaRefParentezco(request.getParameter("cuartaRefParentezco"));
+    persona.setCuartaRefCelular(request.getParameter("cuartaRefCelular"));
     persona.setTieneHijos(request.getParameter("tieneHijos"));
+    String datosHijos = request.getParameter("hijosRegistrados");
+    
     persona.setTallaCamisa(request.getParameter("tallaCamisa"));
     persona.setTallaChaqueta(request.getParameter("tallaChaqueta"));
     persona.setTallaPantalon(request.getParameter("tallaPantalon"));
     persona.setTallaCalzado(request.getParameter("tallaCalzado"));
     persona.setTieneVehiculo(request.getParameter("tieneVehiculo"));
+    persona.setNumeroPlacaVehiculo(request.getParameter("numeroPlacaVehiculo"));
+    persona.setTipoVehiculo(request.getParameter("tipoVehiculo"));
+    persona.setModeloVehiculo(request.getParameter("modeloVehiculo"));
+    persona.setLinea(request.getParameter("linea"));
+    persona.setMarca(request.getParameter("marca"));
+    persona.setColor(request.getParameter("color"));
+    persona.setCilindraje(request.getParameter("cilindraje"));
+    persona.setNumLicenciaTransito(request.getParameter("numLicenciaTransito"));
+    persona.setFechaExpLicenciaTransito(request.getParameter("fechaExpLicenciaTransito"));
     persona.setNumLicenciaConduccion(request.getParameter("numLicenciaConduccion"));
     persona.setFechaExpConduccion(request.getParameter("fechaExpConduccion"));
     persona.setFechaVencimiento(request.getParameter("fechaVencimiento"));
     persona.setRestricciones(request.getParameter("restricciones"));
     persona.setEstado(request.getParameter("estado"));
-    persona.setNumeroPlacaVehiculo(request.getParameter("numeroPlacaVehiculo"));
-    persona.setTipoVehiculo(request.getParameter("tipoVehiculo"));
-    persona.setModeloVehiculo(request.getParameter("modeloVehiculo"));
-    persona.setLinea(request.getParameter("linea"));
-    persona.setAno(request.getParameter("ano"));
-    persona.setColor(request.getParameter("color"));
-    persona.setCilindraje(request.getParameter("cilindraje"));
-    persona.setNumLicenciaTransito(request.getParameter("numLicenciaTransito"));
-    persona.setFechaExpLicenciaTransito(request.getParameter("fechaExpLicenciaTransito"));
+    persona.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
+    persona.setFondoPensiones(request.getParameter("fondoPensiones"));
+    persona.setFondoCesantias(request.getParameter("fondoCesantias"));
+    persona.setFechaUltiEntrega(request.getParameter("fechaUltiEntrega"));
+    persona.setFechaProEntrega(request.getParameter("fechaProEntrega"));
+    persona.setProfesion(request.getParameter("profesion"));
+    persona.setIdDepartamento(request.getParameter("idDepartamento"));
+    persona.setIdMunicipio(request.getParameter("idMunicipio"));
+    persona.setTipoDotacion(request.getParameter("tipoDotacion"));
+    persona.setTallaGuantes(request.getParameter("tallaGuantes"));
+    persona.setTallaBuzo(request.getParameter("tallaBuzo"));
+    persona.setTallaOverol(request.getParameter("tallaOverol"));
+
+    // Capturar valores del formulario
+    String idDepartamentoExpedicion = request.getParameter("departamentoExpedicion");
+    String idMunicipioExpedicion = request.getParameter("lugarExpedicion");
+
+    String idDepartamentoNacimiento = request.getParameter("departamentoNacimiento");
+    String idMunicipioNacimiento = request.getParameter("lugarNacimiento");
+
+//  Concatenar valores
+    String lugarExpedicion = idDepartamentoExpedicion + "-" + idMunicipioExpedicion;
+    String lugarNacimiento = idDepartamentoNacimiento + "-" + idMunicipioNacimiento;
+
+// Guardar en el objeto Persona
+    persona.setLugarExpedicion(lugarExpedicion);
+    persona.setLugarNacimiento(lugarNacimiento);
 
     // Capturar datos de los hijos
     String[] identificacionesHijos = request.getParameterValues("identificacionHijo[]");
@@ -93,7 +127,7 @@
             break;
     }
 
-    // 🔹 Solo proceder con los hijos si la persona se guardó correctamente
+   // 🔹 Solo proceder con los hijos si la persona se guardó correctamente
     if (personaGuardada && identificacionesHijos != null) {
         for (int i = 0; i < identificacionesHijos.length; i++) {
             if (!identificacionesHijos[i].trim().isEmpty() && !nombresHijos[i].trim().isEmpty() && !fechasNacimientoHijos[i].trim().isEmpty()) {
@@ -118,6 +152,8 @@
     System.out.println("Datos enviados a guardar_hijos: " + identificacionesHijos);
 
 %>
+
+
 
 <script type="text/javascript">
     document.location="temporales.jsp";

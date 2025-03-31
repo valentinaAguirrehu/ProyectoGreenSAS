@@ -1,3 +1,9 @@
+<%-- 
+    Document   : retiradosFormulario
+    Created on : 8/03/2025, 02:18:59 PM
+    Author     : Mary
+--%>
+
 <%@page import="clases.Cargo"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>

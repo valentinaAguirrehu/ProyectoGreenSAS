@@ -1,74 +1,123 @@
-<%-- 
-    Document   : persona
-    Created on : 8/03/2025, 02:18:59 PM
-    Author     : Mary
---%>
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
-<link rel="stylesheet" href="presentacion/style-colaboradores.css">
-<%
-    StringBuilder lista = new StringBuilder();
 
+<%
+    String lista = "";
     List<Persona> datos = Persona.getListaEnObjetos(null, null);
 
     for (Persona persona : datos) {
         if (persona.getTipo().equals("A")) { 
-            lista.append("<tr>");
-            lista.append("<td align='right'>").append(persona.getIdentificacion()).append("</td>");
-            lista.append("<td>").append(persona.getNombres()).append("</td>");
-            lista.append("<td>").append(persona.getApellidos()).append("</td>");
-            lista.append("<td>").append(Cargo.getCargoPersona(persona.getIdentificacion())).append("</td>");
-            lista.append("<td>");
-            lista.append("<a href='aprendizFormulario.jsp?accion=Modificar&identificacion=").append(persona.getIdentificacion()).append("' title='Modificar'>");
-            lista.append("<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ");
-            lista.append("<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
-            lista.append("<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
-            lista.append("<img src='presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboral(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/>");
-            lista.append("</td>");
-            lista.append("</tr>");
+            String identificacion = persona.getIdentificacion();
+            String nombres = persona.getNombres();
+            String apellidos = persona.getApellidos();
+            String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
+            String establecimiento = persona.getEstablecimiento();
+            String fechaIngreso = persona.getFechaIngreso();
+
+            lista += "<tr>";
+            lista += "<td align='right'>" + identificacion + "</td>";
+            lista += "<td>" + nombres + "</td>";
+            lista += "<td>" + apellidos + "</td>";
+            lista += "<td>" + cargo + "</td>";
+            lista += "<td>" + establecimiento + "</td>";
+            lista += "<td>" + fechaIngreso + "</td>";
+            lista += "<td>";
+            lista += "<a href='aprendizFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
+            lista += "<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
+            lista += "<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
+            lista += "<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")' style='cursor:pointer;'/>";
+            lista += "<img src='presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboral(" + identificacion + ")' style='cursor:pointer;'/>";
+            lista += "<img class='subir' src='presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+            lista += "</td>";
+            lista += "</tr>";
         }
     }
 %>
-<h3>Lista de Aprendices</h3>
-<table class="table">
-    <tr>
-        <th>Identificaci贸n</th>
-        <th>Nombre</th>
-        <th>Apellidos</th>
-        <th>Cargo</th>      
 
-        <th>
-            <a href="aprendizFormulario.jsp?accion=Adicionar" title="Agregar">
-                <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;">
-            </a>
-        </th>
-    </tr>
-    <%= lista %> 
-</table>
+<jsp:include page="permisos.jsp" />
+<%@ include file="menu.jsp" %>
 
-<!-- Bot贸n para agregar un nuevo colaborador -->
-<div class="add-button" style="margin-top: 10px;">
-    <a href="aprendizFormulario.jsp?accion=Adicionar" title="Agregar">
-        <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;"> Agregar Colaboradores
-    </a>
+<div class="content">  
+    <h3 class="titulo">APRENDICES</h3>
+    <link rel="stylesheet" href="presentacion/style-Retirados.css">
+
+<!-- Nuevo buscador din醡ico -->
+<div class="search-container">
+    <div class="search-box">
+        <select id="searchType" class="recuadro">
+            <option value="identificacion">Identificaci髇</option>
+            <option value="nombre">Nombre</option>
+            <option value="apellido">Apellidos</option>
+            <option value="cargo">Cargo</option>
+            <option value="establecimiento">Establecimiento</option>
+            <option value="fechaIngreso">Fecha de Ingreso</option>
+        </select>
+        <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
+        <img src="presentacion/iconos/lupa.png" alt="Buscar">
+    </div>
 </div>
 
-<!-- Script para eliminar una persona con confirmaci贸n -->
+<table class="table" id="aprendicesTable">
+    <tr>
+        <th>Identificaci髇</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>Cargo</th>
+        <th>Establecimiento</th>
+        <th>Fecha de Ingreso</th>
+        <th>
+                <a href="aprendizFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
+                    <img src="presentacion/iconos/agregar.png" width='30' height='30'>
+                </a>
+            </th>
+    </tr>
+    <%= lista %>
+</table>
+</div>
+
+<!-- Script para eliminar un aprendiz con confirmaci髇 -->
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("驴Realmente desea eliminar el registro del aprendiz?");
+        var respuesta = confirm("縍ealmente desea eliminar el registro del aprendiz?");
         if (respuesta) {
             window.location.href = "aprendizActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
     }
     function verDetalles(identificacion) {
-    document.location = "aprendizDetalles.jsp?identificacion=" + identificacion;
-}
- function verHistoriaLaboral(identificacion) {
+        document.location = "aprendizDetalles.jsp?identificacion=" + identificacion;
+    }
+    function verHistoriaLaboral(identificacion) {
         window.location.href = "historiaLaboralAprendiz.jsp?identificacion=" + identificacion;
     }
-</script>
+    
+    function verRetirados(identificacion) {
+        window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
+    }
 
-<!-- Bot贸n de cancelar para regresar a la p谩gina anterior -->
-<input type="button" value="Cancelar" onClick="window.history.back()">
+    // Buscador din醡ico con opci髇 de filtro por columna
+    function filterResults() {
+        const searchType = document.getElementById('searchType').value;
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const table = document.getElementById("aprendicesTable");
+        const rows = table.getElementsByTagName("tr");
+
+        let columnIndex;
+        switch (searchType) {
+            case "identificacion": columnIndex = 0; break;
+            case "nombre": columnIndex = 1; break;
+            case "apellido": columnIndex = 2; break;
+            case "cargo": columnIndex = 3; break;
+            case "establecimiento": columnIndex = 4; break;
+            case "fechaIngreso": columnIndex = 5; break;
+        }
+
+        for (let i = 1; i < rows.length; i++) {
+            const cell = rows[i].getElementsByTagName("td")[columnIndex];
+            if (cell) {
+                const text = cell.textContent || cell.innerText;
+                rows[i].style.display = text.toLowerCase().includes(input) ? "" : "none";
+            }
+        }
+    }
+</script>

@@ -1,17 +1,16 @@
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
-<link rel="stylesheet" href="presentacion/style-colaboradores.css">
+<%@page import="clases.Administrador"%>
 
 <%
-    // Obtener el par谩metro de b煤squeda
-    String filtro = request.getParameter("filtro");
-    if (filtro == null) {
-        filtro = "";
+    Administrador administrador = (Administrador) session.getAttribute("administrador");
+    if (administrador == null) {
+        administrador = new Administrador();
     }
-
+    
     String lista = "";
-    List<Persona> datos = Persona.getListaEnObjetos(null, null);
+    List<Persona> datos = Persona.getListaEnObjetos("tipo = 'C'", null);
 
     for (Persona persona : datos) {
         String identificacion = persona.getIdentificacion();
@@ -19,69 +18,77 @@
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
         String establecimiento = persona.getEstablecimiento();
+
         String fechaIngreso = persona.getFechaIngreso();
 
-        // Verificar si el filtro coincide con alguno de los campos
-        if (identificacion.toLowerCase().contains(filtro.toLowerCase()) ||
-            nombres.toLowerCase().contains(filtro.toLowerCase()) ||
-            apellidos.toLowerCase().contains(filtro.toLowerCase()) ||
-            cargo.toLowerCase().contains(filtro.toLowerCase()) ||
-            establecimiento.toLowerCase().contains(filtro.toLowerCase()) ||
-            fechaIngreso.toLowerCase().contains(filtro.toLowerCase()) ||
-            filtro.isEmpty()) {
-            
-            lista += "<tr>";
-            lista += "<td align='right'>" + identificacion + "</td>";
-            lista += "<td>" + nombres + "</td>";
-            lista += "<td>" + apellidos + "</td>";
-            lista += "<td>" + cargo + "</td>";
-            lista += "<td>" + establecimiento + "</td>";
-            lista += "<td>" + fechaIngreso + "</td>";
-            lista += "<td>";
-            lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
-            lista += "<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
-            lista += "<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
-            lista += "<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
-             lista += "<img src='presentacion/iconos/verDocumento.png' title='Historia Laboral' onClick='verHistoriaLaboral(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/> ";
-            lista += "</td>";
-            lista += "</tr>";
-        }
+        lista += "<tr>";
+        lista += "<td align='right'>" + identificacion + "</td>";
+        lista += "<td>" + nombres + "</td>";
+        lista += "<td>" + apellidos + "</td>";
+        lista += "<td>" + cargo + "</td>";
+        lista += "<td>" + establecimiento + "</td>";
+        lista += "<td>" + persona.getUnidadNegocio() + "</td>";
+        lista += "<td>" + fechaIngreso + "</td>";
+        lista += "<td>";
+        lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
+        lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
+        lista += "<img class='editar' src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
+        lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
+        lista += "<img  class='eliminar' src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
+        lista += "<img class='subir' src='presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+        lista += "</td>";
+        lista += "</tr>";
     }
+
 %>
 
+<jsp:include page="permisos.jsp" />
+<%@ include file="menu.jsp" %>
 
-<h3>Lista de Colaboradores</h3>
+<div class="content">  
+    <h3 class="titulo">COLABORADORES GREEN S.A.S</h3>
+    <link rel="stylesheet" href="presentacion/style-Retirados.css">
 
-<!-- Campo de b煤squeda -->
-<form method="GET">
-    <input type="text" name="filtro" value="<%= filtro %>" placeholder="Buscar por identificaci贸n, nombre, cargo, establecimiento o fecha de ingreso" class="recuadro">
-    <button type="submit">Buscar</button>
-</form>
+    <!-- Nuevo buscador din醡ico -->
+    <div class="search-container">
+        <div class="search-box">
+            <select id="searchType" class="recuadro">
+                <option value="identificacion">Identificaci髇</option>
+                <option value="nombre">Nombre</option>
+                <option value="apellido">Apellidos</option>
+                <option value="cargo">Cargo</option>
+                <option value="establecimiento">Establecimiento</option>  
+                <option value="unidadNegocio">Unidad de negocio</option>
+                <option value="fechaIngreso">Fecha de Ingreso</option>
+            </select>
+            <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
+            <img src="presentacion/iconos/lupa.png" alt="Buscar">
+        </div>
+    </div>
 
-<table class="table">
-    <tr>
-        <th>Identificaci贸n</th>
-        <th>Nombre</th>
-        <th>Apellidos</th>
-        <th>Cargo</th>
-        <th>Establecimiento</th>
-        <th>Fecha de Ingreso</th>
-        <th>Acciones</th>
-    </tr>
-    <%= lista %> 
-</table>
-
-<!-- Bot贸n para agregar un nuevo colaborador -->
-<div class="add-button" style="margin-top: 10px;">
-    <a href="personaFormulario.jsp?accion=Adicionar" title="Agregar">
-        <img src="presentacion/iconos/agregar.png" alt="Agregar" style="width: 20px; vertical-align: middle;"> Agregar Colaboradores
-    </a>
+    <table class="table" id="colaboradoresTable">
+        <tr>
+            <th>Documento de identificaci髇</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Cargo</th>
+            <th>Establecimiento</th>
+            <th>Unidad de negocio</th>
+            <th>Fecha de ingreso</th>
+            <th>
+                <a href="personaFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
+                    <img src="presentacion/iconos/agregar.png" width='30' height='30'>
+                </a>
+            </th>
+        </tr>
+        <%= lista%> 
+    </table>
 </div>
 
-<!-- Script para eliminar una persona con confirmaci贸n -->
+<!-- Script para eliminar una persona con confirmaci髇 -->
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("驴Realmente desea eliminar el registro del colaborador?");
+        var respuesta = confirm("縍ealmente desea eliminar el registro del colaborador?");
         if (respuesta) {
             window.location.href = "personaActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -89,12 +96,64 @@
     function verDetalles(identificacion) {
         document.location = "personaDetalles.jsp?identificacion=" + identificacion;
     }
-    function verHistoriaLaboral(identificacion) {
+    function historiaLaboralGreen(identificacion) {
         window.location.href = "historiaLaboralGreen.jsp?identificacion=" + identificacion;
     }
+    
+    function verRetirados(identificacion) {
+        window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
+    }
 
+    // Buscador din醡ico con opci髇 de filtro por columna
+    function filterResults() {
+        const searchType = document.getElementById('searchType').value;
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const table = document.getElementById("colaboradoresTable");
+        const rows = table.getElementsByTagName("tr");
+
+        let columnIndex;
+        switch (searchType) {
+            case "identificacion":
+                columnIndex = 0;
+                break;
+            case "nombre":
+                columnIndex = 1;
+                break;
+            case "apellido":
+                columnIndex = 2;
+                break;
+            case "cargo":
+                columnIndex = 3;
+                break;
+            case "establecimiento":
+                columnIndex = 4;
+                break;
+            case "unidadNegocio":
+                columnIndex = 5;
+                break;
+            case "fechaIngreso":
+                columnIndex = 6;
+                break;
+        }
+
+        for (let i = 1; i < rows.length; i++) {
+            const cell = rows[i].getElementsByTagName("td")[columnIndex];
+            if (cell) {
+                const text = cell.textContent || cell.innerText;
+                rows[i].style.display = text.toLowerCase().includes(input) ? "" : "none";
+            }
+        }
+    }
+    
+    // PERMISOS
+
+    document.addEventListener("DOMContentLoaded", function () {
+        controlarPermisos(
+    <%= administrador.getpEliminar()%>,
+    <%= administrador.getpEditar()%>,
+    <%= administrador.getpAgregar()%>,
+    <%= administrador.getpLeer()%>
+        );
+    });
 
 </script>
-
-<!-- Bot贸n de cancelar para regresar a la p谩gina anterior -->
-<input type="button" value="Cancelar" onClick="window.history.back()">
