@@ -194,7 +194,7 @@
                 <table class="documentos-tabla">
                     <thead>
                         <tr>
-                            <th>Nombre del documento</th>
+                            <th>Observación</th>
                             <th>Nombre del archivo</th>
                             <th colspan="2">
                                 <a href="detalleFormulario.jsp?identificacion=<%= identificacion%>&tipo=<%= tipo%>">

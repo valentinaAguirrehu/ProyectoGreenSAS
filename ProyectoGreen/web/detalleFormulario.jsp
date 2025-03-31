@@ -43,18 +43,18 @@
 
                     <table>
                         <tr>
-                            <th>Nombre Documento:</th>
-                            <td>
-                                <input type="text" id="nombreDocumento" name="nombreDocumento" value="<%= nombreDocumento%>" required>
-                            </td>
-                        </tr>
-                        <tr>
                             <th>Archivo PDF:</th>
                             <td>
                                 <input type="file" id="documentoPDF" name="documentoPDF" accept="application/pdf">
                                 <% if (codigoDocumento != null && documentoPDF != null && !documentoPDF.isEmpty()) {%>
                                 <p>Documento actual: <a href="<%= documentoPDF%>" target="_blank">Ver documento</a></p>
                                 <% }%>
+                            </td>
+                        </tr>
+                         <tr>
+                            <th>Observación:</th>
+                            <td>
+                                <input type="text" id="nombreDocumento" name="nombreDocumento" value="<%= nombreDocumento%>" required>
                             </td>
                         </tr>
                     </table>
