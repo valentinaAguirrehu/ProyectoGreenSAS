@@ -10,7 +10,8 @@
 <%@page import="clases.Persona"%>
 <%@page import="clases.Hijo"%>
 <%@page import="clases.Cargo"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 
 <%
     String identificacion = request.getParameter("identificacion");
@@ -128,7 +129,7 @@
             <tr><th>Fecha de termino del primer contrato</th><td><%= persona.getFechaTerPriContrato()%></td></tr>
             <tr><th>Establecimiento y unidad de negocio</th><td><%= persona.getEstablecimiento()%> - <%= persona.getUnidadNegocio()%></td></tr>
             <tr><th>Centro de costos</th><td><%= persona.getCentroCostos()%></td></tr>
-            <tr><th>Área</th><td><%= persona.getArea()%></td></tr>
+            <tr><th>Area</th><td><%= persona.getArea()%></td></tr>
             <tr><th>Cargo</th><td><%=nombreCargo%></td></tr>
             <tr><th>EPS</th><td><%= persona.getEps()%></td></tr>
             <tr><th>Fondo de pensiones</th><td><%= persona.getFondoPensiones()%></td></tr>
