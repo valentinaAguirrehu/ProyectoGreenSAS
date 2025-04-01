@@ -1186,17 +1186,26 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
     }
 
     public String getTallaOverol() {
-        String resultado = this.tallaOverol;
-        System.out.println("Talla overol"
-                + resultado);
+         String resultado = tallaOverol;
         if (tallaOverol == null) {
             resultado = "";
         }
-        System.out.println("Talla overol"
-                + resultado);
-
         return resultado;
     }
+        
+        
+        
+        //String resultado = this.tallaOverol;
+        //System.out.println("Talla overol"
+          //      + resultado);
+        //if (tallaOverol == null) {
+          //  resultado = "";
+        //}
+        //System.out.println("Talla overol"
+          //      + resultado);
+
+       // return resultado;
+    //}
 
     public void setTallaOverol(String tallaOverol) {
         this.tallaOverol = tallaOverol;

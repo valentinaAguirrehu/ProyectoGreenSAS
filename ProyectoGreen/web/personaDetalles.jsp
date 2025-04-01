@@ -131,9 +131,11 @@
             <tr><th>Centro de costos</th><td><%= persona.getCentroCostos()%></td></tr>
             <tr><th>Area</th><td><%= persona.getArea()%></td></tr>
             <tr><th>Cargo</th><td><%=nombreCargo%></td></tr>
+            <tr><th>Centro costos por nomina</th><td><%=persona.getCctn()%></td></tr>
             <tr><th>EPS</th><td><%= persona.getEps()%></td></tr>
             <tr><th>Fondo de pensiones</th><td><%= persona.getFondoPensiones()%></td></tr>
             <tr><th>Fondo de cesantías</th><td><%= persona.getFondoCesantias()%></td></tr>
+            <tr><th>Arl</th><td><%= persona.getArl()%></td></tr>
             <tr><th>Banco</th><td><%= persona.getCuentaBancaria()%></td></tr>
             <tr><th>Número de cuenta bancaria</th><td><%= persona.getNumeroCuenta()%></td></tr>
             <tr><th>Salario</th><td><%= persona.getSalario()%></td></tr>
@@ -147,7 +149,7 @@
             <tr><th>Talla de buzo</th><td><%= persona.getTallaBuzo()%></td></tr>
             <tr><th>Talla de chaqueta</th><td><%= persona.getTallaChaqueta()%></td></tr>
             <tr><th>Talla de pantalón</th><td><%= persona.getTallaPantalon()%></td></tr>
-            <tr><th>Talla de Overol</th><td><%= persona.getTallaChaqueta()%></td></tr>
+            <tr><th>Talla de overol</th><td><%= persona.getTallaOverol()%></td></tr>
             <tr><th>Talla de guantes</th><td><%= persona.getTallaGuantes()%></td></tr>
             <tr><th>Talla de calzado</th><td><%= persona.getTallaCalzado()%></td></tr>
         </table>

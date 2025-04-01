@@ -40,7 +40,7 @@
     persona.setFechaRetiro(request.getParameter("fechaRetiro"));
     persona.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
     persona.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
-    persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
+    String unidadNegocio = request.getParameter("unidadNegocio");
     persona.setCentroCostos(request.getParameter("centroCostos"));
     persona.setEstablecimiento(request.getParameter("establecimiento"));
     persona.setArea(request.getParameter("area"));
