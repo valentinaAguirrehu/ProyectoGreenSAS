@@ -20,26 +20,22 @@
         String establecimiento = persona.getEstablecimiento();
         String fechaIngreso = persona.getFechaIngreso();
 
-            lista += "<tr>";
-            lista += "<td>" + persona.getTipoDocumento() + "</td>";
-            lista += "<td align='right'>" + identificacion + "</td>";
-            lista += "<td>" + nombres + "</td>";
-            lista += "<td>" + apellidos + "</td>";
-            lista += "<td>" + cargo + "</td>";
-            lista += "<td>" + establecimiento + "</td>";
-            lista += "<td>" + fechaIngreso + "</td>";
-            lista += "<td>" + persona.getUnidadNegocio() + "</td>";
-            lista += "<td>";
-            lista += "<a href='aprendizFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
-            lista += "<img class='editar' src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
-            lista += "<img class='eliminar' src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
-            lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")' style='cursor:pointer;'/>";
-            lista += "<img class='ver' src='presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboral(" + identificacion + ")' style='cursor:pointer;'/>";
-            lista += "<img class='subir' src='presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
-            lista += "</td>";
-            lista += "</tr>";
-        }
-
+        lista += "<tr>";
+        lista += "<td align='right'>" + identificacion + "</td>";
+        lista += "<td>" + nombres + "</td>";
+        lista += "<td>" + apellidos + "</td>";
+        lista += "<td>" + cargo + "</td>";
+        lista += "<td>" + establecimiento + "</td>";
+        lista += "<td>" + fechaIngreso + "</td>";
+        lista += "<td>";
+        lista += "<a href='aprendizFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
+        lista += "<img class='editar' src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
+        lista += "<img class='eliminar' src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
+        lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")' style='cursor:pointer;'/>";
+        lista += "<img class='ver' src='presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboral(" + identificacion + ")' style='cursor:pointer;'/>";
+        lista += "<img class='subir' src='presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+        lista += "</td>";
+        lista += "</tr>";
     }
 %>
 
@@ -53,7 +49,7 @@
     <div class="search-container">
         <div class="search-box">
             <select id="searchType" class="recuadro">
-                <option value="identificacion">IdentificaciÃ³n</option>
+                <option value="identificacion">Identificación</option>
                 <option value="nombre">Nombre</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
@@ -65,18 +61,15 @@
         </div>
     </div>
 
-<table class="table" id="aprendicesTable" border="1">
-    <tr>
-        <th>Tipo de documento</th>
-        <th>IdentificaciÃ³n</th>
-        <th>Nombre</th>
-        <th>Apellidos</th>
-        <th>Cargo</th>
-        <th>Establecimiento</th>
-        <th>Unidad de negocio</th>
-        <th>Fecha de Ingreso</th>
-        <th>
-
+    <table class="table" id="aprendicesTable">
+        <tr>
+            <th>Identificación</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Cargo</th>
+            <th>Establecimiento</th>
+            <th>Fecha de Ingreso</th>
+            <th>
                 <a href="aprendizFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
                     <img src='presentacion/iconos/agregar.png' width='30' height='30'>
                 </a>
@@ -88,7 +81,7 @@
 
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("Â¿Realmente desea eliminar el registro del aprendiz?");
+        var respuesta = confirm("¿Realmente desea eliminar el registro del aprendiz?");
         if (respuesta) {
             window.location.href = "aprendizActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -125,7 +118,7 @@
         }
     }
     
-    // PERMISOS
+     // PERMISOS
 
     document.addEventListener("DOMContentLoaded", function () {
         controlarPermisos(
@@ -135,4 +128,5 @@
     <%= administrador.getpLeer()%>
         );
     });
+
 </script>
