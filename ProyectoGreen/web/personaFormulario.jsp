@@ -111,20 +111,31 @@
                     <td colspan="2">
                         <div class="campos-container">
                             <label for="departamentoExpedicion"><b>Departamento:</b></label>
-                            <select name="departamentoExpedicion" id="departamentoExpedicion" onchange="cargarMunicipios(this, 'municipioExpedicion')" required>
+                            <select name="departamentoExpedicion" id="departamentoExpedicion" onchange="cargarMunicipios(this.value, 'expedicion');" required>
                                 <option value="">Seleccione un Departamento</option>
                                 <%
                                     List<Departamento> departamentos = Departamento.getListaEnObjetos(null, "nombre ASC");
-                                    String idDepartamentoExpedicion = persona.getIdDepartamento();  // Esto causa problemas
+                                    String idDepartamentoExpedicion = persona.getIdDepartamentoExpedicion();
                                     for (Departamento departamento : departamentos) {
                                         String selected = (idDepartamentoExpedicion != null && idDepartamentoExpedicion.equals(departamento.getId())) ? "selected" : "";
                                 %>
                                 <option value="<%= departamento.getId()%>" <%= selected%>><%= departamento.getNombre()%></option>
-                                <% }%>
+                                <% } %>
                             </select>
+
                             <label for="municipioExpedicion"><b>Municipio:</b></label>
                             <select name="lugarExpedicion" id="municipioExpedicion" required>
                                 <option value="">Seleccione un municipio</option>
+                                <%
+                                    String idMunicipioExpedicion = persona.getIdMunicipioExpedicion();
+                                    if (idDepartamentoExpedicion != null) {
+                                        List<Municipio> municipios = Municipio.getListaEnObjetos(idDepartamentoExpedicion, "nombre ASC");
+                                        for (Municipio municipio : municipios) {
+                                            String selected = (idMunicipioExpedicion != null && idMunicipioExpedicion.equals(municipio.getId())) ? "selected" : "";
+                                %>
+                                <option value="<%= municipio.getId()%>" <%= selected%>><%= municipio.getNombre()%></option>
+                                <% }
+                                    }%>
                             </select>
                         </div>
                     </td>
@@ -140,20 +151,30 @@
                     <td colspan="2">         
                         <div class="campos-container">
                             <label for="departamentoNacimiento"><b>Departamento:</b></label>
-                            <select name="departamentoNacimiento" id="departamentoNacimiento" onchange="cargarMunicipios(this, 'municipioNacimiento')" required>
+                            <select name="departamentoNacimiento" id="departamentoNacimiento" onchange="cargarMunicipios(this.value, 'nacimiento');" required>
                                 <option value="">Seleccione un departamento</option>
                                 <%
                                     List<Departamento> departamentos2 = Departamento.getListaEnObjetos(null, "nombre ASC");
-                                    String idDepartamentoNacimiento = persona.getIdDepartamento();  // ❌ Esto también causaba problemas
+                                    String idDepartamentoNacimiento = persona.getIdDepartamentoNacimiento();
                                     for (Departamento departamento : departamentos2) {
                                         String selected = (idDepartamentoNacimiento != null && idDepartamentoNacimiento.equals(departamento.getId())) ? "selected" : "";
                                 %>
                                 <option value="<%= departamento.getId()%>" <%= selected%>><%= departamento.getNombre()%></option>
-                                <% }%>
+                                <% } %>
                             </select>
                             <label for="municipioNacimiento"><b>Municipio:</b></label>
                             <select name="lugarNacimiento" id="municipioNacimiento" required>
                                 <option value="">Seleccione un municipio</option>
+                                <%
+                                    String idMunicipioNacimiento = persona.getIdMunicipioNacimiento();
+                                    if (idDepartamentoNacimiento != null) {
+                                        List<Municipio> municipios = Municipio.getListaEnObjetos(idDepartamentoNacimiento, "nombre ASC");
+                                        for (Municipio municipio : municipios) {
+                                            String selected = (idMunicipioNacimiento != null && idMunicipioNacimiento.equals(municipio.getId())) ? "selected" : "";
+                                %>
+                                <option value="<%= municipio.getId()%>" <%= selected%>><%= municipio.getNombre()%></option>
+                                <% }
+                                    }%>
                             </select>
                         </div>
                     </td>
@@ -812,6 +833,7 @@
             }
 
         }
+
         function cargarUnidadNegocio() {
             var establecimiento = document.getElementById("establecimiento").value;
             var unidadNegocio = document.getElementById("unidadNegocio");
@@ -851,19 +873,28 @@
             }
         }
 
-
-        // Precargar la Unidad de Negocio si ya hay un establecimiento seleccionado
         window.onload = function () {
+
             cargarUnidadNegocio();
+
+            let departamentoNacimientoSelect = document.getElementById("departamentoNacimiento");
+            let departamentoExpedicionSelect = document.getElementById("departamentoExpedicion");
+            let municipioNacimientoSelect = document.getElementById("municipioNacimiento");
+            let municipioExpedicionSelect = document.getElementById("municipioExpedicion");
+
+            if (departamentoNacimientoSelect.value !== "") {
+                cargarMunicipios(departamentoNacimientoSelect, "municipioNacimiento", "<%= persona.getIdMunicipioNacimiento()%>");
+            }
+            if (departamentoExpedicionSelect.value !== "") {
+                cargarMunicipios(departamentoExpedicionSelect, "municipioExpedicion", "<%= persona.getIdMunicipioExpedicion()%>");
+            }
         };
 
-
-        function cargarMunicipios(departamentoSelect, municipioId) {
-            var idDepartamento = departamentoSelect.value;
-            var municipioSelect = document.getElementById(municipioId);
+        function cargarMunicipios(idDepartamento, tipoLugar) {
+            var municipioSelect = document.getElementById(tipoLugar === 'expedicion' ? 'municipioExpedicion' : 'municipioNacimiento');
             municipioSelect.innerHTML = '<option value="">Cargando...</option>';
 
-            fetch("cargarMunicipios.jsp?idDepartamento=" + idDepartamento)
+            fetch("cargarMunicipios.jsp?idDepartamento=" + idDepartamento + "&tipoLugar=" + tipoLugar)
                     .then(response => response.text())
                     .then(data => {
                         municipioSelect.innerHTML = data;

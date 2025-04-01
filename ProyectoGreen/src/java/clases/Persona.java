@@ -14,7 +14,9 @@ import java.time.Period;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -1088,28 +1090,56 @@ public class Persona {
         }
     }
 
-    public String getIdDepartamento() {
-        if (lugarExpedicion != null && lugarExpedicion.contains("-")) {
-            return lugarExpedicion.split("-")[0];  // Extrae el id del departamento
-        }
-        return null;
+   // Métodos para expedición
+public String getIdDepartamentoExpedicion() {
+    if (lugarExpedicion != null && lugarExpedicion.contains("-")) {
+        String[] partes = lugarExpedicion.split("-");
+        return (partes.length > 0) ? partes[0] : "";
     }
+    return "";
+}
 
-    public void setIdDepartamento(String idDepartamento) {
-        this.idDepartamento = idDepartamento;
+public void setIdDepartamentoExpedicion(String idDepartamentoExpedicion) {
+    this.idDepartamento= idDepartamentoExpedicion;
+}
+
+public String getIdMunicipioExpedicion() {
+    if (lugarExpedicion != null && lugarExpedicion.contains("-")) {
+        String[] partes = lugarExpedicion.split("-");
+        return (partes.length > 1) ? partes[1] : "";
     }
+    return "";
+}
 
-    public String getIdMunicipio() {
-        if (lugarExpedicion != null && lugarExpedicion.contains("-")) {
-            return lugarExpedicion.split("-")[1];  // Extrae el id del municipio
-        }
-        return null;
+public void setIdMunicipioExpedicion(String idMunicipioExpedicion) {
+    this.idMunicipio= idMunicipioExpedicion;
+}
+
+// Métodos para nacimiento
+public String getIdDepartamentoNacimiento() {
+    if (lugarNacimiento != null && lugarNacimiento.contains("-")) {
+        String[] partes = lugarNacimiento.split("-");
+        return (partes.length > 0) ? partes[0] : "";
     }
+    return "";
+}
 
-    public void setIdMunicipio(String idMunicipio) {
-        this.idMunicipio = idMunicipio;
+public void setIdDepartamentoNacimiento(String idDepartamentoNacimiento) {
+    this.idDepartamento= idDepartamentoNacimiento;
+}
+
+public String getIdMunicipioNacimiento() {
+    if (lugarNacimiento != null && lugarNacimiento.contains("-")) {
+        String[] partes = lugarNacimiento.split("-");
+        return (partes.length > 1) ? partes[1] : "";
     }
+    return "";
+}
 
+public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
+    this.idMunicipio = idMunicipioNacimiento;
+}
+    
     public String getTipoDotacion() {
         String resultado = tipoDotacion;
         if (tipoDotacion == null) {
