@@ -110,7 +110,7 @@
     <tr><th>Fecha termino primer contrato</th><td><%= persona.getFechaTerPriContrato()%></td></tr>
     <tr><th>Establecimiento</th><td><%= persona.getEstablecimiento()%> - <%= persona.getUnidadNegocio()%></td></tr>
     <tr><th>Centro de costos</th><td><%= persona.getCentroCostos()%></td></tr>
-    <tr><th>Cargos</th><td><%= persona.getTipoCargo()%></td></tr>
+    <tr><th>Cargos</th><td><%= persona.getCctn()%></td></tr>
     <tr><th>Cuenta Bancaria</th><td><%= persona.getCuentaBancaria()%></td></tr>
     <tr><th>Numero de Bancaria</th><td><%= persona.getNumeroCuenta()%></td></tr>
     <tr><th>Salario</th><td><%= persona.getSalario()%></td></tr>

@@ -17,7 +17,7 @@
     // Crear objeto persona y asignar valores del formulario
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
-    persona.setTipo("c");
+    persona.setTipo("C");
     persona.setIdCargo(request.getParameter("idCargo"));
     persona.setCctn(request.getParameter("cctn"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
@@ -43,8 +43,7 @@
     persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
     persona.setCentroCostos(request.getParameter("centroCostos"));
     persona.setEstablecimiento(request.getParameter("establecimiento"));
-persona.setArea(request.getParameter("area"));
-System.out.println("Valor de 'area' antes de actualizar: " + persona.getArea());
+    persona.setArea(request.getParameter("area"));
     persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     persona.setSalario(request.getParameter("salario"));
@@ -96,6 +95,7 @@ System.out.println("Valor de 'area' antes de actualizar: " + persona.getArea());
     persona.setTallaGuantes(request.getParameter("tallaGuantes"));
     persona.setTallaBuzo(request.getParameter("tallaBuzo"));
     persona.setTallaOverol(request.getParameter("tallaOverol"));
+    persona.setArl(request.getParameter("arl"));
 
     // Capturar valores del formulario
     String idDepartamentoExpedicion = request.getParameter("departamentoExpedicion");

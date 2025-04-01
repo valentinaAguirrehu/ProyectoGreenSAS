@@ -18,7 +18,7 @@
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("A");
    persona.setIdCargo(request.getParameter("idCargo"));
-    persona.setTipoCargo(request.getParameter("tipoCargo"));
+    persona.setCctn(request.getParameter("tipoCargo"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));

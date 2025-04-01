@@ -56,7 +56,7 @@
             <tr><th>Sexo</th><td><%= persona.getSexo()%></td></tr>
             <tr><th>Fecha de Ingreso</th><td><%= persona.getFechaIngreso()%></td></tr>
             <tr><th>Fecha de retiro</th><td><%= persona.getFechaRetiro()%></td></tr>   
-            <tr><th>Documento de identidad</th><td>C.C</td></tr>
+            <tr><th>Documento de identidad</th><td><%= persona.getTipoDocumento()%></td></tr>
             <tr><th>Número del documento</th><td><%= persona.getIdentificacion()%></td></tr>
             <tr><th>Fecha de Expedición</th><td><%= persona.getFechaExpedicion()%></td></tr>
             <tr><th>Lugar de Expedición</th><td><%= persona.getLugarExpedicion()%></td></tr>

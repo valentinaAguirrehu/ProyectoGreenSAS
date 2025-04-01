@@ -81,9 +81,9 @@
                     <th>Documento de identidad</th>
                     <td>
                         <select name="tipoDocumentoSelect" id="tipoDocumento" onchange="manejarOtro('tipoDocumento', 'otroTipoDocumento', 'tipoDocumentoHidden')"required>
-                            <option value="Cédula de Ciudadanía" <%= (persona.getTipoDocumento() == null || persona.getTipoDocumento().isEmpty() || "CC".equals(persona.getTipoDocumento())) ? "selected" : ""%>>Cédula de Ciudadanía</option>
+                            <option value="Cedula de Ciudadania" <%= (persona.getTipoDocumento() == null || persona.getTipoDocumento().isEmpty() || "CC".equals(persona.getTipoDocumento())) ? "selected" : ""%>>Cedula de Ciudadania</option>
                             <option value="Tarjeta de Identidad" <%= "TI".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Tarjeta de Identidad</option>
-                            <option value="Cédula de Extranjería" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cédula de Extranjería</option>
+                            <option value="Cedula de Extranjeria" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cedula de Extranjeria</option>
                             <option value="Permiso Temporal" <%= "EXT".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Permiso Temporal</option>
                             <option value="Otro">Otro</option>
                         </select>
@@ -195,7 +195,7 @@
                         </select>
                     </td>
                 </tr>
-                <tr>
+                 <tr>
                     <th>Tipo de vivienda</th>
                     <td>
                         <select name="tipoVivienda" required>
@@ -535,18 +535,24 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Área</th>
+                    <th>Area</th>
                     <td>
-                        <select name="area" id="area" required>
+                        <select name="area" id="area" onchange="manejarOtro('area', 'otraArea', 'areaFinal')" required>
                             <option value="" <%= (persona.getArea() == null || persona.getArea().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="Línea Media" <%= "Línea Media".equals(persona.getArea()) ? "selected" : ""%>>Línea Media</option>
-                            <option value="Línea Directiva" <%= "Línea Directiva".equals(persona.getArea()) ? "selected" : ""%>>Línea Directiva</option>
-                            <option value="Administrativo" <%= "Administrativo".equals(persona.getArea()) ? "selected" : ""%>>Administrativo</option>
-                            <option value="Operativo" <%= "Operativo".equals(persona.getArea()) ? "selected" : ""%>>Operativo</option>
+                            <option value="Linea Media" <%= "Linea Media".equalsIgnoreCase(persona.getArea()) ? "selected" : ""%>>Linea Media</option>
+                            <option value="Linea Directiva" <%= "Linea Directiva".equalsIgnoreCase(persona.getArea()) ? "selected" : ""%>>Linea Directiva</option>
+                            <option value="Administrativo" <%= "Administrativo".equalsIgnoreCase(persona.getArea()) ? "selected" : ""%>>Administrativo</option>
+                            <option value="Operativo" <%= "Operativo".equalsIgnoreCase(persona.getArea()) ? "selected" : ""%>>Operativo</option>
+                            <option value="Otro" <%= (persona.getArea() != null && !Persona.esAreaPredefinida(persona.getArea())) ? "selected" : ""%>>Otro</option>
                         </select>
+                        <input type="text" id="otraArea" name="otraArea" style="display: none;" placeholder="Especifique otro"
+                               value="<%= (persona.getArea() != null && !Persona.esAreaPredefinida(persona.getArea().trim())) ? persona.getArea().trim() : ""%>">
+                        <input type="hidden" name="areaFinal" id="areaFinal" value="<%= persona.getArea() != null ? persona.getArea().trim() : ""%>">
                     </td>
                 </tr>
-                <tr>
+
+
+
                 <tr>
                     <th>Cargos</th>
                     <td>
@@ -618,9 +624,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Arl</th>
-                    <td><input type="text" name="arl" value="<%= persona.getArl()%>" size="50" maxlength="50"></td>
+                    <th>ARL</th>
+                    <td>
+                        <select name="arl" id="arl" onchange="manejarOtro('arl', 'otraArl', 'arlFinal')" required>
+                            <option value="" <%= (persona.getArl() == null || persona.getArl().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
+                            <option value="Sura" <%= "Sura".equalsIgnoreCase(persona.getArl()) ? "selected" : ""%>>Sura</option>
+                            <option value="Positiva" <%= "Positiva".equalsIgnoreCase(persona.getArl()) ? "selected" : ""%>>Positiva</option>
+                            <option value="Otro" <%= (persona.getArl() != null && !Persona.esArlPredefinida(persona.getArl())) ? "selected" : ""%>>Otro</option>
+                        </select>
+                        <input type="text" id="otraArl" name="otraArl" style="display: none;" placeholder="Especifique otro"
+                               value="<%= (persona.getArl() != null && !Persona.esArlPredefinida(persona.getArl().trim())) ? persona.getArl().trim() : ""%>">
+                        <input type="hidden" name="arlFinal" id="arlFinal" value="<%= persona.getArl() != null ? persona.getArl().trim() : ""%>">
+                    </td>
                 </tr>
+
                 <tr>
                     <th>Banco</th>
                     <td><input type="text" name="cuentaBancaria" value="<%= persona.getCuentaBancaria()%>" size="50" maxlength="50"></td>
@@ -948,6 +965,38 @@
                 document.getElementById("tablaVehiculo").style.display = "block";
             }
         }
+
+        function manejarOtro(selectId, inputId, hiddenId) {
+            var select = document.getElementById(selectId);
+            var input = document.getElementById(inputId);
+            var hidden = document.getElementById(hiddenId);
+
+            if (select.value === "Otro") {
+                input.style.display = "inline-block";
+                input.required = true;
+                hidden.value = input.value;
+            } else {
+                input.style.display = "none";
+                input.required = false;
+                hidden.value = select.value;
+            }
+        }
+        function manejarOtro(selectId, inputId, hiddenId) {
+            var select = document.getElementById(selectId);
+            var input = document.getElementById(inputId);
+            var hidden = document.getElementById(hiddenId);
+
+            if (select.value === "Otro") {
+                input.style.display = "inline-block";
+                input.required = true;
+                hidden.value = input.value;
+            } else {
+                input.style.display = "none";
+                input.required = false;
+                hidden.value = select.value;
+            }
+        }
+
 
         // Ejecutar la función al cargar la página para mostrar u ocultar correctamente
         window.onload = function () {
