@@ -49,11 +49,11 @@
     <h3 class="titulo">COLABORADORES GREEN S.A.S</h3>
     <link rel="stylesheet" href="presentacion/style-Retirados.css">
 
-    <!-- Nuevo buscador din醡ico -->
+    <!-- Nuevo buscador din谩mico -->
     <div class="search-container">
         <div class="search-box">
             <select id="searchType" class="recuadro">
-                <option value="identificacion">Identificaci髇</option>
+                <option value="identificacion">Identificaci贸n</option>
                 <option value="nombre">Nombre</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
@@ -68,7 +68,7 @@
 
     <table class="table" id="colaboradoresTable">
         <tr>
-            <th>Documento de identificaci髇</th>
+            <th>Documento de identificaci贸n</th>
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Cargo</th>
@@ -85,10 +85,10 @@
     </table>
 </div>
 
-<!-- Script para eliminar una persona con confirmaci髇 -->
+<!-- Script para eliminar una persona con confirmaci贸n -->
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("縍ealmente desea eliminar el registro del colaborador?");
+        var respuesta = confirm("驴Realmente desea eliminar el registro del colaborador?");
         if (respuesta) {
             window.location.href = "personaActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -104,7 +104,7 @@
         window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
     }
 
-    // Buscador din醡ico con opci髇 de filtro por columna
+    // Buscador din谩mico con opci贸n de filtro por columna
     function filterResults() {
         const searchType = document.getElementById('searchType').value;
         const input = document.getElementById('searchInput').value.toLowerCase();
