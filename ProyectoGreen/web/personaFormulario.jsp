@@ -81,9 +81,9 @@
                     <th>Documento de identidad</th>
                     <td>
                         <select name="tipoDocumentoSelect" id="tipoDocumento" onchange="manejarOtro('tipoDocumento', 'otroTipoDocumento', 'tipoDocumentoHidden')"required>
-                            <option value="Cedula de Ciudadania" <%= (persona.getTipoDocumento() == null || persona.getTipoDocumento().isEmpty() || "CC".equals(persona.getTipoDocumento())) ? "selected" : ""%>>Cedula de Ciudadania</option>
+                            <option value="Cédula de Ciudadanía" <%= (persona.getTipoDocumento() == null || persona.getTipoDocumento().isEmpty() || "CC".equals(persona.getTipoDocumento())) ? "selected" : ""%>>Cédula de Ciudadanía</option>
                             <option value="Tarjeta de Identidad" <%= "TI".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Tarjeta de Identidad</option>
-                            <option value="Cedula de Extranjeria" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cedula de Extranjeria</option>
+                            <option value="Cédula de Extranjería" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cédula de Extranjería</option>
                             <option value="Permiso Temporal" <%= "EXT".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Permiso Temporal</option>
                             <option value="Otro">Otro</option>
                         </select>
@@ -195,7 +195,7 @@
                         </select>
                     </td>
                 </tr>
-                 <tr>
+                <tr>
                     <th>Tipo de vivienda</th>
                     <td>
                         <select name="tipoVivienda" required>
@@ -493,28 +493,27 @@
                 <tr>
                     <th>Establecimiento</th>
                     <td>
-                        <select name="establecimiento" id="establecimiento" onchange="cargarUnidadNegocio()" required>
-                            <option value="" <%= (persona.getEstablecimiento() == null || persona.getEstablecimiento().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="Avenida" <%= "Avenida".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Avenida</option>
-                            <option value="Principal" <%= "Principal".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Principal</option>
-                            <option value="Centro" <%= "Centro".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Centro</option>
-                            <option value="Unicentro" <%= "Unicentro".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Unicentro</option>
-                            <option value="Centro de Procesos" <%= "Centro de Procesos".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Centro de Procesos</option>
-                            <option value="Teleoperaciones" <%= "Teleoperaciones".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Teleoperaciones</option>
-                            <option value="Juanambu" <%= "Juanambu".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Juanambú</option>
-                            <option value="Terminal Americano" <%= "Terminal Americano".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Terminal Americano</option>
-                            <option value="Puente" <%= "Puente".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Puente</option>
-                            <option value="Canobajo" <%= "Canobajo".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Cano Bajo</option>
-                            <option value="Greenfield" <%= "Greenfield".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Greenfield</option>
+                        <select name="establecimiento" id="establecimiento" onchange="precargarUnidadNegocio()" required>
+                            <option value="">Seleccione...</option>
+                            <%
+                                String[] establecimientos = {
+                                    "Avenida", "Principal", "Centro", "Unicentro",
+                                    "Centro de Procesos", "Teleoperaciones", "Juanambu",
+                                    "Terminal Americano", "Puente", "Canobajo", "Greenfield"
+                                };
+                                for (String est : establecimientos) {
+                            %>
+                            <option value="<%= est%>" <%= est.equals(persona.getEstablecimiento()) ? "selected" : ""%>><%= est%></option>
+                            <% }%>
                         </select>
                     </td>
                 </tr>
+
+                <!-- Unidad de negocio -->
                 <tr>
                     <th>Unidad de negocio</th>
                     <td>
-                        <select name="unidadNegocio" id="unidadNegocio">
-                            <!-- Las opciones se cargarán dinámicamente según el establecimiento seleccionado -->
-                        </select>
+                        <input type="text" name="unidadNegocio" id="unidadNegocio" value="<%= persona.getUnidadNegocio() != null ? persona.getUnidadNegocio().trim() : ""%>" readonly>
                     </td>
                 </tr>
                 <tr>
@@ -550,9 +549,7 @@
                         <input type="hidden" name="areaFinal" id="areaFinal" value="<%= persona.getArea() != null ? persona.getArea().trim() : ""%>">
                     </td>
                 </tr>
-
-
-
+                <tr>
                 <tr>
                     <th>Cargos</th>
                     <td>
@@ -624,20 +621,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>ARL</th>
-                    <td>
-                        <select name="arl" id="arl" onchange="manejarOtro('arl', 'otraArl', 'arlFinal')" required>
-                            <option value="" <%= (persona.getArl() == null || persona.getArl().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="Sura" <%= "Sura".equalsIgnoreCase(persona.getArl()) ? "selected" : ""%>>Sura</option>
-                            <option value="Positiva" <%= "Positiva".equalsIgnoreCase(persona.getArl()) ? "selected" : ""%>>Positiva</option>
-                            <option value="Otro" <%= (persona.getArl() != null && !Persona.esArlPredefinida(persona.getArl())) ? "selected" : ""%>>Otro</option>
-                        </select>
-                        <input type="text" id="otraArl" name="otraArl" style="display: none;" placeholder="Especifique otro"
-                               value="<%= (persona.getArl() != null && !Persona.esArlPredefinida(persona.getArl().trim())) ? persona.getArl().trim() : ""%>">
-                        <input type="hidden" name="arlFinal" id="arlFinal" value="<%= persona.getArl() != null ? persona.getArl().trim() : ""%>">
-                    </td>
+                    <th>Arl</th>
+                    <td><input type="text" name="arl" value="<%= persona.getArl()%>" size="50" maxlength="50"></td>
                 </tr>
-
                 <tr>
                     <th>Banco</th>
                     <td><input type="text" name="cuentaBancaria" value="<%= persona.getCuentaBancaria()%>" size="50" maxlength="50"></td>
@@ -728,12 +714,11 @@
                         </select>
                     </td>
                 </tr>
-
                 <tr>
                     <th>Talla de overol</th>
                     <td>
                         <select name="tallaOverol" required>
-                            <option value="" <%= (persona.getTallaOverol() == null || persona.getTallaOverol().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
+                            <option value="" <%= (persona.getTallaOverol()== null || persona.getTallaOverol().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
                             <option value="XS" <%= "XS".equals(persona.getTallaOverol()) ? "selected" : ""%>>XS</option>
                             <option value="S" <%= "S".equals(persona.getTallaOverol()) ? "selected" : ""%>>S</option>
                             <option value="M" <%= "M".equals(persona.getTallaOverol()) ? "selected" : ""%>>M</option>
@@ -742,6 +727,7 @@
                             <option value="XXL" <%= "XXL".equals(persona.getTallaOverol()) ? "selected" : ""%>>XXL</option>
                         </select>
                     </td>
+                </tr>
                 </tr>
                 <tr>
                     <th>Talla de pantalón</th>
@@ -854,45 +840,33 @@
 
         }
 
-        function cargarUnidadNegocio() {
+        // Función para precargar la unidad de negocio al seleccionar un establecimiento
+        function precargarUnidadNegocio() {
             var establecimiento = document.getElementById("establecimiento").value;
             var unidadNegocio = document.getElementById("unidadNegocio");
 
-            // Limpiar opciones previas
-            unidadNegocio.innerHTML = '';
-
-            // Definir relaciones entre establecimientos y unidades de negocio
-            var opciones = {
-                "Avenida": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Principal": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Centro": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Unicentro": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Centro de Procesos": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Teleoperaciones": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Juanambu": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
-                "Terminal Americano": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
-                "Puente": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
-                "Canobajo": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
-                "Greenfield": [{value: "Green S.A.S. ", text: "Green S.A.S. "}]
+            // Mapeo de establecimientos a unidades de negocio
+            var unidades = {
+                "Avenida": "Green S.A.S. RPS",
+                "Principal": "Green S.A.S. RPS",
+                "Centro": "Green S.A.S. RPS",
+                "Unicentro": "Green S.A.S. RPS",
+                "Centro de Procesos": "Green S.A.S. RPS",
+                "Teleoperaciones": "Green S.A.S. RPS",
+                "Juanambu": "Green S.A.S. EDS",
+                "Terminal Americano": "Green S.A.S. EDS",
+                "Puente": "Green S.A.S. EDS",
+                "Canobajo": "Green S.A.S. EDS",
+                "Greenfield": "Green S.A.S."
             };
 
-
-            // Si hay opciones para el establecimiento seleccionado, cargarlas
-            if (opciones[establecimiento]) {
-                opciones[establecimiento].forEach(function (opcion) {
-                    var nuevaOpcion = document.createElement("option");
-                    nuevaOpcion.value = opcion.value;
-                    nuevaOpcion.text = opcion.text;
-
-                    // Preseleccionar si coincide con el valor guardado en JSP
-                    if (opcion.value === "<%= persona.getUnidadNegocio()%>") {
-                        nuevaOpcion.selected = true;
-                    }
-
-                    unidadNegocio.appendChild(nuevaOpcion);
-                });
-            }
+            // Asignar unidad de negocio basada en el establecimiento seleccionado
+            unidadNegocio.value = unidades[establecimiento] || "";
         }
+
+        // Precargar la unidad de negocio al cargar la página
+        document.addEventListener("DOMContentLoaded", precargarUnidadNegocio);
+
 
         window.onload = function () {
 
@@ -965,38 +939,6 @@
                 document.getElementById("tablaVehiculo").style.display = "block";
             }
         }
-
-        function manejarOtro(selectId, inputId, hiddenId) {
-            var select = document.getElementById(selectId);
-            var input = document.getElementById(inputId);
-            var hidden = document.getElementById(hiddenId);
-
-            if (select.value === "Otro") {
-                input.style.display = "inline-block";
-                input.required = true;
-                hidden.value = input.value;
-            } else {
-                input.style.display = "none";
-                input.required = false;
-                hidden.value = select.value;
-            }
-        }
-        function manejarOtro(selectId, inputId, hiddenId) {
-            var select = document.getElementById(selectId);
-            var input = document.getElementById(inputId);
-            var hidden = document.getElementById(hiddenId);
-
-            if (select.value === "Otro") {
-                input.style.display = "inline-block";
-                input.required = true;
-                hidden.value = input.value;
-            } else {
-                input.style.display = "none";
-                input.required = false;
-                hidden.value = select.value;
-            }
-        }
-
 
         // Ejecutar la función al cargar la página para mostrar u ocultar correctamente
         window.onload = function () {

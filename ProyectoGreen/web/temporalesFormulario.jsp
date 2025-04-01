@@ -4,6 +4,7 @@
     Author     : Mary
 --%>
 
+
 <%@page import="clases.Departamento"%>
 <%@page import="clases.Municipio"%>
 <%@page import="clasesGenericas.ConectorBD"%>
@@ -13,7 +14,8 @@
 <%@page import="clases.Cargo"%>
 <%@page import="clases.GeneroPersona"%>
 <%@page import="clases.Persona"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="presentacion/style-PersonaFormulario.css">
 
 <%
 
@@ -44,8 +46,8 @@
 </head>
 <body>
     <div class="content"> 
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> TEMPORAL</h3>
-        <form name="formulario" method="post" action="temporalesActualizar.jsp">
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> TEMPORALES</h3>
+        <form name="formulario" method="post" action="temporalesActualizar.jsp" onsubmit="obtenerDatosHijos()">
             <h1>Datos personales</h1>
             <table border="1">
                 <tr>
@@ -66,7 +68,6 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
                 <tr>
                     <th>Fecha de ingreso</th>
                     <td><input type="date" name="fechaIngreso" value="<%= persona.getFechaIngreso()%>"required></td>
@@ -111,20 +112,31 @@
                     <td colspan="2">
                         <div class="campos-container">
                             <label for="departamentoExpedicion"><b>Departamento:</b></label>
-                            <select name="departamentoExpedicion" id="departamentoExpedicion" onchange="cargarMunicipios(this, 'municipioExpedicion')" required>
+                            <select name="departamentoExpedicion" id="departamentoExpedicion" onchange="cargarMunicipios(this.value, 'expedicion');" required>
                                 <option value="">Seleccione un Departamento</option>
                                 <%
                                     List<Departamento> departamentos = Departamento.getListaEnObjetos(null, "nombre ASC");
-                                    String idDepartamentoExpedicion = persona.getIdDepartamento();  // Esto causa problemas
+                                    String idDepartamentoExpedicion = persona.getIdDepartamentoExpedicion();
                                     for (Departamento departamento : departamentos) {
                                         String selected = (idDepartamentoExpedicion != null && idDepartamentoExpedicion.equals(departamento.getId())) ? "selected" : "";
                                 %>
                                 <option value="<%= departamento.getId()%>" <%= selected%>><%= departamento.getNombre()%></option>
-                                <% }%>
+                                <% } %>
                             </select>
+
                             <label for="municipioExpedicion"><b>Municipio:</b></label>
                             <select name="lugarExpedicion" id="municipioExpedicion" required>
                                 <option value="">Seleccione un municipio</option>
+                                <%
+                                    String idMunicipioExpedicion = persona.getIdMunicipioExpedicion();
+                                    if (idDepartamentoExpedicion != null) {
+                                        List<Municipio> municipios = Municipio.getListaEnObjetos(idDepartamentoExpedicion, "nombre ASC");
+                                        for (Municipio municipio : municipios) {
+                                            String selected = (idMunicipioExpedicion != null && idMunicipioExpedicion.equals(municipio.getId())) ? "selected" : "";
+                                %>
+                                <option value="<%= municipio.getId()%>" <%= selected%>><%= municipio.getNombre()%></option>
+                                <% }
+                                    }%>
                             </select>
                         </div>
                     </td>
@@ -140,20 +152,30 @@
                     <td colspan="2">         
                         <div class="campos-container">
                             <label for="departamentoNacimiento"><b>Departamento:</b></label>
-                            <select name="departamentoNacimiento" id="departamentoNacimiento" onchange="cargarMunicipios(this, 'municipioNacimiento')" required>
+                            <select name="departamentoNacimiento" id="departamentoNacimiento" onchange="cargarMunicipios(this.value, 'nacimiento');" required>
                                 <option value="">Seleccione un departamento</option>
                                 <%
                                     List<Departamento> departamentos2 = Departamento.getListaEnObjetos(null, "nombre ASC");
-                                    String idDepartamentoNacimiento = persona.getIdDepartamento();  // ❌ Esto también causaba problemas
+                                    String idDepartamentoNacimiento = persona.getIdDepartamentoNacimiento();
                                     for (Departamento departamento : departamentos2) {
                                         String selected = (idDepartamentoNacimiento != null && idDepartamentoNacimiento.equals(departamento.getId())) ? "selected" : "";
                                 %>
                                 <option value="<%= departamento.getId()%>" <%= selected%>><%= departamento.getNombre()%></option>
-                                <% }%>
+                                <% } %>
                             </select>
                             <label for="municipioNacimiento"><b>Municipio:</b></label>
                             <select name="lugarNacimiento" id="municipioNacimiento" required>
                                 <option value="">Seleccione un municipio</option>
+                                <%
+                                    String idMunicipioNacimiento = persona.getIdMunicipioNacimiento();
+                                    if (idDepartamentoNacimiento != null) {
+                                        List<Municipio> municipios = Municipio.getListaEnObjetos(idDepartamentoNacimiento, "nombre ASC");
+                                        for (Municipio municipio : municipios) {
+                                            String selected = (idMunicipioNacimiento != null && idMunicipioNacimiento.equals(municipio.getId())) ? "selected" : "";
+                                %>
+                                <option value="<%= municipio.getId()%>" <%= selected%>><%= municipio.getNombre()%></option>
+                                <% }
+                                    }%>
                             </select>
                         </div>
                     </td>
@@ -263,7 +285,7 @@
                 </tr>
             </table>
             <div id="familiaresSection" style="display: <%= persona.getTieneHijos().equals("S") ? "block" : "none"%>;">
-                <h4>Información de Hijos</h4>
+                <h1>Información de Hijos</h1>
                 <table border="0" id="tablaHijos">
                     <tr>
                         <th>Identificación</th>
@@ -286,7 +308,7 @@
                         }
                     %>
                     <tr>
-                        <td colspan="4"><button class ="submit" type="button" onclick="agregarHijo()">Agregar Hijo</button></td>
+                        <td colspan="4"><button class ="submit" type="submit" onclick="agregarHijo()">Agregar Hijo</button></td>
                     </tr>
                 </table>
             </div>
@@ -317,7 +339,7 @@
                 <h1>Información del vehículo</h1>
                 <table border="1">       
                     <tr>
-                        <th><label>Número de placa</label></th>
+                        <th><label>Número de la placa</label></th>
                         <td><input type="text" name="numeroPlacaVehiculo" value="<%= persona.getNumeroPlacaVehiculo()%>" size="50" maxlength="50"></td>
                     </tr>
                     <tr>
@@ -383,11 +405,11 @@
                         <td><input type="date" name="fechaVencimiento" value="<%= persona.getFechaVencimiento()%>"></td>
                     </tr>
                     <tr>
-                        <th><label>Número licencia de conducción:</label></th>
+                        <th><label>Número de la licencia de conducción</label></th>
                         <td>
                             <input type="text" name="numLicenciaConduccion" 
                                    value="<%= persona.getNumLicenciaConduccion() != null ? persona.getNumLicenciaConduccion() : ""%>" 
-                                   size="50" maxlength="50">
+                                   size="50" maxlength="50" placeholder="Campo numérico">
                         </td>
                     </tr>
                 </table>
@@ -472,28 +494,27 @@
                 <tr>
                     <th>Establecimiento</th>
                     <td>
-                        <select name="establecimiento" id="establecimiento" onchange="cargarUnidadNegocio()" required>
-                            <option value="" <%= (persona.getEstablecimiento() == null || persona.getEstablecimiento().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="Avenida" <%= "Avenida".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Avenida</option>
-                            <option value="Principal" <%= "Principal".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Principal</option>
-                            <option value="Centro" <%= "Centro".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Centro</option>
-                            <option value="Unicentro" <%= "Unicentro".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Unicentro</option>
-                            <option value="Centro de Procesos" <%= "Centro de Procesos".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Centro de Procesos</option>
-                            <option value="Teleoperaciones" <%= "Teleoperaciones".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Teleoperaciones</option>
-                            <option value="Juanambu" <%= "Juanambu".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Juanambú</option>
-                            <option value="Terminal Americano" <%= "Terminal Americano".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Terminal Americano</option>
-                            <option value="Puente" <%= "Puente".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Puente</option>
-                            <option value="Canobajo" <%= "Canobajo".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Cano Bajo</option>
-                            <option value="Greenfield" <%= "Greenfield".equals(persona.getEstablecimiento()) ? "selected" : ""%>>Greenfield</option>
+                        <select name="establecimiento" id="establecimiento" onchange="precargarUnidadNegocio()" required>
+                            <option value="">Seleccione...</option>
+                            <%
+                                String[] establecimientos = {
+                                    "Avenida", "Principal", "Centro", "Unicentro",
+                                    "Centro de Procesos", "Teleoperaciones", "Juanambu",
+                                    "Terminal Americano", "Puente", "Canobajo", "Greenfield"
+                                };
+                                for (String est : establecimientos) {
+                            %>
+                            <option value="<%= est%>" <%= est.equals(persona.getEstablecimiento()) ? "selected" : ""%>><%= est%></option>
+                            <% }%>
                         </select>
                     </td>
                 </tr>
+
+                <!-- Unidad de negocio -->
                 <tr>
                     <th>Unidad de negocio</th>
                     <td>
-                        <select name="unidadNegocio" id="unidadNegocio">
-                            <!-- Las opciones se cargarán dinámicamente según el establecimiento seleccionado -->
-                        </select>
+                        <input type="text" name="unidadNegocio" id="unidadNegocio" value="<%= persona.getUnidadNegocio() != null ? persona.getUnidadNegocio().trim() : ""%>" readonly>
                     </td>
                 </tr>
                 <tr>
@@ -514,15 +535,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Área</th>
+                    <th>Area</th>
                     <td>
-                        <select name="area" id="area" required>
+                        <select name="area" id="area" onchange="manejarOtro('area', 'otraArea', 'areaFinal')" required>
                             <option value="" <%= (persona.getArea() == null || persona.getArea().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="Línea Media" <%= "Línea Media".equals(persona.getArea()) ? "selected" : ""%>>Línea Media</option>
-                            <option value="Línea Directiva" <%= "Línea Directiva".equals(persona.getArea()) ? "selected" : ""%>>Línea Directiva</option>
-                            <option value="Administrativo" <%= "Administrativo".equals(persona.getArea()) ? "selected" : ""%>>Administrativo</option>
-                            <option value="Operativo" <%= "Operativo".equals(persona.getArea()) ? "selected" : ""%>>Operativo</option>
+                            <option value="Linea Media" <%= "Linea Media".equalsIgnoreCase(persona.getArea()) ? "selected" : ""%>>Linea Media</option>
+                            <option value="Linea Directiva" <%= "Linea Directiva".equalsIgnoreCase(persona.getArea()) ? "selected" : ""%>>Linea Directiva</option>
+                            <option value="Administrativo" <%= "Administrativo".equalsIgnoreCase(persona.getArea()) ? "selected" : ""%>>Administrativo</option>
+                            <option value="Operativo" <%= "Operativo".equalsIgnoreCase(persona.getArea()) ? "selected" : ""%>>Operativo</option>
+                            <option value="Otro" <%= (persona.getArea() != null && !Persona.esAreaPredefinida(persona.getArea())) ? "selected" : ""%>>Otro</option>
                         </select>
+                        <input type="text" id="otraArea" name="otraArea" style="display: none;" placeholder="Especifique otro"
+                               value="<%= (persona.getArea() != null && !Persona.esAreaPredefinida(persona.getArea().trim())) ? persona.getArea().trim() : ""%>">
+                        <input type="hidden" name="areaFinal" id="areaFinal" value="<%= persona.getArea() != null ? persona.getArea().trim() : ""%>">
                     </td>
                 </tr>
                 <tr>
@@ -536,9 +561,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Tipo de cargo</th>
+                    <th>Centro costos por nomina</th>
                     <td>
-                        <input type="text" name="tipoCargo" id="tipoCargo" value="<%= persona.getTipoCargo()%>" size="50" maxlength="50" autocomplete="off" onkeyup="filtrarCargos()"required>
+                        <input type="text" name="cctn" id="cctn" value="<%= persona.getCctn()%>" size="50" maxlength="50" autocomplete="off" onkeyup="filtrarCargos()"required>
                         <div id="sugerenciasCargo"></div>
                     </td>
                 </tr>
@@ -562,41 +587,11 @@
                         <!-- Campo oculto para almacenar el valor final -->
                         <input type="hidden" name="epsFinal" id="epsFinal" value="<%= persona.getEps() != null ? persona.getEps() : ""%>">
                     </td>
-                </tr>
-                <tr>
-                    <th>Fondo de cesantías</th>
-                    <td>
-                        <select name="fondoCesantias" id="fondoCesantias" onchange="manejarOtro('fondoCesantias', 'otroFondoCesantias', 'fondoCesantiasFinal')">
-                            <option value="" <%= (persona.getFondoCesantias() == null || persona.getFondoCesantias().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="Porvenir" <%= "Porvenir".equals(persona.getFondoCesantias()) ? "selected" : ""%>>Porvenir</option>
-                            <option value="Proteccion" <%= "Proteccion".equals(persona.getFondoCesantias()) ? "selected" : ""%>>Protección</option>
-                            <option value="Fondo nacional de ahorro" <%= "Fondo nacional de ahorro".equals(persona.getFondoCesantias()) ? "selected" : ""%>>Fondo Nacional de Ahorro</option>
-                            <option value="Otro" <%= (persona.getFondoCesantias() != null && !Persona.esFondoCesantiasPredefinida(persona.getFondoCesantias())) ? "selected" : ""%>>Otro</option>
-                        </select>
-                        <!-- Campo de entrada oculto para "Otro" -->
-                        <input type="text" id="otroFondoCesantias" name="otroFondoCesantias" style="display: none;" placeholder="Especifique otro"
-                               value="<%= (persona.getFondoCesantias() != null && !Persona.esFondoCesantiasPredefinida(persona.getFondoCesantias())) ? persona.getFondoCesantias() : ""%>">
-
-                        <!-- Campo oculto para almacenar el valor final -->
-                        <input type="hidden" name="fondoCesantiasFinal" id="fondoCesantiasFinal" value="<%= persona.getFondoCesantias() != null ? persona.getFondoCesantias() : ""%>">
-                    </td>
-                </tr>
-                <tr>
-                    <th>Fondo de pensiones</th>
-                    <td>
-                        <select name="fondoPensiones" id="fondoPensiones" onchange="manejarOtro('fondoPensiones', 'otroFondoPensiones', 'fondoPensionesFinal')">
-                            <option value="" <%= (persona.getFondoPensiones() == null || persona.getFondoPensiones().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="Porvenir" <%= "Porvenir".equalsIgnoreCase(persona.getFondoPensiones()) ? "selected" : ""%>>Porvenir</option>
-                            <option value="Proteccion" <%= "Proteccion".equalsIgnoreCase(persona.getFondoPensiones()) ? "selected" : ""%>>Protección</option>
-                            <option value="Colpensiones" <%= "Colpensiones".equalsIgnoreCase(persona.getFondoPensiones()) ? "selected" : ""%>>Colpensiones</option>
-                            <option value="Otro" <%= (persona.getFondoPensiones() != null && !Persona.esFondoPensionesPredefinido(persona.getFondoPensiones())) ? "selected" : ""%>>Otro</option>
-                        </select>
-                        <input type="text" id="otroFondoPensiones" name="otroFondoPensiones" style="display: none;" placeholder="Especifique otro"
-                               value="<%= (persona.getFondoPensiones() != null && !Persona.esFondoPensionesPredefinido(persona.getFondoPensiones().trim())) ? persona.getFondoPensiones().trim() : ""%>">
-                        <input type="hidden" name="fondoPensionesFinal" id="fondoPensionesFinal" value="<%= persona.getFondoPensiones() != null ? persona.getFondoPensiones().trim() : ""%>">
-                    </td>
-                </tr>
-                </tr>
+                <!--</tr>
+                
+                    <th>Arl</th>
+                    <td><input type="text" name="arl" value="<%= persona.getArl()%>" size="50" maxlength="50"></td>
+                </tr> -->
                 <tr>
                     <th>Banco</th>
                     <td><input type="text" name="cuentaBancaria" value="<%= persona.getCuentaBancaria()%>" size="50" maxlength="50"></td>
@@ -611,7 +606,7 @@
                 </tr>
             </table>
 
-            <h1>Información de dotación</h1> <!-- Formulario para Dotaciones -->
+            <h1>Informacion de dotación</h1> <!-- Formulario para Dotaciones -->
             <table border="1">
                 <tr>
                     <th>Fecha de la próxima entrega</th>
@@ -812,58 +807,57 @@
             }
 
         }
-        function cargarUnidadNegocio() {
+
+        // Función para precargar la unidad de negocio al seleccionar un establecimiento
+        function precargarUnidadNegocio() {
             var establecimiento = document.getElementById("establecimiento").value;
             var unidadNegocio = document.getElementById("unidadNegocio");
 
-            // Limpiar opciones previas
-            unidadNegocio.innerHTML = '';
-
-            // Definir relaciones entre establecimientos y unidades de negocio
-            var opciones = {
-                "Principal": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Centro": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Unicentro": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Centro de Procesos": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Teleoperaciones": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
-                "Juanambu": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
-                "Terminal Americano": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
-                "Puente": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
-                "Canobajo": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
-                "Greenfield": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}]
+            // Mapeo de establecimientos a unidades de negocio
+            var unidades = {
+                "Avenida": "Green S.A.S. RPS",
+                "Principal": "Green S.A.S. RPS",
+                "Centro": "Green S.A.S. RPS",
+                "Unicentro": "Green S.A.S. RPS",
+                "Centro de Procesos": "Green S.A.S. RPS",
+                "Teleoperaciones": "Green S.A.S. RPS",
+                "Juanambu": "Green S.A.S. EDS",
+                "Terminal Americano": "Green S.A.S. EDS",
+                "Puente": "Green S.A.S. EDS",
+                "Canobajo": "Green S.A.S. EDS",
+                "Greenfield": "Green S.A.S."
             };
 
-
-            // Si hay opciones para el establecimiento seleccionado, cargarlas
-            if (opciones[establecimiento]) {
-                opciones[establecimiento].forEach(function (opcion) {
-                    var nuevaOpcion = document.createElement("option");
-                    nuevaOpcion.value = opcion.value;
-                    nuevaOpcion.text = opcion.text;
-
-                    // Preseleccionar si coincide con el valor guardado en JSP
-                    if (opcion.value === "<%= persona.getUnidadNegocio()%>") {
-                        nuevaOpcion.selected = true;
-                    }
-
-                    unidadNegocio.appendChild(nuevaOpcion);
-                });
-            }
+            // Asignar unidad de negocio basada en el establecimiento seleccionado
+            unidadNegocio.value = unidades[establecimiento] || "";
         }
 
+        // Precargar la unidad de negocio al cargar la página
+        document.addEventListener("DOMContentLoaded", precargarUnidadNegocio);
 
-        // Precargar la Unidad de Negocio si ya hay un establecimiento seleccionado
+
         window.onload = function () {
+
             cargarUnidadNegocio();
+
+            let departamentoNacimientoSelect = document.getElementById("departamentoNacimiento");
+            let departamentoExpedicionSelect = document.getElementById("departamentoExpedicion");
+            let municipioNacimientoSelect = document.getElementById("municipioNacimiento");
+            let municipioExpedicionSelect = document.getElementById("municipioExpedicion");
+
+            if (departamentoNacimientoSelect.value !== "") {
+                cargarMunicipios(departamentoNacimientoSelect, "municipioNacimiento", "<%= persona.getIdMunicipioNacimiento()%>");
+            }
+            if (departamentoExpedicionSelect.value !== "") {
+                cargarMunicipios(departamentoExpedicionSelect, "municipioExpedicion", "<%= persona.getIdMunicipioExpedicion()%>");
+            }
         };
 
-
-        function cargarMunicipios(departamentoSelect, municipioId) {
-            var idDepartamento = departamentoSelect.value;
-            var municipioSelect = document.getElementById(municipioId);
+        function cargarMunicipios(idDepartamento, tipoLugar) {
+            var municipioSelect = document.getElementById(tipoLugar === 'expedicion' ? 'municipioExpedicion' : 'municipioNacimiento');
             municipioSelect.innerHTML = '<option value="">Cargando...</option>';
 
-            fetch("cargarMunicipios.jsp?idDepartamento=" + idDepartamento)
+            fetch("cargarMunicipios.jsp?idDepartamento=" + idDepartamento + "&tipoLugar=" + tipoLugar)
                     .then(response => response.text())
                     .then(data => {
                         municipioSelect.innerHTML = data;
@@ -914,11 +908,8 @@
             }
         }
 
-
-
-
         // Ejecutar la función al cargar la página para mostrar u ocultar correctamente
         window.onload = function () {
             mostrarOcultarVehiculo();
-            };
+        };
     </script>

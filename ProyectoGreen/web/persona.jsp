@@ -1,3 +1,8 @@
+<%-- 
+    Document   : persona
+    Created on : 8/03/2025, 02:18:59 PM
+    Author     : Mary
+--%>
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
@@ -13,21 +18,26 @@
     List<Persona> datos = Persona.getListaEnObjetos("tipo = 'C'", null);
 
     for (Persona persona : datos) {
+        String tipoDocumento = persona.getTipoDocumento();
         String identificacion = persona.getIdentificacion();
         String nombres = persona.getNombres();
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
         String establecimiento = persona.getEstablecimiento();
+        String cctn = persona.getCctn();
+        //String unidadNegocio = persona.getUnidadNegocio();
 
         String fechaIngreso = persona.getFechaIngreso();
 
         lista += "<tr>";
+        lista += "<td>" + tipoDocumento + "</td>";
         lista += "<td align='right'>" + identificacion + "</td>";
         lista += "<td>" + nombres + "</td>";
         lista += "<td>" + apellidos + "</td>";
         lista += "<td>" + cargo + "</td>";
         lista += "<td>" + establecimiento + "</td>";
-        lista += "<td>" + persona.getUnidadNegocio() + "</td>";
+        lista += "<td>" + cctn + "</td>";
+        //lista += "<td>" + unidadNegocio + "</td>";
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
         lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
@@ -53,11 +63,13 @@
     <div class="search-container">
         <div class="search-box">
             <select id="searchType" class="recuadro">
-                <option value="identificacion">Identificación</option>
-                <option value="nombre">Nombre</option>
+                <option value="tipoDocumento">Documento de identificacion</option>
+                <option value="identificacion">identificacion</option>
+                <option value="nombre">Nombres</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
                 <option value="establecimiento">Establecimiento</option>  
+                <option value="cctn">Cctn</option>  
                 <option value="unidadNegocio">Unidad de negocio</option>
                 <option value="fechaIngreso">Fecha de Ingreso</option>
             </select>
@@ -68,12 +80,13 @@
 
     <table class="table" id="colaboradoresTable">
         <tr>
-            <th>Documento de identificación</th>
+            <th>Documento de identificacion</th>
+            <th>Identificacion</th>
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Cargo</th>
             <th>Establecimiento</th>
-            <th>Unidad de negocio</th>
+            <th>Unidad de negocio por nomina</th>
             <th>Fecha de ingreso</th>
             <th>
                 <a href="personaFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
@@ -128,7 +141,7 @@
             case "establecimiento":
                 columnIndex = 4;
                 break;
-            case "unidadNegocio":
+            case "cctn":
                 columnIndex = 5;
                 break;
             case "fechaIngreso":
@@ -157,3 +170,4 @@
     });
 
 </script>
+

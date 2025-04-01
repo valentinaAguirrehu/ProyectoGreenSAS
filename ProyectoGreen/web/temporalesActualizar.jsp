@@ -1,12 +1,13 @@
 <%-- 
-    Document   : persona
+    Document   : temporalesActualizar
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Hijo"%>
 <%@page import="clasesGenericas.ConectorBD"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 
 <%
     // Capturar acción y valores del formulario
@@ -17,8 +18,8 @@
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("T");
-persona.setIdCargo(request.getParameter("idCargo"));
-    persona.setTipoCargo(request.getParameter("tipoCargo"));
+    persona.setIdCargo(request.getParameter("idCargo"));
+    persona.setCctn(request.getParameter("cctn"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
@@ -39,7 +40,7 @@ persona.setIdCargo(request.getParameter("idCargo"));
     persona.setFechaRetiro(request.getParameter("fechaRetiro"));
     persona.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
     persona.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
-    persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
+    String unidadNegocio = request.getParameter("unidadNegocio");
     persona.setCentroCostos(request.getParameter("centroCostos"));
     persona.setEstablecimiento(request.getParameter("establecimiento"));
     persona.setArea(request.getParameter("area"));
@@ -81,17 +82,20 @@ persona.setIdCargo(request.getParameter("idCargo"));
     persona.setRestricciones(request.getParameter("restricciones"));
     persona.setEstado(request.getParameter("estado"));
     persona.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
-    persona.setFondoPensiones(request.getParameter("fondoPensiones"));
-    persona.setFondoCesantias(request.getParameter("fondoCesantias"));
+    persona.setFondoPensiones(request.getParameter("No aplica"));
+    persona.setFondoCesantias(request.getParameter("No aplica"));
     persona.setFechaUltiEntrega(request.getParameter("fechaUltiEntrega"));
     persona.setFechaProEntrega(request.getParameter("fechaProEntrega"));
     persona.setProfesion(request.getParameter("profesion"));
-    persona.setIdDepartamento(request.getParameter("idDepartamento"));
-    persona.setIdMunicipio(request.getParameter("idMunicipio"));
+    persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
+    persona.setIdMunicipioExpedicion(request.getParameter("idMunicipio"));
+    persona.setIdDepartamentoNacimiento(request.getParameter("idDepartamento"));
+    persona.setIdMunicipioNacimiento(request.getParameter("idMunicipio"));
     persona.setTipoDotacion(request.getParameter("tipoDotacion"));
     persona.setTallaGuantes(request.getParameter("tallaGuantes"));
     persona.setTallaBuzo(request.getParameter("tallaBuzo"));
     persona.setTallaOverol(request.getParameter("tallaOverol"));
+    //persona.setArl(request.getParameter("arl"));
 
     // Capturar valores del formulario
     String idDepartamentoExpedicion = request.getParameter("departamentoExpedicion");
@@ -153,8 +157,7 @@ persona.setIdCargo(request.getParameter("idCargo"));
 
 %>
 
-
-
 <script type="text/javascript">
-    document.location="temporales.jsp";
+    document.location = "persona.jsp";
 </script>
+
