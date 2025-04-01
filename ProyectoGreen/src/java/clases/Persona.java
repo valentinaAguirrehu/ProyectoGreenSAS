@@ -619,13 +619,16 @@ public class Persona {
     }
 
    public String getArea() {
-    String resultado = area;
-    if (area == null) {
-        resultado = "";
-    }
+   String resultado = area;
+        if (area == null) {
+            resultado = "";
+        }
+        return resultado;
+   
+    
     // Imprimir el valor de area para depuración
-    System.out.println("Valor de 'area' en getArea(): " + resultado);
-    return resultado;
+    //System.out.println("Valor de 'area' en getArea(): " + resultado);
+    //return resultado;
 }
 
 
@@ -1183,17 +1186,26 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
     }
 
     public String getTallaOverol() {
-        String resultado = this.tallaOverol;
-        System.out.println("Talla overol"
-                + resultado);
+         String resultado = tallaOverol;
         if (tallaOverol == null) {
             resultado = "";
         }
-        System.out.println("Talla overol"
-                + resultado);
-
         return resultado;
     }
+        
+        
+        
+        //String resultado = this.tallaOverol;
+        //System.out.println("Talla overol"
+          //      + resultado);
+        //if (tallaOverol == null) {
+          //  resultado = "";
+        //}
+        //System.out.println("Talla overol"
+          //      + resultado);
+
+       // return resultado;
+    //}
 
     public void setTallaOverol(String tallaOverol) {
         this.tallaOverol = tallaOverol;
@@ -1402,6 +1414,7 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
                 + "tallaBuzo=" + (tallaBuzo != null ? "'" + tallaBuzo + "'" : "NULL") + ", "
                 + "tallaOverol=" + (tallaOverol != null ? "'" + tallaOverol + "'" : "NULL") + ", "
                 + "arl=" + (arl != null ? "'" + arl + "'" : "NULL") + " "
+                
                 + "WHERE identificacion='" + identificacionAnterior + "'";
         System.out.println("Consulta SQL de modificación: " + cadenaSQL);
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
@@ -1564,7 +1577,7 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
 
     public static boolean esNivelEducativoPredefinido(String nivel) {
         return nivel != null && (nivel.equals("Primaria") || nivel.equals("Secundaria")
-                || nivel.equals("Técnico") || nivel.equals("Tecnológico")
+                || nivel.equals("Tecnico") || nivel.equals("Tecnologico")
                 || nivel.equals("Universitario") || nivel.equals("Postgrado"));
     }
 
@@ -1680,5 +1693,17 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
         }
         return lista;
     }
+
+    public static boolean esAreaPredefinida(String area) {
+    return area != null && (area.equalsIgnoreCase("Linea Media") ||
+                            area.equalsIgnoreCase("Linea Directiva") ||
+                            area.equalsIgnoreCase("Administrativo") ||
+                            area.equalsIgnoreCase("Operativo"));
+}
+
+    public static boolean esArlPredefinida(String arl) {
+    return arl != null && (arl.equalsIgnoreCase("Sura") ||
+                           arl.equalsIgnoreCase("Positiva"));
+}
 
 }

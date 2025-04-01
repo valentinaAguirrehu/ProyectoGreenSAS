@@ -6,7 +6,8 @@
 <%@page import="clases.Persona"%>
 <%@page import="clases.Hijo"%>
 <%@page import="clasesGenericas.ConectorBD"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 
 <%
     // Capturar acción y valores del formulario
@@ -17,8 +18,8 @@
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("A");
-   persona.setIdCargo(request.getParameter("idCargo"));
-    persona.setTipoCargo(request.getParameter("tipoCargo"));
+    persona.setIdCargo(request.getParameter("idCargo"));
+    persona.setCctn(request.getParameter("cctn"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
@@ -39,10 +40,10 @@
     persona.setFechaRetiro(request.getParameter("fechaRetiro"));
     persona.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
     persona.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
-    persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
+    String unidadNegocio = request.getParameter("unidadNegocio");
     persona.setCentroCostos(request.getParameter("centroCostos"));
     persona.setEstablecimiento(request.getParameter("establecimiento"));
-    persona.setArea(request.getParameter("no aplica"));
+    persona.setArea(request.getParameter("No aplica"));
     persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     persona.setSalario(request.getParameter("salario"));
@@ -61,22 +62,10 @@
     persona.setTieneHijos(request.getParameter("tieneHijos"));
     String datosHijos = request.getParameter("hijosRegistrados");
     
-    persona.setTallaCamisa(request.getParameter("no aplica"));
-    persona.setTallaChaqueta(request.getParameter("no aplica"));
-   // Obtener los valores del request
-String tallaPantalonStr = request.getParameter("tallaPantalon");
-String tallaCalzadoStr = request.getParameter("tallaCalzado");
-
-// Convertir a número si es posible, o asignar NULL si es "No Aplica" o vacío
-String tallaPantalon = (tallaPantalonStr != null && !tallaPantalonStr.equalsIgnoreCase("No Aplica") && !tallaPantalonStr.isEmpty()) ? tallaPantalonStr : "NULL";
-String tallaCalzado = (tallaCalzadoStr != null && !tallaCalzadoStr.equalsIgnoreCase("No Aplica") && !tallaCalzadoStr.isEmpty()) ? tallaCalzadoStr : "NULL";
-
-// Construir la consulta SQL de inserción asegurando que los valores numéricos no tengan comillas
-String cadenaSQL = "INSERT INTO persona (identificacion, tipo, idCargo, tallaPantalon, tallaCalzado) VALUES ('1234', 'A', 3, " + tallaPantalon + ", " + tallaCalzado + ")";
-
-// Ejecutar la consulta
-ConectorBD.ejecutarQuery(cadenaSQL);
-
+    persona.setTallaCamisa(request.getParameter("No aplica"));
+    persona.setTallaChaqueta(request.getParameter("No aplica"));
+    //persona.setTallaPantalon(request.getParameter("No aplica"));
+    //persona.setTallaCalzado(request.getParameter("tallaCalzado"));
     persona.setTieneVehiculo(request.getParameter("tieneVehiculo"));
     persona.setNumeroPlacaVehiculo(request.getParameter("numeroPlacaVehiculo"));
     persona.setTipoVehiculo(request.getParameter("tipoVehiculo"));
@@ -93,17 +82,30 @@ ConectorBD.ejecutarQuery(cadenaSQL);
     persona.setRestricciones(request.getParameter("restricciones"));
     persona.setEstado(request.getParameter("estado"));
     persona.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
-    persona.setFondoPensiones(request.getParameter("no aplica"));
-    persona.setFondoCesantias(request.getParameter("no aplica"));
+    persona.setFondoPensiones(request.getParameter("No aplica"));
+    persona.setFondoCesantias(request.getParameter("No aplica"));
     persona.setFechaUltiEntrega(request.getParameter("fechaUltiEntrega"));
     persona.setFechaProEntrega(request.getParameter("fechaProEntrega"));
     persona.setProfesion(request.getParameter("profesion"));
-    persona.setIdDepartamento(request.getParameter("idDepartamento"));
-    persona.setIdMunicipio(request.getParameter("idMunicipio"));
-    persona.setTipoDotacion(request.getParameter("no aplica"));
-    persona.setTallaGuantes(request.getParameter("no aplica"));
-    persona.setTallaBuzo(request.getParameter("no aplica"));
-    persona.setTallaOverol(request.getParameter("no aplica"));
+    persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
+    persona.setIdMunicipioExpedicion(request.getParameter("idMunicipio"));
+    persona.setIdDepartamentoNacimiento(request.getParameter("idDepartamento"));
+    persona.setIdMunicipioNacimiento(request.getParameter("idMunicipio"));
+    persona.setTipoDotacion(request.getParameter("No aplica"));
+    persona.setTallaGuantes(request.getParameter("No aplica"));
+    persona.setTallaBuzo(request.getParameter("No aplica"));
+    persona.setTallaOverol(request.getParameter("No aplica"));
+    persona.setArl(request.getParameter("arl"));
+
+    persona.setTallaCamisa(request.getParameter("no aplica"));
+    persona.setTallaChaqueta(request.getParameter("no aplica"));
+   // Obtener los valores del request
+String tallaPantalonStr = request.getParameter("tallaPantalon");
+String tallaCalzadoStr = request.getParameter("tallaCalzado");
+
+// Convertir a número si es posible, o asignar NULL si es "No Aplica" o vacío
+String tallaPantalon = (tallaPantalonStr != null && !tallaPantalonStr.equalsIgnoreCase("No Aplica") && !tallaPantalonStr.isEmpty()) ? tallaPantalonStr : "NULL";
+String tallaCalzado = (tallaCalzadoStr != null && !tallaCalzadoStr.equalsIgnoreCase("No Aplica") && !tallaCalzadoStr.isEmpty()) ? tallaCalzadoStr : "NULL";
 
     // Capturar valores del formulario
     String idDepartamentoExpedicion = request.getParameter("departamentoExpedicion");
@@ -164,7 +166,6 @@ ConectorBD.ejecutarQuery(cadenaSQL);
     System.out.println("Datos enviados a guardar_hijos: " + identificacionesHijos);
 
 %>
-
 <script type="text/javascript">
     document.location="aprendiz.jsp";
 </script>
