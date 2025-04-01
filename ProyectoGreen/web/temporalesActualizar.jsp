@@ -61,7 +61,7 @@
     persona.setCuartaRefCelular(request.getParameter("cuartaRefCelular"));
     persona.setTieneHijos(request.getParameter("tieneHijos"));
     String datosHijos = request.getParameter("hijosRegistrados");
-    
+
     persona.setTallaCamisa(request.getParameter("tallaCamisa"));
     persona.setTallaChaqueta(request.getParameter("tallaChaqueta"));
     persona.setTallaPantalon(request.getParameter("tallaPantalon"));
@@ -104,11 +104,11 @@
     String idDepartamentoNacimiento = request.getParameter("departamentoNacimiento");
     String idMunicipioNacimiento = request.getParameter("lugarNacimiento");
 
-//  Concatenar valores
+    //  Concatenar valores
     String lugarExpedicion = idDepartamentoExpedicion + "-" + idMunicipioExpedicion;
     String lugarNacimiento = idDepartamentoNacimiento + "-" + idMunicipioNacimiento;
 
-// Guardar en el objeto Persona
+    // Guardar en el objeto Persona
     persona.setLugarExpedicion(lugarExpedicion);
     persona.setLugarNacimiento(lugarNacimiento);
 
@@ -131,11 +131,11 @@
             break;
     }
 
-   // 🔹 Solo proceder con los hijos si la persona se guardó correctamente
+    // 🔹 Solo proceder con los hijos si la persona se guardó correctamente
     if (personaGuardada && identificacionesHijos != null) {
         for (int i = 0; i < identificacionesHijos.length; i++) {
             if (!identificacionesHijos[i].trim().isEmpty() && !nombresHijos[i].trim().isEmpty() && !fechasNacimientoHijos[i].trim().isEmpty()) {
-                
+
                 // Insertar en la tabla hijos si no existe
                 String sqlHijo = "INSERT INTO hijos (identificacion, nombres, fechaNacimiento) VALUES ('"
                         + identificacionesHijos[i] + "', '" + nombresHijos[i] + "', '" + fechasNacimientoHijos[i] + "') "
@@ -145,7 +145,7 @@
                 // Insertar en persona_hijos con autoincremental id
                 String sqlRelacion = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) VALUES ('"
                         + persona.getIdentificacion() + "', '" + identificacionesHijos[i] + "')";
-                
+
                 System.out.println("SQL Relación: " + sqlRelacion); // <-- Agregado para depurar
                 ConectorBD.ejecutarQuery(sqlRelacion);
             }
@@ -158,6 +158,6 @@
 %>
 
 <script type="text/javascript">
-    document.location = "persona.jsp";
+    document.location = "temporales.jsp";
 </script>
 

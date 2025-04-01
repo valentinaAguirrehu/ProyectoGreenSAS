@@ -40,11 +40,11 @@
         //lista += "<td>" + unidadNegocio + "</td>";
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
-        lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
+        lista += "<img class='ver' src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
         lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
         lista += "<img class='editar' src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
         lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
-        lista += "<img  class='eliminar' src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
+        lista += "<img class='eliminar' src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
         lista += "<img class='subir' src='presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         lista += "</td>";
         lista += "</tr>";
@@ -59,10 +59,11 @@
     <h3 class="titulo">COLABORADORES GREEN S.A.S</h3>
     <link rel="stylesheet" href="presentacion/style-Retirados.css">
 
-    <!-- Nuevo buscador dinámico -->
+    <!-- Nuevo buscador dinÃ¡mico -->
     <div class="search-container">
         <div class="search-box">
             <select id="searchType" class="recuadro">
+
                 <option value="tipoDocumento">Documento de identificacion</option>
                 <option value="identificacion">identificacion</option>
                 <option value="nombre">Nombres</option>
@@ -78,10 +79,11 @@
         </div>
     </div>
 
-    <table class="table" id="colaboradoresTable">
+    <table class="table" id="colaboradoresTable" border="1">
         <tr>
+
             <th>Documento de identificacion</th>
-            <th>Identificacion</th>
+            <th>Número de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Cargo</th>
@@ -98,10 +100,10 @@
     </table>
 </div>
 
-<!-- Script para eliminar una persona con confirmación -->
+<!-- Script para eliminar una persona con confirmaciÃ³n -->
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("¿Realmente desea eliminar el registro del colaborador?");
+        var respuesta = confirm("Â¿Realmente desea eliminar el registro del colaborador?");
         if (respuesta) {
             window.location.href = "personaActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -117,7 +119,7 @@
         window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
     }
 
-    // Buscador dinámico con opción de filtro por columna
+    // Buscador dinÃ¡mico con opciÃ³n de filtro por columna
     function filterResults() {
         const searchType = document.getElementById('searchType').value;
         const input = document.getElementById('searchInput').value.toLowerCase();
