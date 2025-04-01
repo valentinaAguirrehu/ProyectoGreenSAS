@@ -1,26 +1,34 @@
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
+<%@page import="clases.Administrador"%>
 
 <%
+    Administrador administrador = (Administrador) session.getAttribute("administrador");
+    if (administrador == null) {
+        administrador = new Administrador();
+    }
+    
     StringBuilder lista = new StringBuilder();
     List<Persona> datos = Persona.getListaEnObjetos(null, null);
 
     for (Persona persona : datos) {
         if (persona.getTipo().equals("T")) {
             lista.append("<tr>");
+            lista.append("<td>").append(persona.getTipoDocumento()).append("</td>");
             lista.append("<td align='right'>").append(persona.getIdentificacion()).append("</td>");
             lista.append("<td>").append(persona.getNombres()).append("</td>");
             lista.append("<td>").append(persona.getApellidos()).append("</td>");
             lista.append("<td>").append(Cargo.getCargoPersona(persona.getIdentificacion())).append("</td>");
             lista.append("<td>").append(persona.getEstablecimiento()).append("</td>");
+            lista.append("<td>").append(persona.getUnidadNegocio()).append("</td>");
             lista.append("<td>").append(persona.getFechaIngreso()).append("</td>");
             lista.append("<td>");
             lista.append("<a href='temporalesFormulario.jsp?accion=Modificar&identificacion=").append(persona.getIdentificacion()).append("' title='Modificar'>");
-            lista.append("<img src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ");
-            lista.append("<img src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/> ");
-            lista.append("<img src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/> ");
-            lista.append("<img src='presentacion/iconos/verDocumento.png' title='Historia Laboral' onClick='verHistoriaLaboral(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/> ");
+            lista.append("<img class='editar' src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ");
+            lista.append("<img class='eliminar' src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/> ");
+            lista.append("<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/> ");
+            lista.append("<img class='ver' src='presentacion/iconos/verDocumento.png' title='Historia Laboral' onClick='verHistoriaLaboral(").append(persona.getIdentificacion()).append(")' style='cursor:pointer;'/> ");
             lista.append("<img class='subir' src='presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ");         
             lista.append("</td>");
             lista.append("</tr>");
@@ -51,13 +59,15 @@
         </div>
     </div>
 
-    <table class="table" id="temporalesTable">
+    <table class="table" id="temporalesTable" border="1">
         <tr>
-            <th>Identificación</th>
+            <th>Tipo de documento</th>
+            <th>Número de documento</th>
             <th>Nombre</th>
             <th>Apellidos</th>
             <th>Cargo</th>
             <th>Establecimiento</th>
+            <th>Unidad de negocio</th>
             <th>Fecha de Ingreso</th>
             <th>
                 <a href="temporalesFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
@@ -123,4 +133,15 @@
             }
         }
     }
+    
+    // PERMISOS
+
+    document.addEventListener("DOMContentLoaded", function () {
+        controlarPermisos(
+    <%= administrador.getpEliminar()%>,
+    <%= administrador.getpEditar()%>,
+    <%= administrador.getpAgregar()%>,
+    <%= administrador.getpLeer()%>
+        );
+    });
 </script>
