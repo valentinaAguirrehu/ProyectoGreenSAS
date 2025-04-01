@@ -17,7 +17,7 @@
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("T");
-persona.setIdCargo(request.getParameter("idCargo"));
+    persona.setIdCargo(request.getParameter("idCargo"));
     persona.setTipoCargo(request.getParameter("tipoCargo"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
@@ -60,7 +60,7 @@ persona.setIdCargo(request.getParameter("idCargo"));
     persona.setCuartaRefCelular(request.getParameter("cuartaRefCelular"));
     persona.setTieneHijos(request.getParameter("tieneHijos"));
     String datosHijos = request.getParameter("hijosRegistrados");
-    
+
     persona.setTallaCamisa(request.getParameter("tallaCamisa"));
     persona.setTallaChaqueta(request.getParameter("tallaChaqueta"));
     persona.setTallaPantalon(request.getParameter("tallaPantalon"));
@@ -86,8 +86,10 @@ persona.setIdCargo(request.getParameter("idCargo"));
     persona.setFechaUltiEntrega(request.getParameter("fechaUltiEntrega"));
     persona.setFechaProEntrega(request.getParameter("fechaProEntrega"));
     persona.setProfesion(request.getParameter("profesion"));
-    persona.setIdDepartamento(request.getParameter("idDepartamento"));
-    persona.setIdMunicipio(request.getParameter("idMunicipio"));
+    persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
+    persona.setIdMunicipioExpedicion(request.getParameter("idMunicipio"));
+    persona.setIdDepartamentoNacimiento(request.getParameter("idDepartamento"));
+    persona.setIdMunicipioNacimiento(request.getParameter("idMunicipio"));
     persona.setTipoDotacion(request.getParameter("tipoDotacion"));
     persona.setTallaGuantes(request.getParameter("tallaGuantes"));
     persona.setTallaBuzo(request.getParameter("tallaBuzo"));
@@ -100,11 +102,11 @@ persona.setIdCargo(request.getParameter("idCargo"));
     String idDepartamentoNacimiento = request.getParameter("departamentoNacimiento");
     String idMunicipioNacimiento = request.getParameter("lugarNacimiento");
 
-//  Concatenar valores
+    //  Concatenar valores
     String lugarExpedicion = idDepartamentoExpedicion + "-" + idMunicipioExpedicion;
     String lugarNacimiento = idDepartamentoNacimiento + "-" + idMunicipioNacimiento;
 
-// Guardar en el objeto Persona
+    // Guardar en el objeto Persona
     persona.setLugarExpedicion(lugarExpedicion);
     persona.setLugarNacimiento(lugarNacimiento);
 
@@ -127,11 +129,11 @@ persona.setIdCargo(request.getParameter("idCargo"));
             break;
     }
 
-   // 🔹 Solo proceder con los hijos si la persona se guardó correctamente
+    // 🔹 Solo proceder con los hijos si la persona se guardó correctamente
     if (personaGuardada && identificacionesHijos != null) {
         for (int i = 0; i < identificacionesHijos.length; i++) {
             if (!identificacionesHijos[i].trim().isEmpty() && !nombresHijos[i].trim().isEmpty() && !fechasNacimientoHijos[i].trim().isEmpty()) {
-                
+
                 // Insertar en la tabla hijos si no existe
                 String sqlHijo = "INSERT INTO hijos (identificacion, nombres, fechaNacimiento) VALUES ('"
                         + identificacionesHijos[i] + "', '" + nombresHijos[i] + "', '" + fechasNacimientoHijos[i] + "') "
@@ -141,7 +143,7 @@ persona.setIdCargo(request.getParameter("idCargo"));
                 // Insertar en persona_hijos con autoincremental id
                 String sqlRelacion = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) VALUES ('"
                         + persona.getIdentificacion() + "', '" + identificacionesHijos[i] + "')";
-                
+
                 System.out.println("SQL Relación: " + sqlRelacion); // <-- Agregado para depurar
                 ConectorBD.ejecutarQuery(sqlRelacion);
             }
@@ -156,5 +158,5 @@ persona.setIdCargo(request.getParameter("idCargo"));
 
 
 <script type="text/javascript">
-    document.location="temporales.jsp";
+    document.location = "temporales.jsp";
 </script>
