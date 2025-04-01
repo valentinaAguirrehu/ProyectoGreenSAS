@@ -6,7 +6,8 @@
 <%@page import="clases.Persona"%>
 <%@page import="clases.Hijo"%>
 <%@page import="clasesGenericas.ConectorBD"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 
 <%
     // Capturar acción y valores del formulario
@@ -18,7 +19,7 @@
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("c");
     persona.setIdCargo(request.getParameter("idCargo"));
-    persona.setTipoCargo(request.getParameter("tipoCargo"));
+    persona.setCctn(request.getParameter("cctn"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
@@ -42,7 +43,8 @@
     persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
     persona.setCentroCostos(request.getParameter("centroCostos"));
     persona.setEstablecimiento(request.getParameter("establecimiento"));
-    persona.setArea(request.getParameter("area"));
+persona.setArea(request.getParameter("area"));
+System.out.println("Valor de 'area' antes de actualizar: " + persona.getArea());
     persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     persona.setSalario(request.getParameter("salario"));
@@ -156,3 +158,4 @@
 <script type="text/javascript">
     document.location = "persona.jsp";
 </script>
+

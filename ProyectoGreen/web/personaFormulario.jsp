@@ -536,9 +536,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Tipo de cargo</th>
+                    <th>Centro costos por nomina</th>
                     <td>
-                        <input type="text" name="tipoCargo" id="tipoCargo" value="<%= persona.getTipoCargo()%>" size="50" maxlength="50" autocomplete="off" onkeyup="filtrarCargos()"required>
+                        <input type="text" name="cctn" id="cctn" value="<%= persona.getCctn()%>" size="50" maxlength="50" autocomplete="off" onkeyup="filtrarCargos()"required>
                         <div id="sugerenciasCargo"></div>
                     </td>
                 </tr>
@@ -596,6 +596,9 @@
                         <input type="hidden" name="fondoPensionesFinal" id="fondoPensionesFinal" value="<%= persona.getFondoPensiones() != null ? persona.getFondoPensiones().trim() : ""%>">
                     </td>
                 </tr>
+                <tr>
+                    <th>Arl</th>
+                    <td><input type="text" name="arl" value="<%= persona.getArl()%>" size="50" maxlength="50"></td>
                 </tr>
                 <tr>
                     <th>Banco</th>
@@ -821,6 +824,7 @@
 
             // Definir relaciones entre establecimientos y unidades de negocio
             var opciones = {
+                "Avenida": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
                 "Principal": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
                 "Centro": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
                 "Unicentro": [{value: "Green S.A.S. RPS", text: "Green S.A.S. RPS"}],
@@ -830,7 +834,7 @@
                 "Terminal Americano": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
                 "Puente": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
                 "Canobajo": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}],
-                "Greenfield": [{value: "Green S.A.S. EDS", text: "Green S.A.S. EDS"}]
+                "Greenfield": [{value: "Green S.A.S. ", text: "Green S.A.S. "}]
             };
 
 
