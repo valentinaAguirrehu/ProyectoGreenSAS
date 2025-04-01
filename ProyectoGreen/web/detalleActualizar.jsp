@@ -46,9 +46,14 @@
                 System.out.println("Archivo recibido: " + elemento.getName());
                 if (!elemento.getName().equals("")) {
                     subioArchivo = true;
-                    archivo = new File(destino, elemento.getName());
+                    // Obtener la identificación y modificar el nombre del archivo
+                    String identificacion = variables.get("identificacion");
+                    String nombreOriginal = elemento.getName();
+                    String extension = nombreOriginal.substring(nombreOriginal.lastIndexOf(".")); // Obtiene la extensión
+                    String nuevoNombre = nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) + "-" + identificacion + extension;
+                    archivo = new File(destino, nuevoNombre);
                     elemento.write(archivo);
-                    variables.put(elemento.getFieldName(), "documentos/" + elemento.getName());
+                    variables.put(elemento.getFieldName(), "documentos/" + nuevoNombre);
                 }
             }
         }
