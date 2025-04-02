@@ -35,7 +35,7 @@
                 lista += "<td>" + persona.getUnidadNegocio() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
                 lista += "<td>";
-                lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")'> ";
+                lista += "<img class='ver' src='presentacion/iconos/ojo.png' width='25' height='25' title='Ver detalles'>";
                 lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboralRetirados(" + persona.getIdentificacion() + ")'>";
                 lista += "<a href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
                         + "' title='Modificar' class='editar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a>";
@@ -76,8 +76,8 @@
 
     <table class="table" border="1" id="usuariosTable">
         <tr>
-            <th>Tipo de documento</th>
-            <th>Número de documento</th>
+            <th>Tipo del documento</th>
+            <th>Documento</th>
             <th>Nombre</th>
             <th>Establecimiento</th>
             <th>Cargo</th>
@@ -103,10 +103,6 @@
 
     function verHistoriaLaboralRetirados(identificacion) {
         window.location.href = "historiaLaboralRetirado.jsp?identificacion=" + identificacion;
-    }
-    
-    function verDetalles(identificacion) {
-        document.location = "personaDetalles.jsp?identificacion=" + identificacion;
     }
 
     function filterResults() {
