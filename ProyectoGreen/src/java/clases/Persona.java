@@ -1192,6 +1192,12 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
         }
         return resultado;
     }
+
+    public void setTallaOverol(String tallaOverol) {
+        this.tallaOverol = tallaOverol;
+    }
+
+    
         
         
         
@@ -1207,9 +1213,6 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
        // return resultado;
     //}
 
-    public void setTallaOverol(String tallaOverol) {
-        this.tallaOverol = tallaOverol;
-    }
 
     public String getArl() {
          String resultado = arl;
@@ -1302,7 +1305,9 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
                 + (fechaUltiEntrega != null && !fechaUltiEntrega.isEmpty() ? "'" + fechaUltiEntrega + "'" : "NULL") + ", "
                 + (fechaProEntrega != null && !fechaProEntrega.isEmpty() ? "'" + fechaProEntrega + "'" : "NULL") + ", '"
                 + profesion + "', '" + tipoDotacion + "', '"
-                + tallaGuantes + "', '" + tallaBuzo + "', '" + tallaOverol + "' , '" + arl + "');";
+                + tallaGuantes + "', '" + tallaBuzo + "', '" 
+                + tallaOverol + "', '" 
+                + arl + "');";
 
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
         System.out.println(cadenaSQL);

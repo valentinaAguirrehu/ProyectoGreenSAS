@@ -84,7 +84,7 @@
                 <tr>
                     <th>Fecha estapa productiva</th>
                     <td>
-                        <input type="date" name="fechaEtapaProductiva" value="<%= (persona.getFechaEtapaProductiva()!= null && !persona.getFechaEtapaProductiva().isEmpty()) ? persona.getFechaEtapaProductiva(): "0000-00-00"%>">
+                        <input type="date" name="fechaEtapaProductiva" value="<%= (persona.getFechaEtapaProductiva() != null && !persona.getFechaEtapaProductiva().isEmpty()) ? persona.getFechaEtapaProductiva() : "0000-00-00"%>">
                     </td>     
                 </tr>
                 <tr>
@@ -108,7 +108,10 @@
                 </tr>
                 <tr>
                     <th>Número de documento</th>
-                    <td><input type="text" name="identificacion" value="<%= persona.getIdentificacion()%>" required></td>
+                    <td><input type="text" name="identificacion" value="<%= persona.getIdentificacion()%>" 
+                               size="50" maxlength="50" 
+                               onkeypress="return soloNumeros(event)" 
+                               onblur="validarNumerico('identificacion')"placeholder="Campo numérico" required></td>
                 </tr>
                 <tr>
                     <th>Fecha de expedición</th>
@@ -194,7 +197,7 @@
                     <td>
                         <select name="tipoSangre" required>
                             <option value="" <%= (persona.getTipoSangre() == null || persona.getTipoSangre().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="O+" <%= "O+".equals(persona.getTipoSangre()) ? "selected" : ""%>>O+</option>
+                            <option value="O+" <%= (persona.getTipoSangre() == null || persona.getTipoSangre().isEmpty() || "O+".equals(persona.getTipoSangre())) ? "selected" : ""%>>O+</option>
                             <option value="O-" <%= "O-".equals(persona.getTipoSangre()) ? "selected" : ""%>>O-</option>
                             <option value="A+" <%= "A+".equals(persona.getTipoSangre()) ? "selected" : ""%>>A+</option>
                             <option value="A-" <%= "A-".equals(persona.getTipoSangre()) ? "selected" : ""%>>A-</option>
@@ -205,18 +208,20 @@
                         </select>
                     </td>
                 </tr>
+
                 <tr>
                     <th>Tipo de vivienda</th>
                     <td>
                         <select name="tipoVivienda" required>
                             <option value="" <%= (persona.getTipoVivienda() == null || persona.getTipoVivienda().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="Propia" <%= "Propia".equals(persona.getTipoVivienda()) ? "selected" : ""%>>Propia</option>
-                            <option value="Arrendada" <%= "Arrendada".equals(persona.getTipoVivienda()) ? "selected" : ""%>>Arrendada</option>
+                            <option value="Propia" <%= (persona.getTipoVivienda() == null || persona.getTipoVivienda().isEmpty() || "Propia".equals(persona.getTipoVivienda())) ? "selected" : ""%>>Propia</option>
+                            <option value="Arriendo" <%= "Arriendo".equals(persona.getTipoVivienda()) ? "selected" : ""%>>Arriendo</option>
                             <option value="Familiar" <%= "Familiar".equals(persona.getTipoVivienda()) ? "selected" : ""%>>Familiar</option>
                             <option value="Anticres" <%= "Anticres".equals(persona.getTipoVivienda().trim()) ? "selected" : ""%>>Anticres</option>
                         </select>
                     </td>
                 </tr>
+
                 <tr>
                     <th>Dirección</th>
                     <td><input type="text" name="direccion" value="<%= persona.getDireccion()%>" size="50" maxlength="50"required></td>
@@ -230,7 +235,12 @@
                     <td>
                         <input type="text" name="celular" value="<%= persona.getCelular()%>" 
                                size="50" maxlength="10" pattern="\d{10}" 
-                               title="Ingrese exactamente 10 números" required>
+                               title="Ingrese exactamente 10 números"
+                               size="50" maxlength="50" 
+                               onkeypress="return soloNumeros(event)" 
+                               onblur="validarNumerico('celular')
+                               "placeholder="Campo numérico"
+                               required>
                     </td>
                 </tr>
                 <tr>
@@ -247,7 +257,7 @@
                                 <option value="Secundaria" <%= "Secundaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Secundaria</option>
                                 <option value="Técnico" <%= "Técnico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Técnico</option>
                                 <option value="Tecnológico" <%= "Tecnológico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnológico</option>
-                                <option value="Universitario" <%= "Universitario".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Universitario</option>
+                                <option value="Universitario" <%= (persona.getNivelEducativo() == null || persona.getNivelEducativo().isEmpty() || "Universitario".equals(persona.getNivelEducativo())) ? "selected" : ""%>>Universitario</option>
                                 <option value="Postgrado" <%= "Postgrado".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Postgrado</option>
                                 <option value="Otro">Otro</option>
                             </select>
@@ -266,15 +276,15 @@
                     <td>
                         <select name="estadoCivil" required>
                             <option value="" <%= (persona.getEstadoCivil() == null || persona.getEstadoCivil().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="Soltero" <%= "Soltero".equals(persona.getEstadoCivil()) ? "selected" : ""%>>Soltero</option>
+                            <option value="Soltero" <%= (persona.getEstadoCivil() == null || persona.getEstadoCivil().isEmpty() || "Soltero".equals(persona.getEstadoCivil())) ? "selected" : ""%>>Soltero</option>
                             <option value="Casado" <%= "Casado".equals(persona.getEstadoCivil()) ? "selected" : ""%>>Casado</option>
                             <option value="Divorciado" <%= "Divorciado".equals(persona.getEstadoCivil()) ? "selected" : ""%>>Divorciado</option>
                             <option value="Viudo" <%= "Viudo".equals(persona.getEstadoCivil()) ? "selected" : ""%>>Viudo</option>
                             <option value="Unión Libre" <%= "Unión Libre".equals(persona.getEstadoCivil()) ? "selected" : ""%>>Unión Libre</option>
                         </select>
-
                     </td>
                 </tr>
+
                 <tr>
                     <th colspan="2">¿El colaborador tiene hijos?</th>
                 </tr>
@@ -363,7 +373,10 @@
                     </tr>
                     <tr>
                         <th><label>Modelo</label></th>
-                        <td><input type="text" name="modeloVehiculo" value="<%= persona.getModeloVehiculo()%>" size="50" maxlength="50"></td>
+                        <td><input type="text" name="modeloVehiculo" value="<%= persona.getModeloVehiculo()%>" size="50" maxlength="50"
+                                   onkeypress="return soloNumeros(event)" 
+                                   onblur="validarNumerico('modeloVehiculo')" placeholder="Campo numérico">
+                        </td>
                     </tr>
                     <tr>
                         <th><label>Línea</label></th>
@@ -436,7 +449,10 @@
                 </tr>
                 <tr>
                     <th>Celular</th>
-                    <td><input type="text" name="primerRefCelular" value="<%= persona.getPrimerRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números" required></td>
+                    <td><input type="text" name="primerRefCelular" value="<%= persona.getPrimerRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números" 
+                               onkeypress="return soloNumeros(event)" 
+                               onblur="validarNumerico('celular')
+                               "placeholder="Campo numérico" required></td>
                 </tr>
 
                 <tr><th colspan="2">Segundo contacto</th></tr>
@@ -450,7 +466,10 @@
                 </tr>
                 <tr>
                     <th>Celular</th>
-                    <td><input type="text" name="segundaRefCelular" value="<%= persona.getSegundaRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"></td>
+                    <td><input type="text" name="segundaRefCelular" value="<%= persona.getSegundaRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"
+                               onkeypress="return soloNumeros(event)" 
+                               onblur="validarNumerico('celular')
+                               "placeholder="Campo numérico"></td>
                 </tr>
             </table>
 
@@ -473,7 +492,10 @@
                 </tr>
                 <tr class="referencia1" style="display: none;">
                     <th>Celular</th>
-                    <td><input type="text" name="terceraRefCelular" value="<%= persona.getTerceraRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"></td>
+                    <td><input type="text" name="terceraRefCelular" value="<%= persona.getTerceraRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"
+                               onkeypress="return soloNumeros(event)" 
+                               onblur="validarNumerico('celular')
+                               "placeholder="Campo numérico" ></td>
                 </tr>
 
                 <!-- oculto -->
@@ -490,7 +512,10 @@
                 </tr>
                 <tr class="referencia2" style="display: none;">
                     <th>Celular</th>
-                    <td><input type="text" name="cuartaRefCelular" value="<%= persona.getCuartaRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"></td>
+                    <td><input type="text" name="cuartaRefCelular" value="<%= persona.getCuartaRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"
+                               onkeypress="return soloNumeros(event)" 
+                               onblur="validarNumerico('celular')
+                               "placeholder="Campo numérico"></td>
                 </tr>
             </table>
 
@@ -532,19 +557,19 @@
                         <select name="centroCostos" required>
                             <option value="" <%= (persona.getCentroCostos() == null || persona.getCentroCostos().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
                             <option value="23" <%= "23".equals(persona.getCentroCostos()) ? "selected" : ""%>>23</option>
-                            <option value="33" <%= "33".equals(persona.getCentroCostos()) ? "selected" : ""%>>33</option>
+                            <option value="33" <%= (persona.getCentroCostos() == null || persona.getCentroCostos().isEmpty() || "33".equals(persona.getCentroCostos())) ? "selected" : ""%>>33</option>
                             <option value="43" <%= "43".equals(persona.getCentroCostos()) ? "selected" : ""%>>43</option>
                             <option value="53" <%= "53".equals(persona.getCentroCostos()) ? "selected" : ""%>>53</option>
                             <option value="63" <%= "63".equals(persona.getCentroCostos()) ? "selected" : ""%>>63</option>
                             <option value="214" <%= "214".equals(persona.getCentroCostos()) ? "selected" : ""%>>214</option>
                             <option value="224" <%= "224".equals(persona.getCentroCostos()) ? "selected" : ""%>>224</option>
-                            <option value="243" <%= "243".equals(persona.getCentroCostos()) ? "selected" : ""%>>243</option>
+                            <option value="234" <%= "234".equals(persona.getCentroCostos()) ? "selected" : ""%>>234</option>
                             <option value="244" <%= "244".equals(persona.getCentroCostos()) ? "selected" : ""%>>244</option>
+                            <option value="294" <%= "294".equals(persona.getCentroCostos()) ? "selected" : ""%>>294</option>
+                            <option value="295" <%= "295".equals(persona.getCentroCostos()) ? "selected" : ""%>>295</option>
                         </select>
                     </td>
                 </tr>
-                
-               
                 <tr>
                     <th>Cargos</th>
                     <td>
@@ -555,7 +580,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Centro costos por nomina</th>
+                    <th>Centro de trabajo</th>
                     <td>
                         <input type="text" name="cctn" id="cctn" value="<%= persona.getCctn()%>" size="50" maxlength="50" autocomplete="off" onkeyup="filtrarCargos()"required>
                         <div id="sugerenciasCargo"></div>
@@ -565,14 +590,13 @@
                     <th>EPS</th>
                     <td>
                         <select name="eps" id="eps" onchange="manejarOtro('eps', 'otroEps', 'epsFinal')" required>
-                            <option value="" <%= (persona.getEps() == null || persona.getEps().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="Emssanar" <%= "Emssanar".equals(persona.getEps()) ? "selected" : ""%>>Emssanar</option>
-                            <option value="Sanitas" <%= "Sanitas".equals(persona.getEps()) ? "selected" : ""%>>Sanitas</option>
-                            <option value="Nueva EPS" <%= "Nueva EPS".equals(persona.getEps()) ? "selected" : ""%>>Nueva EPS</option>
-                            <option value="Compensar" <%= "Compensar".equals(persona.getEps()) ? "selected" : ""%>>Compensar</option>
-                            <option value="Salud total" <%= "Salud total".equals(persona.getEps()) ? "selected" : ""%>>Salud total</option>
-                            <option value="Mallamas" <%= "Mallamas".equals(persona.getEps()) ? "selected" : ""%>>Mallamas</option>
-                            <option value="Asmet Salud" <%= "Asmet Salud".equals(persona.getEps()) ? "selected" : ""%>>Asmet Salud</option>
+                            <option value="" <%= (persona.getEps() == null || persona.getEps().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
+                            <option value="Emssanar" <%= (persona.getEps() == null || persona.getEps().trim().isEmpty() || "Emssanar".equalsIgnoreCase(persona.getEps())) ? "selected" : ""%>>Emssanar</option>
+                            <option value="Sanitas" <%= "Sanitas".equalsIgnoreCase(persona.getEps()) ? "selected" : ""%>>Sanitas</option>
+                            <option value="Nueva EPS" <%= "Nueva EPS".equalsIgnoreCase(persona.getEps()) ? "selected" : ""%>>Nueva EPS</option>
+                            <option value="Famisanar" <%= "Famisanar".equalsIgnoreCase(persona.getEps()) ? "selected" : ""%>>Famisanar</option>
+                            <option value="Mallamas" <%= "Mallamas".equalsIgnoreCase(persona.getEps()) ? "selected" : ""%>>Mallamas</option>
+                            <option value="Asmet Salud" <%= "Asmet Salud".equalsIgnoreCase(persona.getEps()) ? "selected" : ""%>>Asmet Salud</option>
                             <option value="Otro">Otro</option>
                         </select>
                         <!-- Campo de entrada oculto para "Otro" -->
@@ -582,11 +606,17 @@
                         <input type="hidden" name="epsFinal" id="epsFinal" value="<%= persona.getEps() != null ? persona.getEps() : ""%>">
                     </td>
                 </tr>
-                            
+
                 <tr>
-                    <th>Arl</th>
-                    <td><input type="text" name="arl" value="<%= persona.getArl()%>" size="50" maxlength="50"></td>
+                    <th>ARL</th>
+                    <td>
+                        <select name="arl" id="arl">
+                            <option value="" <%= (persona.getArl() == null || persona.getArl().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
+                            <option value="Colmena" <%= (persona.getArl() == null || persona.getArl().trim().isEmpty() || "Colmena".equalsIgnoreCase(persona.getArl())) ? "selected" : ""%>>Colmena</option>
+                        </select>
+                    </td>
                 </tr>
+
                 <tr>
                     <th>Banco</th>
                     <td><input type="text" name="cuentaBancaria" value="<%= persona.getCuentaBancaria()%>" size="50" maxlength="50"></td>
@@ -601,7 +631,7 @@
                 </tr>
             </table>
 
-            
+
             <div class="botones-container">
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
@@ -706,8 +736,8 @@
                 "Juanambu": "Green S.A.S. EDS",
                 "Terminal Americano": "Green S.A.S. EDS",
                 "Puente": "Green S.A.S. EDS",
-                "Canobajo": "Green S.A.S. EDS",
-                "Greenfield": "Green S.A.S."
+                "Cano Bajo": "Green S.A.S. EDS",
+                "Green Field": "Green S.A.S."
             };
 
             // Asignar unidad de negocio basada en el establecimiento seleccionado
@@ -788,6 +818,19 @@
                 // Si la opción seleccionada es "Sí", mostrar los campos de vehículo
                 document.getElementById("tablaVehiculo").style.display = "block";
             }
+        }
+        function validarNumerico(inputName) {
+            let input = document.getElementsByName(inputName)[0];
+            if (!/^\d*$/.test(input.value)) { // Permite solo números
+                alert("Por favor, ingrese solo números en este campo.");
+                input.value = ""; // Limpia el campo si tiene caracteres no permitidos
+                input.focus();
+            }
+        }
+
+        function soloNumeros(event) {
+            let codigo = event.which || event.keyCode;
+            return (codigo >= 48 && codigo <= 57); // Permite solo números (0-9)
         }
 
         // Ejecutar la función al cargar la página para mostrar u ocultar correctamente
