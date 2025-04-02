@@ -76,6 +76,10 @@
                             <span>INDUCCION SGA</span>
                             <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=induccionSGA'">VER</button>
                         </div>
+                         <div class="data-item">
+                            <span>INDUCCION GESTIÓN HUMANA</span>
+                            <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=induccionSGeH'">VER</button>
+                        </div>
                         <div class="data-item">
                             <span>OTROS DOCUMENTOS</span>
                             <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=otrosDocumentosT'">VER</button>
