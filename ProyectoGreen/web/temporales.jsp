@@ -33,7 +33,7 @@
         lista += "<td>" + cctn + "</td>";
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
-        lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
+        lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboral(" + persona.getIdentificacion() + ")'>";
         lista += "<a href='temporalesFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
         lista += "<img class='editar' src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
         lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
@@ -100,8 +100,8 @@
     function verDetalles(identificacion) {
         document.location = "temporalesDetalle.jsp?identificacion=" + identificacion;
     }
-    function historiaLaboralGreen(identificacion) {
-        window.location.href = "historiaLaboralGreen.jsp?identificacion=" + identificacion;
+    function verHistoriaLaboral(identificacion) {
+        window.location.href = "historiaLaboral.jsp?identificacion=" + identificacion;
     }
     
     function verRetirados(identificacion) {

@@ -70,7 +70,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Autorización de examenes  y requisas</td>
+                            <td>Autorización de exámenes  y requisas</td>
                               <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=AERotros'" 
@@ -104,6 +104,16 @@
                               <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SGAotros'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                           <tr>
+                            <td>Inducción Gestion Humana</td>
+                              <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SGHotros'" 
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
