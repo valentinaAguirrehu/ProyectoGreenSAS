@@ -47,6 +47,10 @@
         case "SGAotros":
             titulo = "INDUCCIÓN SGA";
             break;
+        case "SGHotros":
+            titulo = "INDUCCIÓN GESTIÓN HUMANA";
+            break;
+            
         case "APACotros":
             titulo = "ACTA DE PAUSAS ACTIVAS";
             break;
@@ -127,6 +131,10 @@
         case "induccionSGA":
             titulo = "INDUCCIÓN SGA";
             break;
+        case "induccionSGeH":
+            titulo = "INDUCCIÓN GESTIÓN HUMANA";
+            break;
+       
 
         case "otrosDocumentosT":
             titulo = "OTROS DOCUMENTOS";
