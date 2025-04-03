@@ -50,7 +50,7 @@
         case "SGHotros":
             titulo = "INDUCCIÓN GESTIÓN HUMANA";
             break;
-            
+
         case "APACotros":
             titulo = "ACTA DE PAUSAS ACTIVAS";
             break;
@@ -134,7 +134,6 @@
         case "induccionSGeH":
             titulo = "INDUCCIÓN GESTIÓN HUMANA";
             break;
-       
 
         case "otrosDocumentosT":
             titulo = "OTROS DOCUMENTOS";
@@ -238,13 +237,19 @@
                                     </button>
                                 </form>
                             </td>
-
+                            <td>
+                                <% if ("Lotros".equals(tipo) && !"R".equals(persona.getTipo())) {%>
+                                <img class='subir' src='presentacion/iconos/retirado.png' 
+                                     title='Pasar a retirado' 
+                                     onClick='verRetirados("<%= persona.getIdentificacion()%>")' 
+                                     style='cursor:pointer;'/>
+                                <% } %>
+                            </td>
                         </tr>
-                        <% }
-                        } else { %>
+                        <% } %>
+                        <% } else { %>
                         <tr>
-                            <td colspan="4">No hay documentos disponibles</td>
-
+                            <td colspan="5">No hay documentos disponibles</td>
                         </tr>
                         <% }%>
                     </tbody>
@@ -279,14 +284,18 @@
         });
     });
 
+    function verRetirados(identificacion) {
+        window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
+    }
+
     // PERMISOS
 
-document.addEventListener("DOMContentLoaded", function () {
-    controlarPermisos(
-        "<%= administrador.getpEliminar() %>",
-        "<%= administrador.getpLeer() %>",
-        "<%= administrador.getpAgregar() %>"
-    );
-});
+    document.addEventListener("DOMContentLoaded", function () {
+        controlarPermisos(
+                "<%= administrador.getpEliminar()%>",
+                "<%= administrador.getpLeer()%>",
+                "<%= administrador.getpAgregar()%>"
+                );
+    });
 
 </script>

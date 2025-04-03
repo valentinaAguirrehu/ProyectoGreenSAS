@@ -110,7 +110,7 @@
                             </td>
                         </tr>
                            <tr>
-                            <td>Inducción Gestion Humana</td>
+                            <td>Inducción Gestión Humana</td>
                               <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SGHotros'" 
@@ -120,7 +120,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Acta pausas activas</td>
+                            <td>Acta de pausas activas</td>
                               <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=APACotros'" 
