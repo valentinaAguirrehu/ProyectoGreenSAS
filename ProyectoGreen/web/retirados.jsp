@@ -27,15 +27,15 @@
                 lista += "<td>" + persona.getIdentificacion() + "</td>";
                 lista += "<td>" + persona.getNombres() + " " + persona.getApellidos() + "</td>";
                 lista += "<td>" + persona.getEstablecimiento() + "</td>";
+                lista += "<td>" + persona.getUnidadNegocio() + "</td>";
                 lista += "<td>" + nombreCargo + "</td>";
                 lista += "<td>" + persona.getFechaIngreso() + "</td>";
                 lista += "<td>" + persona.getFechaRetiro() + "</td>";
                 lista += "<td>" + retirado.getNumCaja() + "</td>";
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
-                lista += "<td>" + persona.getUnidadNegocio() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
                 lista += "<td>";
-                lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")'> ";
+                lista += "<img class='ver' src='presentacion/iconos/ojo.png' width='25' height='25' title='Ver detalles'>";
                 lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboralRetirados(" + persona.getIdentificacion() + ")'>";
                 lista += "<a href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
                         + "' title='Modificar' class='editar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a>";
@@ -53,7 +53,7 @@
 <%@ include file="menu.jsp" %>
 
 <div class="content">  
-    
+
     <h3 class="titulo">COLABORADORES RETIRADOS</h3>
     <link rel="stylesheet" href="presentacion/style-Retirados.css">
 
@@ -76,16 +76,16 @@
 
     <table class="table" border="1" id="usuariosTable">
         <tr>
-            <th>Tipo de documento</th>
-            <th>Número de documento</th>
+            <th>Tipo del documento</th>
+            <th>Documento</th>
             <th>Nombre</th>
-            <th>Establecimiento</th>
+            <th>Establecimiento</th>                   
+            <th>Unidad de negocio</th>
             <th>Cargo</th>
             <th>Fecha de ingreso</th>
             <th>Fecha de retiro</th>
             <th>Número de caja</th>
-            <th>Número de carpeta</th>          
-            <th>Unidad de negocio</th>
+            <th>Número de carpeta</th>
             <th>Observaciones</th>
             <th>Acciones</th>
         </tr>
@@ -103,10 +103,6 @@
 
     function verHistoriaLaboralRetirados(identificacion) {
         window.location.href = "historiaLaboralRetirado.jsp?identificacion=" + identificacion;
-    }
-    
-    function verDetalles(identificacion) {
-        document.location = "personaDetalles.jsp?identificacion=" + identificacion;
     }
 
     function filterResults() {
@@ -126,21 +122,21 @@
             case "establecimiento":
                 columnIndex = 3;
                 break;
-            case "cargo":
+            case "unidadNegocio":
                 columnIndex = 4;
                 break;
-            case "fechaRetiro":
-                columnIndex = 6;
+            case "cargo":
+                columnIndex = 5;
                 break;
             case "caja":
-                columnIndex = 7;
-                break;
-            case "carpeta":
                 columnIndex = 8;
-                break;
-            case "unidadNegocio":
+                break;  
+            case "carpeta":
                 columnIndex = 9;
-                break;
+                break; 
+            case "fechaRetiro":
+                columnIndex = 7;
+                break; 
         }
 
         for (let i = 1; i < rows.length; i++) {

@@ -20,7 +20,6 @@
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
         String establecimiento = persona.getEstablecimiento();
-        String cctn = persona.getCctn();
         String unidadNegocio = persona.getUnidadNegocio();
         String fechaIngreso = persona.getFechaIngreso();
 
@@ -31,7 +30,6 @@
         lista += "<td>" + apellidos + "</td>";
         lista += "<td>" + cargo + "</td>";
         lista += "<td>" + establecimiento + "</td>";
-        lista += "<td>" + cctn + "</td>";
         lista += "<td>" + unidadNegocio + "</td>";
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
@@ -57,13 +55,12 @@
     <div class="search-container">
         <div class="search-box">
             <select id="searchType" class="recuadro">
-                <option value="tipoDocumento">Documento de identificaciÃ³n</option>
-                <option value="identificacion">IdentificaciÃ³n</option>
+                <option value="identificacion">Identificación</option>
                 <option value="nombre">Nombres</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
                 <option value="establecimiento">Establecimiento</option>
-                <option value="cctn">Cctn</option>
+                <option value="unidadNegocio">Unidad de negocio</option>
                 <option value="fechaIngreso">Fecha de Ingreso</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
@@ -73,13 +70,13 @@
 
     <table class="table" id="temporalesTable" border="1">
         <tr>
-            <th>Documento de identificaciÃ³n</th>
-            <th>NÃºmero de documento</th>
+            <th>Documento de identificación</th>
+            <th>Número de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Cargo</th>
             <th>Establecimiento</th>
-            <th>Cctn</th>
+            <th>Unidad de negocio</th>
             <th>Fecha de ingreso</th>
             <th>
                 <a href="temporalesFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
@@ -105,7 +102,7 @@
     function verHistoriaLaboral(identificacion) {
         window.location.href = "historiaLaboral.jsp?identificacion=" + identificacion;
     }
-    
+
     function verRetirados(identificacion) {
         window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
     }
@@ -134,12 +131,14 @@
             case "establecimiento":
                 columnIndex = 5;
                 break;
-            case "cctn":
+            case "unidadNegocio": 
                 columnIndex = 6;
                 break;
             case "fechaIngreso":
                 columnIndex = 7;
                 break;
+            default:
+                columnIndex = -1; 
         }
 
         for (let i = 1; i < rows.length; i++) {
@@ -155,11 +154,10 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         controlarPermisos(
-
-            <%= administrador.getpEliminar()%>,
-            <%= administrador.getpEditar()%>,
-            <%= administrador.getpAgregar()%>,
-            <%= administrador.getpLeer()%>
+    <%= administrador.getpEliminar()%>,
+    <%= administrador.getpEditar()%>,
+    <%= administrador.getpAgregar()%>,
+    <%= administrador.getpLeer()%>
         );
     });
 
