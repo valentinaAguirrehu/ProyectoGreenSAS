@@ -147,7 +147,7 @@
             }
         }
     }
-
+|
     // PERMISOS
 
     document.addEventListener("DOMContentLoaded", function () {

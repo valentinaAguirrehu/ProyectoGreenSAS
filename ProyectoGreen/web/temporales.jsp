@@ -21,6 +21,7 @@
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
         String establecimiento = persona.getEstablecimiento();
         String cctn = persona.getCctn();
+        String unidadNegocio = persona.getUnidadNegocio();
         String fechaIngreso = persona.getFechaIngreso();
 
         lista += "<tr>";
@@ -31,6 +32,7 @@
         lista += "<td>" + cargo + "</td>";
         lista += "<td>" + establecimiento + "</td>";
         lista += "<td>" + cctn + "</td>";
+        lista += "<td>" + unidadNegocio + "</td>";
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
         lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboral(" + persona.getIdentificacion() + ")'>";
