@@ -24,9 +24,7 @@
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
         String establecimiento = persona.getEstablecimiento();
-        String cctn = persona.getCctn();
-        //String unidadNegocio = persona.getUnidadNegocio();
-
+        String unidadNegocio = persona.getUnidadNegocio();
         String fechaIngreso = persona.getFechaIngreso();
 
         lista += "<tr>";
@@ -36,8 +34,7 @@
         lista += "<td>" + apellidos + "</td>";
         lista += "<td>" + cargo + "</td>";
         lista += "<td>" + establecimiento + "</td>";
-        lista += "<td>" + cctn + "</td>";
-        //lista += "<td>" + unidadNegocio + "</td>";
+        lista += "<td>" + unidadNegocio + "</td>"; 
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
         lista += "<img class='ver' src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
@@ -63,14 +60,11 @@
     <div class="search-container">
         <div class="search-box">
             <select id="searchType" class="recuadro">
-
-                <option value="tipoDocumento">Documento de identificacion</option>
-                <option value="identificacion">identificacion</option>
+                <option value="identificacion">Identificación</option>
                 <option value="nombre">Nombres</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
-                <option value="establecimiento">Establecimiento</option>  
-                <option value="cctn">Cctn</option>  
+                <option value="establecimiento">Establecimiento</option>
                 <option value="unidadNegocio">Unidad de negocio</option>
                 <option value="fechaIngreso">Fecha de Ingreso</option>
             </select>
@@ -82,13 +76,13 @@
     <table class="table" id="colaboradoresTable" border="1">
         <tr>
 
-            <th>Documento de identificacion</th>
-            <th>NÃºmero de documento</th>
+            <th>Documento de identificación</th>
+            <th>Número de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Cargo</th>
             <th>Establecimiento</th>
-            <th>Unidad de negocio por nomina</th>
+            <th>Unidad de negocio</th>
             <th>Fecha de ingreso</th>
             <th>
                 <a href="personaFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
@@ -129,26 +123,28 @@
         let columnIndex;
         switch (searchType) {
             case "identificacion":
-                columnIndex = 0;
-                break;
-            case "nombre":
                 columnIndex = 1;
                 break;
-            case "apellido":
+            case "nombre":
                 columnIndex = 2;
                 break;
-            case "cargo":
+            case "apellido":
                 columnIndex = 3;
                 break;
-            case "establecimiento":
+            case "cargo":
                 columnIndex = 4;
                 break;
-            case "cctn":
+            case "establecimiento":
                 columnIndex = 5;
                 break;
-            case "fechaIngreso":
+            case "unidadNegocio": 
                 columnIndex = 6;
                 break;
+            case "fechaIngreso":
+                columnIndex = 7;
+                break;
+            default:
+                columnIndex = -1; 
         }
 
         for (let i = 1; i < rows.length; i++) {

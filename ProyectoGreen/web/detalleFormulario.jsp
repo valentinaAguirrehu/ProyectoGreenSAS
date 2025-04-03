@@ -54,7 +54,7 @@
                          <tr>
                             <th>Observación:</th>
                             <td>
-                                <input type="text" id="nombreDocumento" name="nombreDocumento" value="<%= nombreDocumento%>" required>
+                                <input type="text" id="nombreDocumento" name="nombreDocumento" value="<%= nombreDocumento%>">
                             </td>
                         </tr>
                     </table>

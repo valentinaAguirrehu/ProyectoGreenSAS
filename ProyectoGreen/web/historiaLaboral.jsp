@@ -77,7 +77,7 @@
                             <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=induccionSGA'">VER</button>
                         </div>
                          <div class="data-item">
-                            <span>INDUCCION GESTIÓN HUMANA</span>
+                            <span>INDUCCIÓN GESTIÓN HUMANA</span>
                             <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=induccionSGeH'">VER</button>
                         </div>
                         <div class="data-item">

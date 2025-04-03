@@ -56,16 +56,18 @@
             retirado.grabar(); // Insertar en la tabla 'retirados'
             break;
         case "Modificar":
-            if (variables.get("id") != null && variables.get("fechaRetiro") != null) {
-                String identificacion = request.getParameter("identificacion");
+             if (variables.get("id") != null && variables.get("fechaRetiro") != null) {
                 String nuevaFechaRetiro = variables.get("fechaRetiro");
-                String cadenaSQL = "UPDATE persona SET fechaRetiro = '" + nuevaFechaRetiro + "' WHERE identificacion = '" + identificacion + "'";
-                boolean actualizado = ConectorBD.ejecutarQuery(cadenaSQL);
-
-                if (actualizado) {
-                    retirado.modificar(variables.get("id"));
+                String numCaja = variables.get("numCaja");
+                String numCarpeta = variables.get("numCarpeta");
+                String observaciones = variables.get("observaciones");
+                String cadenaSQL = "UPDATE persona SET fechaRetiro = '" + nuevaFechaRetiro + "' WHERE identificacion = '" + variables.get("identificacion") + "'";
+                boolean actualizado = ConectorBD.ejecutarQuery(cadenaSQL);        
+             if (actualizado) {
+                String cadenaSQLRetirados = "UPDATE retirados SET numCaja = '" + numCaja + "', numCarpeta = '" + numCarpeta + "', observaciones = '" + observaciones + "' WHERE id = '" + variables.get("id") + "'";
+                ConectorBD.ejecutarQuery(cadenaSQLRetirados);
+                    }
                 }
-            }
             break;
         case "Eliminar":
             if (variables.get("id") != null) {
