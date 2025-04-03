@@ -85,10 +85,7 @@ public class Municipio {
     public String toString() {
         return nombre;
     }
-    
-    
-    
-    
+     
     public boolean grabar(){
         String cadenaSQL="insert into municipio (nombre, idDepartamento, cardinalidadGeografica)"
                 + "values ('"+nombre+"','"+idDepartamento+"')";

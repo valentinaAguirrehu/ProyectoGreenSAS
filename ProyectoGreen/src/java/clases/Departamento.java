@@ -54,10 +54,6 @@ public class Departamento {
         return nombre;
     }
     
-    
-    
-
-
     public static ResultSet getLista(String filtro, String orden) {
         if (filtro != null && !filtro.isEmpty()) {
             filtro = " WHERE " + filtro;
