@@ -38,7 +38,7 @@
         <li class="dropdown">
             <a href="#">Reportes e indicadores<img src="presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
             <ul class="dropdown-content">                           
-                <li><a href="#">Ingresos de colaboradores</a></li>
+                <li><a href="indicadores/IngresoXMes.jsp">Ingresos de colaboradores</a></li>
                 <li><a href="#">Retiros de colaboradores</a></li>
                 <li><a href="#">Dotaciones entregadas</a></li>
                 <li><a href="cumpleanos.jsp">Cumpleañeros del mes</a></li>
