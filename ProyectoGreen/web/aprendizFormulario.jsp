@@ -88,6 +88,10 @@
                     </td>     
                 </tr>
                 <tr>
+                    <th>Titulo aprendiz</th>
+                    <td><input type="text" name="TituloAprendiz" value="<%= persona.getTituloAprendiz()%>" size="50" maxlength="50"required></td>
+                </tr>
+                <tr>
                     <th>Documento de identidad</th>
                     <td>
                         <select name="tipoDocumentoSelect" id="tipoDocumento" onchange="manejarOtro('tipoDocumento', 'otroTipoDocumento', 'tipoDocumentoHidden')"required>
@@ -256,7 +260,7 @@
                                 <option value="Primaria" <%= "Primaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Primaria</option>
                                 <option value="Secundaria" <%= "Secundaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Secundaria</option>
                                 <option value="Técnico" <%= "Técnico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Técnico</option>
-                                <option value="Tecnológico" <%= "Tecnológico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnológico</option>
+                                <option value="Tecnólogo " <%= "Tecnólogo".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnólogo</option>
                                 <option value="Universitario" <%= (persona.getNivelEducativo() == null || persona.getNivelEducativo().isEmpty() || "Universitario".equals(persona.getNivelEducativo())) ? "selected" : ""%>>Universitario</option>
                                 <option value="Postgrado" <%= "Postgrado".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Postgrado</option>
                                 <option value="Otro">Otro</option>
@@ -307,8 +311,8 @@
                 <h1>Información de Hijos</h1>
                 <table border="0" id="tablaHijos">
                     <tr>
-                        <th>Identificación</th>
-                        <th>Nombre</th>
+                        <th>Numero de documento</th>
+                        <th>Nombres completos</th>
                         <th>Fecha de Nacimiento</th>
                         <th>Acción</th>
                     </tr>
@@ -392,15 +396,24 @@
                     </tr>
                     <tr>
                         <th><label>Cilindraje</label></th>
-                        <td><input type="text" name="cilindraje" value="<%= persona.getCilindraje()%>" size="50" maxlength="50" placeholder="Campo numérico" ></td>
+                        <td><input type="text" name="cilindraje" value="<%= persona.getCilindraje()%>" size="50" maxlength="50" 
+                                   onkeypress="return soloNumeros(event)" 
+                                   onblur="validarNumerico('cilindraje')" placeholder="Campo numérico" ></td>
                     </tr>
                     <tr>
                         <th><label>Restricciones del conductor</label></th>
                         <td><input type="text" name="restricciones" value="<%= persona.getRestricciones()%>"></td>
                     </tr>
                     <tr>
+                        <th><label>Titular Tarjeta de Propiedad</label></th>
+                        <td><input type="text" name="titularTrjPro" value="<%= persona.getTitularTrjPro()%>"></td>
+                    </tr>
+                     <tr>
                         <th><label>Número de la tarjeta de propiedad</label></th>
-                        <td><input type="text" name="numLicenciaTransito" value="<%= persona.getNumLicenciaTransito()%>" size="50" maxlength="50" placeholder="Campo numérico" ></td>
+                        <td><input type="text" name="numLicenciaTransito" value="<%= persona.getNumLicenciaTransito()%>" size="50" maxlength="50" 
+                                   onkeypress="return soloNumeros(event)" 
+                                   onblur="validarNumerico('numLicenciaTransito')" placeholder="Campo numérico" 
+                                   placeholder="Campo numérico" ></td>
                     </tr>
                     <tr>
                         <th><label>Fecha de expedición de la tarjeta de propiedad</label></th>
@@ -431,7 +444,9 @@
                         <td>
                             <input type="text" name="numLicenciaConduccion" 
                                    value="<%= persona.getNumLicenciaConduccion() != null ? persona.getNumLicenciaConduccion() : ""%>" 
-                                   size="50" maxlength="50" placeholder="Campo numérico">
+                                   size="50" maxlength="50" 
+                                   onkeypress="return soloNumeros(event)" 
+                                   onblur="validarNumerico('numLicenciaConduccion')"placeholder="Campo numérico">
                         </td>
                     </tr>
                 </table>
@@ -534,7 +549,7 @@
                                 String[] establecimientos = {
                                     "Avenida", "Principal", "Centro", "Unicentro",
                                     "Centro de Procesos", "Teleoperaciones", "Juanambu",
-                                    "Terminal Americano", "Puente", "Canobajo", "Greenfield"
+                                    "Terminal Americano", "Puente", "Cano Bajo", "GreenField"
                                 };
                                 for (String est : establecimientos) {
                             %>
@@ -623,11 +638,17 @@
                 </tr>
                 <tr>
                     <th>Número de cuenta</th>
-                    <td><input type="text" name="numeroCuenta" value="<%= persona.getNumeroCuenta()%>" size="50" maxlength="50"></td>
+                    <td><input type="text" name="numeroCuenta" value="<%= persona.getNumeroCuenta()%>" size="50" maxlength="50"
+                               onkeypress="return soloNumeros(event)" 
+                               onblur="validarNumerico('numeroCuenta')
+                               "placeholder="Campo numérico"></td>
                 </tr>
                 <tr>
                     <th>Salario</th>
-                    <td><input type="text" name="salario" value="<%= persona.getSalario()%>" size="50" maxlength="50"></td>
+                    <td><input type="text" name="salario" value="<%= persona.getSalario()%>" size="50" maxlength="50"
+                               onkeypress="return soloNumeros(event)" 
+                               onblur="validarNumerico('salario')
+                               "placeholder="Campo numérico"></td>
                 </tr>
             </table>
 

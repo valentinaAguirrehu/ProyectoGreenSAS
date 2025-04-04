@@ -245,7 +245,7 @@
                                 <option value="Primaria" <%= "Primaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Primaria</option>
                                 <option value="Secundaria" <%= "Secundaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Secundaria</option>
                                 <option value="Técnico" <%= "Técnico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Técnico</option>
-                                <option value="Tecnológico" <%= "Tecnológico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnológico</option>
+                                <option value="Tecnólogo " <%= "Tecnólogo".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnólogo</option>
                                 <option value="Universitario" <%= (persona.getNivelEducativo() == null || persona.getNivelEducativo().isEmpty() || "Universitario".equals(persona.getNivelEducativo())) ? "selected" : ""%>>Universitario</option>
                                 <option value="Postgrado" <%= "Postgrado".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Postgrado</option>
                                 <option value="Otro">Otro</option>
@@ -296,8 +296,8 @@
                 <h1>Información de Hijos</h1>
                 <table border="0" id="tablaHijos">
                     <tr>
-                        <th>Identificación</th>
-                        <th>Nombre</th>
+                        <th>Numero de documento</th>
+                        <th>Nombres </th>
                         <th>Fecha de Nacimiento</th>
                         <th>Acción</th>
                     </tr>
@@ -381,7 +381,9 @@
                     </tr>
                     <tr>
                         <th><label>Cilindraje</label></th>
-                        <td><input type="text" name="cilindraje" value="<%= persona.getCilindraje()%>" size="50" maxlength="50" placeholder="Campo numérico" ></td>
+                        <td><input type="text" name="cilindraje" value="<%= persona.getCilindraje()%>" size="50" maxlength="50" 
+                                   onkeypress="return soloNumeros(event)" 
+                                   onblur="validarNumerico('cilindraje')" placeholder="Campo numérico" ></td>
                     </tr>
                     <tr>
                         <th><label>Restricciones del conductor</label></th>
@@ -390,6 +392,13 @@
                     <tr>
                         <th><label>Número de la tarjeta de propiedad</label></th>
                         <td><input type="text" name="numLicenciaTransito" value="<%= persona.getNumLicenciaTransito()%>" size="50" maxlength="50" placeholder="Campo numérico" ></td>
+                    </tr>
+                     <tr>
+                        <th><label>Número de la tarjeta de propiedad</label></th>
+                        <td><input type="text" name="numLicenciaTransito" value="<%= persona.getNumLicenciaTransito()%>" size="50" maxlength="50" 
+                                   onkeypress="return soloNumeros(event)" 
+                                   onblur="validarNumerico('numLicenciaTransito')" placeholder="Campo numérico" 
+                                   placeholder="Campo numérico" ></td>
                     </tr>
                     <tr>
                         <th><label>Fecha de expedición de la tarjeta de propiedad</label></th>
@@ -420,7 +429,9 @@
                         <td>
                             <input type="text" name="numLicenciaConduccion" 
                                    value="<%= persona.getNumLicenciaConduccion() != null ? persona.getNumLicenciaConduccion() : ""%>" 
-                                   size="50" maxlength="50" placeholder="Campo numérico">
+                                   size="50" maxlength="50" 
+                                   onkeypress="return soloNumeros(event)" 
+                                   onblur="validarNumerico('numLicenciaConduccion')"placeholder="Campo numérico">
                         </td>
                     </tr>
                 </table>
@@ -462,6 +473,8 @@
                 </tr>
             </table>
 
+            </table>
+
             <div class="botones-container">
                 <button class="submit" type="submit" onclick="agregarReferencia()">Añadir otro contacto</button>
             </div>
@@ -475,16 +488,16 @@
                         <button type="button" onclick="eliminarReferencia(1)">Eliminar</button>
                     </td>
                 </tr>
-                <tr>
-                    <th>Celular</th>
-                    <td><input type="text" name="segundaRefCelular" value="<%= persona.getSegundaRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"
-                               onkeypress="return soloNumeros(event)" 
-                               onblur="validarNumerico('celular')
-                               "placeholder="Campo numérico"></td>
+                <tr class="referencia1" style="display: none;">
+                    <th>Parentesco</th>
+                    <td><input type="text" name="terceraRefParentezco" value="<%= persona.getTerceraRefParentezco()%>" size="50" maxlength="50"></td>
                 </tr>
                 <tr class="referencia1" style="display: none;">
                     <th>Celular</th>
-                    <td><input type="text" name="terceraRefCelular" value="<%= persona.getTerceraRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"></td>
+                    <td><input type="text" name="terceraRefCelular" value="<%= persona.getTerceraRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"
+                               onkeypress="return soloNumeros(event)" 
+                               onblur="validarNumerico('celular')
+                               "placeholder="Campo numérico"></td>
                 </tr>
 
                 <!-- oculto -->
@@ -498,14 +511,16 @@
                 <tr class="referencia2" style="display: none;">
                     <th>Parentesco</th>
                     <td><input type="text" name="cuartaRefParentezco" value="<%= persona.getCuartaRefParentezco()%>" size="50" maxlength="50"></td>
-                <tr>
+                </tr>
+                <tr class="referencia2" style="display: none;">
                     <th>Celular</th>
-                    <td><input type="text" name="segundaRefCelular" value="<%= persona.getSegundaRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"
+                    <td><input type="text" name="cuartaRefCelular" value="<%= persona.getCuartaRefCelular()%>" size="50" maxlength="10" pattern="\d{10}" title="Ingrese exactamente 10 números"
                                onkeypress="return soloNumeros(event)" 
                                onblur="validarNumerico('celular')
                                "placeholder="Campo numérico"></td>
                 </tr>
             </table>
+
 
             <h1>Información laboral</h1> <!-- Tabla de Información de Trabajo -->
             <table border="1">
@@ -522,7 +537,7 @@
                                 String[] establecimientos = {
                                     "Avenida", "Principal", "Centro", "Unicentro",
                                     "Centro de Procesos", "Teleoperaciones", "Juanambu",
-                                    "Terminal Americano", "Puente", "Canobajo", "Greenfield"
+                                    "Terminal Americano", "Puente", "Cano Bajo", "GreenField"
                                 };
                                 for (String est : establecimientos) {
                             %>
@@ -611,30 +626,13 @@
                         <!-- Campo oculto para almacenar el valor final -->
                         <input type="hidden" name="epsFinal" id="epsFinal" value="<%= persona.getEps() != null ? persona.getEps().trim() : ""%>">
                     </td>
-                </tr>
-
-                <!-- Campo de entrada oculto para "Otro" -->
-                <input type="text" id="otroEps" name="otroEps" style="display: none;" placeholder="Especifique otro"
-                       value="<%= (persona.getEps() != null && !Persona.esEpsPredefinida(persona.getEps())) ? persona.getEps() : ""%>">
-                <!-- Campo oculto para almacenar el valor final -->
-                <input type="hidden" name="epsFinal" id="epsFinal" value="<%= persona.getEps() != null ? persona.getEps() : ""%>">
-                </td>
-                <!--</tr>
-                
-                    <th>Arl</th>
-                    <td><input type="text" name="arl" value="<%= persona.getArl()%>" size="50" maxlength="50"></td>
-                </tr> -->
-                <tr>
-                    <th>Banco</th>
-                    <td><input type="text" name="cuentaBancaria" value="<%= persona.getCuentaBancaria()%>" size="50" maxlength="50"></td>
-                </tr>
-                <tr>
-                    <th>Número de cuenta</th>
-                    <td><input type="text" name="numeroCuenta" value="<%= persona.getNumeroCuenta()%>" size="50" maxlength="50"></td>
-                </tr>
+                </tr>              
                 <tr>
                     <th>Salario</th>
-                    <td><input type="text" name="salario" value="<%= persona.getSalario()%>" size="50" maxlength="50"></td>
+                    <td><input type="text" name="salario" value="<%= persona.getSalario()%>" size="50" maxlength="50"
+                               onkeypress="return soloNumeros(event)" 
+                               onblur="validarNumerico('salario')
+                               "placeholder="Campo numérico"></td>
                 </tr>
             </table>
 
@@ -686,6 +684,20 @@
                         </select>
                     </td>
                 </tr>
+                 <tr>
+                    <th>Talla Overol</th>
+                    <td>
+                        <select name="tallaO" required>
+                            <option value="" <%= persona.getTallaO()== null || persona.getTallaChaqueta().trim().isEmpty() ? "selected" : ""%>>Seleccione...</option>
+                            <option value="XS" <%= "XS".equals(persona.getTallaO()) ? "selected" : ""%>>XS</option>
+                            <option value="S" <%= "S".equals(persona.getTallaO()) ? "selected" : ""%>>S</option>
+                            <option value="M" <%= "M".equals(persona.getTallaO()) ? "selected" : ""%>>M</option>
+                            <option value="L" <%= "L".equals(persona.getTallaO()) ? "selected" : ""%>>L</option>
+                            <option value="XL" <%= "XL".equals(persona.getTallaO()) ? "selected" : ""%>>XL</option>
+                            <option value="XXL" <%= "XXL".equals(persona.getTallaO()) ? "selected" : ""%>>XXL</option>
+                        </select>
+                    </td>
+                </tr>
                 <tr>
                     <th>Talla de guantes</th>
                     <td>
@@ -711,21 +723,6 @@
                             <option value="L" <%= "L".equals(persona.getTallaBuzo()) ? "selected" : ""%>>L</option>
                             <option value="XL" <%= "XL".equals(persona.getTallaBuzo()) ? "selected" : ""%>>XL</option>
                             <option value="XXL" <%= "XXL".equals(persona.getTallaBuzo()) ? "selected" : ""%>>XXL</option>
-                        </select>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Talla de overol</th>
-                    <td>
-                        <select name="tallaOverol" required>
-                            <option value="" <%= (persona.getTallaOverol() == null || persona.getTallaOverol().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="XS" <%= "XS".equals(persona.getTallaOverol()) ? "selected" : ""%>>XS</option>
-                            <option value="S" <%= "S".equals(persona.getTallaOverol()) ? "selected" : ""%>>S</option>
-                            <option value="M" <%= "M".equals(persona.getTallaOverol()) ? "selected" : ""%>>M</option>
-                            <option value="L" <%= "L".equals(persona.getTallaOverol()) ? "selected" : ""%>>L</option>
-                            <option value="XL" <%= "XL".equals(persona.getTallaOverol()) ? "selected" : ""%>>XL</option>
-                            <option value="XXL" <%= "XXL".equals(persona.getTallaOverol()) ? "selected" : ""%>>XXL</option>
                         </select>
                     </td>
                 </tr>
