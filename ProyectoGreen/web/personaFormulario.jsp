@@ -246,7 +246,7 @@
                                 <option value="Primaria" <%= "Primaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Primaria</option>
                                 <option value="Secundaria" <%= "Secundaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Secundaria</option>
                                 <option value="Técnico" <%= "Técnico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Técnico</option>
-                                <option value="Tecnológico" <%= "Tecnológico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnológico</option>
+                                <option value="Tecnólogo " <%= "Tecnólogo".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnólogo</option>
                                 <option value="Universitario" <%= (persona.getNivelEducativo() == null || persona.getNivelEducativo().isEmpty() || "Universitario".equals(persona.getNivelEducativo())) ? "selected" : ""%>>Universitario</option>
                                 <option value="Postgrado" <%= "Postgrado".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Postgrado</option>
                                 <option value="Otro">Otro</option>
@@ -297,8 +297,8 @@
                 <h1>Información de Hijos</h1>
                 <table border="0" id="tablaHijos">
                     <tr>
-                        <th>Identificación</th>
-                        <th>Nombre</th>
+                        <th>Numero de documento</th>
+                        <th>Nombres completos</th>
                         <th>Fecha de Nacimiento</th>
                         <th>Acción</th>
                     </tr>
@@ -393,8 +393,15 @@
                         <td><input type="text" name="restricciones" value="<%= persona.getRestricciones()%>"></td>
                     </tr>
                     <tr>
+                        <th><label>Titular Tarjeta de Propiedad</label></th>
+                        <td><input type="text" name="titularTrjPro" value="<%= persona.getTitularTrjPro()%>"></td>
+                    </tr>
+                    <tr>
                         <th><label>Número de la tarjeta de propiedad</label></th>
-                        <td><input type="text" name="numLicenciaTransito" value="<%= persona.getNumLicenciaTransito()%>" size="50" maxlength="50" placeholder="Campo numérico" ></td>
+                        <td><input type="text" name="numLicenciaTransito" value="<%= persona.getNumLicenciaTransito()%>" size="50" maxlength="50" 
+                                   onkeypress="return soloNumeros(event)" 
+                                   onblur="validarNumerico('numLicenciaTransito')" placeholder="Campo numérico" 
+                                   placeholder="Campo numérico" ></td>
                     </tr>
                     <tr>
                         <th><label>Fecha de expedición de la tarjeta de propiedad</label></th>
@@ -530,7 +537,7 @@
                                 String[] establecimientos = {
                                     "Avenida", "Principal", "Centro", "Unicentro",
                                     "Centro de Procesos", "Teleoperaciones", "Juanambu",
-                                    "Terminal Americano", "Puente", "Canobajo", "Greenfield"
+                                    "Terminal Americano", "Puente", "Cano Bajo", "GreenField"
                                 };
                                 for (String est : establecimientos) {
                             %>
@@ -656,15 +663,18 @@
                         <input type="hidden" name="fondoPensionesFinal" id="fondoPensionesFinal" value="<%= persona.getFondoPensiones() != null ? persona.getFondoPensiones().trim() : ""%>">
                     </td>
                 </tr>
-
-
                 <tr>
                     <th>ARL</th>
                     <td>
-                        <select name="arl" id="arl">
+                        <select name="arl" id="arl" onchange="manejarOtro('arl', 'otraArl', 'arlFinal')">
                             <option value="" <%= (persona.getArl() == null || persona.getArl().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
                             <option value="Colmena" <%= (persona.getArl() == null || persona.getArl().trim().isEmpty() || "Colmena".equalsIgnoreCase(persona.getArl())) ? "selected" : ""%>>Colmena</option>
+                            <option value="Otro">Otro</option>
                         </select>
+                        <input type="text" id="otraArl" name="otraArl" style="display: none;" placeholder="Especifique otro"
+                               value="<%= (persona.getArl() != null && !Persona.esArlPredefinida(persona.getArl().trim())) ? persona.getArl().trim() : ""%>">
+                        <input type="hidden" name="arlFinal" id="arlFinal"
+                               value="<%= persona.getArl() != null ? persona.getArl().trim() : ""%>">
                     </td>
                 </tr>
 
@@ -681,7 +691,7 @@
                 </tr>
                 <tr>
                     <th>Salario</th>
-                    <td><input type="text" name="salario" value="<%= persona.getSalario()%>" size="50" maxlength="50"
+                    <td><input type="text" name="salario" value="<%= persona.getSalario()%>" 
                                onkeypress="return soloNumeros(event)" 
                                onblur="validarNumerico('salario')
                                "placeholder="Campo numérico"></td>
@@ -737,6 +747,34 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>Talla de chaqueta</th>
+                    <td>
+                        <select name="tallaChaqueta" required>
+                            <option value="" <%= persona.getTallaChaqueta() == null || persona.getTallaChaqueta().trim().isEmpty() ? "selected" : ""%>>Seleccione...</option>
+                            <option value="XS" <%= "XS".equals(persona.getTallaChaqueta()) ? "selected" : ""%>>XS</option>
+                            <option value="S" <%= "S".equals(persona.getTallaChaqueta()) ? "selected" : ""%>>S</option>
+                            <option value="M" <%= "M".equals(persona.getTallaChaqueta()) ? "selected" : ""%>>M</option>
+                            <option value="L" <%= "L".equals(persona.getTallaChaqueta()) ? "selected" : ""%>>L</option>
+                            <option value="XL" <%= "XL".equals(persona.getTallaChaqueta()) ? "selected" : ""%>>XL</option>
+                            <option value="XXL" <%= "XXL".equals(persona.getTallaChaqueta()) ? "selected" : ""%>>XXL</option>
+                        </select>
+                    </td>
+                </tr>
+                 <tr>
+                    <th>Talla Overol</th>
+                    <td>
+                        <select name="tallaO" required>
+                            <option value="" <%= persona.getTallaO()== null || persona.getTallaChaqueta().trim().isEmpty() ? "selected" : ""%>>Seleccione...</option>
+                            <option value="XS" <%= "XS".equals(persona.getTallaO()) ? "selected" : ""%>>XS</option>
+                            <option value="S" <%= "S".equals(persona.getTallaO()) ? "selected" : ""%>>S</option>
+                            <option value="M" <%= "M".equals(persona.getTallaO()) ? "selected" : ""%>>M</option>
+                            <option value="L" <%= "L".equals(persona.getTallaO()) ? "selected" : ""%>>L</option>
+                            <option value="XL" <%= "XL".equals(persona.getTallaO()) ? "selected" : ""%>>XL</option>
+                            <option value="XXL" <%= "XXL".equals(persona.getTallaO()) ? "selected" : ""%>>XXL</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <th>Talla de guantes</th>
                     <td>
                         <select name="tallaGuantes" required>
@@ -764,30 +802,29 @@
                         </select>
                     </td>
                 </tr>
-                <tr>
-                    <th>Talla de overol</th>
-                    <td>
-                        <select name="tallaOverol" required>
-                            <option value="" <%= (persona.getTallaOverol() == null || persona.getTallaOverol().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <option value="XS" <%= "XS".equals(persona.getTallaOverol()) ? "selected" : ""%>>XS</option>
-                            <option value="S" <%= "S".equals(persona.getTallaOverol()) ? "selected" : ""%>>S</option>
-                            <option value="M" <%= "M".equals(persona.getTallaOverol()) ? "selected" : ""%>>M</option>
-                            <option value="L" <%= "L".equals(persona.getTallaOverol()) ? "selected" : ""%>>L</option>
-                            <option value="XL" <%= "XL".equals(persona.getTallaOverol()) ? "selected" : ""%>>XL</option>
-                            <option value="XXL" <%= "XXL".equals(persona.getTallaOverol()) ? "selected" : ""%>>XXL</option>
-                        </select>
-                    </td>
-                </tr>
                 </tr>
                 <tr>
                     <th>Talla de pantalón</th>
                     <td>
                         <select name="tallaPantalon" required>
                             <option value="" <%= (persona.getTallaPantalon() == null || persona.getTallaPantalon().trim().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
-                            <% for (int i = 28; i <= 44; i += 2) {%>
+
+                            <%
+                                // Agregar tallas específicas primero
+                                int[] tallasEspeciales = {6, 8, 10, 12, 14, 16};
+                                for (int talla : tallasEspeciales) {
+                            %>
+                            <option value="<%= talla%>" <%= Integer.toString(talla).equals(persona.getTallaPantalon()) ? "selected" : ""%>><%= talla%></option>
+                            <% } %>
+
+                            <%
+                                // Luego agregar las tallas pares de 28 a 44
+                                for (int i = 28; i <= 44; i += 2) {
+                            %>
                             <option value="<%= i%>" <%= Integer.toString(i).equals(persona.getTallaPantalon()) ? "selected" : ""%>><%= i%></option>
                             <% }%>
                         </select>
+
                     </td>
                 </tr>
                 <tr>
@@ -907,7 +944,7 @@
                 "Terminal Americano": "Green S.A.S. EDS",
                 "Puente": "Green S.A.S. EDS",
                 "Cano Bajo": "Green S.A.S. EDS",
-                "Green Field": "Green S.A.S."
+                "GreenField": "Green S.A.S."
             };
 
             // Asignar unidad de negocio basada en el establecimiento seleccionado
@@ -975,6 +1012,7 @@
                 document.getElementsByName("color")[0].value = "";
                 document.getElementsByName("cilindraje")[0].value = "";
                 document.getElementsByName("restricciones")[0].value = "";
+                document.getElementsByName("titularTrjPro")[0].value = "";
                 document.getElementsByName("numLicenciaTransito")[0].value = "";
                 document.getElementsByName("fechaExpLicenciaTransito")[0].value = "";
                 document.getElementsByName("estado")[0].value = "Inactivo";  // Establecer estado a "Inactivo"

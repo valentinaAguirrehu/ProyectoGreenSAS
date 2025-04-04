@@ -104,6 +104,7 @@
             <tr><th>Color:</th><td><%= persona.getColor()%></td></tr>
             <tr><th>Cilindraje:</th><td><%= persona.getCilindraje()%></td></tr>
             <tr><th>Restricciones del conductor</th><td><%= persona.getRestricciones()%></td></tr>
+            <tr><th>Titular Tarjeta de Propiedad</th><td><%= persona.getTitularTrjPro()%></td></tr>
             <tr><th>Número de la tarjeta de propiedad</th><td><%= persona.getNumLicenciaTransito()%></td></tr>
             <tr><th>Fecha de expedición tarjeta de propiedad</th><td><%= persona.getFechaExpLicenciaTransito()%></td></tr>
         </table>
@@ -148,8 +149,8 @@
             <tr><th>Talla de camisa</th><td><%= persona.getTallaCamisa()%></td></tr>
             <tr><th>Talla de buzo</th><td><%= persona.getTallaBuzo()%></td></tr>
             <tr><th>Talla de chaqueta</th><td><%= persona.getTallaChaqueta()%></td></tr>
+            <tr><th>Talla de Overol</th><td><%= persona.getTallaO()%></td></tr>
             <tr><th>Talla de pantalón</th><td><%= persona.getTallaPantalon()%></td></tr>
-            <tr><th>Talla de overol</th><td><%= persona.getTallaOverol()%></td></tr>
             <tr><th>Talla de guantes</th><td><%= persona.getTallaGuantes()%></td></tr>
             <tr><th>Talla de calzado</th><td><%= persona.getTallaCalzado()%></td></tr>
         </table>

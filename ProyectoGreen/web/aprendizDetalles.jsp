@@ -58,6 +58,7 @@
             <tr><th>Fecha de retiro</th><td><%= persona.getFechaRetiro()%></td></tr>   
             <tr><th>Fecha estapa lectiva</th><td><%= persona.getFechaEtapaLectiva()%></td></tr>
             <tr><th>Fecha etapa productiva</th><td><%= persona.getFechaEtapaProductiva()%></td></tr>   
+            <tr><th>Titulo aprendiz</th><td><%= persona.getTituloAprendiz()%></td></tr>   
             <tr><th>Documento de identidad</th><td><%= persona.getTipoDocumento()%></td></tr>
             <tr><th>Número del documento</th><td><%= persona.getIdentificacion()%></td></tr>
             <tr><th>Fecha de Expedición</th><td><%= persona.getFechaExpedicion()%></td></tr>
@@ -106,6 +107,7 @@
             <tr><th>Color:</th><td><%= persona.getColor()%></td></tr>
             <tr><th>Cilindraje:</th><td><%= persona.getCilindraje()%></td></tr>
             <tr><th>Restricciones del conductor</th><td><%= persona.getRestricciones()%></td></tr>
+            <tr><th>Titular Tarjeta de Propiedad</th><td><%= persona.getTitularTrjPro()%></td></tr>
             <tr><th>Número de la tarjeta de propiedad</th><td><%= persona.getNumLicenciaTransito()%></td></tr>
             <tr><th>Fecha de expedición tarjeta de propiedad</th><td><%= persona.getFechaExpLicenciaTransito()%></td></tr>
         </table>
@@ -139,8 +141,8 @@
             <tr><th>Número de cuenta bancaria</th><td><%= persona.getNumeroCuenta()%></td></tr>
             <tr><th>Salario</th><td><%= persona.getSalario()%></td></tr>
         </table>
-        
-        
+
+
         <div class="botones-container">          
             <button class="submit" id="regresar" onClick="window.history.back()">Regresar</button>           
         </div>

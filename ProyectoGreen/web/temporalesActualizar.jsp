@@ -40,12 +40,17 @@
     persona.setFechaRetiro(request.getParameter("fechaRetiro"));
     persona.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
     persona.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
-    String unidadNegocio = request.getParameter("unidadNegocio");
+    persona.setTituloAprendiz(request.getParameter("No aplica"));
+    persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
     persona.setCentroCostos(request.getParameter("centroCostos"));
     persona.setEstablecimiento(request.getParameter("establecimiento"));
     persona.setArea(request.getParameter("area"));
-    persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
-    persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
+    persona.setCuentaBancaria(request.getParameter("No aplica"));
+
+    String numeroCuentaStr = request.getParameter("numeroCuenta");
+    String numeroCuenta = (numeroCuentaStr != null && !numeroCuentaStr.equalsIgnoreCase("No Aplica") && !numeroCuentaStr.isEmpty()) ? numeroCuentaStr : "NULL";
+
+    //persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     persona.setSalario(request.getParameter("salario"));
     persona.setPrimerRefNombre(request.getParameter("primerRefNombre"));
     persona.setPrimerRefParentezco(request.getParameter("primerRefParentezco"));
@@ -80,6 +85,7 @@
     persona.setFechaExpConduccion(request.getParameter("fechaExpConduccion"));
     persona.setFechaVencimiento(request.getParameter("fechaVencimiento"));
     persona.setRestricciones(request.getParameter("restricciones"));
+    persona.setTitularTrjPro(request.getParameter("titularTrjPro"));
     persona.setEstado(request.getParameter("estado"));
     persona.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
     persona.setFondoPensiones(request.getParameter("No aplica"));
