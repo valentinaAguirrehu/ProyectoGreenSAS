@@ -1,3 +1,9 @@
+<%-- 
+    Document   : retirados
+    Created on : 3 abr 2025, 1:11:04
+    Author     : Angie
+--%>
+
 <%@page import="clases.Cargo"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Retirados"%>
@@ -151,16 +157,15 @@
             }
         }
     }
-    |
-            // PERMISOS
+    // PERMISOS
 
-            document.addEventListener("DOMContentLoaded", function () {
-                controlarPermisos(
+    document.addEventListener("DOMContentLoaded", function () {
+        controlarPermisos(
     <%= administrador.getpEliminar()%>,
     <%= administrador.getpEditar()%>,
     <%= administrador.getpAgregar()%>,
     <%= administrador.getpLeer()%>
-                );
-            });
+        );
+    });
 
 </script>
