@@ -58,7 +58,7 @@
             <tr><th>Fecha de retiro</th><td><%= persona.getFechaRetiro()%></td></tr>   
             <tr><th>Documento de identidad</th><td><%= persona.getTipoDocumento()%></td></tr>
             <tr><th>Número del documento</th><td><%= persona.getIdentificacion()%></td></tr>
-            <tr><th>Fecha de Expedición</th><td><%= persona.getFechaExpedicion()%></td></tr>
+            <tr><th>Fecha de Expedición</th><td><%= persona.getFechaExpedicion()%></td></tr> 
             <tr><th>Lugar de Expedición</th><td><%= persona.getLugarExpedicion()%></td></tr>
             <tr><th>Fecha de Nacimiento</th><td><%= persona.getFechaNacimiento()%></td></tr>
             <tr><th>Edad</th><td><%= edad >= 0 ? edad + " años" : "Fecha inválida"%></td></tr>
