@@ -104,7 +104,7 @@
             <tr><th>Color:</th><td><%= persona.getColor()%></td></tr>
             <tr><th>Cilindraje:</th><td><%= persona.getCilindraje()%></td></tr>
             <tr><th>Restricciones del conductor</th><td><%= persona.getRestricciones()%></td></tr>
-            <tr><th>Titular Tarjeta de Propiedad</th><td><%= persona.getTitularTrjPro()%></td></tr>
+            <tr><th>Titular de la tarjeta de propiedad</th><td><%= persona.getTitularTrjPro()%></td></tr>
             <tr><th>Número de la tarjeta de propiedad</th><td><%= persona.getNumLicenciaTransito()%></td></tr>
             <tr><th>Fecha de expedición tarjeta de propiedad</th><td><%= persona.getFechaExpLicenciaTransito()%></td></tr>
         </table>
@@ -129,10 +129,10 @@
         <table class="info-table">
             <tr><th>Fecha de termino del primer contrato</th><td><%= persona.getFechaTerPriContrato()%></td></tr>
             <tr><th>Establecimiento y unidad de negocio</th><td><%= persona.getEstablecimiento()%> - <%= persona.getUnidadNegocio()%></td></tr>
-            <tr><th>Centro de costos</th><td><%= persona.getCentroCostos()%></td></tr>
-            <tr><th>Area</th><td><%= persona.getArea()%></td></tr>
             <tr><th>Cargo</th><td><%=nombreCargo%></td></tr>
-            <tr><th>Centro costos por nomina</th><td><%=persona.getCctn()%></td></tr>
+            <tr><th>Area</th><td><%= persona.getArea()%></td></tr>
+            <tr><th>Centro de costos</th><td><%= persona.getCentroCostos()%></td></tr>
+            <tr><th>Centro de trabajo</th><td><%=persona.getCctn()%></td></tr>           
             <tr><th>EPS</th><td><%= persona.getEps()%></td></tr>
             <tr><th>Fondo de pensiones</th><td><%= persona.getFondoPensiones()%></td></tr>
             <tr><th>Fondo de cesantías</th><td><%= persona.getFondoCesantias()%></td></tr>
@@ -149,7 +149,7 @@
             <tr><th>Talla de camisa</th><td><%= persona.getTallaCamisa()%></td></tr>
             <tr><th>Talla de buzo</th><td><%= persona.getTallaBuzo()%></td></tr>
             <tr><th>Talla de chaqueta</th><td><%= persona.getTallaChaqueta()%></td></tr>
-            <tr><th>Talla de Overol</th><td><%= persona.getTallaO()%></td></tr>
+            <tr><th>Talla de overol</th><td><%= persona.getTallaO()%></td></tr>
             <tr><th>Talla de pantalón</th><td><%= persona.getTallaPantalon()%></td></tr>
             <tr><th>Talla de guantes</th><td><%= persona.getTallaGuantes()%></td></tr>
             <tr><th>Talla de calzado</th><td><%= persona.getTallaCalzado()%></td></tr>

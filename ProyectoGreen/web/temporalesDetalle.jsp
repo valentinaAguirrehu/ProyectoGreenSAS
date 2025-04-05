@@ -129,16 +129,11 @@
         <table class="info-table">
             <tr><th>Fecha de termino del primer contrato</th><td><%= persona.getFechaTerPriContrato()%></td></tr>
             <tr><th>Establecimiento y unidad de negocio</th><td><%= persona.getEstablecimiento()%> - <%= persona.getUnidadNegocio()%></td></tr>
-            <tr><th>Centro de costos</th><td><%= persona.getCentroCostos()%></td></tr>
-            <tr><th>Area</th><td><%= persona.getArea()%></td></tr>
             <tr><th>Cargo</th><td><%=nombreCargo%></td></tr>
-            <tr><th>Centro costos por nomina</th><td><%=persona.getCctn()%></td></tr>
-            <tr><th>EPS</th><td><%= persona.getEps()%></td></tr>
-            <tr><th>Fondo de pensiones</th><td><%= persona.getFondoPensiones()%></td></tr>
-            <tr><th>Fondo de cesantías</th><td><%= persona.getFondoCesantias()%></td></tr>
-            <tr><th>Arl</th><td><%= persona.getArl()%></td></tr>
-            <tr><th>Banco</th><td><%= persona.getCuentaBancaria()%></td></tr>
-            <tr><th>Número de cuenta bancaria</th><td><%= persona.getNumeroCuenta()%></td></tr>
+            <tr><th>Centro de costos</th><td><%= persona.getCentroCostos()%></td></tr>
+            <tr><th>Centro de trabajo</th><td><%=persona.getCctn()%></td></tr>
+            <tr><th>Area</th><td><%= persona.getArea()%></td></tr>
+            <tr><th>EPS</th><td><%= persona.getEps()%></td></tr>       
             <tr><th>Salario</th><td><%= persona.getSalario()%></td></tr>
         </table>
 

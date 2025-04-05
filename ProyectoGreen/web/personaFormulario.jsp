@@ -83,7 +83,7 @@
                         <select name="tipoDocumentoSelect" id="tipoDocumento" onchange="manejarOtro('tipoDocumento', 'otroTipoDocumento', 'tipoDocumentoHidden')"required>
                             <option value="Cedula de Ciudadania" <%= (persona.getTipoDocumento() == null || persona.getTipoDocumento().isEmpty() || "CC".equals(persona.getTipoDocumento())) ? "selected" : ""%>>Cédula de Ciudadanía</option>
                             <option value="Tarjeta de Identidad" <%= "TI".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Tarjeta de Identidad</option>
-                            <option value="Cédula de Extranjería" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cédula de Extranjería</option>
+                            <option value="Cedula de Extranjeria" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cédula de Extranjería</option>
                             <option value="Permiso Temporal" <%= "EXT".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Permiso Temporal</option>
                             <option value="Otro">Otro</option>
                         </select>
@@ -238,15 +238,15 @@
                     <td><input type="email" name="email" value="<%= persona.getEmail()%>" size="50" maxlength="50"required></td>
                 </tr>
                 <tr>
-                    <th>Nivel educativo</th>
+                    <th>Nivel educativo alcanzado</th>
                     <td colspan="2">
                         <div class="campos-container">
                             <select name="nivelEducativoSelect" id="nivelEducativo" onchange="manejarOtro('nivelEducativo', 'otroNivelEducativo', 'nivelEducativoHidden')" required>
                                 <option value="" <%= (persona.getNivelEducativo() == null || persona.getNivelEducativo().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
                                 <option value="Primaria" <%= "Primaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Primaria</option>
                                 <option value="Secundaria" <%= "Secundaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Secundaria</option>
-                                <option value="Técnico" <%= "Técnico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Técnico</option>
-                                <option value="Tecnólogo " <%= "Tecnólogo".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnólogo</option>
+                                <option value="Tecnico" <%= "Tecnico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Técnico</option>
+                                <option value="Tecnologo " <%= "Tecnologo".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnólogo</option>
                                 <option value="Universitario" <%= (persona.getNivelEducativo() == null || persona.getNivelEducativo().isEmpty() || "Universitario".equals(persona.getNivelEducativo())) ? "selected" : ""%>>Universitario</option>
                                 <option value="Postgrado" <%= "Postgrado".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Postgrado</option>
                                 <option value="Otro">Otro</option>
@@ -393,7 +393,7 @@
                         <td><input type="text" name="restricciones" value="<%= persona.getRestricciones()%>"></td>
                     </tr>
                     <tr>
-                        <th><label>Titular Tarjeta de Propiedad</label></th>
+                        <th><label>Titular de la tarjeta de propiedad</label></th>
                         <td><input type="text" name="titularTrjPro" value="<%= persona.getTitularTrjPro()%>"></td>
                     </tr>
                     <tr>

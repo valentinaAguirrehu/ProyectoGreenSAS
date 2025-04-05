@@ -635,23 +635,21 @@ public class Persona {
         this.establecimiento = establecimiento;
     }
 
-   public String getArea() {
-   String resultado = area;
+    public String getArea() {
+        String resultado = area;
         if (area == null) {
             resultado = "";
         }
         return resultado;
-   
-    
-    // Imprimir el valor de area para depuración
-    //System.out.println("Valor de 'area' en getArea(): " + resultado);
-    //return resultado;
-}
 
+        // Imprimir el valor de area para depuración
+        //System.out.println("Valor de 'area' en getArea(): " + resultado);
+        //return resultado;
+    }
 
     public void setArea(String area) {
         this.area = area;
-        
+
     }
 
     public String getCctn() {
@@ -997,18 +995,17 @@ public class Persona {
     }
 
     public String getTitularTrjPro() {
-            String resultado = titularTrjPro;
-            if (titularTrjPro == null) {
-                resultado = "";
-            }
-            return resultado;
+        String resultado = titularTrjPro;
+        if (titularTrjPro == null) {
+            resultado = "";
+        }
+        return resultado;
     }
 
     public void setTitularTrjPro(String titularTrjPro) {
         this.titularTrjPro = titularTrjPro;
     }
 
-    
     public String getEstado() {
         String resultado = estado;
         if (estado == null) {
@@ -1129,56 +1126,56 @@ public class Persona {
         }
     }
 
-   // Métodos para expedición
-public String getIdDepartamentoExpedicion() {
-    if (lugarExpedicion != null && lugarExpedicion.contains("-")) {
-        String[] partes = lugarExpedicion.split("-");
-        return (partes.length > 0) ? partes[0] : "";
+    // Métodos para expedición
+    public String getIdDepartamentoExpedicion() {
+        if (lugarExpedicion != null && lugarExpedicion.contains("-")) {
+            String[] partes = lugarExpedicion.split("-");
+            return (partes.length > 0) ? partes[0] : "";
+        }
+        return "";
     }
-    return "";
-}
 
-public void setIdDepartamentoExpedicion(String idDepartamentoExpedicion) {
-    this.idDepartamento= idDepartamentoExpedicion;
-}
-
-public String getIdMunicipioExpedicion() {
-    if (lugarExpedicion != null && lugarExpedicion.contains("-")) {
-        String[] partes = lugarExpedicion.split("-");
-        return (partes.length > 1) ? partes[1] : "";
+    public void setIdDepartamentoExpedicion(String idDepartamentoExpedicion) {
+        this.idDepartamento = idDepartamentoExpedicion;
     }
-    return "";
-}
 
-public void setIdMunicipioExpedicion(String idMunicipioExpedicion) {
-    this.idMunicipio= idMunicipioExpedicion;
-}
+    public String getIdMunicipioExpedicion() {
+        if (lugarExpedicion != null && lugarExpedicion.contains("-")) {
+            String[] partes = lugarExpedicion.split("-");
+            return (partes.length > 1) ? partes[1] : "";
+        }
+        return "";
+    }
+
+    public void setIdMunicipioExpedicion(String idMunicipioExpedicion) {
+        this.idMunicipio = idMunicipioExpedicion;
+    }
 
 // Métodos para nacimiento
-public String getIdDepartamentoNacimiento() {
-    if (lugarNacimiento != null && lugarNacimiento.contains("-")) {
-        String[] partes = lugarNacimiento.split("-");
-        return (partes.length > 0) ? partes[0] : "";
+    public String getIdDepartamentoNacimiento() {
+        if (lugarNacimiento != null && lugarNacimiento.contains("-")) {
+            String[] partes = lugarNacimiento.split("-");
+            return (partes.length > 0) ? partes[0] : "";
+        }
+        return "";
     }
-    return "";
-}
 
-public void setIdDepartamentoNacimiento(String idDepartamentoNacimiento) {
-    this.idDepartamento= idDepartamentoNacimiento;
-}
-
-public String getIdMunicipioNacimiento() {
-    if (lugarNacimiento != null && lugarNacimiento.contains("-")) {
-        String[] partes = lugarNacimiento.split("-");
-        return (partes.length > 1) ? partes[1] : "";
+    public void setIdDepartamentoNacimiento(String idDepartamentoNacimiento) {
+        this.idDepartamento = idDepartamentoNacimiento;
     }
-    return "";
-}
 
-public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
-    this.idMunicipio = idMunicipioNacimiento;
-}
-    
+    public String getIdMunicipioNacimiento() {
+        if (lugarNacimiento != null && lugarNacimiento.contains("-")) {
+            String[] partes = lugarNacimiento.split("-");
+            return (partes.length > 1) ? partes[1] : "";
+        }
+        return "";
+    }
+
+    public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
+        this.idMunicipio = idMunicipioNacimiento;
+    }
+
     public String getTipoDotacion() {
         String resultado = tipoDotacion;
         if (tipoDotacion == null) {
@@ -1226,31 +1223,25 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
     public void setTallaO(String tallaO) {
         this.tallaO = tallaO;
     }
- 
-        
-        //String resultado = this.tallaOverol;
-        //System.out.println("Talla overol"
-          //      + resultado);
-        //if (tallaOverol == null) {
-          //  resultado = "";
-        //}
-        //System.out.println("Talla overol"
-          //      + resultado);
 
-       // return resultado;
+    //String resultado = this.tallaOverol;
+    //System.out.println("Talla overol"
+    //      + resultado);
+    //if (tallaOverol == null) {
+    //  resultado = "";
     //}
-
-
+    //System.out.println("Talla overol"
+    //      + resultado);
+    // return resultado;
+    //}
     public String getArl() {
-         String resultado = arl;
+        String resultado = arl;
         if (arl == null) {
             resultado = "";
         }
         return resultado;
     }
 
-
-    
     public void setArl(String arl) {
         this.arl = arl;
     }
@@ -1287,7 +1278,7 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
                 + "identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
                 + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
                 + "tipoVivienda, direccion, barrio, celular, email, nivelEducativo, eps, "
-                + "estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, TituloAprendiz "
+                + "estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, TituloAprendiz, "
                 + "unidadNegocio, centroCostos, establecimiento, area, cctn, cuentaBancaria, "
                 + "numeroCuenta, salario, primerRefNombre, primerRefParentezco, primerRefCelular, "
                 + "segundaRefNombre, segundaRefParentezco, segundaRefCelular, terceraRefNombre, "
@@ -1309,15 +1300,16 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
                 + (fechaRetiro != null && !fechaRetiro.isEmpty() ? "'" + fechaRetiro + "'" : "NULL") + ", "
                 + (fechaEtapaLectiva != null && !fechaEtapaLectiva.isEmpty() ? "'" + fechaEtapaLectiva + "'" : "NULL") + ", "
                 + (fechaEtapaProductiva != null && !fechaEtapaProductiva.isEmpty() ? "'" + fechaEtapaProductiva + "'" : "NULL") + ", '"
-                + TituloAprendiz + "','" + unidadNegocio + "', '" + centroCostos + "', '" + establecimiento + "', '" + area + "', '"
+                + TituloAprendiz + "', '" + unidadNegocio + "', '" + centroCostos + "', '" + establecimiento + "', '" + area + "', '"
                 + cctn + "', '" + cuentaBancaria + "', '" + numeroCuenta + "', "
                 + (salario != null && !salario.isEmpty() ? salario : "NULL") + ", '"
                 + primerRefNombre + "', '" + primerRefParentezco + "', '" + primerRefCelular + "', '"
                 + segundaRefNombre + "', '" + segundaRefParentezco + "', '" + segundaRefCelular + "', '"
                 + terceraRefNombre + "', '" + terceraRefParentezco + "', '" + terceraRefCelular + "', '"
                 + cuartaRefNombre + "', '" + cuartaRefParentezco + "', '" + cuartaRefCelular + "', '"
-                + tieneHijos + "', '" + tallaCamisa + "', '" + tallaChaqueta  + "','" + tallaO + "', '" + tallaPantalon + "', "
-                + (tallaCalzado != null && !tallaCalzado.isEmpty() ? tallaCalzado : "NULL") + ", '"
+                + tieneHijos + "', '" + tallaCamisa + "', '" + tallaChaqueta + "','" + tallaO + "', "
+                + (tallaPantalon != null ? tallaPantalon : "NULL") + ", "
+                + (tallaCalzado != null ? tallaCalzado : "NULL") + ", '"
                 + tieneVehiculo + "', '" + numeroPlacaVehiculo + "', '" + tipoVehiculo + "', '"
                 + modeloVehiculo + "', '" + linea + "', '" + marca + "', '" + color + "', "
                 + (cilindraje != null && !cilindraje.isEmpty() ? cilindraje : "NULL") + ", '"
@@ -1326,14 +1318,14 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
                 + (numLicenciaConduccion != null && !numLicenciaConduccion.isEmpty() ? numLicenciaConduccion : "NULL") + "', "
                 + (fechaExpConduccion != null && !fechaExpConduccion.isEmpty() ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
                 + (fechaVencimiento != null && !fechaVencimiento.isEmpty() ? "'" + fechaVencimiento + "'" : "NULL") + ", '"
-                + restricciones + "', '" + estado + "', "
-                +  titularTrjPro + "', "
+                + restricciones + "', '" + titularTrjPro + "', '"
+                + estado + "', "
                 + (fechaTerPriContrato != null && !fechaTerPriContrato.isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL") + ", '"
                 + fondoPensiones + "', '" + fondoCesantias + "', "
                 + (fechaUltiEntrega != null && !fechaUltiEntrega.isEmpty() ? "'" + fechaUltiEntrega + "'" : "NULL") + ", "
                 + (fechaProEntrega != null && !fechaProEntrega.isEmpty() ? "'" + fechaProEntrega + "'" : "NULL") + ", '"
                 + profesion + "', '" + tipoDotacion + "', '"
-                + tallaGuantes + "', '" + tallaBuzo + "', '" 
+                + tallaGuantes + "', '" + tallaBuzo + "', '"
                 + arl + "');";
 
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
@@ -1448,7 +1440,6 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
                 + "tallaGuantes=" + (tallaGuantes != null ? "'" + tallaGuantes + "'" : "NULL") + ", "
                 + "tallaBuzo=" + (tallaBuzo != null ? "'" + tallaBuzo + "'" : "NULL") + ", "
                 + "arl=" + (arl != null ? "'" + arl + "'" : "NULL") + " "
-                
                 + "WHERE identificacion='" + identificacionAnterior + "'";
         System.out.println("Consulta SQL de modificación: " + cadenaSQL);
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
@@ -1503,7 +1494,7 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
 
     public static List<Persona> getListaEnObjetos(String filtro, String orden) throws SQLException {
         List<Persona> lista = new ArrayList<>();
-        try (ResultSet datos = Persona.getLista(filtro, orden)) {
+        try ( ResultSet datos = Persona.getLista(filtro, orden)) {
             if (datos != null) {
                 while (datos.next()) {
                     Persona persona = new Persona();
@@ -1590,7 +1581,7 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
                             + "WHERE ph.identificacionPersona = '" + persona.getIdentificacion() + "'";
 
                     List<Hijo> listaHijos = new ArrayList<>();
-                    try (ResultSet datosHijos = ConectorBD.consultar(sqlHijos)) {
+                    try ( ResultSet datosHijos = ConectorBD.consultar(sqlHijos)) {
                         if (datosHijos != null) {
                             while (datosHijos.next()) {
                                 Hijo hijo = new Hijo();
@@ -1637,14 +1628,14 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
         return fondo != null && (fondo.equals("Porvenir") || fondo.equals("Proteccion")
                 || fondo.equals("Colfondos") || fondo.equals("Old Mutual"));
     }
-    public static boolean esArlPredefinida(String arl) {
-    return arl != null && (arl.equalsIgnoreCase("Colmena"));
-}
 
+    public static boolean esArlPredefinida(String arl) {
+        return arl != null && (arl.equalsIgnoreCase("Colmena"));
+    }
 
     public static List<String[]> getListaEnArreglosJS(String filtro, String orden) throws SQLException {
         List<String[]> lista = new ArrayList<>();
-        try (ResultSet datos = Persona.getLista(filtro, orden)) {
+        try ( ResultSet datos = Persona.getLista(filtro, orden)) {
             if (datos != null) {
                 while (datos.next()) {
                     String[] persona = new String[]{
@@ -1737,11 +1728,10 @@ public void setIdMunicipioNacimiento(String idMunicipioNacimiento) {
     }
 
     public static boolean esAreaPredefinida(String area) {
-    return area != null && (area.equalsIgnoreCase("Linea Media") ||
-                            area.equalsIgnoreCase("Linea Directiva") ||
-                            area.equalsIgnoreCase("Administrativo") ||
-                            area.equalsIgnoreCase("Operativo"));
-}
-
+        return area != null && (area.equalsIgnoreCase("Linea Media")
+                || area.equalsIgnoreCase("Linea Directiva")
+                || area.equalsIgnoreCase("Administrativo")
+                || area.equalsIgnoreCase("Operativo"));
+    }
 
 }

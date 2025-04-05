@@ -69,6 +69,7 @@
 
     persona.setTallaCamisa(request.getParameter("tallaCamisa"));
     persona.setTallaChaqueta(request.getParameter("tallaChaqueta"));
+    persona.setTallaO(request.getParameter("tallaO"));
     persona.setTallaPantalon(request.getParameter("tallaPantalon"));
     persona.setTallaCalzado(request.getParameter("tallaCalzado"));
     persona.setTieneVehiculo(request.getParameter("tieneVehiculo"));
@@ -100,7 +101,6 @@
     persona.setTipoDotacion(request.getParameter("tipoDotacion"));
     persona.setTallaGuantes(request.getParameter("tallaGuantes"));
     persona.setTallaBuzo(request.getParameter("tallaBuzo"));
-    persona.setTallaOverol(request.getParameter("tallaOverol"));
     //persona.setArl(request.getParameter("arl"));
 
     // Capturar valores del formulario

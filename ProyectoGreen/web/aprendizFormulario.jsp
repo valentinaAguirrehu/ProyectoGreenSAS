@@ -72,32 +72,32 @@
                     <td><input type="date" name="fechaIngreso" value="<%= persona.getFechaIngreso()%>"required></td>
                 </tr>
                 <tr>
+                    <th>Fecha de inicio de etapa productiva</th>
+                    <td>
+                        <input type="date" name="fechaEtapaProductiva" value="<%= (persona.getFechaEtapaProductiva() != null && !persona.getFechaEtapaProductiva().isEmpty()) ? persona.getFechaEtapaProductiva() : "0000-00-00"%>">
+                    </td>     
+                </tr>
+                <tr>
+                    <th>Fecha de inicio del contrato de aprendizaje</th>
+                    <td><input type="date" name="fechaEtapaLectiva" value="<%= persona.getFechaEtapaLectiva()%>"required></td>
+                </tr>
+                <tr>
+                    <th>Fecha de termino del contrato de aprendizaje</th>
+                    <td><input type="date" name="fechaTerPriContrato" value="<%= persona.getFechaTerPriContrato()%>"></td>
+                </tr>
+                <tr>
                     <th>Fecha de retiro</th>
                     <td>
                         <input type="date" name="fechaRetiro" value="<%= (persona.getFechaRetiro() != null && !persona.getFechaRetiro().isEmpty()) ? persona.getFechaRetiro() : "0000-00-00"%>">
                     </td>     
                 </tr>
                 <tr>
-                    <th>Fecha etapa lectiva</th>
-                    <td><input type="date" name="fechaEtapaLectiva" value="<%= persona.getFechaEtapaLectiva()%>"required></td>
-                </tr>
-                <tr>
-                    <th>Fecha estapa productiva</th>
-                    <td>
-                        <input type="date" name="fechaEtapaProductiva" value="<%= (persona.getFechaEtapaProductiva() != null && !persona.getFechaEtapaProductiva().isEmpty()) ? persona.getFechaEtapaProductiva() : "0000-00-00"%>">
-                    </td>     
-                </tr>
-                <tr>
-                    <th>Titulo aprendiz</th>
-                    <td><input type="text" name="TituloAprendiz" value="<%= persona.getTituloAprendiz()%>" size="50" maxlength="50"required></td>
-                </tr>
-                <tr>
                     <th>Documento de identidad</th>
                     <td>
                         <select name="tipoDocumentoSelect" id="tipoDocumento" onchange="manejarOtro('tipoDocumento', 'otroTipoDocumento', 'tipoDocumentoHidden')"required>
-                            <option value="Cédula de Ciudadanía" <%= (persona.getTipoDocumento() == null || persona.getTipoDocumento().isEmpty() || "CC".equals(persona.getTipoDocumento())) ? "selected" : ""%>>Cédula de Ciudadanía</option>
+                            <option value="Cedula de Ciudadania" <%= (persona.getTipoDocumento() == null || persona.getTipoDocumento().isEmpty() || "CC".equals(persona.getTipoDocumento())) ? "selected" : ""%>>Cédula de Ciudadanía</option>
                             <option value="Tarjeta de Identidad" <%= "TI".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Tarjeta de Identidad</option>
-                            <option value="Cédula de Extranjería" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cédula de Extranjería</option>
+                            <option value="Cedula de Extranjeria" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cédula de Extranjería</option>
                             <option value="Permiso Temporal" <%= "EXT".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Permiso Temporal</option>
                             <option value="Otro">Otro</option>
                         </select>
@@ -252,18 +252,16 @@
                     <td><input type="email" name="email" value="<%= persona.getEmail()%>" size="50" maxlength="50"required></td>
                 </tr>
                 <tr>
-                    <th>Nivel educativo</th>
+                    <th>Nivel educativo alcanzado</th>
                     <td colspan="2">
                         <div class="campos-container">
                             <select name="nivelEducativoSelect" id="nivelEducativo" onchange="manejarOtro('nivelEducativo', 'otroNivelEducativo', 'nivelEducativoHidden')" required>
                                 <option value="" <%= (persona.getNivelEducativo() == null || persona.getNivelEducativo().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
                                 <option value="Primaria" <%= "Primaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Primaria</option>
                                 <option value="Secundaria" <%= "Secundaria".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Secundaria</option>
-                                <option value="Técnico" <%= "Técnico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Técnico</option>
-                                <option value="Tecnólogo " <%= "Tecnólogo".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnólogo</option>
+                                <option value="Tecnico" <%= "Tecnico".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Técnico</option>
+                                <option value="Tecnologo " <%= "Tecnologo".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Tecnólogo</option>
                                 <option value="Universitario" <%= (persona.getNivelEducativo() == null || persona.getNivelEducativo().isEmpty() || "Universitario".equals(persona.getNivelEducativo())) ? "selected" : ""%>>Universitario</option>
-                                <option value="Postgrado" <%= "Postgrado".equals(persona.getNivelEducativo()) ? "selected" : ""%>>Postgrado</option>
-                                <option value="Otro">Otro</option>
                             </select>
                             <input type="text" id="otroNivelEducativo" name="otroNivelEducativo"
                                    style="display: none;" placeholder="Especifique otro"
@@ -273,6 +271,12 @@
                             <label for="profesion"><b>en</b></label>
                             <input type="text" name="profesion" value="<%= persona.getProfesion()%>" size="50" maxlength="50" required>
                         </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Profesión en formación</th>
+                    <td>
+                        <input type="text" name="tituloAprendiz" value="<%= persona.getTituloAprendiz()%>" size="70" maxlength="100" required>
                     </td>
                 </tr>
                 <tr>
@@ -290,7 +294,7 @@
                 </tr>
 
                 <tr>
-                    <th colspan="2">¿El colaborador tiene hijos?</th>
+                    <th colspan="2">¿El aprendiz tiene hijos?</th>
                 </tr>
                 <tr> 
                     <td colspan="2">
@@ -337,7 +341,7 @@
             </div>
             <table>
                 <tr>
-                    <th colspan="2">¿El colaborador tiene medio de transporte?</th>
+                    <th colspan="2">¿El aprendiz tiene medio de transporte?</th>
                 </tr>
                 <tr> 
                     <td colspan="2">
@@ -408,7 +412,7 @@
                         <th><label>Titular Tarjeta de Propiedad</label></th>
                         <td><input type="text" name="titularTrjPro" value="<%= persona.getTitularTrjPro()%>"></td>
                     </tr>
-                     <tr>
+                    <tr>
                         <th><label>Número de la tarjeta de propiedad</label></th>
                         <td><input type="text" name="numLicenciaTransito" value="<%= persona.getNumLicenciaTransito()%>" size="50" maxlength="50" 
                                    onkeypress="return soloNumeros(event)" 
@@ -537,10 +541,6 @@
             <h1>Información laboral</h1> <!-- Tabla de Información de Trabajo -->
             <table border="1">
                 <tr>
-                    <th>Fecha de termino del primer contrato</th>
-                    <td><input type="date" name="fechaTerPriContrato" value="<%= persona.getFechaTerPriContrato()%>"></td>
-                </tr>
-                <tr>
                     <th>Establecimiento</th>
                     <td>
                         <select name="establecimiento" id="establecimiento" onchange="precargarUnidadNegocio()" required>
@@ -631,7 +631,6 @@
                         </select>
                     </td>
                 </tr>
-
                 <tr>
                     <th>Banco</th>
                     <td><input type="text" name="cuentaBancaria" value="<%= persona.getCuentaBancaria()%>" size="50" maxlength="50"></td>
@@ -651,7 +650,6 @@
                                "placeholder="Campo numérico"></td>
                 </tr>
             </table>
-
 
             <div class="botones-container">
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
