@@ -25,7 +25,6 @@
                 Cargo cargo = new Cargo(datos.getString("id"));
 
                 lista += "<tr>";
-                lista += "<td align='right'>" + cargo.getId() + "</td>";
                 lista += "<td>" + cargo.getNombre() + "</td>";
                 lista += "<td>" + cargo.getCodigoCargo() + "</td>";
                 lista += "<td>" + cargo.getDescripcion() + "</td>";
@@ -72,7 +71,6 @@
         </div>
         <table class="table" border="1" id="cargosTable">
             <tr>
-                <th>Número</th>
                 <th>Cargo</th>
                 <th>Código del Cargo</th>
                 <th>Descripción</th>
