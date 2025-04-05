@@ -40,7 +40,8 @@
     persona.setFechaRetiro(request.getParameter("fechaRetiro"));
     persona.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
     persona.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
-    String unidadNegocio = request.getParameter("unidadNegocio");
+    persona.setTituloAprendiz(request.getParameter("TituloAprendiz"));
+    persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
     persona.setCentroCostos(request.getParameter("centroCostos"));
     persona.setEstablecimiento(request.getParameter("establecimiento"));
     persona.setArea(request.getParameter("No aplica"));
@@ -61,9 +62,10 @@
     persona.setCuartaRefCelular(request.getParameter("cuartaRefCelular"));
     persona.setTieneHijos(request.getParameter("tieneHijos"));
     String datosHijos = request.getParameter("hijosRegistrados");
-    
+
     persona.setTallaCamisa(request.getParameter("No aplica"));
     persona.setTallaChaqueta(request.getParameter("No aplica"));
+    persona.setTallaO(request.getParameter("No aplica"));
     //persona.setTallaPantalon(request.getParameter("No aplica"));
     //persona.setTallaCalzado(request.getParameter("tallaCalzado"));
     persona.setTieneVehiculo(request.getParameter("tieneVehiculo"));
@@ -80,6 +82,7 @@
     persona.setFechaExpConduccion(request.getParameter("fechaExpConduccion"));
     persona.setFechaVencimiento(request.getParameter("fechaVencimiento"));
     persona.setRestricciones(request.getParameter("restricciones"));
+    persona.setTitularTrjPro(request.getParameter("titularTrjPro"));
     persona.setEstado(request.getParameter("estado"));
     persona.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
     persona.setFondoPensiones(request.getParameter("No aplica"));
@@ -94,18 +97,17 @@
     persona.setTipoDotacion(request.getParameter("No aplica"));
     persona.setTallaGuantes(request.getParameter("No aplica"));
     persona.setTallaBuzo(request.getParameter("No aplica"));
-    persona.setTallaOverol(request.getParameter("No aplica"));
     persona.setArl(request.getParameter("arl"));
 
     persona.setTallaCamisa(request.getParameter("no aplica"));
     persona.setTallaChaqueta(request.getParameter("no aplica"));
-   // Obtener los valores del request
-String tallaPantalonStr = request.getParameter("tallaPantalon");
-String tallaCalzadoStr = request.getParameter("tallaCalzado");
+    // Obtener los valores del request
+    String tallaPantalonStr = request.getParameter("tallaPantalon");
+    String tallaCalzadoStr = request.getParameter("tallaCalzado");
 
 // Convertir a número si es posible, o asignar NULL si es "No Aplica" o vacío
-String tallaPantalon = (tallaPantalonStr != null && !tallaPantalonStr.equalsIgnoreCase("No Aplica") && !tallaPantalonStr.isEmpty()) ? tallaPantalonStr : "NULL";
-String tallaCalzado = (tallaCalzadoStr != null && !tallaCalzadoStr.equalsIgnoreCase("No Aplica") && !tallaCalzadoStr.isEmpty()) ? tallaCalzadoStr : "NULL";
+    String tallaPantalon = (tallaPantalonStr != null && !tallaPantalonStr.equalsIgnoreCase("No Aplica") && !tallaPantalonStr.isEmpty()) ? tallaPantalonStr : "NULL";
+    String tallaCalzado = (tallaCalzadoStr != null && !tallaCalzadoStr.equalsIgnoreCase("No Aplica") && !tallaCalzadoStr.isEmpty()) ? tallaCalzadoStr : "NULL";
 
     // Capturar valores del formulario
     String idDepartamentoExpedicion = request.getParameter("departamentoExpedicion");
@@ -141,11 +143,11 @@ String tallaCalzado = (tallaCalzadoStr != null && !tallaCalzadoStr.equalsIgnoreC
             break;
     }
 
-   // 🔹 Solo proceder con los hijos si la persona se guardó correctamente
+    // 🔹 Solo proceder con los hijos si la persona se guardó correctamente
     if (personaGuardada && identificacionesHijos != null) {
         for (int i = 0; i < identificacionesHijos.length; i++) {
             if (!identificacionesHijos[i].trim().isEmpty() && !nombresHijos[i].trim().isEmpty() && !fechasNacimientoHijos[i].trim().isEmpty()) {
-                
+
                 // Insertar en la tabla hijos si no existe
                 String sqlHijo = "INSERT INTO hijos (identificacion, nombres, fechaNacimiento) VALUES ('"
                         + identificacionesHijos[i] + "', '" + nombresHijos[i] + "', '" + fechasNacimientoHijos[i] + "') "
@@ -155,7 +157,7 @@ String tallaCalzado = (tallaCalzadoStr != null && !tallaCalzadoStr.equalsIgnoreC
                 // Insertar en persona_hijos con autoincremental id
                 String sqlRelacion = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) VALUES ('"
                         + persona.getIdentificacion() + "', '" + identificacionesHijos[i] + "')";
-                
+
                 System.out.println("SQL Relación: " + sqlRelacion); // <-- Agregado para depurar
                 ConectorBD.ejecutarQuery(sqlRelacion);
             }
@@ -167,5 +169,5 @@ String tallaCalzado = (tallaCalzadoStr != null && !tallaCalzadoStr.equalsIgnoreC
 
 %>
 <script type="text/javascript">
-    document.location="aprendiz.jsp";
+    document.location = "aprendiz.jsp";
 </script>

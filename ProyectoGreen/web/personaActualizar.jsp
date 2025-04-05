@@ -40,7 +40,8 @@
     persona.setFechaRetiro(request.getParameter("fechaRetiro"));
     persona.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
     persona.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
-    String unidadNegocio = request.getParameter("unidadNegocio");
+    persona.setTituloAprendiz(request.getParameter("No aplica"));
+    persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
     persona.setCentroCostos(request.getParameter("centroCostos"));
     persona.setEstablecimiento(request.getParameter("establecimiento"));
     persona.setArea(request.getParameter("area"));
@@ -64,6 +65,7 @@
     
     persona.setTallaCamisa(request.getParameter("tallaCamisa"));
     persona.setTallaChaqueta(request.getParameter("tallaChaqueta"));
+    persona.setTallaO(request.getParameter("tallaO"));
     persona.setTallaPantalon(request.getParameter("tallaPantalon"));
     persona.setTallaCalzado(request.getParameter("tallaCalzado"));
     persona.setTieneVehiculo(request.getParameter("tieneVehiculo"));
@@ -80,6 +82,7 @@
     persona.setFechaExpConduccion(request.getParameter("fechaExpConduccion"));
     persona.setFechaVencimiento(request.getParameter("fechaVencimiento"));
     persona.setRestricciones(request.getParameter("restricciones"));
+    persona.setTitularTrjPro(request.getParameter("titularTrjPro"));
     persona.setEstado(request.getParameter("estado"));
     persona.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
     persona.setFondoPensiones(request.getParameter("fondoPensiones"));
@@ -94,7 +97,6 @@
     persona.setTipoDotacion(request.getParameter("tipoDotacion"));
     persona.setTallaGuantes(request.getParameter("tallaGuantes"));
     persona.setTallaBuzo(request.getParameter("tallaBuzo"));
-    persona.setTallaOverol(request.getParameter("tallaOverol"));
     persona.setArl(request.getParameter("arl"));
 
     // Capturar valores del formulario
