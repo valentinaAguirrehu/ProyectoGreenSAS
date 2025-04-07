@@ -97,12 +97,10 @@ public class Persona {
     private String fechaTerPriContrato;
     private String fondoPensiones;
     private String fondoCesantias;
-    private String fechaUltiEntrega;
-    private String fechaProEntrega;
     private String profesion;
     private String idDepartamento;  // Campo virtual
     private String idMunicipio;    // Campo virtual
-    private String tipoDotacion;
+    private String educacion;
     private String tallaGuantes;
     private String tallaBuzo;
     private String arl;
@@ -187,10 +185,8 @@ public class Persona {
                 fechaTerPriContrato = resultado.getString("fechaTerPriContrato");
                 fondoPensiones = resultado.getString("fondoPensiones");
                 fondoCesantias = resultado.getString("fondoCesantias");
-                fechaUltiEntrega = resultado.getString("fechaUltiEntrega");
-                fechaProEntrega = resultado.getString("fechaProEntrega");
                 profesion = resultado.getString("profesion");
-                tipoDotacion = resultado.getString("tipoDotacion");
+                educacion = resultado.getString("tipoDotacion");
                 tallaGuantes = resultado.getString("tallaGuantes");
                 tallaBuzo = resultado.getString("tallaBuzo");
                 tallaBuzo = resultado.getString("tallaBuzo");
@@ -1074,30 +1070,6 @@ public class Persona {
         this.fondoCesantias = fondoCesantias;
     }
 
-    public String getFechaUltiEntrega() {
-        String resultado = fechaUltiEntrega;
-        if (fechaUltiEntrega == null) {
-            resultado = " ";
-        }
-        return resultado;
-    }
-
-    public void setFechaUltiEntrega(String fechaUltiEntrega) {
-        this.fechaUltiEntrega = fechaUltiEntrega;
-    }
-
-    public String getFechaProEntrega() {
-        String resultado = fechaProEntrega;
-        if (fechaProEntrega == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setFechaProEntrega(String fechaProEntrega) {
-        this.fechaProEntrega = fechaProEntrega;
-    }
-
     public String getProfesion() {
         String resultado = profesion;
         if (profesion == null) {
@@ -1176,16 +1148,16 @@ public class Persona {
         this.idMunicipio = idMunicipioNacimiento;
     }
 
-    public String getTipoDotacion() {
-        String resultado = tipoDotacion;
-        if (tipoDotacion == null) {
+    public String getEducacion() {
+        String resultado = educacion;
+        if (educacion == null) {
             resultado = "";
         }
         return resultado;
     }
 
-    public void setTipoDotacion(String tipoDotacion) {
-        this.tipoDotacion = tipoDotacion;
+    public void setEducacion(String educacion) {
+        this.educacion = educacion;
     }
 
     public String getTallaGuantes() {
@@ -1276,57 +1248,70 @@ public class Persona {
     public boolean grabar() {
         String cadenaSQL = "INSERT INTO persona ("
                 + "identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
-                + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
-                + "tipoVivienda, direccion, barrio, celular, email, nivelEducativo, eps, "
-                + "estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, TituloAprendiz, "
-                + "unidadNegocio, centroCostos, establecimiento, area, cctn, cuentaBancaria, "
-                + "numeroCuenta, salario, primerRefNombre, primerRefParentezco, primerRefCelular, "
-                + "segundaRefNombre, segundaRefParentezco, segundaRefCelular, terceraRefNombre, "
-                + "terceraRefParentezco, terceraRefCelular, cuartaRefNombre, cuartaRefParentezco, "
-                + "cuartaRefCelular, tieneHijos, tallaCamisa, tallaChaqueta, tallaO, tallaPantalon, "
-                + "tallaCalzado, tieneVehiculo, numeroPlacaVehiculo, tipoVehiculo, modeloVehiculo, "
-                + "linea, marca, color, cilindraje, numLicenciaTransito, fechaExpLicenciaTransito, "
-                + "numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones, titularTrjPro, "
-                + "estado, fechaTerPriContrato, fondoPensiones, fondoCesantias, fechaUltiEntrega, "
-                + "fechaProEntrega, profesion, tipoDotacion, tallaGuantes, tallaBuzo, arl) VALUES ('"
-                + identificacion + "', '" + tipo + "', " + idCargo + ", '" + tipoDocumento + "', "
-                + (fechaExpedicion != null && !fechaExpedicion.isEmpty() ? "'" + fechaExpedicion + "'" : "NULL") + ", '"
-                + lugarExpedicion + "', '" + nombres + "', '" + apellidos + "', '" + sexo + "', "
-                + (fechaNacimiento != null && !fechaNacimiento.isEmpty() ? "'" + fechaNacimiento + "'" : "NULL") + ", '"
-                + lugarNacimiento + "', '" + tipoSangre + "', '" + tipoVivienda + "', '" + direccion + "', '"
-                + barrio + "', '" + celular + "', '" + email + "', '" + nivelEducativo + "', '" + eps + "', '"
-                + estadoCivil + "', "
-                + (fechaIngreso != null && !fechaIngreso.isEmpty() ? "'" + fechaIngreso + "'" : "NULL") + ", "
-                + (fechaRetiro != null && !fechaRetiro.isEmpty() ? "'" + fechaRetiro + "'" : "NULL") + ", "
-                + (fechaEtapaLectiva != null && !fechaEtapaLectiva.isEmpty() ? "'" + fechaEtapaLectiva + "'" : "NULL") + ", "
-                + (fechaEtapaProductiva != null && !fechaEtapaProductiva.isEmpty() ? "'" + fechaEtapaProductiva + "'" : "NULL") + ", '"
-                + TituloAprendiz + "', '" + unidadNegocio + "', '" + centroCostos + "', '" + establecimiento + "', '" + area + "', '"
-                + cctn + "', '" + cuentaBancaria + "', '" + numeroCuenta + "', "
-                + (salario != null && !salario.isEmpty() ? salario : "NULL") + ", '"
-                + primerRefNombre + "', '" + primerRefParentezco + "', '" + primerRefCelular + "', '"
-                + segundaRefNombre + "', '" + segundaRefParentezco + "', '" + segundaRefCelular + "', '"
-                + terceraRefNombre + "', '" + terceraRefParentezco + "', '" + terceraRefCelular + "', '"
-                + cuartaRefNombre + "', '" + cuartaRefParentezco + "', '" + cuartaRefCelular + "', '"
-                + tieneHijos + "', '" + tallaCamisa + "', '" + tallaChaqueta + "','" + tallaO + "', "
-                + (tallaPantalon != null ? tallaPantalon : "NULL") + ", "
-                + (tallaCalzado != null ? tallaCalzado : "NULL") + ", '"
-                + tieneVehiculo + "', '" + numeroPlacaVehiculo + "', '" + tipoVehiculo + "', '"
-                + modeloVehiculo + "', '" + linea + "', '" + marca + "', '" + color + "', "
-                + (cilindraje != null && !cilindraje.isEmpty() ? cilindraje : "NULL") + ", '"
-                + numLicenciaTransito + "', "
-                + (fechaExpLicenciaTransito != null && !fechaExpLicenciaTransito.isEmpty() ? "'" + fechaExpLicenciaTransito + "'" : "NULL") + ", '"
-                + (numLicenciaConduccion != null && !numLicenciaConduccion.isEmpty() ? numLicenciaConduccion : "NULL") + "', "
-                + (fechaExpConduccion != null && !fechaExpConduccion.isEmpty() ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
-                + (fechaVencimiento != null && !fechaVencimiento.isEmpty() ? "'" + fechaVencimiento + "'" : "NULL") + ", '"
-                + restricciones + "', '" + titularTrjPro + "', '"
-                + estado + "', "
-                + (fechaTerPriContrato != null && !fechaTerPriContrato.isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL") + ", '"
-                + fondoPensiones + "', '" + fondoCesantias + "', "
-                + (fechaUltiEntrega != null && !fechaUltiEntrega.isEmpty() ? "'" + fechaUltiEntrega + "'" : "NULL") + ", "
-                + (fechaProEntrega != null && !fechaProEntrega.isEmpty() ? "'" + fechaProEntrega + "'" : "NULL") + ", '"
-                + profesion + "', '" + tipoDotacion + "', '"
-                + tallaGuantes + "', '" + tallaBuzo + "', '"
-                + arl + "');";
+            + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
+            + "tipoVivienda, direccion, barrio, celular, email, nivelEducativo, eps, "
+            + "estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, TituloAprendiz, "
+            + "unidadNegocio, centroCostos, establecimiento, area, cctn, cuentaBancaria, "
+            + "numeroCuenta, salario, primerRefNombre, primerRefParentezco, primerRefCelular, "
+            + "segundaRefNombre, segundaRefParentezco, segundaRefCelular, terceraRefNombre, "
+            + "terceraRefParentezco, terceraRefCelular, cuartaRefNombre, cuartaRefParentezco, "
+            + "cuartaRefCelular, tieneHijos, tallaCamisa, tallaChaqueta, tallaO, tallaPantalon, "
+            + "tallaCalzado, tieneVehiculo, numeroPlacaVehiculo, tipoVehiculo, modeloVehiculo, "
+            + "linea, marca, color, cilindraje, numLicenciaTransito, fechaExpLicenciaTransito, "
+            + "numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones, titularTrjPro, "
+            + "estado, fechaTerPriContrato, fondoPensiones, fondoCesantias, "
+            + "profesion, educacion, tallaGuantes, tallaBuzo, arl) VALUES ('"
+            + identificacion + "', '" + tipo + "', " + idCargo + ", '" + tipoDocumento + "', "
+            + (fechaExpedicion != null && !fechaExpedicion.isEmpty() ? "'" + fechaExpedicion + "'" : "NULL") + ", '"
+            + lugarExpedicion + "', '" + nombres + "', '" + apellidos + "', '" + sexo + "', "
+            + (fechaNacimiento != null && !fechaNacimiento.isEmpty() ? "'" + fechaNacimiento + "'" : "NULL") + ", '"
+            + lugarNacimiento + "', '" + tipoSangre + "', '" + tipoVivienda + "', '" + direccion + "', '"
+            + barrio + "', '" + celular + "', '" + email + "', '" + nivelEducativo + "', '" + eps + "', '"
+            + estadoCivil + "', "
+            + (fechaIngreso != null && !fechaIngreso.isEmpty() ? "'" + fechaIngreso + "'" : "NULL") + ", "
+            + (fechaRetiro != null && !fechaRetiro.isEmpty() ? "'" + fechaRetiro + "'" : "NULL") + ", "
+            + (fechaEtapaLectiva != null && !fechaEtapaLectiva.isEmpty() ? "'" + fechaEtapaLectiva + "'" : "NULL") + ", "
+            + (fechaEtapaProductiva != null && !fechaEtapaProductiva.isEmpty() ? "'" + fechaEtapaProductiva + "'" : "NULL") + ", "
+            + (TituloAprendiz != null && !TituloAprendiz.isEmpty() ? "'" + TituloAprendiz + "'" : "NULL") + ", '"
+            + unidadNegocio + "', '" + centroCostos + "', '" + establecimiento + "', '" + area + "', '"
+            + cctn + "', '" + cuentaBancaria + "', '" + numeroCuenta + "', "
+            + (salario != null && !salario.isEmpty() ? salario : "NULL") + ", '"
+            + primerRefNombre + "', '" + primerRefParentezco + "', '" + primerRefCelular + "', '"
+            + segundaRefNombre + "', '" + segundaRefParentezco + "', '" + segundaRefCelular + "', "
+            + (terceraRefNombre != null && !terceraRefNombre.isEmpty() ? "'" + terceraRefNombre + "'" : "NULL") + ", "
+            + (terceraRefParentezco != null && !terceraRefParentezco.isEmpty() ? "'" + terceraRefParentezco + "'" : "NULL") + ", "
+            + (terceraRefCelular != null && !terceraRefCelular.isEmpty() ? "'" + terceraRefCelular + "'" : "NULL") + ", "
+            + (cuartaRefNombre != null && !cuartaRefNombre.isEmpty() ? "'" + cuartaRefNombre + "'" : "NULL") + ", "
+            + (cuartaRefParentezco != null && !cuartaRefParentezco.isEmpty() ? "'" + cuartaRefParentezco + "'" : "NULL") + ", "
+            + (cuartaRefCelular != null && !cuartaRefCelular.isEmpty() ? "'" + cuartaRefCelular + "'" : "NULL") + ", '"
+            + tieneHijos + "', "
+            + (tallaCamisa != null && !tallaCamisa.isEmpty() ? "'" + tallaCamisa + "'" : "NULL") + ", "
+            + (tallaChaqueta != null && !tallaChaqueta.isEmpty() ? "'" + tallaChaqueta + "'" : "NULL") + ", "
+            + (tallaO != null && !tallaO.isEmpty() ? "'" + tallaO + "'" : "NULL") + ", "
+            + (tallaPantalon != null && !tallaPantalon.isEmpty() ? tallaPantalon : "NULL") + ", "
+            + (tallaCalzado != null && !tallaCalzado.isEmpty() ? tallaCalzado : "NULL") + ", '"
+            + tieneVehiculo + "', "
+            + (numeroPlacaVehiculo != null && !numeroPlacaVehiculo.isEmpty() ? "'" + numeroPlacaVehiculo + "'" : "NULL") + ", "
+            + (tipoVehiculo != null && !tipoVehiculo.isEmpty() ? "'" + tipoVehiculo + "'" : "NULL") + ", "
+            + (modeloVehiculo != null && !modeloVehiculo.isEmpty() ? "'" + modeloVehiculo + "'" : "NULL") + ", "
+            + (linea != null && !linea.isEmpty() ? "'" + linea + "'" : "NULL") + ", "
+            + (marca != null && !marca.isEmpty() ? "'" + marca + "'" : "NULL") + ", "
+            + (color != null && !color.isEmpty() ? "'" + color + "'" : "NULL") + ", "
+            + (cilindraje != null && !cilindraje.isEmpty() ? cilindraje : "NULL") + ", "
+            + (numLicenciaTransito != null && !numLicenciaTransito.isEmpty() ? "'" + numLicenciaTransito + "'" : "NULL") + ", "
+            + (fechaExpLicenciaTransito != null && !fechaExpLicenciaTransito.isEmpty() ? "'" + fechaExpLicenciaTransito + "'" : "NULL") + ", "
+            + (numLicenciaConduccion != null && !numLicenciaConduccion.isEmpty() ? "'" + numLicenciaConduccion + "'" : "NULL") + ", "
+            + (fechaExpConduccion != null && !fechaExpConduccion.isEmpty() ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
+            + (fechaVencimiento != null && !fechaVencimiento.isEmpty() ? "'" + fechaVencimiento + "'" : "NULL") + ", "
+            + (restricciones != null && !restricciones.isEmpty() ? "'" + restricciones + "'" : "NULL") + ", "
+            + (titularTrjPro != null && !titularTrjPro.isEmpty() ? "'" + titularTrjPro + "'" : "NULL") + ", '"
+            + estado + "', "
+            + (fechaTerPriContrato != null && !fechaTerPriContrato.isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL") + ", '"
+            + fondoPensiones + "', '" + fondoCesantias + "', '"
+            + profesion + "', '" + educacion + "', "
+            + (tallaGuantes != null && !tallaGuantes.isEmpty() ? "'" + tallaGuantes + "'" : "NULL") + ", "
+            + (tallaBuzo != null && !tallaBuzo.isEmpty() ? "'" + tallaBuzo + "'" : "NULL") + ", '"
+            + arl + "');";
 
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
         System.out.println(cadenaSQL);
@@ -1433,10 +1418,8 @@ public class Persona {
                 + "fechaTerPriContrato=" + (fechaTerPriContrato != null && !fechaTerPriContrato.trim().isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL") + ", "
                 + "fondoPensiones=" + (fondoPensiones != null ? "'" + fondoPensiones + "'" : "NULL") + ", "
                 + "fondoCesantias=" + (fondoCesantias != null ? "'" + fondoCesantias + "'" : "NULL") + ", "
-                + "fechaUltiEntrega=" + (fechaUltiEntrega != null && !fechaUltiEntrega.trim().isEmpty() ? "'" + fechaUltiEntrega + "'" : "NULL") + ", "
-                + "fechaProEntrega=" + (fechaProEntrega != null && !fechaProEntrega.trim().isEmpty() ? "'" + fechaProEntrega + "'" : "NULL") + ", "
                 + "profesion=" + (profesion != null ? "'" + profesion + "'" : "NULL") + ", "
-                + "tipoDotacion=" + (tipoDotacion != null ? "'" + tipoDotacion + "'" : "NULL") + ", "
+                + "tipoDotacion=" + (educacion != null ? "'" + educacion + "'" : "NULL") + ", "
                 + "tallaGuantes=" + (tallaGuantes != null ? "'" + tallaGuantes + "'" : "NULL") + ", "
                 + "tallaBuzo=" + (tallaBuzo != null ? "'" + tallaBuzo + "'" : "NULL") + ", "
                 + "arl=" + (arl != null ? "'" + arl + "'" : "NULL") + " "
@@ -1485,8 +1468,8 @@ public class Persona {
                 + "cuartaRefNombre, cuartaRefParentezco, cuartaRefCelular, tieneHijos, tallaCamisa, tallaChaqueta, tallaO, tallaPantalon, tallaCalzado, tieneVehiculo, "
                 + "numeroPlacaVehiculo, tipoVehiculo, modeloVehiculo, linea, marca, color, cilindraje, numLicenciaTransito, fechaExpLicenciaTransito, numLicenciaConduccion, "
                 + "fechaExpConduccion, fechaVencimiento, restricciones, titularTrjPro, estado, "
-                + "fechaTerPriContrato, fondoPensiones, fondoCesantias, fechaUltiEntrega, "
-                + "fechaProEntrega, profesion, tipoDotacion, tallaGuantes, tallaBuzo, arl FROM persona " + filtro + orden;
+                + "fechaTerPriContrato, fondoPensiones, fondoCesantias, "
+                + "profesion, educacion, tallaGuantes, tallaBuzo, arl FROM persona " + filtro + orden;
 
         System.out.println("Ejecutando consulta: " + cadenaSQL);
         return ConectorBD.consultar(cadenaSQL);
@@ -1568,10 +1551,8 @@ public class Persona {
                     persona.setFechaTerPriContrato(datos.getString("fechaTerPriContrato"));
                     persona.setFondoPensiones(datos.getString("fondoPensiones"));
                     persona.setFondoCesantias(datos.getString("fondoCesantias"));
-                    persona.setFechaUltiEntrega(datos.getString("fechaUltiEntrega"));
-                    persona.setFechaProEntrega(datos.getString("fechaProEntrega"));
                     persona.setProfesion(datos.getString("profesion"));
-                    persona.setTipoDotacion(datos.getString("tipoDotacion"));
+                    persona.setEducacion(datos.getString("educacion"));
                     persona.setTallaGuantes(datos.getString("tallaGuantes"));
                     persona.setTallaBuzo(datos.getString("tallaBuzo"));
                     persona.setArl(datos.getString("arl"));
@@ -1709,10 +1690,8 @@ public class Persona {
                         datos.getString("fechaTerPriContrato"),
                         datos.getString("fondoPensiones"),
                         datos.getString("fondoCesantias"),
-                        datos.getString("fechaUltiEntrega"),
-                        datos.getString("fechaProEntrega"),
                         datos.getString("profesion"),
-                        datos.getString("tipoDotacion"),
+                        datos.getString("educacion"),
                         datos.getString("tallaGuantes"),
                         datos.getString("tallaBuzo"),
                         datos.getString("arl")

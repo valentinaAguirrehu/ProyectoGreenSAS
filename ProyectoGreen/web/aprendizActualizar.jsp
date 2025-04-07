@@ -87,8 +87,6 @@
     persona.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
     persona.setFondoPensiones(request.getParameter("No aplica"));
     persona.setFondoCesantias(request.getParameter("No aplica"));
-    persona.setFechaUltiEntrega(request.getParameter("fechaUltiEntrega"));
-    persona.setFechaProEntrega(request.getParameter("fechaProEntrega"));
     persona.setProfesion(request.getParameter("profesion"));
     persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
     persona.setIdMunicipioExpedicion(request.getParameter("idMunicipio"));
@@ -96,7 +94,7 @@
     persona.setIdMunicipioNacimiento(request.getParameter("idMunicipio"));
     persona.setArl(request.getParameter("arl"));
 
-    persona.setTipoDotacion(request.getParameter("No aplica"));
+    persona.setEducacion(request.getParameter("educacion"));
     persona.setTallaGuantes(request.getParameter("No aplica"));
     persona.setTallaBuzo(request.getParameter("No aplica"));
     persona.setTallaCamisa(request.getParameter("no aplica"));

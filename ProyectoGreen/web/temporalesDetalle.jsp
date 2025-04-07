@@ -137,17 +137,15 @@
             <tr><th>Salario</th><td><%= persona.getSalario()%></td></tr>
         </table>
 
-        <h1>Información de dotación</h1>
+         <h1>Información de tallas</h1>
         <table class="info-table">
-            <tr><th>Fecha de la próxima entrega</th><td><%= persona.getFechaProEntrega()%></td></tr>
-            <tr><th>Fecha de la última entrega</th><td><%= persona.getFechaUltiEntrega()%></td></tr>
             <tr><th>Talla de camisa</th><td><%= persona.getTallaCamisa()%></td></tr>
-            <tr><th>Talla de buzo</th><td><%= persona.getTallaBuzo()%></td></tr>
             <tr><th>Talla de chaqueta</th><td><%= persona.getTallaChaqueta()%></td></tr>
-            <tr><th>Talla de Overol</th><td><%= persona.getTallaO()%></td></tr>
-            <tr><th>Talla de pantalón</th><td><%= persona.getTallaPantalon()%></td></tr>
-            <tr><th>Talla de guantes</th><td><%= persona.getTallaGuantes()%></td></tr>
+            <tr><th>Talla de pantalón</th><td><%= persona.getTallaPantalon()%></td></tr>  
             <tr><th>Talla de calzado</th><td><%= persona.getTallaCalzado()%></td></tr>
+            <tr><th>Talla de buzo</th><td><%= persona.getTallaBuzo()%></td></tr>                       
+            <tr><th>Talla de overol</th><td><%= persona.getTallaO()%></td></tr>
+            <tr><th>Talla de guantes</th><td><%= persona.getTallaGuantes()%></td></tr>
         </table>
         <div class="botones-container">          
             <button class="submit" id="regresar" onClick="window.history.back()">Regresar</button>           
