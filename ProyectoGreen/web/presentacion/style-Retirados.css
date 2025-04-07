@@ -118,6 +118,8 @@ body {
 .table img {
     cursor: pointer;
     transition: transform 0.2s;
+    width: 25px; 
+    height: 25px;
 }
 
 .table img:hover {

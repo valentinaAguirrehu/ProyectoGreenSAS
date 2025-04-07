@@ -55,10 +55,10 @@
             <tr><th>Nombre Completo</th><td><%= persona.getNombres()%> <%= persona.getApellidos()%></td></tr>
             <tr><th>Sexo</th><td><%= persona.getSexo()%></td></tr>
             <tr><th>Fecha de ingreso</th><td><%= persona.getFechaIngreso()%></td></tr>
+            <tr><th>Fecha de inicio de etapa productiva</th><td><%= persona.getFechaEtapaProductiva()%></td></tr> 
+            <tr><th>Fecha de inicio del contrato de aprendizaje</th><td><%= persona.getFechaEtapaLectiva()%></td></tr>
+            <tr><th>Fecha de termino del contrato de aprendizaje</th><td><%= persona.getFechaTerPriContrato()%></td></tr>
             <tr><th>Fecha de retiro</th><td><%= persona.getFechaRetiro()%></td></tr>   
-            <tr><th>Fecha estapa lectiva</th><td><%= persona.getFechaEtapaLectiva()%></td></tr>
-            <tr><th>Fecha etapa productiva</th><td><%= persona.getFechaEtapaProductiva()%></td></tr>   
-            <tr><th>Titulo aprendiz</th><td><%= persona.getTituloAprendiz()%></td></tr>   
             <tr><th>Documento de identidad</th><td><%= persona.getTipoDocumento()%></td></tr>
             <tr><th>Número del documento</th><td><%= persona.getIdentificacion()%></td></tr>
             <tr><th>Fecha de Expedición</th><td><%= persona.getFechaExpedicion()%></td></tr>
@@ -72,7 +72,8 @@
             <tr><th>Barrio</th><td><%= persona.getBarrio()%></td></tr>
             <tr><th>Celular</th><td><%= persona.getCelular()%></td></tr>
             <tr><th>Correo electrónico</th><td><%= persona.getEmail()%></td></tr>
-            <tr><th>Nivel educativo</th><td><%= persona.getNivelEducativo()%> / <%=persona.getProfesion()%></td></tr>
+            <tr><th>Nivel educativo alcanzado</th><td><%= persona.getNivelEducativo()%> / <%=persona.getProfesion()%></td></tr>
+            <tr><th>Profesión en formación</th><td><%= persona.getTituloAprendiz()%> / <%=persona.getEducacion()%></td></tr>
             <tr><th>Estado civil</th><td><%= persona.getEstadoCivil()%></td></tr>
 
         </table>
@@ -130,7 +131,6 @@
 
         <h1>Información laboral</h1>
         <table class="info-table">
-            <tr><th>Fecha de termino del primer contrato</th><td><%= persona.getFechaTerPriContrato()%></td></tr>
             <tr><th>Establecimiento y unidad de negocio</th><td><%= persona.getEstablecimiento()%> - <%= persona.getUnidadNegocio()%></td></tr>
             <tr><th>Centro de costos</th><td><%= persona.getCentroCostos()%></td></tr>
             <tr><th>Cargo</th><td><%=nombreCargo%></td></tr>
@@ -141,7 +141,6 @@
             <tr><th>Número de cuenta bancaria</th><td><%= persona.getNumeroCuenta()%></td></tr>
             <tr><th>Salario</th><td><%= persona.getSalario()%></td></tr>
         </table>
-
 
         <div class="botones-container">          
             <button class="submit" id="regresar" onClick="window.history.back()">Regresar</button>           

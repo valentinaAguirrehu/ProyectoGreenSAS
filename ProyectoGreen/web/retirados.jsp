@@ -1,3 +1,9 @@
+<%-- 
+    Document   : retirados
+    Created on : 3 abr 2025, 1:11:04
+    Author     : Angie
+--%>
+
 <%@page import="clases.Cargo"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Retirados"%>
@@ -35,11 +41,11 @@
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
                 lista += "<td>";
-                lista += "<img class='ver' src='presentacion/iconos/ojo.png' width='25' height='25' title='Ver detalles'>";
-                lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboralRetirados(" + persona.getIdentificacion() + ")'>";
+                lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
+                lista += "<img class='ver' src='presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboralRetirados(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
                 lista += "<a href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
-                        + "' title='Modificar' class='editar'><img src='presentacion/iconos/modificar.png' width='25' height='25'></a>";
-                lista += "<img src='presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar' onClick='eliminar("
+                        + "' title='Modificar' class='editar'><img src='presentacion/iconos/modificar.png'></a>";
+                lista += "<img src='presentacion/iconos/eliminar.png' class='eliminar' title='Eliminar' onClick='eliminar("
                         + persona.getIdentificacion() + ")'>";
                 lista += "</td>";
                 lista += "</tr>";
@@ -101,6 +107,10 @@
         }
     }
 
+    function verDetalles(identificacion) {
+        document.location = "personaDetalles.jsp?identificacion=" + identificacion;
+    }
+
     function verHistoriaLaboralRetirados(identificacion) {
         window.location.href = "historiaLaboralRetirado.jsp?identificacion=" + identificacion;
     }
@@ -130,13 +140,13 @@
                 break;
             case "caja":
                 columnIndex = 8;
-                break;  
+                break;
             case "carpeta":
                 columnIndex = 9;
-                break; 
+                break;
             case "fechaRetiro":
                 columnIndex = 7;
-                break; 
+                break;
         }
 
         for (let i = 1; i < rows.length; i++) {
@@ -147,7 +157,6 @@
             }
         }
     }
-|
     // PERMISOS
 
     document.addEventListener("DOMContentLoaded", function () {

@@ -40,7 +40,7 @@
     persona.setFechaRetiro(request.getParameter("fechaRetiro"));
     persona.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
     persona.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
-    persona.setTituloAprendiz(request.getParameter("TituloAprendiz"));
+    persona.setTituloAprendiz(request.getParameter("tituloAprendiz"));
     persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
     persona.setCentroCostos(request.getParameter("centroCostos"));
     persona.setEstablecimiento(request.getParameter("establecimiento"));
@@ -87,27 +87,29 @@
     persona.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
     persona.setFondoPensiones(request.getParameter("No aplica"));
     persona.setFondoCesantias(request.getParameter("No aplica"));
-    persona.setFechaUltiEntrega(request.getParameter("fechaUltiEntrega"));
-    persona.setFechaProEntrega(request.getParameter("fechaProEntrega"));
     persona.setProfesion(request.getParameter("profesion"));
     persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
     persona.setIdMunicipioExpedicion(request.getParameter("idMunicipio"));
     persona.setIdDepartamentoNacimiento(request.getParameter("idDepartamento"));
     persona.setIdMunicipioNacimiento(request.getParameter("idMunicipio"));
-    persona.setTipoDotacion(request.getParameter("No aplica"));
-    persona.setTallaGuantes(request.getParameter("No aplica"));
-    persona.setTallaBuzo(request.getParameter("No aplica"));
     persona.setArl(request.getParameter("arl"));
 
+    persona.setEducacion(request.getParameter("educacion"));
+    persona.setTallaGuantes(request.getParameter("No aplica"));
+    persona.setTallaBuzo(request.getParameter("No aplica"));
     persona.setTallaCamisa(request.getParameter("no aplica"));
     persona.setTallaChaqueta(request.getParameter("no aplica"));
-    // Obtener los valores del request
+
     String tallaPantalonStr = request.getParameter("tallaPantalon");
     String tallaCalzadoStr = request.getParameter("tallaCalzado");
 
-// Convertir a número si es posible, o asignar NULL si es "No Aplica" o vacío
-    String tallaPantalon = (tallaPantalonStr != null && !tallaPantalonStr.equalsIgnoreCase("No Aplica") && !tallaPantalonStr.isEmpty()) ? tallaPantalonStr : "NULL";
-    String tallaCalzado = (tallaCalzadoStr != null && !tallaCalzadoStr.equalsIgnoreCase("No Aplica") && !tallaCalzadoStr.isEmpty()) ? tallaCalzadoStr : "NULL";
+    String tallaPantalon = (tallaPantalonStr != null && !tallaPantalonStr.trim().isEmpty() && !tallaPantalonStr.equalsIgnoreCase("No Aplica"))
+            ? tallaPantalonStr
+            : null;
+
+    String tallaCalzado = (tallaCalzadoStr != null && !tallaCalzadoStr.trim().isEmpty() && !tallaCalzadoStr.equalsIgnoreCase("No Aplica"))
+            ? tallaCalzadoStr
+            : null;
 
     // Capturar valores del formulario
     String idDepartamentoExpedicion = request.getParameter("departamentoExpedicion");
