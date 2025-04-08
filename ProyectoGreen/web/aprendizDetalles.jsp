@@ -73,7 +73,7 @@
             <tr><th>Celular</th><td><%= persona.getCelular()%></td></tr>
             <tr><th>Correo electrónico</th><td><%= persona.getEmail()%></td></tr>
             <tr><th>Nivel educativo alcanzado</th><td><%= persona.getNivelEducativo()%> / <%=persona.getProfesion()%></td></tr>
-            <tr><th>Profesión en formación</th><td><%= persona.getTituloAprendiz()%> / <%=persona.getEducacion()%></td></tr>
+            <tr><th>Nivel educativo en formación</th><td><%= persona.getTituloAprendiz()%> / <%=persona.getEducacion()%></td></tr>
             <tr><th>Estado civil</th><td><%= persona.getEstadoCivil()%></td></tr>
 
         </table>
