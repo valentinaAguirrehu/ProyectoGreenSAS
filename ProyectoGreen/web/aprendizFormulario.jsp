@@ -45,7 +45,7 @@
 </head>
 <body>
     <div class="content"> 
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> APRENDICES</h3>
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> APRENDIZ</h3>
         <form name="formulario" method="post" action="aprendizActualizar.jsp" onsubmit="obtenerDatosHijos()">
             <h1>Datos personales</h1>
             <table border="1">
@@ -274,9 +274,25 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Profesión en formación<span style="color: red;">*</span></th>
-                    <td>
-                        <input type="text" name="tituloAprendiz" value="<%= persona.getTituloAprendiz()%>" size="70" maxlength="100" required>
+                    <th>Nivel educativo en formación<span style="color: red;">*</span></th>
+                    <td colspan="2">
+                        <div class="campos-container">
+                            <select name="tituloAprendiz" id="tituloAprendiz" onchange="manejarOtro('tituloAprendiz', 'otroNivelEducativo', 'tituloAprendizHidden')" required>
+                                <option value="" <%= (persona.getTituloAprendiz() == null || persona.getTituloAprendiz().isEmpty()) ? "selected" : ""%>>Seleccione...</option>
+                                <option value="Primaria" <%= "Primaria".equals(persona.getTituloAprendiz()) ? "selected" : ""%>>Primaria</option>
+                                <option value="Secundaria" <%= "Secundaria".equals(persona.getTituloAprendiz()) ? "selected" : ""%>>Secundaria</option>
+                                <option value="Tecnico" <%= "Tecnico".equals(persona.getTituloAprendiz()) ? "selected" : ""%>>Técnico</option>
+                                <option value="Tecnologo" <%= "Tecnologo".equals(persona.getTituloAprendiz()) ? "selected" : ""%>>Tecnólogo</option>
+                                <option value="Universitario" <%= "Universitario".equals(persona.getTituloAprendiz()) ? "selected" : ""%>>Universitario</option>
+                            </select>
+                            <input type="text" id="otroNivelEducativo" name="otroNivelEducativo"
+                                   style="display: none;" placeholder="Especifique otro"
+                                   value="">
+                            <input type="hidden" id="tituloAprendizHidden" name="tituloAprendiz"
+                                   value="<%= persona.getTituloAprendiz() != null ? persona.getTituloAprendiz() : ""%>" required>      
+                            <label for="educacion"><b>en</b></label>
+                            <input type="text" name="educacion" value="<%= persona.getEducacion()%>" size="50" maxlength="50" required>
+                        </div>
                     </td>
                 </tr>
                 <tr>

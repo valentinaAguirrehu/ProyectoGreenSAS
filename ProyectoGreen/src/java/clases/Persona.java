@@ -186,7 +186,7 @@ public class Persona {
                 fondoPensiones = resultado.getString("fondoPensiones");
                 fondoCesantias = resultado.getString("fondoCesantias");
                 profesion = resultado.getString("profesion");
-                educacion = resultado.getString("tipoDotacion");
+                educacion = resultado.getString("educacion");
                 tallaGuantes = resultado.getString("tallaGuantes");
                 tallaBuzo = resultado.getString("tallaBuzo");
                 tallaBuzo = resultado.getString("tallaBuzo");
