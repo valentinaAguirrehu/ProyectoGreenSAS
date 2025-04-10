@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package clases;
 
 import clasesGenericas.ConectorBD;
@@ -10,15 +5,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author VALEN
- */
 public class EntregaDotacion {
+    
     private String idEntrega;
     private String idPersona;
     private String fechaEntrega;
-    private String fechaProximaEntrega;
     private String tipoEntrega;
 
     // Getters y Setters
@@ -46,14 +37,6 @@ public class EntregaDotacion {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public String getFechaProximaEntrega() {
-        return fechaProximaEntrega;
-    }
-
-    public void setFechaProximaEntrega(String fechaProximaEntrega) {
-        this.fechaProximaEntrega = fechaProximaEntrega;
-    }
-
     public String getTipoEntrega() {
         return tipoEntrega;
     }
@@ -64,14 +47,15 @@ public class EntregaDotacion {
 
     // Métodos para base de datos
     public boolean grabar() {
-        String sql = "INSERT INTO entregaDotacion (id_persona, fechaEntrega, fechaProximaEntrega, tipoEntrega) " +
-                     "VALUES ('" + idPersona + "', '" + fechaEntrega + "', '" + fechaProximaEntrega + "', '" + tipoEntrega + "')";
+        String sql = "INSERT INTO entregaDotacion (id_persona, fechaEntrega, tipoEntrega) " +
+                     "VALUES ('" + idPersona + "', '" + fechaEntrega + "', '" + tipoEntrega + "')";
         return ConectorBD.ejecutarQuery(sql);
     }
 
     public boolean modificar(String idAnterior) {
-        String sql = "UPDATE entregaDotacion SET id_persona='" + idPersona + "', fechaEntrega='" + fechaEntrega +
-                     "', fechaProximaEntrega='" + fechaProximaEntrega + "', tipoEntrega='" + tipoEntrega +
+        String sql = "UPDATE entregaDotacion SET id_persona='" + idPersona + 
+                     "', fechaEntrega='" + fechaEntrega + 
+                     "', tipoEntrega='" + tipoEntrega + 
                      "' WHERE id_entrega=" + idAnterior;
         return ConectorBD.ejecutarQuery(sql);
     }
@@ -99,7 +83,6 @@ public class EntregaDotacion {
                 e.setIdEntrega(rs.getString("id_entrega"));
                 e.setIdPersona(rs.getString("id_persona"));
                 e.setFechaEntrega(rs.getString("fechaEntrega"));
-                e.setFechaProximaEntrega(rs.getString("fechaProximaEntrega"));
                 e.setTipoEntrega(rs.getString("tipoEntrega"));
                 lista.add(e);
             }
@@ -111,4 +94,3 @@ public class EntregaDotacion {
         return lista;
     }
 }
-

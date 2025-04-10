@@ -26,7 +26,7 @@
         <li><a href="../1.Cargos/cargos.jsp">Cargos</a></li>
 
         <li class="dropdown">
-            <a href="#">Colaboradores<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
+            <a>Colaboradores<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
             <ul class="dropdown-content">                           
                 <li><a href="../2.Colaboradores/persona.jsp">Activos</a></li>
                 <li><a href="../2.Colaboradores/temporales.jsp">Temporales</a></li>
@@ -34,7 +34,13 @@
                 <li><a href="../2.Colaboradores/retirados.jsp">Retirados</a></li>
             </ul>
         </li>
-        <li><a href="#">Dotaciones</a></li>
+        <li class="dropdown">
+            <a>Dotaciones<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
+            <ul class="dropdown-content">                           
+                <li><a href="../7.Dotaciones/prenda.jsp">Prendas</a></li>
+                <li><a href="../7.Dotaciones/inventario.jsp">Inventario</a></li>
+            </ul>
+        </li>
         <li class="dropdown">
             <a href="#">Reportes e indicadores<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
             <ul class="dropdown-content">                           
