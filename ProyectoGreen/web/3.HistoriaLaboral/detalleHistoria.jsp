@@ -20,12 +20,51 @@
             titulo = "DOCUMENTO DE IDENTIDAD";
             break;
 
+        // PROCESO DE SELECCION
+        case "PruebaT":
+            titulo = "PRUEBAS TÉCNICAS";
+            break;
+
+        case "PruebaPsi":
+            titulo = "PRUEBAS PSICOTÉCNICAS";
+            break;
+
         //HOJA DE VIDA
         case "HVotros":
             titulo = "HOJA DE VIDA";
             break;
-        case "DVotros":
-            titulo = "DATOS DEL VEHÍCULO";
+        case "AntecedentesP":
+            titulo = "ANTECEDENTES PROCURADURÍA";
+            break;
+        case "AntecedentesC":
+            titulo = "ANTECEDENTES CONTRALORÍA";
+            break;
+        case "AntecedentesJ":
+            titulo = "ANTECEDENTES JUDICIALES (POLICÍA)";
+            break;
+        case "Inhabilidades":
+            titulo = "CONSULTA INHABILIDADES";
+            break;
+        case "RNMC":
+            titulo = "CONSULTA RNMC";
+            break;
+        case "REDAM":
+            titulo = "CERTIFICADO REDAM";
+            break;
+        case "Banco":
+            titulo = "CERTIFICADO DE BANCO";
+            break;
+        case "Licencia":
+            titulo = "FOTOCOPIA LICENCIA DE CONDUCCIÓN";
+            break;
+        case "SOAT":
+            titulo = "SOAT";
+            break;
+        case "Tecnomecanica":
+            titulo = "TECNOMECÁNICA";
+            break;
+        case "SIMIT":
+            titulo = "CERTIFICADO SIMIT";
             break;
 
         //DOCUMENTOS DE CONTRATACION
@@ -33,7 +72,10 @@
             titulo = "CONTRATO DE TRABAJO";
             break;
         case "TDotros":
-            titulo = "TRATAMIENTO DE DATOS";
+            titulo = "TRATAMIENTO DE DATOS PERSONALES";
+            break;
+        case "ATDotros":
+            titulo = "AUTORIZACIÓN DE TRATAMIENTO DE DATOS PERSONALES";
             break;
         case "AERotros":
             titulo = "AUTORIZACIÓN DE EXÁMENES Y REQUISAS";
@@ -41,89 +83,165 @@
         case "PRotros":
             titulo = "PROFESIOGRAMA";
             break;
-        case "SSTotros":
-            titulo = "INDUCCIÓN SST";
-            break;
-        case "SGAotros":
-            titulo = "INDUCCIÓN SGA";
+        case "SGRILAFTotros":
+            titulo = "DOCUMENTOS SAGRILAFT";
             break;
         case "SGHotros":
             titulo = "INDUCCIÓN GESTIÓN HUMANA";
             break;
 
-        case "APACotros":
-            titulo = "ACTA DE PAUSAS ACTIVAS";
+        //AFILIACIONES
+        case "CEPSotros":
+            titulo = "CERTIFICADO EPS POR COLABORADOR";
             break;
-        case "ICAotros":
-            titulo = "INDUCCIÓN AL CARGO";
+        case "FUAotros":
+            titulo = "FORMULARIO ÚNICO DE AFILIACIÓN Y REGISTRO DE NOVEDADES EPS";
             break;
-        case "SGRILAFTotros":
-            titulo = "DOCUMENTO SAGRILAFT";
+        case "CAEPSotros":
+            titulo = "CERTIFICADO DE AFILIACIÓN EPS";
+            break;
+        case "CAARLotros":
+            titulo = "CERTIFICADO DE AFILIACIÓN ARL";
             break;
 
-        //AFILIACIONES
-        case "EPSotros":
-            titulo = "EPS";
+        case "CFDPotros":
+            titulo = "CERTIFICADO FDP";
             break;
-        case "ARLotros":
-            titulo = "ARL";
+        case "FACotros":
+            titulo = "FORMULARIO DE AFILIACIÓN COMFAMILIAR";
             break;
-        case "FDPotross":
-            titulo = "FONDO DE PENSIONES";
+
+        case "CACotros":
+            titulo = "CERTIFICADO DE AFILIACIÓN COMFAMILIAR";
             break;
-        case "CESAotros":
-            titulo = "FONDO DE CESANTIAS";
+
+        //DOCUMENTOSSST-SGAA
+        case "IRSGSSTotros":
+            titulo = "INDUCCIÓN Y REINDUCCIÓN SG-SST";
             break;
-        case "CCPotros":
-            titulo = "COMFAMILIAR";
+        case "IRSGAotros":
+            titulo = "INDUCCIÓN Y REINDUCCIÓN SGA";
+            break;
+        case "EMOIotros":
+            titulo = "EMO INGRESO";
+            break;
+        case "EMOPotros":
+            titulo = "EMO PERIÓDICO";
+            break;
+        case "EMOINotros":
+            titulo = "EMO POST-INCAPACIDAD";
+            break;
+        case "EMOEotros":
+            titulo = "EMO EGRESO";
+            break;
+
+        case "EMOSRotros":
+            titulo = "EMO SEGUIMIENTO A RECOMENDACIONES";
+            break;
+
+        case "ECSotros":
+            titulo = "ENCUESTA CONDICIONES DE SALUD";
+            break;
+
+        case "CPotros":
+            titulo = "CERTIFICADOS Y PERMISOS";
             break;
 
         //DOCUMENTOS DURANTE LA CONTRATACION
-        case "Dotros":
-            titulo = "OTROS SI";
+        case "PPROGGASotros":
+            titulo = "PREAVISOS Y PRÓRROGAS";
             break;
+
+        case "Dotros":
+            titulo = "OTRO SÍ";
+            break;
+
         case "SPAotros":
             titulo = "SUSTITUCIÓN PATRONAL";
             break;
-        case "PPROGGASotros":
-            titulo = "PREAVISOS Y PRORROGAS";
+
+        case "CESotros":
+            titulo = "RETIRO DE CESANTÍAS";
             break;
-        case "DUCONotros":
-            titulo = "OTROS DOCUMENTOS";
+
+        case "DNOMotros":
+            titulo = "DESCUENTO DE NÓMINA";
+            break;
+
+        case "ACEMPotros":
+            titulo = "ACUERDO ENTRE EMPLEADOR Y TRABAJADOR";
+            break;
+
+        case "NSALotros":
+            titulo = "NOTIFICACIÓN INCREMENTO DE SALARIO";
+            break;
+
+        case "EDESOtros":
+            titulo = "EVALUACIÓN DE DESEMPEÑO";
+            break;
+
+        case "ACTASotros":
+            titulo = "ACTAS";
+            break;
+
+        case "DISCotros":
+            titulo = "DISCIPLINARIOS";
+            break;
+
+        case "CERTLABotros":
+            titulo = "CERTIFICADOS LABORALES";
+            break;
+
+        case "RGHotros":
+            titulo = "REINDUCCIÓN DE GESTIÓN HUMANA";
             break;
 
         //AUSENTISMOS  
         case "Votros":
             titulo = "VACACIONES";
             break;
+        case "LLotros":
+            titulo = "LICENCIAS DE LUTO";
+            break;
+        case "LRotros":
+            titulo = "LICENCIAS REMUNERADAS";
+            break;
         case "LNotros":
-            titulo = "LICENCIA NO REMUNERADA";
+            titulo = "LICENCIAS NO REMUNERADAS";
             break;
-        case "DAotros":
-            titulo = "OTROS DOCUMENTOS";
+        case "PERMotros":
+            titulo = "PERMISOS";
             break;
-
-        //DOCUMENTOSSST-SGAA
-        case "RInduccionotros":
-            titulo = "REINDUCCIÓN";
+        case "SUSPotros":
+            titulo = "SUSPENSIONES";
             break;
-
-        case "EMOPotros":
-            titulo = "EMO PERIODICO";
+        case "DIAFAMotros":
+            titulo = "DÍA DE LA FAMILIA";
             break;
 
-        case "EMOINotros":
-            titulo = "EMO POST-INCAPACIDAD";
-            break;
-        case "DSTSGAotros":
-            titulo = "OTROS DOCUMENTOS";
+    //Incapacidades
+
+        case "INCENFotros":
+            titulo = "INCAPACIDAD POR ENFERMEDAD";
             break;
 
-        //DOCUMENTOS AL FINALIZAR LA CONTRATACIÓN
+        case "ATotros":
+            titulo = "ACCIDENTES DE TRABAJO";
+            break;
+
+        case "MATPATotros":
+            titulo = "LICENCIA MATERNIDAD / PATERNIDAD";
+            break;
+            
+         //DOCUMENTOS AL FINALIZAR LA CONTRATACIÓN
         case "Lotros":
-            titulo = "LIQUIDACIÓN";
+            titulo = "DOCUMENTOS DE TERMINACIÓN DE CONTRATO";
             break;
 
+            
+            
+            
+            
         //temporales
         case "induccionSST":
             titulo = "INDUCCIÓN SST";
@@ -139,6 +257,9 @@
             titulo = "OTROS DOCUMENTOS";
             break;
 
+            
+            
+            
         //Aprendiz 
         case "EPSotrosAp":
             titulo = "EPS APRENDIZ";
@@ -158,7 +279,8 @@
     DetallesHistoria detalleHistoria = null; // Cambiado de HistoriaLaboral
     List<DetallesHistoria> listaDetalles = null;
 
-    if (identificacion != null && !identificacion.isEmpty()) {
+    if (identificacion
+            != null && !identificacion.isEmpty()) {
         persona = new Persona(identificacion);
 
         // Filtro con identificación y tipo
@@ -211,7 +333,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% if (listaDetalles != null && !listaDetalles.isEmpty()) {
+                        <% if (listaDetalles
+                                    != null && !listaDetalles.isEmpty()) {
                                 for (DetallesHistoria detalle : listaDetalles) {%>
                         <tr>
                             <td><%= detalle.getNombreDocumento()%></td>

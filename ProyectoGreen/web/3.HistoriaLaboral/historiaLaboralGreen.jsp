@@ -67,32 +67,43 @@
                             <span>DOCUMENTO DE IDENTIDAD</span>
                             <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=documentoIdentidad'">VER</button>
                         </div>
-                        <div class="data-item">
-                            <span>DURANTE CONTRATACIÓN</span>
-                            <button class="ver-btn" onclick="window.location.href = 'verDuranteContratacion.jsp?identificacion=<%= identificacion%>'">VER</button>
+                         <div class="data-item">
+                            <span>PROCESO SELECCIÓN</span>
+                            <button class="ver-btn" onclick="window.location.href = 'verProcesoSeleccion.jsp?identificacion=<%= identificacion%>'">VER</button>
                         </div>
                         <div class="data-item">
                             <span>HOJA DE VIDA</span>
                             <button class="ver-btn" onclick="window.location.href = 'verHojaDeVida.jsp?identificacion=<%= identificacion%>'">VER</button>
                         </div>
-                        <div class="data-item">
-                            <span>AUSENTISMOS</span>
-                            <button class="ver-btn" onclick="window.location.href = 'verAusentismos.jsp?identificacion=<%= identificacion%>'">VER</button>
-                        </div>
-                        <div class="data-item">
-                            <span>DOCUMENTOS CONTRATACIÓN</span>
+                          <div class="data-item">
+                            <span>DOCUMENTOS DE CONTRATACIÓN</span>
                             <button class="ver-btn" onclick="window.location.href = 'verDocumentosContratacion.jsp?identificacion=<%= identificacion%>'">VER</button>
                         </div>
+                         <div class="data-item">
+                            <span>AFILIACIONES</span>
+                            <button class="ver-btn" onclick="window.location.href = 'verAfiliaciones.jsp?identificacion=<%= identificacion%>'">VER</button>
+                        </div>
+                                         
                         <div class="data-item">
                             <span>DOCUMENTOS SST-SGA</span>
                             <button class="ver-btn" onclick="window.location.href = 'verDocumentosSSTSGA.jsp?identificacion=<%= identificacion%>'">VER</button>
                         </div>
                         <div class="data-item">
-                            <span>AFILIACIONES</span>
-                            <button class="ver-btn" onclick="window.location.href = 'verAfiliaciones.jsp?identificacion=<%= identificacion%>'">VER</button>
+                            <span>DOCUMENTOS DURANTE CONTRATACIÓN</span>
+                            <button class="ver-btn" onclick="window.location.href = 'verDuranteContratacion.jsp?identificacion=<%= identificacion%>'">VER</button>
+                        </div>
+                        
+                        <div class="data-item">
+                            <span>AUSENTISMOS</span>
+                            <button class="ver-btn" onclick="window.location.href = 'verAusentismos.jsp?identificacion=<%= identificacion%>'">VER</button>
                         </div>
                         <div class="data-item">
-                            <span>FINALIZAR CONTRATACIÓN</span>
+                            <span>INCAPACIDADES</span>
+                            <button class="ver-btn" onclick="window.location.href = 'verIncapacidades.jsp?identificacion=<%= identificacion%>'">VER</button>
+                        </div>
+   
+                        <div class="data-item">
+                            <span>DOCUMENTO AL FINALIZAR LA CONTRATACIÓN</span>
                             <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Lotros'">VER</button>
                         </div>
                     </div>
