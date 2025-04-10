@@ -39,56 +39,110 @@
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
                     <h2>DOCUMENTOS SST-SGA</h2>
-                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() +" - "+ persona.getIdentificacion() : ""%>" class="nombre" readonly>
+                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
                     <thead>
                         <tr>
                             <th>DOCUMENTOS</th>
                             <th>ARCHIVO</th>
-                           
+
                         </tr>
                     </thead>
-                    <tbody> 
+                    <tbody>
                         <tr>
-                            <td>Reinducción</td>
-                           
-                         <td><button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=RInduccionotros'" 
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Emo periodico</td>
-                             <td><button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOPotros'" 
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                          <tr>
-                            <td>Emo post-incapacidad</td>
-                             <td><button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOINotros'" 
+                            <td>Inducción y reinducción SG-SST</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=IRSGSSTotros'"
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Otros documentos</td>
-                            <td><button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=DSTSGAotros'" 
+                            <td>Inducción y reinducción SGA</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=IRSGAotros'"
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
-                      
+                        <tr>
+                            <td>EMO ingreso</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOIotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>EMO periódico</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOPotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>EMO post-incapacidad</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOINotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>EMO egreso</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOEotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>EMO seguimiento a recomendaciones</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOSRotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Encuesta condiciones de salud</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ECSotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Certificados y permisos (trabajo en alturas, manipulación de alimentos, etc)
+</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CPotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
+
 
                 </table>
                 <div class="buttons">
