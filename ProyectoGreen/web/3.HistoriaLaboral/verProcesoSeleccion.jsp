@@ -1,8 +1,9 @@
 <%-- 
-    Document   : verAfiliaciones
-    Created on : 26/03/2025, 05:08:59 PM
+    Document   : verProcesoSeleccion
+    Created on : 10/04/2025, 03:12:44 PM
     Author     : VALEN
 --%>
+
 
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
@@ -14,7 +15,7 @@
         administrador = new Administrador();
     }
 
-    String identificacion = request.getParameter("identificacion");
+ String identificacion = request.getParameter("identificacion");
     Persona persona = null;
 
     if (identificacion != null && !identificacion.isEmpty()) {
@@ -37,94 +38,44 @@
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>AFILIACIONES</h2>
-                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
+                    <h2>PROCESO DE SELECCIÓN</h2>
+                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() +" - "+ persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
                     <thead>
                         <tr>
                             <th>DOCUMENTOS</th>
                             <th>ARCHIVO</th>
-
+                         
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Certificado EPS por colaborador</td>
+
+                   <tr>
+                            <td>Pruebas técnicas</td>
                             <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CEPSotros'"
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=PruebaT'" 
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Formulario único de afiliación y registro de novedades EPS</td>
+                      <tr>
+                            <td>Pruebas psicotécnicas</td>
                             <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=FUAotros'"
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=PruebaPsi'" 
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Certificado de afiliación EPS</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CAEPSotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Certificado de afiliación ARL</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CAARLotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Certificado FDP</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CFDPotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Formulario de afiliación Comfamiliar</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=FACotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Certificado de afiliación Comfamiliar</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CACotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
+
                     </tbody>
-
-
                 </table>
                 <div class="buttons">
-                    <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
+                   <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
                 </div>
             </div>
         </body>

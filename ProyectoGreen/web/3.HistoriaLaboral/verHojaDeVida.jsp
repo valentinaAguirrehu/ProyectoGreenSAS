@@ -14,7 +14,7 @@
         administrador = new Administrador();
     }
 
- String identificacion = request.getParameter("identificacion");
+    String identificacion = request.getParameter("identificacion");
     Persona persona = null;
 
     if (identificacion != null && !identificacion.isEmpty()) {
@@ -38,20 +38,19 @@
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
                     <h2>HOJA DE VIDA</h2>
-                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() +" - "+ persona.getIdentificacion() : ""%>" class="nombre" readonly>
+                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
                     <thead>
                         <tr>
                             <th>DOCUMENTOS</th>
                             <th>ARCHIVO</th>
-                         
+
                         </tr>
                     </thead>
-                    <tbody>
-
-                   <tr>
-                            <td>Hoja de vida</td>
+                    <tbody> 
+                        <tr>
+                            <td>Hoja de vida actualizada</td> 
                             <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=HVotros'" 
@@ -60,21 +59,121 @@
                                 </button>
                             </td>
                         </tr>
-                      <tr>
-                            <td>Documentos del vehículo</td>
+                        <tr>
+                            <td>Antecedentes procuraduría</td>
                             <td>
                                 <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=DVotros'" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=AntecedentesP'" 
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
-
+                        <tr>
+                            <td>Antecedentes contraloría</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=AntecedentesC'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Antecedentes judiciales (Policía)</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=AntecedentesJ'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Consulta inhabilidades</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Inhabilidades'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Consulta RNMC</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=RNMC'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Certificado REDAM</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=REDAM'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Certificado de banco (si aplica)</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Banco'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Fotocopia licencia de conducción</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Licencia'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>SOAT</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SOAT'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tecnomecánica</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Tecnomecanica'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Certificado SIMIT</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SIMIT'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
+
                 </table>
                 <div class="buttons">
-                   <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
+                    <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
                 </div>
             </div>
         </body>

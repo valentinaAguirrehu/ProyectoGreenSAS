@@ -14,12 +14,12 @@
         administrador = new Administrador();
     }
 
- String identificacion = request.getParameter("identificacion");
+    String identificacion = request.getParameter("identificacion");
     Persona persona = null;
 
     if (identificacion != null && !identificacion.isEmpty()) {
         persona = new Persona(identificacion);
-    } %>
+    }%>
 
 
 <!DOCTYPE html>
@@ -38,7 +38,7 @@
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
                     <h2>AUSENTISMOS</h2>
-                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() +" - "+ persona.getIdentificacion() : ""%>" class="nombre" readonly>
+                    <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
                     <thead>
@@ -48,37 +48,78 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         <tr>
                             <td>Vacaciones</td>
-                            <td><button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Votros'" 
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Votros'"
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
-                    
+                        <tr>
+                            <td>Licencia de luto</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=LLotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Licencia remunerada</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=LRotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
                         <tr>
                             <td>Licencia no remunerada</td>
-                            <td>   <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=LNotros'" 
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=LNotros'"
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
-
                         <tr>
-                            <td>Otros documentos</td>
-                            <td>   <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=DAotros'" 
+                            <td>Permisos</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=PERMotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Suspensiones</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SUSPotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Día de la familia</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=DIAFAMotros'"
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
                     </tbody>
+
                 </table>
                 <div class="buttons">
                     <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
