@@ -28,7 +28,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>GREEN SAS</title>
+        <title>GREEN S.A.S.</title>
         <link rel="stylesheet" href="presentacion/style-Index.css">
     </head>
     <body>

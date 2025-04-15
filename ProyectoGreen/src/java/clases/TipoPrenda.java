@@ -14,7 +14,7 @@ import java.util.List;
  * @author Angie
  */
 public class TipoPrenda {
-    
+
     private String id;
     private String nombre;
 
@@ -24,12 +24,12 @@ public class TipoPrenda {
     public TipoPrenda(String id) {
         String cadenaSQL = "select id,nombre from tipoPrenda where id=" + id;
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
-        
+
         try {
             if (resultado.next()) {
                 this.id = id;
                 nombre = resultado.getString("nombre");
-        }
+            }
 
         } catch (Exception e) {
             System.out.println("np");
@@ -51,7 +51,7 @@ public class TipoPrenda {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
     public static List<TipoPrenda> getListaEnObjetos() {
         List<TipoPrenda> lista = new ArrayList<>();
         String sql = "SELECT id, nombre FROM tipoPrenda ORDER BY nombre";
@@ -72,4 +72,3 @@ public class TipoPrenda {
         return lista;
     }
 }
-    
