@@ -5,6 +5,7 @@
 --%>
 
 <%@ page import="clases.Administrador" %>
+<title>GREEN S.A.S.</title>
 
 <div class="logo-container">
     <img src="../presentacion/imagenes/LogoGreen.png" alt="Logo de Green">
@@ -38,7 +39,8 @@
             <a>Dotaciones<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
             <ul class="dropdown-content">                           
                 <li><a href="../7.Dotaciones/prenda.jsp">Prendas</a></li>
-                <li><a href="../7.Dotaciones/inventario.jsp">Inventario</a></li>
+                <li><a href="../7.Dotaciones/inventarioDotacion.jsp">Inventario dotación</a></li>
+                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario dotación usada</a></li>
             </ul>
         </li>
         <li class="dropdown">
