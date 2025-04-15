@@ -39,8 +39,8 @@
             <a>Dotaciones<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
             <ul class="dropdown-content">                           
                 <li><a href="../7.Dotaciones/prenda.jsp">Prendas</a></li>
-                <li><a href="../7.Dotaciones/inventarioDotacion.jsp">Inventario dotación</a></li>
-                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario dotación usada</a></li>
+                <li><a href="../7.Dotaciones/inventarioDotacion.jsp">Inventario dotaciÃ³n</a></li>
+                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario dotaciÃ³n usada</a></li>
             </ul>
         </li>
         <li class="dropdown">
@@ -49,7 +49,7 @@
                 <li><a href="#">Ingresos de colaboradores</a></li>
                 <li><a href="#">Retiros de colaboradores</a></li>
                 <li><a href="#">Dotaciones entregadas</a></li>
-                <li><a href="../5.Reportes/cumpleanos.jsp">Cumpleañeros del mes</a></li>
+                <li><a href="../5.Reportes/cumpleanos.jsp">CumpleaÃ±eros del mes</a></li>
             </ul>
         </li>
     </ul>
@@ -58,6 +58,6 @@
             <li><a href="../4.Usuarios/usuarios.jsp">Usuarios</a></li>
         <% } %>
         <li><a href="../4.Usuarios/perfil.jsp">Perfil</a></li>
-        <li><a href="../index.jsp">Cerrar sesión</a></li>
+        <li><a href="../index.jsp">Cerrar sesiÃ³n</a></li>
     </ul>
 </nav>
