@@ -1,0 +1,115 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 11 abr 2025, 16:17:36
+    Author     : Angie
+*/
+
+.titulo {
+    text-align: center;
+    margin-top: 30px;
+    color: #2a6834;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #ccc;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background-color: #2a6834;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+}
+
+.tab-btn.active {
+    background-color: #1b4723;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tab-content th, .tab-content td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.tab-content th {
+    background-color: #2a6834;
+    color: white;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    padding: 10px;
+    padding-left: 35px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-box img {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 16px;
+}
+
+/* Botón de agregar */
+
+.contenedor-boton-agregar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 30px;
+    margin-bottom: 20px; /* Espacio entre el botón y el campo de búsqueda */
+}
+
+.boton-agregar {
+    background-color: #2c6e49;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-agregar:hover {
+    background-color: #24553a;
+}

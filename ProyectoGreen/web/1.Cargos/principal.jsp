@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>GREEN SAS</title>
+        <title>GREEN S.A.S.</title>
         <link rel="stylesheet" href="recursos/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="../presentacion/style-Principal.css">
         <script src="recursos/bootstrap/js/bootstrap.bundle.min.js"></script>
