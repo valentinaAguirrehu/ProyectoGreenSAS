@@ -32,6 +32,7 @@
                 <li><a href="../2.Colaboradores/temporales.jsp">Temporales</a></li>
                 <li><a href="../2.Colaboradores/aprendiz.jsp">Aprendices</a></li>
                 <li><a href="../2.Colaboradores/retirados.jsp">Retirados</a></li>
+                
             </ul>
         </li>
         <li class="dropdown">

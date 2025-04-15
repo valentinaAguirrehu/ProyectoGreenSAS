@@ -4,6 +4,7 @@
 <%@page import="clases.DetallesHistoria"%>
 
 <%
+
     Administrador administrador = (Administrador) session.getAttribute("administrador");
     if (administrador == null) {
         administrador = new Administrador();
@@ -219,8 +220,7 @@
             titulo = "DÍA DE LA FAMILIA";
             break;
 
-    //Incapacidades
-
+        //Incapacidades
         case "INCENFotros":
             titulo = "INCAPACIDAD POR ENFERMEDAD";
             break;
@@ -232,16 +232,12 @@
         case "MATPATotros":
             titulo = "LICENCIA MATERNIDAD / PATERNIDAD";
             break;
-            
-         //DOCUMENTOS AL FINALIZAR LA CONTRATACIÓN
+
+        //DOCUMENTOS AL FINALIZAR LA CONTRATACIÓN
         case "Lotros":
             titulo = "DOCUMENTOS DE TERMINACIÓN DE CONTRATO";
             break;
 
-            
-            
-            
-            
         //temporales
         case "induccionSST":
             titulo = "INDUCCIÓN SST";
@@ -257,9 +253,6 @@
             titulo = "OTROS DOCUMENTOS";
             break;
 
-            
-            
-            
         //Aprendiz 
         case "EPSotrosAp":
             titulo = "EPS APRENDIZ";
@@ -300,6 +293,7 @@
 
 %>
 
+
 <!DOCTYPE html>
 
 <jsp:include page="../permisos.jsp" />
@@ -332,49 +326,67 @@
                             </th>
                         </tr>
                     </thead>
+
+
                     <tbody>
-                        <% if (listaDetalles
-                                    != null && !listaDetalles.isEmpty()) {
-                                for (DetallesHistoria detalle : listaDetalles) {%>
-                        <tr>
-                            <td><%= detalle.getNombreDocumento()%></td>
-                            <td><%= detalle.getDocumentoPDF() != null ? detalle.getDocumentoPDF() : "No disponible"%></td>
-                            <td>
-                                <% if (detalle.getDocumentoPDF() != null && !detalle.getDocumentoPDF().isEmpty()) {%>
-                                <a href="<%= detalle.getDocumentoPDF()%>" target="_blank">
-                                    <img class="ver" src="../presentacion/iconos/ojo.png" alt="Ver PDF">
-                                </a>
-                                <% } else { %>
-                                No disponible
-                                <% }%>
-                            </td>
-                            <td>
-                                <!-- Formulario para eliminar -->
-                                <form action="detalleActualizar.jsp" method="POST" style="display:inline;">
-                                    <input type="hidden" name="codigoDocumento" id="codigoDocumento" value="<%= detalle.getId()%>">
-                                    <input type="hidden" name="idPersona" id="idPersona" value="<%= detalle.getIdPersona()%>">
-                                    <input type="hidden" name="tipo" id="tipo" value="<%= detalle.getTipo()%>">
-                                    <input type="hidden" name="accion" value="Eliminar">
-                                    <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este documento?');" style="border: none; background: none; cursor: pointer;">
-                                        <img src="../presentacion/iconos/eliminar.png" class="eliminar" alt="Eliminar">
-                                    </button>
-                                </form>
-                            </td>
-                            <td>
-                                <% if ("Lotros".equals(tipo) && !"R".equals(persona.getTipo())) {%>
-                                <img class='subir' src='../presentacion/iconos/retirado.png' 
-                                     title='Pasar a retirado' 
-                                     onClick='verRetirados("<%= persona.getIdentificacion()%>")' 
-                                     style='cursor:pointer;'/>
-                                <% } %>
-                            </td>
-                        </tr>
-                        <% } %>
-                        <% } else { %>
-                        <tr>
-                            <td colspan="5">No hay documentos disponibles</td>
-                        </tr>
-                        <% }%>
+                        <%
+                            String tipoParametro = request.getParameter("tipo");
+                            if (tipoParametro != null && "votros".equalsIgnoreCase(tipoParametro.trim())) {
+                        %>
+                    <div style="margin: 20px 0;">
+                        <a href="../3.HistoriaLaboral/periodoLaboral.jsp?identificacion=<%= request.getParameter("identificacion")%>" 
+                           class="btn-verde">
+                            VER REGISTROS
+                        </a>
+                    </div>
+                    <%
+                        }
+                    %>
+
+                    <% if (listaDetalles
+                                != null && !listaDetalles.isEmpty()) {
+                            for (DetallesHistoria detalle : listaDetalles) {%>
+                    <tr>
+                        <td><%= detalle.getNombreDocumento()%></td>
+                        <td><%= detalle.getDocumentoPDF() != null ? detalle.getDocumentoPDF() : "No disponible"%></td>
+                        <td>
+                            <% if (detalle.getDocumentoPDF() != null && !detalle.getDocumentoPDF().isEmpty()) {%>
+                            <a href="<%= detalle.getDocumentoPDF()%>" target="_blank">
+                                <img class="ver" src="../presentacion/iconos/ojo.png" alt="Ver PDF">
+                            </a>
+                            <% } else { %>
+                            No disponible
+                            <% }%>
+                        </td>
+                        <td>
+                            <!-- Formulario para eliminar -->
+                            <form action="detalleActualizar.jsp" method="POST" style="display:inline;">
+                                <input type="hidden" name="codigoDocumento" id="codigoDocumento" value="<%= detalle.getId()%>">
+                                <input type="hidden" name="idPersona" id="idPersona" value="<%= detalle.getIdPersona()%>">
+                                <input type="hidden" name="tipo" id="tipo" value="<%= detalle.getTipo()%>">
+                                <input type="hidden" name="accion" value="Eliminar">
+                                <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este documento?');" style="border: none; background: none; cursor: pointer;">
+                                    <img src="../presentacion/iconos/eliminar.png" class="eliminar" alt="Eliminar">
+                                </button>
+                            </form>
+                        </td>
+
+                        <td>
+                            <% if ("Lotros".equals(tipo) && !"R".equals(persona.getTipo())) {%>
+                            <img class='subir' src='../presentacion/iconos/retirado.png' 
+                                 title='Pasar a retirado' 
+                                 onClick='verRetirados("<%= persona.getIdentificacion()%>")' 
+                                 style='cursor:pointer;'/>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <% } %>
+                    <% } else { %>
+                    <tr style="background-color: #ffcccc; color: #a10000; font-weight: bold;">
+                        <td colspan="5">No hay documentos cargados</td>
+                    </tr>
+
+                    <% }%>
                     </tbody>
 
                 </table>
