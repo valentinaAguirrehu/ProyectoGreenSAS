@@ -29,11 +29,10 @@
             String tipo = prenda.getNombreTipoPrenda();
             String fila = "<tr>"
                     + "<td>" + inv.getFechaIngreso() + "</td>"
-                    + "<td>" + inv.getCantidad() + "</td>"
                     + "<td>" + prenda.getNombre() + "</td>"
                     + "<td>" + inv.getTalla() + "</td>"
+                    + "<td>" + inv.getCantidad() + "</td>"
                     + "<td>" + inv.getUnidadNegocio() + "</td>"
-                    + "<td>" + inv.getEstado() + "</td>"
                     + "</tr>";
             if (!mapa.containsKey(tipo)) {
                 mapa.put(tipo, new ArrayList<String>());
@@ -110,11 +109,10 @@
                 <thead>
                     <tr>
                         <th>Última fecha de ingreso</th>
-                        <th>Cantidad</th>
                         <th>Prenda</th>        
                         <th>Talla</th>
+                        <th>Cantidad</th>
                         <th>Unidad de negocio</th>
-                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
