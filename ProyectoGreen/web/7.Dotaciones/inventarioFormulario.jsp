@@ -9,23 +9,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    // Manejo de petición AJAX para cargar prendas según tipo de prenda
+    String accion = request.getParameter("accion");
     String tipoPrendaAjax = request.getParameter("ajax_tipo_prenda");
     if (tipoPrendaAjax != null) {
         response.setContentType("application/json");
         ResultSet rsPrendas = ConectorBD.consultar(
-            "SELECT id_prenda, nombre FROM prenda WHERE id_tipo_prenda = '" + tipoPrendaAjax + "'"
+                "SELECT id_prenda, nombre FROM prenda WHERE id_tipo_prenda = " + tipoPrendaAjax
         );
 
         StringBuilder json = new StringBuilder("[");
         boolean primero = true;
         while (rsPrendas.next()) {
-            if (!primero) json.append(",");
-            json.append("{\"idPrenda\":\"")
-                .append(rsPrendas.getString("id_prenda"))
-                .append("\",\"nombre\":\"")
-                .append(rsPrendas.getString("nombre"))
-                .append("\"}");
+            if (!primero) {
+                json.append(",");
+            }
+            json.append("{\"id_prenda\":\"")
+                    .append(rsPrendas.getString("id_prenda"))
+                    .append("\",\"nombre\":\"")
+                    .append(rsPrendas.getString("nombre"))
+                    .append("\"}");
             primero = false;
         }
         json.append("]");
@@ -38,185 +40,248 @@
 <jsp:include page="../menu.jsp" />
 
 <html>
-<head>
-    <link rel="stylesheet" href="../presentacion/style-Cargos.css">
-    <link rel="stylesheet" href="../presentacion/style-Inventario.css" />
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #333;
-            text-align: center;
-        }
-        .botones-form {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .btn-verde {
-            background-color: #2e7d32;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-        }
-        .btn-rojo {
-            background-color: #c62828;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-        }
-        .titulo {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #1b5e20;
-        }
-        .fila-icono {
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-<div class="content">
-    <h3 class="titulo">Agregar dotación nueva</h3>
+    <head>
+        <link rel="stylesheet" href="../presentacion/style-Cargos.css">
+        <link rel="stylesheet" href="../presentacion/style-Inventario.css" />
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
+            th, td {
+                padding: 10px;
+                border: 1px solid #333;
+                text-align: center;
+            }
+            .botones-form {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                margin-top: 20px;
+            }
+            .btn-verde {
+                background-color: #2e7d32;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+            }
+            .btn-rojo {
+                background-color: #c62828;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+            }
+            .titulo {
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                color: #1b5e20;
+            }
+            th button, .fila-icono {
+                background: none;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <h3 class="titulo">Agregar dotación nueva</h3>
+            <form action="inventarioActualizar.jsp" method="post">
+                <input type="hidden" name="accion" value="Actualizar">
 
-    <form action="InventarioServlet" method="post">
-        <input type="hidden" name="accion" value="Guardar">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <label for="fecha_ingreso">Fecha de ingreso:</label>
+                    <input type="date" name="fecha_ingreso" required />
+                </div>
 
-        <div style="text-align: center; margin-bottom: 20px;">
-            <label for="fechaIngreso">Fecha de ingreso:</label>
-            <input type="date" name="fechaIngreso" required />
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <label for="unidad_negocio">Unidad de negocio:</label>
+                    <select name="unidad_negocio" required>
+                        <option value="">Seleccione una unidad</option>
+                        <option value="GREEN EDS">GREEN S.A.S. EDS</option>
+                        <option value="GREEN RPS">GREEN S.A.S. RPS</option>
+                    </select>
+                </div>
+
+                <table class="table" id="tablaDotacion">
+                    <thead>
+                        <tr>
+                            <th>Tipo de prenda</th>
+                            <th>Prenda</th>
+                            <th>Tipo de medida</th>
+                            <th>Cantidad existente</th>
+                            <th>
+                                <button type="button" onclick="agregarFila()">
+                                    <img src="../presentacion/iconos/agregar.png" alt="Agregar" width="24" height="24">
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fila-dotacion">
+                            <td>
+                                <select class="recuadro select-tipo" name="id_tipo_prenda[]" required onchange="cargarPrendas(this)">
+                                    <option value="">Seleccione una opción</option>
+                                    <%
+                                        ResultSet tipos = ConectorBD.consultar("SELECT id_tipo_prenda, nombre FROM tipoPrenda");
+                                        while (tipos.next()) {
+                                            String idTipo = tipos.getString("id_tipo_prenda");
+                                            String nombreTipo = tipos.getString("nombre");
+                                    %>
+                                    <option value="<%=idTipo%>"><%=nombreTipo%></option>
+                                    <%
+                                        }
+                                        tipos.close();
+                                    %>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="id_prenda[]" class="select-prenda">
+                                    <option value="">Seleccionar</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="tipo-medida" onchange="cambiarMedida(this)">
+                                    <option value="">Seleccione tipo</option>
+                                    <option value="TALLA">Talla (S, M, L...)</option>
+                                    <option value="NUMERO">Número (36, 38...)</option>
+                                </select>
+                                <div class="opciones-medida">
+                                    <select name="talla[]" class="input-talla" style="display: none;">
+                                        <option value="">Seleccione la talla</option>
+                                        <option value="U">U</option>
+                                        <option value="XS">XS</option>
+                                        <option value="S">S</option>
+                                        <option value="M">M</option>
+                                        <option value="L">L</option>
+                                        <option value="XL">XL</option>
+                                        <option value="XXL">XXL</option>
+                                    </select>
+                                    <input type="text" name="talla[]" class="input-numero" style="display: none;" placeholder="Digite el número aquí" />
+                                </div>
+                            </td>
+
+                            <td>
+                                <input type="number" name="cantidad[]" min="1" value="1" />
+                                <input type="hidden" name="estado[]" value="Nueva" />
+                            </td>
+                            <td>
+                                <button type="button" class="fila-icono" onclick="eliminarFila(this)">
+                                    <img src="../presentacion/iconos/eliminar.png" alt="Eliminar" style="width: 24px; height: 24px;">
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="botones-form">
+                    <button type="submit" class="btn-verde">Guardar</button>
+                    <a href="inventarioDotacion.jsp" class="btn-rojo">Cancelar</a>
+                </div>
+            </form>
         </div>
 
-        <table id="tablaDotacion">
-            <thead>
-                <tr>
-                    <th>Tipo de prenda</th>
-                    <th>Prenda</th>
-                    <th>Talla</th>
-                    <th>Cantidad existente</th>
-                    <th>
-                        <button type="button" onclick="agregarFila()">➕</button>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="fila-dotacion">
-                    <td>
-                        <select class="recuadro" name="id_tipo_prenda" required onchange="cargarPrendas(this)">
-                            <option value="">Seleccione una opción</option>
-                            <%
-                                ResultSet tipos = ConectorBD.consultar("SELECT id_tipo_prenda, nombre FROM tipoPrenda");
-                                while (tipos.next()) {
-                                    String idTipo = tipos.getString("id_tipo_prenda");
-                                    String nombreTipo = tipos.getString("nombre");
-                            %>
-                                <option value="<%=idTipo%>"><%=nombreTipo%></option>
-                            <% 
-                                }
-                                tipos.close();
-                            %>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="idPrenda">
-                            <option value="">Seleccionar</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="talla">
-                            <option value="U">U</option>
-                            <option value="XS">XS</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="number" name="cantidad" min="1" value="1" />
-                    </td>
-                    <td>
-                        <button type="button" class="fila-icono" onclick="eliminarFila(this)">🗑️</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <script>
+            function agregarFila() {
+                const tabla = document.getElementById("tablaDotacion").getElementsByTagName("tbody")[0];
+                const filaBase = document.querySelector(".fila-dotacion");
+                const nuevaFila = filaBase.cloneNode(true);
 
-        <div class="botones-form">
-            <button type="submit" class="btn-verde">Guardar</button>
-            <a href="inventarioDotacion.jsp" class="btn-rojo">Cancelar</a>
-        </div>
-    </form>
-</div>
+                nuevaFila.querySelector(".select-tipo").value = "";
+                nuevaFila.querySelector(".select-prenda").innerHTML = '<option value="">Seleccionar</option>';
+                nuevaFila.querySelector("select[name='talla[]']").value = "";
+                nuevaFila.querySelector("input[name='cantidad[]']").value = 1;
+                nuevaFila.querySelector(".input-numero").value = "";
+                nuevaFila.querySelector(".tipo-medida").value = "";
+                nuevaFila.querySelector(".input-talla").style.display = "none";
+                nuevaFila.querySelector(".input-numero").style.display = "none";
 
-<script>
-    function agregarFila() {
-        const tabla = document.getElementById("tablaDotacion").getElementsByTagName("tbody")[0];
-        const filaBase = document.querySelector(".fila-dotacion");
-        const nuevaFila = filaBase.cloneNode(true);
-
-        // Limpiar valores
-        nuevaFila.querySelector("select[name='id_tipo_prenda']").value = "";
-        nuevaFila.querySelector("select[name='idPrenda']").innerHTML = '<option value="">Seleccionar</option>';
-        nuevaFila.querySelector("select[name='talla']").value = "U";
-        nuevaFila.querySelector("input[name='cantidad']").value = 1;
-
-        // Reasignar evento onchange
-        nuevaFila.querySelector("select[name='id_tipo_prenda']").addEventListener("change", function () {
-            cargarPrendas(this);
-        });
-
-        tabla.appendChild(nuevaFila);
-    }
-
-    function eliminarFila(btn) {
-        const fila = btn.closest("tr");
-        const tabla = document.getElementById("tablaDotacion").getElementsByTagName("tbody")[0];
-        if (tabla.rows.length > 1) {
-            fila.remove();
-        }
-    }
-
-    function cargarPrendas(selectTipo) {
-        const fila = selectTipo.closest("tr");
-        const prendaSelect = fila.querySelector("select[name='idPrenda']");
-        const tipoPrenda = selectTipo.value;
-
-        if (tipoPrenda) {
-            fetch("inventarioFormulario.jsp?ajax_tipo_prenda=" + tipoPrenda)
-                .then(response => response.json())
-                .then(data => {
-                    prendaSelect.innerHTML = '<option value="">Seleccionar</option>';
-                    data.forEach(prenda => {
-                        prendaSelect.innerHTML += `<option value="${prenda.idPrenda}">${prenda.nombre}</option>`;
-                    });
-                })
-                .catch(error => {
-                    console.error("Error al cargar prendas:", error);
-                    prendaSelect.innerHTML = '<option value="">Error al cargar</option>';
+                nuevaFila.querySelector(".select-tipo").addEventListener("change", function () {
+                    cargarPrendas(this);
                 });
-        } else {
-            prendaSelect.innerHTML = '<option value="">Seleccionar</option>';
-        }
-    }
 
-    // Asignar evento a la fila base al cargar
-    document.addEventListener("DOMContentLoaded", function () {
-        const selectBase = document.querySelector("select[name='id_tipo_prenda']");
-        if (selectBase) {
-            selectBase.addEventListener("change", function () {
-                cargarPrendas(this);
+                tabla.appendChild(nuevaFila);
+            }
+
+            function eliminarFila(btn) {
+                const fila = btn.closest("tr");
+                const tabla = document.getElementById("tablaDotacion").getElementsByTagName("tbody")[0];
+                if (tabla.rows.length > 1) {
+                    fila.remove();
+                }
+            }
+
+            function cargarPrendas(selectTipo) {
+                const fila = selectTipo.closest("tr");
+                const prendaSelect = fila.querySelector(".select-prenda");
+                const tipoPrenda = selectTipo.value;
+
+                prendaSelect.innerHTML = '<option value="">Cargando...</option>';
+
+                if (tipoPrenda) {
+                    fetch("inventarioFormulario.jsp?ajax_tipo_prenda=" + tipoPrenda)
+                            .then(response => response.json())
+                            .then(data => {
+                                prendaSelect.innerHTML = '<option value="">Seleccionar</option>';
+                                data.forEach(prenda => {
+                                    const option = document.createElement("option");
+                                    option.value = prenda.id_prenda;
+                                    option.textContent = prenda.nombre;
+                                    prendaSelect.appendChild(option);
+                                });
+                            })
+                            .catch(error => {
+                                console.error("Error al cargar prendas:", error);
+                                prendaSelect.innerHTML = '<option value="">Error al cargar</option>';
+                            });
+                } else {
+                    prendaSelect.innerHTML = '<option value="">Seleccionar</option>';
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const selectBase = document.querySelector(".select-tipo");
+                if (selectBase) {
+                    selectBase.addEventListener("change", function () {
+                        cargarPrendas(this);
+                    });
+                }
             });
-        }
-    });
-</script>
-</body>
+
+            function cambiarMedida(select) {
+                const fila = select.closest("td");
+                const talla = fila.querySelector(".input-talla");
+                const numero = fila.querySelector(".input-numero");
+
+                if (select.value === "TALLA") {
+                    talla.style.display = "inline-block";
+                    numero.style.display = "none";
+                    numero.value = "";
+                } else {
+                    talla.style.display = "none";
+                    numero.style.display = "inline-block";
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll(".select-tipo").forEach(el => {
+                    el.addEventListener("change", function () {
+                        cargarPrendas(this);
+                    });
+                });
+
+                document.querySelectorAll(".tipo-medida").forEach(el => {
+                    el.addEventListener("change", function () {
+                        cambiarMedida(this);
+                    });
+                });
+            });
+
+        </script>
+    </body>
 </html>
