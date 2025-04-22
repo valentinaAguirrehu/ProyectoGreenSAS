@@ -50,7 +50,7 @@
                 <li><a href="#">Ingresos de colaboradores</a></li>
                 <li><a href="#">Retiros de colaboradores</a></li>
                 <li><a href="#">Dotaciones entregadas</a></li>
-                <li><a href="../5.Reportes/cumpleanos.jsp">Cumpleañeros del mes</a></li>
+                <li><a href="../5.Reportes/cumpleanos.jsp">Cumpleaneros del mes</a></li>
             </ul>
         </li>
     </ul>
@@ -59,6 +59,8 @@
             <li><a href="../4.Usuarios/usuarios.jsp">Usuarios</a></li>
         <% } %>
         <li><a href="../4.Usuarios/perfil.jsp">Perfil</a></li>
+        <li><a href="../notificacionesContrato.jsp">Notificaciones</a></li>
+        <li><a href="../verHistorialCorreos.jsp">Historial correos</a></li>
         <li><a href="../index.jsp">Cerrar sesión</a></li>
     </ul>
 </nav>

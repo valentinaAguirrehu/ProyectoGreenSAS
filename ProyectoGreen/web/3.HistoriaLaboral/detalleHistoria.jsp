@@ -334,7 +334,7 @@
                             if (tipoParametro != null && "votros".equalsIgnoreCase(tipoParametro.trim())) {
                         %>
                     <div style="margin: 20px 0;">
-                        <a href="../3.HistoriaLaboral/periodoLaboral.jsp?identificacion=<%= request.getParameter("identificacion")%>" 
+                        <a href="../3.HistoriaLaboral/verRegistrosVacaciones.jsp?identificacion=<%= request.getParameter("identificacion")%>" 
                            class="btn-verde">
                             VER REGISTROS
                         </a>

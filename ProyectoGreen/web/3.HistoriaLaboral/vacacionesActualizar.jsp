@@ -1,9 +1,3 @@
-<%-- 
-    Document   : vacacionesActualizar
-    Created on : 11/04/2025, 05:38:37 PM
-    Author     : VALEN
---%>
-
 <%@page import="clases.Vacaciones"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.List"%>
@@ -22,8 +16,12 @@
         variables.put("accion", request.getParameter("accion"));
         variables.put("id", request.getParameter("id"));
         variables.put("idPersona", request.getParameter("idPersona"));
+        variables.put("periodoDisfrute", request.getParameter("periodoDisfrute"));
+        variables.put("periodoDisfruteFin", request.getParameter("periodoDisfruteFin"));
+        variables.put("diasDisfrutados", request.getParameter("diasDisfrutados"));
+        variables.put("diasCompensados", request.getParameter("diasCompensados"));
+        variables.put("diasCompensar", request.getParameter("diasCompensar"));
         variables.put("observacion", request.getParameter("observacion"));
-        variables.put("estado", request.getParameter("estado"));
     } else {
         ServletRequestContext origen = new ServletRequestContext(request);
         DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -38,11 +36,23 @@
     }
 
     Vacaciones vacacion = new Vacaciones();
-    vacacion.setId(variables.get("id"));
+    vacacion.setIdVacaciones(variables.get("id"));
     vacacion.setIdPersona(variables.get("idPersona"));
-    vacacion.setObservacion(variables.get("observacion"));
-    vacacion.setEstado(variables.get("estado"));
+    vacacion.setPeriodoDisfrute(variables.get("periodoDisfrute"));
+    vacacion.setPeriodoDisfruteFin(variables.get("periodoDisfruteFin"));
+    vacacion.setDiasDisfrutados(variables.get("diasDisfrutados"));
+    vacacion.setDiasCompensados(variables.get("diasCompensados"));
+    vacacion.setDiasCompensar(variables.get("diasCompensar"));
 
+    // Verifica si la observación está vacía y la establece como null
+    String observacion = variables.get("observacion");
+    if (observacion != null && observacion.trim().isEmpty()) {
+        vacacion.setObservacion(null); // Asignar null si está vacía
+    } else {
+        vacacion.setObservacion(observacion);
+    }
+
+    // Acciones según el tipo de operación
     switch (variables.get("accion")) {
         case "Adicionar":
             vacacion.grabar();
