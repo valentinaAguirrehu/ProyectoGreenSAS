@@ -14,7 +14,7 @@ import java.util.List;
  * @author Angie
  */
 public class InventarioDotacion {
-    
+
     private String idInventario;
     private String idPrenda;
     private String talla;
@@ -22,6 +22,7 @@ public class InventarioDotacion {
     private String estado;
     private String unidadNegocio;
     private String fechaIngreso;
+    private String jsonPrendas;
 
     // Getters y Setters
     public String getIdInventario() {
@@ -80,17 +81,21 @@ public class InventarioDotacion {
         this.fechaIngreso = fechaIngreso;
     }
 
+    public void setJsonPrendas(String jsonPrendas) {
+        this.jsonPrendas = jsonPrendas;
+    }
+
     // Métodos para base de datos
     public boolean grabar() {
-        String sql = "INSERT INTO inventarioDotacion (id_prenda, talla, cantidad, estado, unidad_negocio, fecha_ingreso) " +
-                     "VALUES ('" + idPrenda + "', '" + talla + "', " + cantidad + ", '" + estado + "', '" + unidadNegocio + "', '" + fechaIngreso + "')";
+        String sql = "INSERT INTO inventarioDotacion (id_prenda, talla, cantidad, estado, unidad_negocio, fecha_ingreso) "
+                + "VALUES ('" + idPrenda + "', '" + talla + "', " + cantidad + ", '" + estado + "', '" + unidadNegocio + "', '" + fechaIngreso + "')";
         return ConectorBD.ejecutarQuery(sql);
     }
 
     public boolean modificar(String idAnterior) {
-        String sql = "UPDATE inventarioDotacion SET id_prenda='" + idPrenda + "', talla='" + talla + "', cantidad=" + cantidad +
-                     ", estado='" + estado + "', unidad_negocio='" + unidadNegocio + "', fecha_ingreso='" + fechaIngreso +
-                     "' WHERE id_inventario=" + idAnterior;
+        String sql = "UPDATE inventarioDotacion SET id_prenda='" + idPrenda + "', talla='" + talla + "', cantidad=" + cantidad
+                + ", estado='" + estado + "', unidad_negocio='" + unidadNegocio + "', fecha_ingreso='" + fechaIngreso
+                + "' WHERE id_inventario=" + idAnterior;
         return ConectorBD.ejecutarQuery(sql);
     }
 
@@ -117,7 +122,7 @@ public class InventarioDotacion {
                 i.setIdInventario(rs.getString("id_inventario"));
                 i.setIdPrenda(rs.getString("id_prenda"));
                 i.setTalla(rs.getString("talla"));
-                i.setCantidad(rs.getString("cantidad")); 
+                i.setCantidad(rs.getString("cantidad"));
                 i.setEstado(rs.getString("estado"));
                 i.setUnidadNegocio(rs.getString("unidad_negocio"));
                 i.setFechaIngreso(rs.getString("fecha_ingreso"));
@@ -130,4 +135,17 @@ public class InventarioDotacion {
 
         return lista;
     }
+
+    public boolean agregarPrendasMultiples() {
+    try {
+        // Llamada al procedimiento con el JSON generado en el JSP
+        String sql = "CALL agregar_prendas_multiples('" + this.jsonPrendas + "')";
+        return ConectorBD.ejecutarQuery(sql);
+    } catch (Exception e) {
+        System.out.println("Error al agregar prendas: " + e.getMessage());
+        e.printStackTrace();
+        return false;
+    }
+}
+
 }
