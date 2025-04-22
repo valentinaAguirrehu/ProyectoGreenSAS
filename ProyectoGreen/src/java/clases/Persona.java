@@ -1712,5 +1712,30 @@ public class Persona {
                 || area.equalsIgnoreCase("Administrativo")
                 || area.equalsIgnoreCase("Operativo"));
     }
+    
+    public static List<Persona> obtenerContratosProximosAVencer() {
+    List<Persona> lista = new ArrayList<>();
+    String sql = "SELECT p.identificacion, p.nombres, p.apellidos, c.nombre AS cargo, p.establecimiento, p.fechaTerPriContrato " +
+                 "FROM persona p JOIN cargo c ON p.idCargo = c.id " +
+                 "WHERE DATEDIFF(p.fechaTerPriContrato, CURDATE()) IN (30, 15)";
+
+    ResultSet rs = ConectorBD.consultar(sql);
+    try {
+        while (rs.next()) {
+            Persona p = new Persona();
+            p.setIdentificacion(rs.getString("identificacion"));
+            p.setNombres(rs.getString("nombres"));
+            p.setApellidos(rs.getString("apellidos"));
+            p.setIdCargo(rs.getString("idcargo"));
+            p.setEstablecimiento(rs.getString("establecimiento"));
+            p.setFechaTerPriContrato(rs.getString("fechaTerPriContrato"));
+            lista.add(p);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return lista;
+}
+
 
 }

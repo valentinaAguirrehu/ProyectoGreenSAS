@@ -89,6 +89,7 @@
                     <img src="../presentacion/iconos/agregar.png" width='30' height='30'>
                 </a>
             </th>
+            
         </tr>
         <%= lista%> 
     </table>
