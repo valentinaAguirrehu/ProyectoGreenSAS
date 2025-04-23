@@ -1,6 +1,6 @@
 <%-- 
-    Document   : inventarioDotacion
-    Created on : 10 abr 2025, 17:35:51
+    Document   : inventarioDotacionUsada
+    Created on : 23 abr 2025, 14:50:02
     Author     : Angie
 --%>
 
@@ -21,7 +21,7 @@
 
     // Agrupar registros por tipo de prenda
     LinkedHashMap<String, List<String>> mapa = new LinkedHashMap<>();
-    List<InventarioDotacion> inventario = InventarioDotacion.getListaEnObjetos("estado = 'Nueva'", "fecha_ingreso DESC");
+    List<InventarioDotacion> inventario = InventarioDotacion.getListaEnObjetos("estado = 'Usada'", "fecha_ingreso DESC");
 
     if (inventario != null && !inventario.isEmpty()) {
         for (InventarioDotacion inv : inventario) {
@@ -41,7 +41,7 @@
         }
     }
 
-    String idFecha = "1"; 
+    String idFecha = "1";
     FechaProxEntregaDotacion fechas = new FechaProxEntregaDotacion(idFecha);
     String fechaAdmin = fechas.getFecha_admin();
     String fechaOperativo = fechas.getFecha_operativo();
@@ -57,25 +57,22 @@
 
 <body>
     <div class="content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0; position: relative;">
 
-            <div style="background-color: #e6f0e6; border: 1px solid #4a944a; border-radius: 8px; padding: 15px 20px; font-size: 16px;">
-                <strong style="color: #2d602d;">Próxima entrega de dotación:</strong><br>
-                Administrativo: <%= fechaAdmin != null ? fechaAdmin : "Sin registro"%><br>
-                Operativo: <%= fechaOperativo != null ? fechaOperativo : "Sin registro"%>
-                <a href="fechasFormulario.jsp?accion=Modificar&id=<%=idFecha%>&fechaAdmin=<%=fechaAdmin%>&fechaOperativo=<%=fechaOperativo%>" style="margin-left: 10px; text-decoration: none; color: inherit;">
-                    <img src="../presentacion/iconos/modificar.png" alt="Editar fechas" width="16" height="16" style="vertical-align: middle; cursor: pointer;">
-                </a>
-            </div>
+            <!-- Espacio izquierdo invisible para equilibrio visual -->
+            <div style="width: 13%;"></div>
 
-            <h3 class="titulo">INVENTARIO DE DOTACIÓN NUEVA</h3>
+            <!-- Título centrado -->
+            <h3 class="titulo" style="text-align: center; width: 34%; margin: 0;">INVENTARIO DE DOTACIÓN UTILIZADA</h3>
 
-            <div>
-                <a href="inventarioFormulario.jsp?accion=Adicionar" class="boton-agregar" style="display: inline-flex; align-items: center; gap: 6px;">
+            <!-- Botón alineado a la derecha -->
+            <div style="margin-top: 30px;"> <!-- Aquí mueves el botón más abajo -->
+                <a href="inventarioFormularioUsada.jsp?accion=Adicionar" class="boton-agregar" style="display: inline-flex; align-items: center; gap: 6px;">
                     <img src="../presentacion/iconos/agregar.png" width="16" height="16" alt="Agregar">
                     Agregar prendas
                 </a>
             </div>
+
         </div>
 
         <div class="search-container">
@@ -169,3 +166,4 @@
         });
     }
 </script>
+

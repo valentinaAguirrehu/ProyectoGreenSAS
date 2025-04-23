@@ -39,8 +39,8 @@
             <a>Dotaciones<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
             <ul class="dropdown-content">                           
                 <li><a href="../7.Dotaciones/prenda.jsp">Prendas</a></li>
-                <li><a href="../7.Dotaciones/inventarioDotacion.jsp">Inventario dotación</a></li>
-                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario dotación usada</a></li>
+                <li><a href="../7.Dotaciones/inventarioDotacion.jsp">Inventario de dotación nueva</a></li>
+                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario de dotación utilizada</a></li>
             </ul>
         </li>
         <li class="dropdown">
