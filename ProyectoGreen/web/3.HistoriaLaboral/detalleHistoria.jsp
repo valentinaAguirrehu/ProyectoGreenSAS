@@ -331,17 +331,35 @@
                     <tbody>
                         <%
                             String tipoParametro = request.getParameter("tipo");
-                            if (tipoParametro != null && "votros".equalsIgnoreCase(tipoParametro.trim())) {
+
+                            if (tipoParametro != null && "votros".equalsIgnoreCase(tipoParametro.trim())
+                                    && persona != null && "C".equalsIgnoreCase(persona.getTipo())) {
                         %>
-                    <div style="margin: 20px 0;">
+                    <div style="margin: 20px 0; text-align: left;">
                         <a href="../3.HistoriaLaboral/verRegistrosVacaciones.jsp?identificacion=<%= request.getParameter("identificacion")%>" 
-                           class="btn-verde">
+                           class="btn-verde" style="padding: 10px 15px; background-color: #24553a; color: white; text-decoration: none; border-radius: 5px;">
                             VER REGISTROS
                         </a>
                     </div>
                     <%
                         }
+
+                        // Nuevo bloque para DIAFAMotros
+                        if (tipoParametro != null && "DIAFAMotros".equalsIgnoreCase(tipoParametro.trim())
+                                && persona != null && "C".equalsIgnoreCase(persona.getTipo())) {
                     %>
+                    <div style="margin: 20px 0; text-align: left;">
+                        <a href="../3.HistoriaLaboral/verRegistroDiaFamlia.jsp?identificacion=<%= request.getParameter("identificacion")%>" 
+                           class="btn-verde" style="padding: 10px 15px; background-color: #24553a; color: white; text-decoration: none; border-radius: 5px;">
+                            VER REGISTROS 
+                        </a>
+                    </div>
+                    <%
+                        }
+                    %>
+
+
+
 
                     <% if (listaDetalles
                                 != null && !listaDetalles.isEmpty()) {
