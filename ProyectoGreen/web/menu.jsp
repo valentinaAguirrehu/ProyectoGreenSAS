@@ -33,15 +33,15 @@
                 <li><a href="../2.Colaboradores/temporales.jsp">Temporales</a></li>
                 <li><a href="../2.Colaboradores/aprendiz.jsp">Aprendices</a></li>
                 <li><a href="../2.Colaboradores/retirados.jsp">Retirados</a></li>
-                
+
             </ul>
         </li>
         <li class="dropdown">
             <a>Dotaciones<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
             <ul class="dropdown-content">                           
                 <li><a href="../7.Dotaciones/prenda.jsp">Prendas</a></li>
-                <li><a href="../7.Dotaciones/inventarioDotacion.jsp">Inventario dotaciÃ³n</a></li>
-                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario dotaciÃ³n usada</a></li>
+                <li><a href="../7.Dotaciones/inventarioDotacion.jsp">Inventario dotación</a></li>
+                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario dotación usada</a></li>
             </ul>
         </li>
         <li class="dropdown">
@@ -50,19 +50,25 @@
                 <li><a href="#">Ingresos de colaboradores</a></li>
                 <li><a href="#">Retiros de colaboradores</a></li>
                 <li><a href="#">Dotaciones entregadas</a></li>
-                <li><a href="../5.Reportes/cumpleanos.jsp">Cumpleaneros del mes</a></li>
+                <li><a href="../5.Reportes/cumpleanos.jsp">Cumpleañeros del mes</a></li>
                 <li><a href="../5.Reportes/diaFamilia.jsp">Dia de la familia </a></li>
                 <li><a href="../5.Reportes/vacaciones.jsp">Vacaciones</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#">Notificaciones<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
+            <ul class="dropdown-content">     
+                <li><a href="../notificacionesContrato.jsp">Envío de correos electrónicos</a></li>
+                <li><a href="../HistorialCorreos.jsp">Historial correos electrónicos</a></li>
             </ul>
         </li>
     </ul>
     <ul class="bottom-menu">
         <% if ("S".equals(tipoUsuario)) { %>
-            <li><a href="../4.Usuarios/usuarios.jsp">Usuarios</a></li>
-        <% } %>
+        <li><a href="../4.Usuarios/usuarios.jsp">Usuarios</a></li>
+            <% }%>
         <li><a href="../4.Usuarios/perfil.jsp">Perfil</a></li>
-        <li><a href="../notificacionesContrato.jsp">Notificaciones</a></li>
-        <li><a href="../verHistorialCorreos.jsp">Historial correos</a></li>
-        <li><a href="../index.jsp">Cerrar sesiÃ³n</a></li>
+
+        <li><a href="../index.jsp">Cerrar sesión</a></li>
     </ul>
 </nav>
