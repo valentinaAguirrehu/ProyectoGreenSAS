@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntregaDotacion {
-    
+
     private String idEntrega;
     private String idPersona;
     private String fechaEntrega;
     private String tipoEntrega;
+    private String numeroEntrega;
+    private String jsonPrendas;
 
     // Getters y Setters
     public String getIdEntrega() {
@@ -45,18 +47,35 @@ public class EntregaDotacion {
         this.tipoEntrega = tipoEntrega;
     }
 
+    public String getNumeroEntrega() {
+        return numeroEntrega;
+    }
+
+    public void setNumeroEntrega(String numeroEntrega) {
+        this.numeroEntrega = numeroEntrega;
+    }
+
+    public String getJsonPrendas() {
+        return jsonPrendas;
+    }
+
+    public void setJsonPrendas(String jsonPrendas) {
+        this.jsonPrendas = jsonPrendas;
+    }
+
     // Métodos para base de datos
     public boolean grabar() {
-        String sql = "INSERT INTO entregaDotacion (id_persona, fechaEntrega, tipoEntrega) " +
-                     "VALUES ('" + idPersona + "', '" + fechaEntrega + "', '" + tipoEntrega + "')";
+        String sql = "INSERT INTO entregaDotacion (id_persona, fechaEntrega, tipoEntrega, numero_entrega) "
+                + "VALUES ('" + idPersona + "', '" + fechaEntrega + "', '" + tipoEntrega + "','" + numeroEntrega + "')";
         return ConectorBD.ejecutarQuery(sql);
     }
 
     public boolean modificar(String idAnterior) {
-        String sql = "UPDATE entregaDotacion SET id_persona='" + idPersona + 
-                     "', fechaEntrega='" + fechaEntrega + 
-                     "', tipoEntrega='" + tipoEntrega + 
-                     "' WHERE id_entrega=" + idAnterior;
+        String sql = "UPDATE entregaDotacion SET id_persona='" + idPersona
+                + "', fechaEntrega='" + fechaEntrega
+                + "', tipoEntrega='" + tipoEntrega
+                + "', numero_entrega='" + numeroEntrega
+                + "' WHERE id_entrega=" + idAnterior;
         return ConectorBD.ejecutarQuery(sql);
     }
 
@@ -84,6 +103,7 @@ public class EntregaDotacion {
                 e.setIdPersona(rs.getString("id_persona"));
                 e.setFechaEntrega(rs.getString("fechaEntrega"));
                 e.setTipoEntrega(rs.getString("tipoEntrega"));
+                e.setNumeroEntrega(rs.getString("numero_entrega"));
                 lista.add(e);
             }
             rs.close();
@@ -93,4 +113,26 @@ public class EntregaDotacion {
 
         return lista;
     }
+
+    public int contarDetalles(List<DetalleEntrega> detalles) {
+        int count = 0;
+        for (DetalleEntrega d : detalles) {
+            if (d.getIdEntrega().equals(this.getIdEntrega())) {
+                count++;
+            }
+        }
+        return count == 0 ? 1 : count;
+    }
+
+    public boolean registrarEntregaDotacion() {
+        try {
+            String sql = "CALL sp_entregar_dotacion('" + this.jsonPrendas + "')";
+            return ConectorBD.ejecutarQuery(sql);
+        } catch (Exception e) {
+            System.out.println("Error al registrar la entrega: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

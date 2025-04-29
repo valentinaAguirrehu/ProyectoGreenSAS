@@ -14,7 +14,7 @@ import java.util.List;
  * @author Angie
  */
 public class DevolucionDotacion {
-    
+
     private String idDevolucion;
     private String idPersona;
     private String fechaDevolucion;
@@ -72,17 +72,21 @@ public class DevolucionDotacion {
     }
 
     public boolean grabar() {
-        String sql = "INSERT INTO devolucionDotacion (id_persona, fecha_devolucion, tipo_entrega) "
-                   + "VALUES ('" + idPersona + "', '" + fechaDevolucion + "', '" + tipoEntrega + "')";
-        return ConectorBD.ejecutarQuery(sql);
-    }
+    int ultimoIdDevolucion = obtenerUltimoIdDevolucionPorPersona(idPersona);
+    int nuevoIdDevolucion = ultimoIdDevolucion + 1;
+
+    String sql = "INSERT INTO devolucionDotacion (id_devolucion, id_persona, fecha_devolucion, tipo_entrega) " +
+                 "VALUES (" + nuevoIdDevolucion + ", '" + idPersona + "', '" + fechaDevolucion + "', '" + tipoEntrega + "')";
+    return ConectorBD.ejecutarQuery(sql);
+}
+
 
     public boolean modificar(String idAnterior) {
         String sql = "UPDATE devolucionDotacion SET "
-                   + "id_persona = '" + idPersona + "', "
-                   + "fecha_devolucion = '" + fechaDevolucion + "', "
-                   + "tipo_entrega = '" + tipoEntrega + "' "
-                   + "WHERE id_devolucion = " + idAnterior;
+                + "id_persona = '" + idPersona + "', "
+                + "fecha_devolucion = '" + fechaDevolucion + "', "
+                + "tipo_entrega = '" + tipoEntrega + "' "
+                + "WHERE id_devolucion = " + idAnterior;
         return ConectorBD.ejecutarQuery(sql);
     }
 
@@ -121,4 +125,28 @@ public class DevolucionDotacion {
 
         return lista;
     }
+
+    public int contarDetalles(List<DetalleDevolucion> detalles) {
+        int count = 0;
+        for (DetalleDevolucion d : detalles) {
+            if (d.getIdDevolucion().equals(this.getIdDevolucion())) {
+                count++;
+            }
+        }
+        return count == 0 ? 1 : count;
+    }
+
+    public static int obtenerUltimoIdDevolucionPorPersona(String idPersona) {
+        String sql = "SELECT MAX(id_devolucion) FROM devolucionDotacion WHERE id_persona = '" + idPersona + "'";
+        ResultSet rs = ConectorBD.consultar(sql);
+        try {
+            if (rs.next()) {
+                return rs.getInt(1); 
+            }
+        } catch (Exception ex) {
+            System.out.println("Error al obtener el último id_devolucion: " + ex.getMessage());
+        }
+        return 0; 
+    }
+
 }

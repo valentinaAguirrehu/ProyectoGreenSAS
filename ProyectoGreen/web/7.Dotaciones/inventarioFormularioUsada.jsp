@@ -42,51 +42,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="../presentacion/style-Cargos.css">
-        <link rel="stylesheet" href="../presentacion/style-Inventario.css" />
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 15px;
-            }
-            th, td {
-                padding: 10px;
-                border: 1px solid #333;
-                text-align: center;
-            }
-            .botones-form {
-                display: flex;
-                justify-content: center;
-                gap: 20px;
-                margin-top: 20px;
-            }
-            .btn-verde {
-                background-color: #2e7d32;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-            }
-            .btn-rojo {
-                background-color: #c62828;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-            }
-            .titulo {
-                text-align: center;
-                font-size: 24px;
-                font-weight: bold;
-                color: #1b5e20;
-            }
-            th button, .fila-icono {
-                background: none;
-                border: none;
-                padding: 0;
-                cursor: pointer;
-            }
-        </style>
+        <link rel="stylesheet" href="../presentacion/style-DotacionFormularios.css" />
     </head>
     <body>
         <div class="content">
