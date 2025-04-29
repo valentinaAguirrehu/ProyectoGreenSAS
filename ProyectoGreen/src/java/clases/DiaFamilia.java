@@ -102,8 +102,8 @@ public class DiaFamilia {
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
 
-    public boolean eliminar(String id) {
-        String consultaSQL = "DELETE FROM diaFamilia WHERE idDiaFamilia = '" + id + "'";
+    public boolean eliminar(String idDiaFamilia) {
+        String consultaSQL = "DELETE FROM diaFamilia WHERE idDiaFamilia = '" + idDiaFamilia + "'";
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
 
@@ -130,7 +130,7 @@ public class DiaFamilia {
             while (rs != null && rs.next()) {
                 DiaFamilia df = new DiaFamilia();
                 df.setIdDiaFamilia(rs.getString("idDiaFamilia"));
-                df.setIdentificacionPersona1(rs.getString("identificacionPersona1")); // CAMBIO AQUÍ
+                df.setIdentificacionPersona1(rs.getString("identificacionPersona1")); 
                 df.setDiaDisfrutado(rs.getString("diaDisfrutado"));
                 df.setCartaFamilia(rs.getString("cartaFamilia"));
                 df.setObservacion(rs.getString("observacion"));

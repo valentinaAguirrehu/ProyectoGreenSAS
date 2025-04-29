@@ -56,7 +56,7 @@ public int calcularVacacionesAcumuladas(java.util.Date fechaIngreso, int diasRes
                 break;
         }
         response.setContentType(tipoContenido);
-        response.setHeader("Content-Disposition", "inline; filename=\"reporteVacaciones" + extensionArchivo + "\"");
+        response.setHeader("Content-Disposition", "inline; filename=\"Reporte Vacaciones" + extensionArchivo + "\"");
     }
 %>
 

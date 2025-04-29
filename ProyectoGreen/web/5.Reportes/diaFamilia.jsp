@@ -22,7 +22,7 @@
                 break;
         }
         response.setContentType(tipoContenido);
-        response.setHeader("Content-Disposition", "inline; filename=\"reporteDiaFamilia" + extensionArchivo + "\"");
+        response.setHeader("Content-Disposition", "inline; filename=\"Reporte Dia Familia" + extensionArchivo + "\"");
     }
 %>
 
@@ -41,14 +41,14 @@
     }
 %>
 
-<h2>REPORTE GENERAL - DÍA DE LA FAMILIA (Solo Colaboradores)</h2>
+<h2>REPORTE GENERAL - DÍA DE LA FAMILIA ACTIVOS GREEN S.A.S </h2>
 
 <%
     if (!isDownloadMode) {
 %>
     <!-- Íconos para exportar -->
-    <a href="diaFamilia.jsp?formato=excel" target="_blank"><img src="presentacion/imagenes/excel.png" alt="Exportar a Excel"></a>
-    <a href="diaFamilia.jsp?formato=word" target="_blank"><img src="presentacion/imagenes/word.png" alt="Exportar a Word"></a>
+    <a href="diaFamilia.jsp?formato=excel" target="_blank"><img src="../presentacion/iconos/excel.png " alt="Exportar a Excel"></a>
+    <a href="diaFamilia.jsp?formato=word" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
 <%
     }
 %>
