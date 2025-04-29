@@ -89,7 +89,7 @@
         <td><%= p.getUnidadNegocio() %></td>
         <td><%= p.getFechaIngreso() %></td>
         <td><%= diasDisfrutados %></td>
-        <td><%= diasRestantes >= 0 ? diasRestantes : "Error cálculo" %></td>
+        <td><%= diasRestantes >= 0 ? diasRestantes : "Aun no se genera" %></td>
     </tr>
 <%
     }
