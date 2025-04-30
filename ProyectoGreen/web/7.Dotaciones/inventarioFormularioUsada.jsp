@@ -1,6 +1,6 @@
 <%-- 
-    Document   : inventarioFormulario
-    Created on : 11 abr 2025
+    Document   : inventarioFormularioUsada
+    Created on : 23 abr 2025, 15:20:39
     Author     : Angie
 --%>
 
@@ -46,8 +46,8 @@
     </head>
     <body>
         <div class="content">
-            <h3 class="titulo">Agregar dotación nueva</h3>
-            <form action="inventarioActualizar.jsp" method="post">
+            <h3 class="titulo">Agregar dotación utilizada</h3>
+            <form action="inventarioActualizarUsada.jsp" method="post">
                 <input type="hidden" name="accion" value="Actualizar">
 
                 <div style="text-align: center; margin-bottom: 20px;">
@@ -124,7 +124,7 @@
 
                             <td>
                                 <input type="number" name="cantidad[]" min="1" value="1" />
-                                <input type="hidden" name="estado[]" value="Nueva" />
+                                <input type="hidden" name="estado[]" value="Usada" />
                             </td>
                             <td>
                                 <button type="button" class="fila-icono" onclick="eliminarFila(this)">
@@ -137,7 +137,7 @@
 
                 <div class="botones-form">
                     <button type="submit" class="btn-verde">Guardar</button>
-                    <a href="inventarioDotacion.jsp" class="btn-rojo">Cancelar</a>
+                    <a href="inventarioDotacionUsada.jsp" class="btn-rojo">Cancelar</a>
                 </div>
             </form>
         </div>
@@ -241,3 +241,4 @@
         </script>
     </body>
 </html>
+

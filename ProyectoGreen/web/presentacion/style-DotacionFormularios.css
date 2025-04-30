@@ -1,0 +1,62 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 23 abr 2025, 16:20:31
+    Author     : Angie
+*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #333;
+    text-align: center;
+}
+.botones-form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+.btn-verde {
+    background-color: #2e7d32;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.btn-rojo {
+    background-color: #c62828;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+}
+.btn-verde:hover {
+    background-color: #1B5E20;
+    transform: scale(1.05);
+}
+.btn-rojo:hover {
+    background-color: #b71c1c;
+    transform: scale(1.05);
+}
+.titulo {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #1b5e20;
+}
+th button, .fila-icono {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
