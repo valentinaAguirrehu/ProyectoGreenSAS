@@ -1,16 +1,19 @@
+<%@page import="clases.Administrador"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>  
 <%@ page import="java.sql.*" %> 
 <%@ page import="java.util.Properties" %> 
 <%@ page import="javax.mail.*" %> 
 <%@ page import="javax.mail.internet.*" %> 
-<%@ page import="javax.mail.internet.MimeBodyPart" %> 
-<%@ page import="javax.mail.internet.MimeMultipart" %> 
 <%@ page import="javax.mail.Multipart" %> 
-<%@ page import="javax.mail.PasswordAuthentication" %> 
 <%@ page import="javax.mail.Authenticator" %> 
-<link rel="stylesheet" href="../presentacion/styleContra.css">
+<%@ page import="javax.mail.PasswordAuthentication" %> 
 
-<%
+<% 
+    Administrador administrador = (Administrador) session.getAttribute("administrador");
+    if (administrador == null) {
+        administrador = new Administrador();
+    }
+    
     String mensaje = "";
     int enviados = 0;
 
@@ -47,6 +50,7 @@
 
         Session mailSession = Session.getInstance(props, auth);
 
+        // Envío a personas
         while (rs.next()) {
             String nombreCompleto = rs.getString("nombres") + " " + rs.getString("apellidos");
             String establecimiento = rs.getString("establecimiento");
@@ -77,24 +81,23 @@
                 Transport.send(mensajeMail);
                 enviados++;
 
-                // Insertar en historialCorreos
-                String insertHistorial = "INSERT INTO historialCorreos (destinatario, tipoDestinatario, fechaEnvio) VALUES (?, 'Persona', NOW())";
-
-                try (PreparedStatement insertStmt = conn.prepareStatement(insertHistorial)) {
+                String insertHistorial = "INSERT INTO historialCorreos (destinatario, tipoDestinatario, fechaEnvio) "
+                        + "VALUES (?, 'Persona', NOW())";
+                try ( PreparedStatement insertStmt = conn.prepareStatement(insertHistorial)) {
                     insertStmt.setString(1, email);
                     insertStmt.executeUpdate();
                 }
+
             } catch (MessagingException e) {
                 mensaje += "Error al enviar a " + email + ": " + e.getMessage() + "<br>";
                 e.printStackTrace();
             }
         }
 
-        // Correos a administradores
+        // Envío a administradores
         String adminQuery = "SELECT email FROM administrador WHERE estado = 'Activo'";
-        try (PreparedStatement adminStmt = conn.prepareStatement(adminQuery);
-                ResultSet adminRs = adminStmt.executeQuery()) {
-
+        try (
+                 PreparedStatement adminStmt = conn.prepareStatement(adminQuery);  ResultSet adminRs = adminStmt.executeQuery()) {
             while (adminRs.next()) {
                 String correoAdmin = adminRs.getString("email");
 
@@ -134,13 +137,14 @@
                         Transport.send(mensajeMailAdmin);
                         enviados++;
 
-                        // Insertar en historialCorreos
-                        String insertHistorialAdmin = "INSERT INTO historialCorreos (destinatario, tipoDestinatario, fechaEnvio) VALUES (?, 'Administradores', NOW())";
-                        try (PreparedStatement insertAdminStmt = conn.prepareStatement(insertHistorialAdmin)) {
+                        String insertHistorialAdmin = "INSERT INTO historialCorreos (destinatario, tipoDestinatario, fechaEnvio) "
+                                + "VALUES (?, 'Administradores', NOW())";
+                        try ( PreparedStatement insertAdminStmt = conn.prepareStatement(insertHistorialAdmin)) {
                             insertAdminStmt.setString(1, correoAdmin);
                             insertAdminStmt.executeUpdate();
                         }
                     }
+
                 } catch (MessagingException e) {
                     mensaje += "Error al enviar a administrador: " + correoAdmin + ": " + e.getMessage() + "<br>";
                     e.printStackTrace();
@@ -189,16 +193,30 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Notificación de Contratos</title>
-        <link rel="stylesheet" href="../presentacion/styleContra.css">
+        <link rel="stylesheet" href="../presentacion/style-Cargos.css">
+        <link rel="stylesheet" href="../presentacion/style-Correos.css">
     </head>
     <body>
-        <div class="container">
-            <h1 class="title">Notificación de Contratos</h1>
-            <p class="subtitulo"><%= mensaje%></p>
-            <div class="volver">
-                <a href="index.jsp">Volver al Inicio</a>
+
+        <jsp:include page="../permisos.jsp" />
+        <jsp:include page="../menu.jsp" />
+
+        <div class="content">
+            <h1>Notificación de contratos próximos a vencer</h1>
+
+            <div class="container">
+                <p class="subtitulo"><%= mensaje%></p>
             </div>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                controlarPermisos(
+            <%= administrador.getpEliminar()%>,
+            <%= administrador.getpEditar()%>,
+            <%= administrador.getpAgregar()%>
+                );
+            });
+        </script>
     </body>
 </html>
+

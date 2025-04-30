@@ -1,0 +1,88 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 30 abr 2025, 15:07:20
+    Author     : Angie
+*/
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+th, td {
+    border: 1px solid #bbb;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.volver {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.volver a {
+    text-decoration: none;
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+}
+
+.botones-container {
+    width: 80%;
+    margin: 0 auto 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grupo-izquierda, .grupo-derecha {
+    display: flex;
+    align-items: center;
+}
+
+.grupo-izquierda a {
+    margin-right: 10px;
+}
+
+.boton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.boton:hover {
+    background-color: #45a049;
+}
+
+.eliminar {
+    background-color: #e74c3c;
+}
+
+.eliminar:hover {
+    background-color: #c0392b;
+}
+
