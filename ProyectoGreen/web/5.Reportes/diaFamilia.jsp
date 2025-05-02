@@ -2,15 +2,80 @@
 <%@ page import="java.util.List" %>
 <%@ page import="clases.Persona" %>
 <%@ page import="clases.DiaFamilia" %>
-<%@ page import="java.util.Calendar" %> <!-- Aquí importamos Calendar -->
+<%@ page import="java.util.Calendar" %> 
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.io.PrintWriter" %>
+
+<style>
+    body {
+        display: flex;
+        min-height: 10vh;
+        margin: 0;
+    }
+    /* Estilo del título */
+    .titulo {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: bold;
+        color: #2c6e49;
+        position: relative;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra ligera para efecto 3D */
+        transition: transform 0.3s ease-in-out;
+    }
+    /* Efecto de elevación al pasar el mouse */
+    .titulo:hover {
+        transform: scale(1.05);
+    }
+    /* Estilos de la tabla */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .table th, .table td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+    .table th {
+        background-color: #2c6e49;
+        color: white;
+        text-transform: uppercase;
+    }
+    .table tr:hover {
+        background-color: #daf2da;
+    }
+    /* Iconos de acciones */
+    .table img {
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .table img:hover {
+        transform: scale(1.1);
+    }
+    /* Botón de añadir */
+    .table th:last-child {
+        text-align: center;
+    }
+    .content {
+        flex-grow: 1;
+        overflow-x: auto;
+        margin-left: 220px; /* Desplazar el contenido a la derecha */
+        padding: 20px;
+    }
+</style>
 
 <%
     boolean isDownloadMode = request.getParameter("formato") != null;
     if (isDownloadMode) {
         String tipoContenido = "";
         String extensionArchivo = "";
+        String fechaActual = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
         switch (request.getParameter("formato")) {
             case "excel":
                 tipoContenido = "application/vnd.ms-excel";
@@ -22,7 +87,7 @@
                 break;
         }
         response.setContentType(tipoContenido);
-        response.setHeader("Content-Disposition", "inline; filename=\"Reporte Dia Familia" + extensionArchivo + "\"");
+        response.setHeader("Content-Disposition", "inline; filename=\"Reporte_Dia_Familia-" + fechaActual + extensionArchivo + "\""); // Agregamos el guion y la fecha
     }
 %>
 
@@ -33,65 +98,72 @@
 
         Calendar hoy = Calendar.getInstance();
 
-        int mesesTrabajados = (hoy.get(Calendar.YEAR) - ingreso.get(Calendar.YEAR)) * 12 +
-                              (hoy.get(Calendar.MONTH) - ingreso.get(Calendar.MONTH));
+        int mesesTrabajados = (hoy.get(Calendar.YEAR) - ingreso.get(Calendar.YEAR)) * 12
+                + (hoy.get(Calendar.MONTH) - ingreso.get(Calendar.MONTH));
 
         int diasAcumulados = mesesTrabajados / 6; // 1 día cada 6 meses
         return diasAcumulados - diasDisfrutados;
     }
 %>
 
-<h2>REPORTE GENERAL - DÍA DE LA FAMILIA ACTIVOS GREEN S.A.S </h2>
+<% if (!isDownloadMode) {%>
+<%@ include file="../menu.jsp" %> 
+<% } %> 
 
-<%
-    if (!isDownloadMode) {
-%>
-    <!-- Íconos para exportar -->
+<div class="content">
+    <h3 class="titulo">REPORTE GENERAL DEL DÍA DE LA FAMILIA </h3>
+
+    <%
+        if (!isDownloadMode) {
+    %>
     <a href="diaFamilia.jsp?formato=excel" target="_blank"><img src="../presentacion/iconos/excel.png " alt="Exportar a Excel"></a>
     <a href="diaFamilia.jsp?formato=word" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
-<%
-    }
-%>
+        <%
+            }
+        %>
 
-<table border="1" class="tabla" style="margin-top:20px; width:100%; font-size: 14px;">
-    <tr style="background-color: #e0e0e0;">
-        <th>Identificación</th>
-        <th>Nombre completo</th>
-        <th>Cargo</th>
-        <th>Unidad de negocio</th>
-        <th>Fecha ingreso</th>
-        <th>Días disfrutados</th>
-        <th>Días acumulados restantes</th>
-    </tr>
+    <table border="1" class="table" style="margin-top:20px; width:100%; font-size: 14px;">
+        <tr style="background-color: #e0e0e0;">
+            <th>Identificación</th>
+            <th>Nombre completo</th>
+            <th>Cargo</th>
+            <th>Unidad de negocio</th>
+            <th>Fecha ingreso</th>
+            <th>Días disfrutados</th>
+            <th>Días acumulados restantes</th>
+        </tr>
 
-<%
-    // Asegúrate de que la clase Persona filtra por el campo correcto que es 'tipo'
-    List<Persona> listaPersonas = Persona.getListaEnObjetos("tipo = 'C'", null);
+        <%
+            // Asegúrate de que la clase Persona filtra por el campo correcto que es 'tipo'
+            List<Persona> listaPersonas = Persona.getListaEnObjetos("tipo = 'C'", null);
 
-    for (Persona p : listaPersonas) {
-        if (p.getFechaIngreso() == null || p.getFechaIngreso().isEmpty()) continue;
+            for (Persona p : listaPersonas) {
+                if (p.getFechaIngreso() == null || p.getFechaIngreso().isEmpty()) {
+                    continue;
+                }
 
-        List<DiaFamilia> diasPersona = DiaFamilia.getListaEnObjetos("identificacionPersona1 = '" + p.getIdentificacion() + "'", null);
-        int diasDisfrutados = diasPersona.size();
+                List<DiaFamilia> diasPersona = DiaFamilia.getListaEnObjetos("identificacionPersona1 = '" + p.getIdentificacion() + "'", null);
+                int diasDisfrutados = diasPersona.size();
 
-        int diasRestantes = 0;
-        try {
-            java.util.Date fechaIngreso = new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaIngreso());
-            diasRestantes = calcularDiasFamilia(fechaIngreso, diasDisfrutados);
-        } catch (Exception e) {
-            diasRestantes = -1;
-        }
-%>
-    <tr>
-        <td><%= p.getIdentificacion() %></td>
-        <td><%= p.getNombres() %> <%= p.getApellidos() %></td>
-        <td><%= Cargo.getCargoPersona(p.getIdentificacion()) %></td>  <!-- Aquí mostramos el nombre del cargo -->
-        <td><%= p.getUnidadNegocio() %></td>
-        <td><%= p.getFechaIngreso() %></td>
-        <td><%= diasDisfrutados %></td>
-        <td><%= diasRestantes >= 0 ? diasRestantes : "Aun no se genera" %></td>
-    </tr>
-<%
-    }
-%>
-</table>
+                int diasRestantes = 0;
+                try {
+                    java.util.Date fechaIngreso = new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaIngreso());
+                    diasRestantes = calcularDiasFamilia(fechaIngreso, diasDisfrutados);
+                } catch (Exception e) {
+                    diasRestantes = -1;
+                }
+        %>
+        <tr>
+            <td><%= p.getIdentificacion()%></td>
+            <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
+            <td><%= Cargo.getCargoPersona(p.getIdentificacion())%></td>  
+            <td><%= p.getUnidadNegocio()%></td>
+            <td><%= p.getFechaIngreso()%></td>
+            <td><%= diasDisfrutados%></td>
+            <td><%= diasRestantes >= 0 ? diasRestantes : "Aun no se genera"%></td>
+        </tr>
+        <%
+            }
+        %>
+    </table>
+</div>
