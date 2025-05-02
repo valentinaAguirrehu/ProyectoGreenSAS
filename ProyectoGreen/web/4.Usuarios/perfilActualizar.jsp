@@ -43,7 +43,7 @@
 %>
         <script>
             alert("Tu perfil se ha actualizado exitosamente. Por favor, vuelve a iniciar sesión.");
-            window.location.href = "index.jsp";
+            window.location.href = "../index.jsp";
         </script>
 <%
     } else {

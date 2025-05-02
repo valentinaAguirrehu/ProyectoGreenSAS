@@ -13,7 +13,28 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 
+<%
+    boolean isDownloadMode = request.getParameter("formato") != null;
+    if (isDownloadMode) {
+        String tipoContenido = "";
+        String extensionArchivo = "";
+        String fechaActual = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+        switch (request.getParameter("formato")) {
+            case "excel":
+                tipoContenido = "application/vnd.ms-excel";
+                extensionArchivo = ".xls";
+                break;
+            case "word":
+                tipoContenido = "application/vnd.msword";
+                extensionArchivo = ".doc";
+                break;
+        }
+        response.setContentType(tipoContenido);
+        response.setHeader("Content-Disposition", "inline; filename=\"Reporte_Vacaciones-" + fechaActual + extensionArchivo + "\"");
+    }
+%>
 
+<% if (!isDownloadMode) { %>
 <style>
     body {
         display: flex;
@@ -49,6 +70,7 @@
     .table th, .table td {
         padding: 12px;
         border-bottom: 1px solid #ddd;
+        text-align: center;
     }
     .table th {
         background-color: #2c6e49;
@@ -77,6 +99,7 @@
         padding: 20px;
     }
 </style>
+<% } %>
 
 <%!
     public int calcularVacacionesAcumuladas(java.util.Date fechaIngreso, int diasRestados) {
@@ -100,28 +123,6 @@
 
         // Se restan los días disfrutados + compensados
         return diasAcumulados - diasRestados;
-    }
-%>
-
-
-<%
-    boolean isDownloadMode = request.getParameter("formato") != null;
-    if (isDownloadMode) {
-        String tipoContenido = "";
-        String extensionArchivo = "";
-        String fechaActual = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
-        switch (request.getParameter("formato")) {
-            case "excel":
-                tipoContenido = "application/vnd.ms-excel";
-                extensionArchivo = ".xls";
-                break;
-            case "word":
-                tipoContenido = "application/vnd.msword";
-                extensionArchivo = ".doc";
-                break;
-        }
-        response.setContentType(tipoContenido);
-        response.setHeader("Content-Disposition", "inline; filename=\"Reporte_Vacaciones-" + fechaActual + extensionArchivo + "\"");
     }
 %>
 

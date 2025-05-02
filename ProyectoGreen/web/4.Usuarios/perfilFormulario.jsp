@@ -60,10 +60,8 @@
                     <input type="text" name="nombres" id="nombres" value="<%=usuarioActual.getNombres()%>">
                 </div>
 
-                <div class="form-group">
-                    <label for="celular">Celular:</label>
-                    <input type="text" name="celular" id="celular" value="<%=usuarioActual.getCelular()%>">
-                </div>
+                <input type="text" name="celular" id="celular" value="<%=usuarioActual.getCelular()%>"
+                       maxlength="10" pattern="\d{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
 
                 <div class="form-group">
                     <label for="email">Correo electrónico:</label>
@@ -92,28 +90,27 @@
                 </div>
 
                 <div class='btn-container'>
-                    <button type="button" class="btn-adicionar" name="accion" value="Modificar">Guardar Cambios</button>
+                    <button type="submit" class="btn-adicionar" name="accion" value="Modificar">Guardar Cambios</button>
                     <button type="button" class="btn-eliminar" value="Cancelar" onClick="window.history.back();">Cancelar</button>
                 </div>
                 <input type="hidden" name="identificacionAnterior" value="<%= usuarioActual.getIdentificacion()%>">
             </form>
         </div>
     </div>
-</div>
 
-<script>
-    function validarClave() {
-        let clave = document.getElementById("clave").value;
-        document.getElementById("minimoCaracteres").style.color = clave.length >= 8 ? "green" : "red";
-        document.getElementById("letraMayuscula").style.color = /[A-Z]/.test(clave) ? "green" : "red";
-        document.getElementById("letraMinuscula").style.color = /[a-z]/.test(clave) ? "green" : "red";
-        document.getElementById("numero").style.color = /\d/.test(clave) ? "green" : "red";
-    }
+    <script>
+        function validarClave() {
+            let clave = document.getElementById("clave").value;
+            document.getElementById("minimoCaracteres").style.color = clave.length >= 8 ? "green" : "red";
+            document.getElementById("letraMayuscula").style.color = /[A-Z]/.test(clave) ? "green" : "red";
+            document.getElementById("letraMinuscula").style.color = /[a-z]/.test(clave) ? "green" : "red";
+            document.getElementById("numero").style.color = /\d/.test(clave) ? "green" : "red";
+        }
 
-    function verificarCoincidencia() {
-        let clave = document.getElementById("clave").value;
-        let confirmarClave = document.getElementById("confirmarClave").value;
-        document.getElementById("coincidencia").style.color = clave === confirmarClave ? "green" : "red";
-    }
+        function verificarCoincidencia() {
+            let clave = document.getElementById("clave").value;
+            let confirmarClave = document.getElementById("confirmarClave").value;
+            document.getElementById("coincidencia").style.color = clave === confirmarClave ? "green" : "red";
+        }
 
-</script>
+    </script>
