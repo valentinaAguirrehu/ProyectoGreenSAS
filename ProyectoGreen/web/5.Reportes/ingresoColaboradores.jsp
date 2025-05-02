@@ -23,7 +23,74 @@
     }
 %>
 
-<h2>REPORTE DE INGRESOS DE COLABORADORES - GREEN S.A.S</h2>
+
+<% if (!isDownloadMode) { %>
+<style>
+    body {
+        display: flex;
+        min-height: 10vh;
+        margin: 0;
+    }
+    .titulo {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #2c6e49;
+        position: relative;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+    }
+    .titulo:hover {
+        transform: scale(1.05);
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .table th, .table td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
+    .table th {
+        background-color: #2c6e49;
+        color: white;
+        text-transform: uppercase;
+    }
+    .table tr:hover {
+        background-color: #daf2da;
+    }
+    .table img {
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .table img:hover {
+        transform: scale(1.1);
+    }
+    .table th:last-child {
+        text-align: center;
+    }
+    .content {
+        flex-grow: 1;
+        overflow-x: auto;
+        margin-left: 220px;
+        padding: 20px;
+    }
+</style>
+<% } %>
+
+<% if (!isDownloadMode) {%>
+<%@ include file="../menu.jsp" %> 
+<% } %> 
+
+<div class="content">
+    <h3 class="titulo">REPORTE DE INGRESO DE COLABORADORES - GREEN S.A.S</h3>
 
 <%
     if (!isDownloadMode) {
@@ -105,9 +172,9 @@
 %>
 
 <!-- Tabla principal -->
-<h3>Lista de Colaboradores</h3>
-<table border="1" class="tabla" style="margin-top:20px; width:100%; font-size: 14px;">
-    <tr style="background-color: #e0e0e0;">
+<h3>Lista de colaboradores</h3>
+<table border="1" class="table">
+    <tr>
         <th>Identificación</th>
         <th>Nombre completo</th>
         <th>Cargo</th>
@@ -132,22 +199,23 @@
     }
 %>
 </table>
+<h3>Indicador de ingresos por año</h3>
 
-<!-- Tabla de resumen + gráfica -->
-<h3>Indicador de Ingresos por Año</h3>
-<table border="0" style="margin-bottom: 20px;">
-    <tr>
-        <td>
-            <table border="1">
-                <tr><th>Año</th><th>Ingresos</th><th>%</th></tr>
-                <%=tablaResumen%>
-            </table>
-        </td>
-    </tr>
-</table>
+<!-- Contenedor horizontal -->
+<div style="display: flex; gap: 20px; align-items: flex-start;">
 
-<!-- Gráfica -->
-<div id="chartdiv" style="width: 700px; height: 400px;"></div>
+    <!-- Tabla de resumen -->
+    <div>
+        <table class="table" border="1">
+            <tr><th>Año</th><th>Ingresos</th><th>%</th></tr>
+            <%=tablaResumen%>
+        </table>
+    </div>
+
+    <!-- Gráfica -->
+    <div id="chartdiv" style="width: 700px; height: 400px;"></div>
+
+</div>
 
 <!-- Incluye la librería de gráficos -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
