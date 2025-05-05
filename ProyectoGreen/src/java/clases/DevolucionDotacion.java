@@ -18,7 +18,9 @@ public class DevolucionDotacion {
     private String idDevolucion;
     private String idPersona;
     private String fechaDevolucion;
+    private String numeroDevolucion;
     private String tipoEntrega;
+    private String jsonPrendas;
 
     public DevolucionDotacion() {
     }
@@ -32,6 +34,7 @@ public class DevolucionDotacion {
                 this.idDevolucion = idDevolucion;
                 this.idPersona = rs.getString("id_persona");
                 this.fechaDevolucion = rs.getString("fecha_devolucion");
+                this.numeroDevolucion = rs.getString("numero_devolucion");
                 this.tipoEntrega = rs.getString("tipo_entrega");
             }
         } catch (Exception e) {
@@ -71,20 +74,33 @@ public class DevolucionDotacion {
         this.tipoEntrega = tipoEntrega;
     }
 
+    public String getNumeroDevolucion() {
+        return numeroDevolucion;
+    }
+
+    public void setNumeroDevolucion(String numeroDevolucion) {
+        this.numeroDevolucion = numeroDevolucion;
+    }
+
+    public String getJsonPrendas() {
+        return jsonPrendas;
+    }
+
+    public void setJsonPrendas(String jsonPrendas) {
+        this.jsonPrendas = jsonPrendas;
+    }
+
     public boolean grabar() {
-    int ultimoIdDevolucion = obtenerUltimoIdDevolucionPorPersona(idPersona);
-    int nuevoIdDevolucion = ultimoIdDevolucion + 1;
-
-    String sql = "INSERT INTO devolucionDotacion (id_devolucion, id_persona, fecha_devolucion, tipo_entrega) " +
-                 "VALUES (" + nuevoIdDevolucion + ", '" + idPersona + "', '" + fechaDevolucion + "', '" + tipoEntrega + "')";
-    return ConectorBD.ejecutarQuery(sql);
-}
-
+        String sql = "INSERT INTO devolucionDotacion (id_persona, fecha_devolucion, numero_devolucion, tipo_entrega) "
+                + "VALUES ('" + idPersona + "', '" + fechaDevolucion + "', '" + numeroDevolucion + "',  '" + tipoEntrega + "')";
+        return ConectorBD.ejecutarQuery(sql);
+    }
 
     public boolean modificar(String idAnterior) {
         String sql = "UPDATE devolucionDotacion SET "
                 + "id_persona = '" + idPersona + "', "
                 + "fecha_devolucion = '" + fechaDevolucion + "', "
+                + "numero_devolucion = '" + numeroDevolucion + "', "
                 + "tipo_entrega = '" + tipoEntrega + "' "
                 + "WHERE id_devolucion = " + idAnterior;
         return ConectorBD.ejecutarQuery(sql);
@@ -116,6 +132,7 @@ public class DevolucionDotacion {
                 d.setIdPersona(rs.getString("id_persona"));
                 d.setFechaDevolucion(rs.getString("fecha_devolucion"));
                 d.setTipoEntrega(rs.getString("tipo_entrega"));
+                d.setNumeroDevolucion(rs.getString("numero_devolucion"));
                 lista.add(d);
             }
             rs.close();
@@ -136,17 +153,15 @@ public class DevolucionDotacion {
         return count == 0 ? 1 : count;
     }
 
-    public static int obtenerUltimoIdDevolucionPorPersona(String idPersona) {
-        String sql = "SELECT MAX(id_devolucion) FROM devolucionDotacion WHERE id_persona = '" + idPersona + "'";
-        ResultSet rs = ConectorBD.consultar(sql);
+    public boolean registrarDevolucionDotacion() {
         try {
-            if (rs.next()) {
-                return rs.getInt(1); 
-            }
-        } catch (Exception ex) {
-            System.out.println("Error al obtener el último id_devolucion: " + ex.getMessage());
+            String sql = "CALL sp_devolver_dotacion('" + this.jsonPrendas + "')";
+            return ConectorBD.ejecutarQuery(sql);
+        } catch (Exception e) {
+            System.out.println("Error al registrar la devolución: " + e.getMessage());
+            e.printStackTrace();
+            return false;
         }
-        return 0; 
     }
 
 }

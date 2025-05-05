@@ -130,11 +130,11 @@
     <body>
         <div class="content">
             <h3 class="titulo">Registrar devolución de dotación</h3>
-            <form action="entregaDotacionActualizar.jsp" method="post">
+            <form action="devolucionDotacionActualizar.jsp" method="post">
                 <input type="hidden" name="accion" value="Registrar">
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <label for="fechaEntrega">Fecha de devolución:</label>
-                    <input type="date" name="fechaEntrega" required>
+                    <label for="fechaDevolucion">Fecha de devolución:</label>
+                    <input type="date" name="fechaDevolucion" required>
                 </div>
                 <div style="text-align: center; margin-bottom: 20px;">
                     <label for="tipoEntrega">Tipo de entrega:</label>
