@@ -211,7 +211,7 @@
             %>
             <tr class="<%= claseGrupo%>">
                 <% if (primera) {%>
-                <td rowspan="<%= grupo.size()%>"><%= devolucion.getIdDevolucion()%></td>
+                <td rowspan="<%= grupo.size()%>"><%= devolucion.getNumeroDevolucion()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= devolucion.getFechaDevolucion()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= devolucion.getTipoEntrega()%></td>
                 <% primera = false;

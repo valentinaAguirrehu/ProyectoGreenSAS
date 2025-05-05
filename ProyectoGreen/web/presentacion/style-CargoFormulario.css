@@ -9,7 +9,7 @@ body {
 .content {
     flex-grow: 1;
     overflow-x: auto; 
-    margin-left: 440px; /* Desplazar el contenido a la derecha */
+    margin-left: 500px; /* Desplazar el contenido a la derecha */
     padding: 40px;
 }
 

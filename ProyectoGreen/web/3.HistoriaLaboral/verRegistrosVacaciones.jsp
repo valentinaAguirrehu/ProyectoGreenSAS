@@ -6,8 +6,15 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@page import="clases.Administrador"%>
 
-<%-- Incluir el método calcularVacacionesAcumuladas en el JSP --%>
+<%
+    Administrador administrador = (Administrador) session.getAttribute("administrador");
+    if (administrador == null) {
+        administrador = new Administrador();
+    }
+%>
+
 <%!
     public int calcularVacacionesAcumuladas(java.util.Date fechaIngreso, int diasRestados) {
         java.util.Calendar fechaActual = java.util.Calendar.getInstance();
@@ -124,48 +131,65 @@
     }
 %>
 
-<h2>REGISTROS DE VACACIONES</h2>
-<a href='../3.HistoriaLaboral/vacacionesFormulario.jsp?accion=Adicionar'>
-    <img src='../presentacion/iconos/agregar.png' width='30' height='30' title='Agregar Vacación'>
-</a>
+<jsp:include page="../permisos.jsp" />
+<%@ include file="../menu.jsp" %> 
 
-<% if (personaSeleccionada != null) {%>
-<div style="margin-top:20px; border:1px solid #ccc; padding:10px; background:#f9f9f9;">
-    <h3>Información del colaborador seleccionado:</h3>
-    <p><strong>Identificación:</strong> <%= personaSeleccionada.getIdentificacion()%></p>
-    <p><strong>Nombre completo:</strong> <%= personaSeleccionada.getNombres()%> <%= personaSeleccionada.getApellidos()%></p>
-    <p><strong>Cargo:</strong> 
-        <%= Cargo.getCargoPersona(personaSeleccionada.getIdentificacion())%>
-    </p>
+<head>
+    <link rel="stylesheet" href="../presentacion/style-Usuarios.css">
+</head>
 
-    <p><strong>Unidad de negocio</strong> <%= personaSeleccionada.getUnidadNegocio()%></p>
-    <p><strong>Fecha de ingreso:</strong> <%= personaSeleccionada.getFechaIngreso()%></p>
-    <a href="../3.HistoriaLaboral/vacacionesFormulario.jsp?accion=Adicionar&idPersona=<%= personaSeleccionada.getIdentificacion()%>">
-        <img src='../presentacion/iconos/agregar.png' width='20' height='20' title='Agregar Vacación'> Agregar vacación
-    </a>
+<div class="content">
+    <h3 class="titulo">REGISTROS DE VACACIONES</h3>
+
+    <% if (personaSeleccionada != null) {%>
+    <div style="margin-top:20px; border:1px solid #ccc; padding:10px; background:#f9f9f9;">
+        <h3>Información del colaborador seleccionado:</h3>
+        <p><strong>Identificación:</strong> <%= personaSeleccionada.getIdentificacion()%></p>
+        <p><strong>Nombre completo:</strong> <%= personaSeleccionada.getNombres()%> <%= personaSeleccionada.getApellidos()%></p>
+        <p><strong>Cargo:</strong> 
+            <%= Cargo.getCargoPersona(personaSeleccionada.getIdentificacion())%>
+        </p>
+
+        <p><strong>Unidad de negocio</strong> <%= personaSeleccionada.getUnidadNegocio()%></p>
+        <p><strong>Fecha de ingreso:</strong> <%= personaSeleccionada.getFechaIngreso()%></p>
+    </div>
+    <% } %>
+
+    <% if (personaSeleccionada != null) {%>
+    <div style="margin-top:20px;">
+
+        <p><strong>Vacaciones acumuladas restantes:</strong> <%= vacacionesAcumuladas%> días</p>
+    </div>
+    <% }%>
+
+    <table border="1" class="table" style="margin-top:20px;">
+        <tr>
+            <th>Periodo Disfrute</th>
+            <th>Periodo Disfrute Fin</th> 
+            <th>Días Disfrutados</th>
+            <th>Desea compensar días?</th>
+            <th>Días compensados</th>
+            <th>Observación</th>
+            <th><a href="../3.HistoriaLaboral/vacacionesFormulario.jsp?accion=Adicionar&idPersona=<%= personaSeleccionada.getIdentificacion()%>">
+                    <img src='../presentacion/iconos/agregar.png' width='30' height='30' title='Agregar Vacación'>
+                </a></th>
+        </tr>
+        <%= tabla%>
+    </table>
 </div>
-<% } %>
-
-<% if (personaSeleccionada != null) {%>
-<div style="margin-top:20px;">
-
-    <p><strong>Vacaciones acumuladas restantes:</strong> <%= vacacionesAcumuladas%> días</p>
-</div>
-<% }%>
-
-<table border="1" class="tabla" style="margin-top:20px;">
-    <tr>
-        <th>Periodo Disfrute</th>
-        <th>Periodo Disfrute Fin</th> 
-        <th>Días Disfrutados</th>
-        <th>Desea compensar días?</th>
-        <th>Días compensados</th>
-        <th>Observación</th>
-        <th>Acciones</th>
-    </tr>
-    <%= tabla%>
-</table>
 
 <% if (listaVacaciones.isEmpty()) { %>
 <p style="color:red;">No hay registros de vacaciones.</p>
 <% }%>
+<script>
+    // PERMISOS
+
+    document.addEventListener("DOMContentLoaded", function () {
+        controlarPermisos(
+    <%= administrador.getpEliminar()%>,
+    <%= administrador.getpEditar()%>,
+    <%= administrador.getpAgregar()%>
+        );
+    });
+
+</script>

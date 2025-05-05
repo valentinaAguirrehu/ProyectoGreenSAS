@@ -59,8 +59,8 @@
                     <label for="unidad_negocio">Unidad de negocio:</label>
                     <select name="unidad_negocio" required>
                         <option value="">Seleccione una unidad</option>
-                        <option value="GREEN EDS">GREEN S.A.S. EDS</option>
-                        <option value="GREEN RPS">GREEN S.A.S. RPS</option>
+                        <option value="GREEN S.A.S. EDS">GREEN S.A.S. EDS</option>
+                        <option value="GREEN S.A.S. RPS">GREEN S.A.S. RPS</option>
                     </select>
                 </div>
 
@@ -216,11 +216,26 @@
 
                 if (select.value === "TALLA") {
                     talla.style.display = "inline-block";
+                    talla.disabled = false;
+
                     numero.style.display = "none";
+                    numero.disabled = true;
                     numero.value = "";
+                } else if (select.value === "NUMERO") {
+                    numero.style.display = "inline-block";
+                    numero.disabled = false;
+
+                    talla.style.display = "none";
+                    talla.disabled = true;
+                    talla.selectedIndex = 0;
                 } else {
                     talla.style.display = "none";
-                    numero.style.display = "inline-block";
+                    talla.disabled = true;
+                    talla.selectedIndex = 0;
+
+                    numero.style.display = "none";
+                    numero.disabled = true;
+                    numero.value = "";
                 }
             }
 
