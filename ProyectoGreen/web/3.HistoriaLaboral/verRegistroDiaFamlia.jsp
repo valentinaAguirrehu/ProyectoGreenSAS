@@ -25,7 +25,7 @@
         int mesesTrabajados = (hoy.get(Calendar.YEAR) - ingreso.get(Calendar.YEAR)) * 12
                 + (hoy.get(Calendar.MONTH) - ingreso.get(Calendar.MONTH));
 
-        int diasAcumulados = mesesTrabajados / 6; // 1 día cada 6 meses
+        int diasAcumulados = mesesTrabajados / 6; // 1 d?a cada 6 meses
         return diasAcumulados - diasDisfrutados;
     }
 %>
@@ -48,7 +48,7 @@
         }
     } catch (Exception e) {
         e.printStackTrace();
-        out.println("<p style='color:red;'>Error al obtener días de la familia: " + e.toString() + "</p>");
+        out.println("<p style='color:red;'>Error al obtener dias de la familia: " + e.toString() + "</p>");
     }
 
     String tabla = "";
@@ -56,7 +56,7 @@
 
     for (DiaFamilia d : listaDias) {
         if (d == null || d.getIdentificacionPersona1() == null) {
-            tabla += "<tr><td colspan='5' style='color:red;'>Registro inválido o incompleto en Día de la Familia.</td></tr>";
+            tabla += "<tr><td colspan='5' style='color:red;'>Registro invalido o incompleto en Dia de la Familia.</td></tr>";
             continue;
         }
 
@@ -79,7 +79,7 @@
 
         tabla += "<td>";
         tabla += "<a href='DiaFamiliaFormulario.jsp?accion=Modificar&id=" + d.getIdDiaFamilia() + "&idPersona=" + p.getIdentificacion() + "&identificacion=" + p.getIdentificacion() + "'><img src='../presentacion/iconos/modificar.png' width='25' height='25' title='Modificar'/></a> ";
-        tabla += "<a href='DiaFamiliaActualizar.jsp?accion=Eliminar&id=" + d.getIdDiaFamilia() + "&idPersona=" + p.getIdentificacion() + "' onclick='return confirm(\"¿Deseas eliminar este registro?\")'><img src='../presentacion/iconos/eliminar.png' width='25' height='25' title='Eliminar'/></a>";
+        tabla += "<a href='DiaFamiliaActualizar.jsp?accion=Eliminar&id=" + d.getIdDiaFamilia() + "&idPersona=" + p.getIdentificacion() + "' onclick='return confirm(\"?Deseas eliminar este registro?\")'><img src='../presentacion/iconos/eliminar.png' width='25' height='25' title='Eliminar'/></a>";
         tabla += "</td>";
         tabla += "</tr>";
 
@@ -109,13 +109,13 @@
     <link rel="stylesheet" href="../presentacion/style-Usuarios.css">
 </head>
 <div class="content">
-    <h3 class="titulo">REGISTROS DE DÍA DE LA FAMILIA</h3>
+    <h3 class="titulo">REGISTROS DE DIA DE LA FAMILIA</h3>
 
 
     <% if (personaSeleccionada != null) {%>
     <div style="margin-top:20px; border:1px solid #ccc; padding:10px; background:#f9f9f9;">
-        <h3>Información del colaborador seleccionado:</h3>
-        <p><strong>Identificación:</strong> <%= personaSeleccionada.getIdentificacion()%></p>
+        <h3>Informacion del colaborador seleccionado:</h3>
+        <p><strong>Identificacion:</strong> <%= personaSeleccionada.getIdentificacion()%></p>
         <p><strong>Nombre completo:</strong> <%= personaSeleccionada.getNombres()%> <%= personaSeleccionada.getApellidos()%></p>
         <p><strong>Cargo:</strong> 
             <%= Cargo.getCargoPersona(personaSeleccionada.getIdentificacion())%>
@@ -128,26 +128,34 @@
 
 
     <div style="margin-top:20px;">
-        <p><strong>Días de la familia acumulados restantes:</strong> <%= diasFamiliaAcumulados%> días</p>
+        <p><strong>Dias de la familia acumulados restantes:</strong> <%= diasFamiliaAcumulados%> dias</p>
     </div>
     <% }%>
 
     <table border="1" class="table" style="margin-top:20px;">
         <tr>
-            <th>Día Disfrutado</th>
-            <th>Carta Día de la Familia</th>
-            <th>Observación</th>
-            <th><a href='../3.HistoriaLaboral/DiaFamiliaFormulario.jsp?accion=Adicionar&idPersona=<%= personaSeleccionada.getIdentificacion()%>&identificacion=<%= personaSeleccionada.getIdentificacion()%>'>
-                    <img src='../presentacion/iconos/agregar.png' width='25' height='25' title='Agregar Día de la Familia'> 
-                </a></th>
+            <th>Dia Disfrutado</th>
+            <th>Carta Dia de la Familia</th>
+            <th>Observacion</th>
+<% if (personaSeleccionada != null) { %>
+    <th>
+        <a href='../3.HistoriaLaboral/DiaFamiliaFormulario.jsp?accion=Adicionar&idPersona=<%= personaSeleccionada.getIdentificacion()%>&identificacion=<%= personaSeleccionada.getIdentificacion()%>'>
+            <img src='../presentacion/iconos/agregar.png' width='25' height='25' title='Agregar Dia de la Familia'> 
+        </a>
+    </th>
+<% } else { %>
+    <th style="color:red;">Persona no seleccionada</th>
+<% } %>
+
         </tr>
         <%= tabla%>
     </table>
-</div>
+
 
 <% if (listaDias.isEmpty()) { %>
-<p style="color:red;">No hay registros de días de la familia.</p>
+<p style="color:red;">No hay registros de dias de la familia.</p>
 <% }%>
+</div>
 <script>
     // PERMISOS
 

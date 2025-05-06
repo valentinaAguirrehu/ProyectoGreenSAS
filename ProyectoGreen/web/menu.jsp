@@ -48,7 +48,7 @@
             <a href="#">Reportes e indicadores<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
             <ul class="dropdown-content">                           
                 <li><a href="../5.Reportes/ingresoColaboradores.jsp">Ingresos de colaboradores</a></li>
-                <li><a href="#">Retiros de colaboradores</a></li>
+                <li><a href="../5.Reportes/retiroColaboradores.jsp">Retiros de colaboradores</a></li>
                 <li><a href="#">Dotaciones entregadas</a></li>
                 <li><a href="../5.Reportes/cumpleanos.jsp">Cumpleañeros del mes</a></li>
                 <li><a href="../5.Reportes/diaFamilia.jsp">Dia de la familia </a></li>
