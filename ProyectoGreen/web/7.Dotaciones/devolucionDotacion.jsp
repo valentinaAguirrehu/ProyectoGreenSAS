@@ -132,19 +132,25 @@
             <h3 class="titulo">Registrar devolución de dotación</h3>
             <form action="devolucionDotacionActualizar.jsp" method="post">
                 <input type="hidden" name="accion" value="Registrar">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <label for="fechaDevolucion">Fecha de devolución:</label>
-                    <input type="date" name="fechaDevolucion" required>
-                </div>
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <label for="tipoEntrega">Tipo de entrega:</label>
-                    <select name="tipoEntrega" required>
-                        <option value="">Seleccione tipo</option>
-                        <option value="Completa">Completa</option>
-                        <option value="Parcial">Parcial</option>
-                    </select>
-                </div>
                 
+                
+                <table class="table2">
+                    <tbody>
+                        <tr>
+                            <td><label for="fechaDevolucion">Fecha de devolución:</label></td>
+                            <td><input type="date" name="fechaDevolucion" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="tipoEntrega">Tipo de entrega:</label></td>
+                            <td>
+                                <select name="tipoEntrega" required>
+                                    <option value="">Seleccione tipo</option>
+                                    <option value="Completa">Completa</option>
+                                    <option value="Parcial">Parcial</option>
+                                </select>
+                            </td>
+                        </tr>
+                </table>
 
                 <table class="table" id="tablaDotacion">
                     <thead>
