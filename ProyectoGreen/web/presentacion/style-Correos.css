@@ -26,25 +26,12 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
+    background-color: #2c6e49;
     color: white;
 }
 
 tr:nth-child(even) {
     background-color: #f2f2f2;
-}
-
-.volver {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.volver a {
-    text-decoration: none;
-    background-color: #4CAF50;
-    padding: 10px 20px;
-    color: white;
-    border-radius: 5px;
 }
 
 .botones-container {
