@@ -80,9 +80,9 @@
 <div class="content">
     <h3 class="titulo">REPORTE DE RETIROS DE COLABORADORES - GREEN S.A.S</h3>
 
-<% if (!isDownloadMode) { %>
-    <a href="retiroColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : "" %>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
-    <a href="retiroColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : "" %>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
+    <% if (!isDownloadMode) {%>
+    <a href="retiroColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
+    <a href="retiroColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
 
     <form method="get">
         <label for="anio">Filtrar por año:</label>
@@ -101,115 +101,129 @@
                 for (Integer anio : años) {
                     String param = request.getParameter("anio");
             %>
-                <option value="<%= anio %>" <%= (param != null && param.equals(String.valueOf(anio))) ? "selected" : "" %>><%= anio %></option>
+            <option value="<%= anio%>" <%= (param != null && param.equals(String.valueOf(anio))) ? "selected" : ""%>><%= anio%></option>
             <%
                 }
             %>
         </select>
     </form>
-<% } %>
 
-<%
-    String anioFiltro = request.getParameter("anio");
-    String condicion = "tipo = 'R' AND fechaTerPriContrato IS NOT NULL";
-    if (anioFiltro != null && !anioFiltro.isEmpty()) {
-        condicion += " AND YEAR(fechaTerPriContrato) = " + anioFiltro;
-    }
-    List<Persona> filtrados = Persona.getListaEnObjetos(condicion, "fechaTerPriContrato ASC");
-    List<Persona> todos = Persona.getListaEnObjetos("tipo = 'R' AND fechaTerPriContrato IS NOT NULL", null);
-    Map<Integer, Integer> retirosPorAnio = new HashMap<>();
-    int totalRetiros = 0;
 
-    for (Persona p : todos) {
-        if (p.getFechaTerPriContrato() != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaTerPriContrato()));
-            int anio = cal.get(Calendar.YEAR);
-            retirosPorAnio.put(anio, retirosPorAnio.getOrDefault(anio, 0) + 1);
-            totalRetiros++;
+    <% } %>
+
+    <%
+        String anioFiltro = request.getParameter("anio");
+        String condicion = "tipo = 'R' AND fechaTerPriContrato IS NOT NULL";
+        if (anioFiltro != null && !anioFiltro.isEmpty()) {
+            condicion += " AND YEAR(fechaTerPriContrato) = " + anioFiltro;
         }
-    }
+        List<Persona> filtrados = Persona.getListaEnObjetos(condicion, "fechaTerPriContrato ASC");
+        List<Persona> todos = Persona.getListaEnObjetos("tipo = 'R' AND fechaTerPriContrato IS NOT NULL", null);
+        Map<Integer, Integer> retirosPorAnio = new HashMap<>();
+        int totalRetiros = 0;
 
-    String tablaResumen = "";
-    String datosGrafico = "[";
-    int contador = 0;
-    for (Map.Entry<Integer, Integer> entry : retirosPorAnio.entrySet()) {
-        int anio = entry.getKey();
-        int cantidad = entry.getValue();
-        double porcentaje = (cantidad / (double) totalRetiros) * 100;
+        for (Persona p : todos) {
+            if (p.getFechaTerPriContrato() != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaTerPriContrato()));
+                int anio = cal.get(Calendar.YEAR);
+                retirosPorAnio.put(anio, retirosPorAnio.getOrDefault(anio, 0) + 1);
+                totalRetiros++;
+            }
+        }
 
-        tablaResumen += "<tr><td>" + anio + "</td><td>" + cantidad + "</td><td>" + String.format("%.2f", porcentaje) + "%</td></tr>";
+        String tablaResumen = "";
+        String datosGrafico = "[";
+        int contador = 0;
+        for (Map.Entry<Integer, Integer> entry : retirosPorAnio.entrySet()) {
+            int anio = entry.getKey();
+            int cantidad = entry.getValue();
+            double porcentaje = (cantidad / (double) totalRetiros) * 100;
 
-        if (contador++ > 0) datosGrafico += ",";
-        datosGrafico += "{ years: '" + anio + "', value: " + cantidad + " }";
-    }
-    datosGrafico += "]";
-%>
+            tablaResumen += "<tr><td>" + anio + "</td><td>" + cantidad + "</td><td>" + String.format("%.2f", porcentaje) + "%</td></tr>";
 
-<h3>Lista de retirados</h3>
-<table border="1" class="table">
-    <tr>
-        <th>Identificación</th>
-        <th>Nombre completo</th>
-        <th>Cargo</th>
-        <th>Establecimiento</th>
-        <th>Fecha de retiro</th>
-    </tr>
-<%
-    for (Persona p : filtrados) {
-        String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
-%>
-    <tr>
-        <td><%= p.getIdentificacion() %></td>
-        <td><%= p.getNombres() %> <%= p.getApellidos() %></td>
-        <td><%= nombreCargo %></td>
-        <td><%= p.getEstablecimiento() %></td>
-        <td><%= p.getFechaTerPriContrato() %></td>
-    </tr>
-<% } %>
-</table>
+            if (contador++ > 0) {
+                datosGrafico += ",";
+            }
+            datosGrafico += "{ years: '" + anio + "', value: " + cantidad + " }";
+        }
+        datosGrafico += "]";
+    %>
 
-<h3>Indicador de retiros por año</h3>
-<div style="display: flex; gap: 20px; align-items: flex-start;">
-    <div>
-        <table class="table" border="1">
-            <tr><th>Año</th><th>Retiros</th><th>%</th></tr>
-            <%=tablaResumen%>
-        </table>
+    <h3>Lista de retirados</h3>
+    <table border="1" class="table">
+        <tr>
+            <th>Identificación</th>
+            <th>Nombre completo</th>
+            <th>Cargo</th>
+            <th>Establecimiento</th>
+            <th>Fecha de retiro</th>
+        </tr>
+        <%
+            for (Persona p : filtrados) {
+                String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
+        %>
+        <tr>
+            <td><%= p.getIdentificacion()%></td>
+            <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
+            <td><%= nombreCargo%></td>
+            <td><%= p.getEstablecimiento()%></td>
+            <%
+                String[] fechaPartes = p.getFechaTerPriContrato().split("-");
+                String anioLink = fechaPartes[0];
+                String mesLink = fechaPartes[1];
+            %>
+            <td>
+                <a href="retiroMes.jsp?anio=<%= anioLink%>&mes=<%= mesLink%>">
+                    <%= p.getFechaTerPriContrato()%>
+                </a>
+            </td>
+
+        </tr>
+        <% }%>
+    </table>
+
+    <h3>Indicador de retiros por año</h3>
+    <div style="display: flex; gap: 20px; align-items: flex-start;">
+        <div>
+            <table class="table" border="1">
+                <tr><th>Año</th><th>Retiros</th><th>%</th></tr>
+                        <%=tablaResumen%>
+            </table>
+        </div>
+        <div id="chartdiv" style="width: 700px; height: 400px;"></div>
     </div>
-    <div id="chartdiv" style="width: 700px; height: 400px;"></div>
-</div>
 
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-<script>
-am5.ready(function () {
-    var root = am5.Root.new("chartdiv");
-    root.setThemes([am5themes_Animated.new(root)]);
-    var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
-    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-        categoryField: "years",
-        renderer: am5xy.AxisRendererX.new(root, { minGridDistance: 30 })
-    }));
-    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-        renderer: am5xy.AxisRendererY.new(root, {})
-    }));
-    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-        name: "Retiros",
-        xAxis: xAxis,
-        yAxis: yAxis,
-        valueYField: "value",
-        categoryXField: "years",
-        tooltip: am5.Tooltip.new(root, {
-            labelText: "{valueY}"
-        })
-    }));
-    var data = <%=datosGrafico%>;
-    xAxis.data.setAll(data);
-    series.data.setAll(data);
-    series.appear(1000);
-    chart.appear(1000, 100);
-});
-</script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script>
+                am5.ready(function () {
+                    var root = am5.Root.new("chartdiv");
+                    root.setThemes([am5themes_Animated.new(root)]);
+                    var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
+                    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                        categoryField: "years",
+                        renderer: am5xy.AxisRendererX.new(root, {minGridDistance: 30})
+                    }));
+                    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                        renderer: am5xy.AxisRendererY.new(root, {})
+                    }));
+                    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                        name: "Retiros",
+                        xAxis: xAxis,
+                        yAxis: yAxis,
+                        valueYField: "value",
+                        categoryXField: "years",
+                        tooltip: am5.Tooltip.new(root, {
+                            labelText: "{valueY}"
+                        })
+                    }));
+                    var data = <%=datosGrafico%>;
+                    xAxis.data.setAll(data);
+                    series.data.setAll(data);
+                    series.appear(1000);
+                    chart.appear(1000, 100);
+                });
+    </script>
 </div>
