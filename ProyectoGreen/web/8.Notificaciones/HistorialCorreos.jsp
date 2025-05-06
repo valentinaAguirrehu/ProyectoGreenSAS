@@ -22,7 +22,7 @@
         <jsp:include page="../menu.jsp" />
 
         <div class="content">
-            <h1>Historial de correos electrónicos enviados</h1>
+            <h3 class="titulo">Historial de correos electrónicos enviados</h3>
 
             <%
                 Connection conn = null;
