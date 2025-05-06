@@ -183,6 +183,7 @@
         <% }%>
     </table>
 
+  <% if (!isDownloadMode) { %>
     <h3>Indicador de retiros por año</h3>
     <div style="display: flex; gap: 20px; align-items: flex-start;">
         <div>
@@ -198,32 +199,33 @@
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script>
-                am5.ready(function () {
-                    var root = am5.Root.new("chartdiv");
-                    root.setThemes([am5themes_Animated.new(root)]);
-                    var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
-                    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-                        categoryField: "years",
-                        renderer: am5xy.AxisRendererX.new(root, {minGridDistance: 30})
-                    }));
-                    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-                        renderer: am5xy.AxisRendererY.new(root, {})
-                    }));
-                    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-                        name: "Retiros",
-                        xAxis: xAxis,
-                        yAxis: yAxis,
-                        valueYField: "value",
-                        categoryXField: "years",
-                        tooltip: am5.Tooltip.new(root, {
-                            labelText: "{valueY}"
-                        })
-                    }));
-                    var data = <%=datosGrafico%>;
-                    xAxis.data.setAll(data);
-                    series.data.setAll(data);
-                    series.appear(1000);
-                    chart.appear(1000, 100);
-                });
+        am5.ready(function () {
+            var root = am5.Root.new("chartdiv");
+            root.setThemes([am5themes_Animated.new(root)]);
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
+            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                categoryField: "years",
+                renderer: am5xy.AxisRendererX.new(root, {minGridDistance: 30})
+            }));
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererY.new(root, {})
+            }));
+            var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                name: "Retiros",
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "value",
+                categoryXField: "years",
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{valueY}"
+                })
+            }));
+            var data = <%=datosGrafico%>;
+            xAxis.data.setAll(data);
+            series.data.setAll(data);
+            series.appear(1000);
+            chart.appear(1000, 100);
+        });
     </script>
-</div>
+<% } %>
+
