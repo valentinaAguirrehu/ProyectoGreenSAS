@@ -124,6 +124,7 @@
                 <th>Tipo de entrega</th>
                 <th>Prenda</th>
                 <th>Talla</th>
+                <th>Unidad de negocio</th>
                 <th>Estado</th>
             </tr>
         </thead>
@@ -132,7 +133,7 @@
                 if (entregas.isEmpty()) {
             %>
             <tr>
-                <td colspan="6" style="text-align: center; font-style: italic;">
+                <td colspan="7" style="text-align: center; font-style: italic;">
                     No se ha registrado ninguna entrega de dotación para esta persona.
                 </td>
             </tr>
@@ -161,7 +162,9 @@
                     }%>
                 <td><%= prenda%></td>
                 <td><%= detalle.getTalla()%></td>
+                <td><%= detalle.getUnidadNegocio()%></td>
                 <td><%= detalle.getEstado()%></td>
+
             </tr>
             <%
                         }
@@ -180,6 +183,7 @@
                 <th>Tipo de entrega</th>
                 <th>Prenda</th>
                 <th>Talla</th>
+                <th>Unidad de negocio</th>
                 <th>Estado</th>
             </tr>
         </thead>
@@ -189,7 +193,7 @@
                 if (devoluciones.isEmpty()) {
             %>
             <tr>
-                <td colspan="6" style="text-align: center; font-style: italic;">
+                <td colspan="7" style="text-align: center; font-style: italic;">
                     No se ha registrado ninguna devolución de dotación para esta persona.
                 </td>
             </tr>
@@ -218,7 +222,9 @@
                     }%>
                 <td><%= prenda%></td>
                 <td><%= detalle.getTalla()%></td>
+                <td><%= detalle.getUnidadNegocio() %></td>
                 <td><%= detalle.getEstado()%></td>
+
             </tr>
             <%
                         }

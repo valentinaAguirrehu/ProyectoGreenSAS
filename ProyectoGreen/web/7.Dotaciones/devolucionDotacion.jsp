@@ -144,6 +144,7 @@
                         <option value="Parcial">Parcial</option>
                     </select>
                 </div>
+                
 
                 <table class="table" id="tablaDotacion">
                     <thead>

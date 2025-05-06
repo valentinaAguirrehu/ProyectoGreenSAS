@@ -20,6 +20,7 @@ public class DetalleEntrega {
     private String idPrenda;
     private String talla;
     private String estado;
+    private String unidadNegocio;
 
     // Getters y Setters
     public String getIdDetalleEntrega() {
@@ -62,17 +63,25 @@ public class DetalleEntrega {
         this.estado = estado;
     }
 
+    public String getUnidadNegocio() {
+        return unidadNegocio;
+    }
+
+    public void setUnidadNegocio(String unidadNegocio) {
+        this.unidadNegocio = unidadNegocio;
+    }
+
     // Método para insertar un nuevo detalle
     public boolean grabar() {
-        String sql = "INSERT INTO detalleEntrega (id_entrega, id_prenda, talla, estado) " +
-                     "VALUES ('" + idEntrega + "', '" + idPrenda + "', '" + talla + "', '" + estado + "')";
+        String sql = "INSERT INTO detalleEntrega (id_entrega, id_prenda, talla, estado, unidad_negocio) " +
+                     "VALUES ('" + idEntrega + "', '" + idPrenda + "', '" + talla + "', '" + estado + "', '" + unidadNegocio + "')";
         return ConectorBD.ejecutarQuery(sql);
     }
 
     // Método para modificar un detalle existente
     public boolean modificar(String idAnterior) {
         String sql = "UPDATE detalleEntrega SET id_entrega='" + idEntrega + "', id_prenda='" + idPrenda +
-                     "', talla='" + talla + "', estado='" + estado +
+                     "', talla='" + talla + "', estado='" + estado + "', unidad_negocio='" + unidadNegocio +
                      "' WHERE id_detalle_entrega=" + idAnterior;
         return ConectorBD.ejecutarQuery(sql);
     }
@@ -105,6 +114,7 @@ public class DetalleEntrega {
                 d.setIdPrenda(rs.getString("id_prenda"));
                 d.setTalla(rs.getString("talla"));
                 d.setEstado(rs.getString("estado"));
+                d.setUnidadNegocio(rs.getString("unidad_negocio"));
                 lista.add(d);
             }
             rs.close();
