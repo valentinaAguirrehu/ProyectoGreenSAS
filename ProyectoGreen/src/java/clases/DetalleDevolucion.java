@@ -19,6 +19,7 @@ public class DetalleDevolucion {
     private String idPrenda;
     private String talla;
     private String estado;
+    private String unidadNegocio;
 
     public DetalleDevolucion() {
     }
@@ -34,6 +35,7 @@ public class DetalleDevolucion {
                 this.idPrenda = rs.getString("id_prenda");
                 this.talla = rs.getString("talla");
                 this.estado = rs.getString("estado");
+                this.unidadNegocio = rs.getString("unidad_negocio");
             }
         } catch (Exception e) {
             System.out.println("Error cargando detalle de devolución: " + e.getMessage());
@@ -80,9 +82,17 @@ public class DetalleDevolucion {
         this.estado = estado;
     }
 
+    public String getUnidadNegocio() {
+        return unidadNegocio;
+    }
+
+    public void setUnidadNegocio(String unidadNegocio) {
+        this.unidadNegocio = unidadNegocio;
+    }
+
     public boolean grabar() {
-        String sql = "INSERT INTO detalleDevolucion (id_devolucion, id_prenda, talla, estado) "
-                   + "VALUES ('" + idDevolucion + "', '" + idPrenda + "', '" + talla + "', '" + estado + "')";
+        String sql = "INSERT INTO detalleDevolucion (id_devolucion, id_prenda, talla, estado, unidad_negocio) "
+                   + "VALUES ('" + idDevolucion + "', '" + idPrenda + "', '" + talla + "', '" + estado + "', '" + unidadNegocio + "')";
         return ConectorBD.ejecutarQuery(sql);
     }
 
@@ -91,7 +101,8 @@ public class DetalleDevolucion {
                    + "id_devolucion = '" + idDevolucion + "', "
                    + "id_prenda = '" + idPrenda + "', "
                    + "talla = '" + talla + "', "
-                   + "estado = '" + estado + "' "
+                   + "estado = '" + estado + "', "
+                   + "unidad_negocio = '" + unidadNegocio + "' "
                    + "WHERE id_detalle_devolucion = " + idAnterior;
         return ConectorBD.ejecutarQuery(sql);
     }
@@ -123,6 +134,7 @@ public class DetalleDevolucion {
                 d.setIdPrenda(rs.getString("id_prenda"));
                 d.setTalla(rs.getString("talla"));
                 d.setEstado(rs.getString("estado"));
+                d.setUnidadNegocio(rs.getString("unidad_negocio"));
                 lista.add(d);
             }
             rs.close();

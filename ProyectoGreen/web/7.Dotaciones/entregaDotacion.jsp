@@ -19,6 +19,29 @@
     }
 
     String idPersona = request.getParameter("idPersona");
+    
+    String unidadAjax = request.getParameter("ajax_unidad");
+if (unidadAjax != null) {
+    response.setContentType("application/json");
+
+    ResultSet rsEstados = ConectorBD.consultar(
+        "SELECT DISTINCT estado FROM inventarioDotacion " +
+        "WHERE unidad_negocio = '" + unidadAjax + "' " +
+        "ORDER BY estado"
+    );
+
+    StringBuilder jsonEstados = new StringBuilder("[");
+    boolean primero = true;
+    while (rsEstados.next()) {
+        if (!primero) jsonEstados.append(",");
+        jsonEstados.append("\"").append(rsEstados.getString("estado")).append("\"");
+        primero = false;
+    }
+    jsonEstados.append("]");
+    rsEstados.close();
+    out.print(jsonEstados.toString());
+    return;
+}
 
     String tipoPrendaAjax = request.getParameter("ajax_tipo_prenda");
     String estadoAjax = request.getParameter("ajax_estado");
@@ -138,6 +161,14 @@
                         <option value="">Seleccione tipo</option>
                         <option value="Completa">Completa</option>
                         <option value="Parcial">Parcial</option>
+                    </select>
+                </div>
+                 <div style="text-align: center; margin-bottom: 20px;">
+                    <label for="unidadNegocio">Unidad de negocio:</label>
+                    <select name="unidadNegocio" required>
+                        <option value="">Seleccione unidad</option>
+                        <option value="RPS">RPS</option>
+                        <option value="EDS">EDS</option>
                     </select>
                 </div>
 
