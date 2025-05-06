@@ -59,10 +59,10 @@
             diaFamilia.eliminar(variables.get("id"));
             break;
     }
-
-    // Redirigir siempre con la identificación del colaborador
+    
     String iden = request.getParameter("idPersona");
-    String redireccion = "verRegistroDiaFamlia.jsp?identificacion=" + iden;
+    String redireccion = "verRegistroDiaFamlia.jsp?identificacion="+iden;
+
 %>
 <%
     // Verificación de parámetros antes de usar

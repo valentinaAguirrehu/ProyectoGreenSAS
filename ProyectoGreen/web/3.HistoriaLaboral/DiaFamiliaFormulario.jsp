@@ -7,6 +7,7 @@
 <%
     String accion = request.getParameter("accion");
     String identificacionPersona1 = request.getParameter("idPersona");
+    String idPersona = request.getParameter("idPersona");
     String id = request.getParameter("id");
 
     Persona persona = null;
@@ -43,6 +44,7 @@
         <input type="hidden" name="accion" value="<%= accion%>">
         <input type="hidden" name="id" value="<%= (diaFamilia.getIdDiaFamilia() != null) ? diaFamilia.getIdDiaFamilia() : ""%>">
         <input type="hidden" name="IdentificacionPersona1" value="<%= (persona != null) ? persona.getIdentificacion() : ""%>">
+        <input type="hidden" name="idPersona" value="<%=idPersona%>">
 
         <table class="table">
             <tr>
@@ -57,7 +59,7 @@
                 <td><label for="diaDisfrutado">Día disfrutado:</label></td>
                 <td>
                     <input type="date" name="diaDisfrutado" id="diaDisfrutado" required
-                           value="<%= diaDisfrutado %>">
+                           value="<%= diaDisfrutado%>">
                 </td>
             </tr>
             <tr>
@@ -73,15 +75,18 @@
             <tr>
                 <td><label for="observacion">Observación:</label></td>
                 <td>
-                    <textarea name="observacion" id="observacion" rows="3" cols="40"><%= observacion %></textarea>
+                    <textarea name="observacion" id="observacion" rows="3" cols="40"><%= observacion%></textarea>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
                     <button class="submit" type="submit">Guardar</button>
-                    <a href="verRegistroDiaFamlia.jsp?identificacion=<%= (persona != null) ? persona.getIdentificacion() : ""%>">
+                    <a href="verRegistroDiaFamlia.jsp?idPersona=<%= identificacionPersona1%>">
+                    </a>
+                    <a href="verRegistroDiaFamlia.jsp?identificacion=<%= identificacionPersona1%>">
                         <button class="button" type="button">Cancelar</button>
                     </a>
+
                 </td>
             </tr>
         </table>
