@@ -4,6 +4,10 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%
     boolean isDownloadMode = request.getParameter("formato") != null;
+
+    String anioParam = request.getParameter("anio");
+    String mesParam = request.getParameter("mes");
+
     if (isDownloadMode) {
         String tipoContenido = "";
         String extensionArchivo = "";
@@ -21,6 +25,7 @@
         response.setHeader("Content-Disposition", "inline; filename=\"Reporte_Retirados" + extensionArchivo + "\"");
     }
 %>
+
 
 <% if (!isDownloadMode) { %>
 <style>
@@ -78,77 +83,70 @@
 <% } %> 
 
 <div class="content">
-    <h3 class="titulo">REPORTE DE RETIROS DE COLABORADORES - GREEN S.A.S</h3>
-
-    <% if (!isDownloadMode) {%>
-    <a href="retiroColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
-    <a href="retiroColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
-
-    <form method="get">
-        <label for="anio">Filtrar por año:</label>
-        <select name="anio" onchange="this.form.submit()">
-            <option value="">-- Todos --</option>
-            <%
-                Set<Integer> años = new HashSet<>();
-                List<Persona> retirados = Persona.getListaEnObjetos("tipo = 'R' AND fechaTerPriContrato IS NOT NULL", null);
-                for (Persona p : retirados) {
-                    if (p.getFechaTerPriContrato() != null) {
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaTerPriContrato()));
-                        años.add(cal.get(Calendar.YEAR));
-                    }
-                }
-                for (Integer anio : años) {
-                    String param = request.getParameter("anio");
-            %>
-            <option value="<%= anio%>" <%= (param != null && param.equals(String.valueOf(anio))) ? "selected" : ""%>><%= anio%></option>
-            <%
-                }
-            %>
-        </select>
-    </form>
+    <h3 class="titulo">REPORTE DE RETIROS DE COLABORADORES POR MES - GREEN S.A.S</h3>
+    <% if (!isDownloadMode) { %>
+<div style="margin: 10px 0;">
+    <a href="retiroMes.jsp?formato=excel<%= (anioParam != null ? "&anio=" + anioParam : "") + (mesParam != null ? "&mes=" + mesParam : "") %>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
+    <a href="retiroMes.jsp?formato=word<%= (anioParam != null ? "&anio=" + anioParam : "") + (mesParam != null ? "&mes=" + mesParam : "") %>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
+</div>
+<% } %>
 
 
-    <% } %>
+   <%
+        // Parámetros de filtro para la tabla principal (opcional)
 
-    <%
-        String anioFiltro = request.getParameter("anio");
-        String condicion = "tipo = 'R' AND fechaTerPriContrato IS NOT NULL";
-        if (anioFiltro != null && !anioFiltro.isEmpty()) {
-            condicion += " AND YEAR(fechaTerPriContrato) = " + anioFiltro;
+    String condicion = "tipo = 'R' AND fechaTerPriContrato IS NOT NULL";
+
+    if (anioParam != null && !anioParam.isEmpty()) {
+        condicion += " AND YEAR(fechaTerPriContrato) = " + anioParam;
+    }
+    if (mesParam != null && !mesParam.isEmpty()) {
+        condicion += " AND MONTH(fechaTerPriContrato) = " + mesParam;
+    }
+
+    // Lista de retirados filtrada (para tabla inferior)
+    List<Persona> retirados = Persona.getListaEnObjetos(condicion, "fechaTerPriContrato ASC");
+
+    // Segunda consulta para indicador de retiros por mes (SIN FILTROS)
+    List<Persona> retiradosTodos = Persona.getListaEnObjetos("tipo = 'R' AND fechaTerPriContrato IS NOT NULL", "fechaTerPriContrato ASC");
+
+    Map<Integer, Integer> retirosPorMes = new HashMap<>();
+    int totalRetiros = 0;
+
+    for (Persona p : retiradosTodos) {
+        if (p.getFechaTerPriContrato() != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaTerPriContrato()));
+            int mes = cal.get(Calendar.MONTH) + 1;
+            retirosPorMes.put(mes, retirosPorMes.getOrDefault(mes, 0) + 1);
+            totalRetiros++;
         }
-        List<Persona> filtrados = Persona.getListaEnObjetos(condicion, "fechaTerPriContrato ASC");
-        List<Persona> todos = Persona.getListaEnObjetos("tipo = 'R' AND fechaTerPriContrato IS NOT NULL", null);
-        Map<Integer, Integer> retirosPorAnio = new HashMap<>();
-        int totalRetiros = 0;
+    }
 
-        for (Persona p : todos) {
-            if (p.getFechaTerPriContrato() != null) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaTerPriContrato()));
-                int anio = cal.get(Calendar.YEAR);
-                retirosPorAnio.put(anio, retirosPorAnio.getOrDefault(anio, 0) + 1);
-                totalRetiros++;
-            }
-        }
+    String[] mesesNombres = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
 
-        String tablaResumen = "";
-        String datosGrafico = "[";
-        int contador = 0;
-        for (Map.Entry<Integer, Integer> entry : retirosPorAnio.entrySet()) {
-            int anio = entry.getKey();
-            int cantidad = entry.getValue();
+    String tablaResumen = "";
+    String datosGrafico = "[";
+    int contador = 0;
+
+    Map<Integer, Integer> retirosPorMesOrdenado = new TreeMap<>(retirosPorMes);
+
+    for (int mes = 1; mes <= 12; mes++) {
+        if (retirosPorMesOrdenado.containsKey(mes)) {
+            int cantidad = retirosPorMesOrdenado.get(mes);
             double porcentaje = (cantidad / (double) totalRetiros) * 100;
 
-            tablaResumen += "<tr><td>" + anio + "</td><td>" + cantidad + "</td><td>" + String.format("%.2f", porcentaje) + "%</td></tr>";
+            tablaResumen += "<tr><td>" + mesesNombres[mes - 1] + "</td><td>" + cantidad + "</td><td>" + String.format("%.2f", porcentaje) + "%</td></tr>";
 
-            if (contador++ > 0) {
-                datosGrafico += ",";
-            }
-            datosGrafico += "{ years: '" + anio + "', value: " + cantidad + " }";
+            if (contador++ > 0) datosGrafico += ",";
+            datosGrafico += "{ mes: '" + mesesNombres[mes - 1] + "', value: " + cantidad + " }";
         }
-        datosGrafico += "]";
-    %>
+    }
+
+    datosGrafico += "]";
+
+%>
+
 
     <h3>Lista de retirados</h3>
     <table border="1" class="table">
@@ -159,8 +157,7 @@
             <th>Establecimiento</th>
             <th>Fecha de retiro</th>
         </tr>
-        <%
-            for (Persona p : filtrados) {
+        <%    for (Persona p : retirados) {
                 String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
         %>
         <tr>
@@ -168,27 +165,17 @@
             <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
             <td><%= nombreCargo%></td>
             <td><%= p.getEstablecimiento()%></td>
-            <%
-                String[] fechaPartes = p.getFechaTerPriContrato().split("-");
-                String anioLink = fechaPartes[0];
-                String mesLink = fechaPartes[1];
-            %>
-            <td>
-                <a href="retiroMes.jsp?anio=<%= anioLink%>&mes=<%= mesLink%>">
-                    <%= p.getFechaTerPriContrato()%>
-                </a>
-            </td>
-
+            <td><%= p.getFechaTerPriContrato()%></td>
         </tr>
         <% }%>
     </table>
 
-  <% if (!isDownloadMode) { %>
-    <h3>Indicador de retiros por año</h3>
+    <% if (!isDownloadMode) { %>
+    <h3>Indicador de retiros por mes</h3>
     <div style="display: flex; gap: 20px; align-items: flex-start;">
         <div>
             <table class="table" border="1">
-                <tr><th>Año</th><th>Retiros</th><th>%</th></tr>
+                <tr><th>Mes</th><th>Retiros</th><th>%</th></tr>
                         <%=tablaResumen%>
             </table>
         </div>
@@ -204,7 +191,7 @@
             root.setThemes([am5themes_Animated.new(root)]);
             var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
             var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-                categoryField: "years",
+                categoryField: "mes",
                 renderer: am5xy.AxisRendererX.new(root, {minGridDistance: 30})
             }));
             var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
@@ -215,7 +202,7 @@
                 xAxis: xAxis,
                 yAxis: yAxis,
                 valueYField: "value",
-                categoryXField: "years",
+                categoryXField: "mes",
                 tooltip: am5.Tooltip.new(root, {
                     labelText: "{valueY}"
                 })
@@ -228,4 +215,3 @@
         });
     </script>
 <% } %>
-
