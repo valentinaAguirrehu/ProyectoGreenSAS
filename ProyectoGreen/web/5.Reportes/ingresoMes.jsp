@@ -82,8 +82,8 @@
     background-color: #2c6e49;
     color: white;
     border: none;
-    padding: 10px 15px;
-    font-size: 10px;
+    padding: 16px 20px;
+    font-size: 12px;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -189,11 +189,6 @@ s
 </div>
 <% } %>
 
-     <div style="text-align: left; margin-top: 20px;">
-    <a href="ingresoColaboradores.jsp">
-        <button class="btn-retorno">VER AÑO</button>
-    </a>
-</div>
     <table border="1" class="table">
         <tr>
             <th>Nombre</th>
@@ -216,7 +211,11 @@ s
         </tr>
         <% } %>
     </table>
-
+     <div style="text-align: center; margin-top: 20px;">
+    <a href="ingresoColaboradores.jsp">
+        <button class="btn-retorno">VER AÑO</button>
+    </a>
+</div>
     <% if (!isDownloadMode) {%>
     <h3>Indicador de ingresos por mes</h3>
     <div style="display: flex; gap: 20px; align-items: flex-start;">
@@ -228,6 +227,8 @@ s
         </div>
         <div id="chartdiv" style="width: 700px; height: 400px;"></div>
     </div>
+            
+
 
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>

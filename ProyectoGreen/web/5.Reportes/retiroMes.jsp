@@ -100,8 +100,8 @@
     background-color: #2c6e49;
     color: white;
     border: none;
-    padding: 10px 15px;
-    font-size: 10px;
+    padding: 16px 20px;
+    font-size: 12px;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -210,11 +210,7 @@
     </div>
     <% } %>
 
-   <div style="text-align: left; margin-top: 20px;">
-    <a href="retiroColaboradores.jsp">
-        <button class="btn-retorno">VER AÑO</button>
-    </a>
-</div>
+ 
     <table border="1" class="table">
         <tr>
             <th>Identificación</th>
@@ -235,6 +231,11 @@
         </tr>
         <% }%>
     </table>
+      <div style="text-align: center; margin-top: 20px;">
+    <a href="retiroColaboradores.jsp">
+        <button class="btn-retorno">VER AÑO</button>
+    </a>
+</div>
 
     <% if (!isDownloadMode) {%>
     <h3>Indicador de retiros por mes</h3>
