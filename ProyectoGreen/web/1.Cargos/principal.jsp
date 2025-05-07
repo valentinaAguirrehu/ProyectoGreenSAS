@@ -23,7 +23,10 @@
                 <h1>¡Bienvenido al portal de Gestión Humana de GREEN S.A.S.!</h1>
             </div>
             <div class="quad-container">
-                <div class="quad">Políticas y privacidad</div>
+                <a href="../politicas.jsp" style="text-decoration: none;">
+                    <div class="quad">Políticas y privacidad</div>
+                </a>
+
                 <div class="quad">Manual de uso</div>
             </div>
         </main>
