@@ -70,6 +70,36 @@
         margin-left: 220px;
         padding: 20px;
     }
+        .filtro-anio-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        padding: 12px 16px;
+        border-radius: 6px;
+        width: fit-content;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .filtro-anio-form label {
+  
+        color: #333;
+    }
+
+    .filtro-anio-form select {
+        padding: 6px 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        cursor: pointer;
+        transition: border-color 0.3s;
+    }
+
+    .filtro-anio-form select:hover {
+        border-color: #888;
+    }
 </style>
 <% } %>
 
@@ -84,7 +114,7 @@
     <a href="retiroColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
     <a href="retiroColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
 
-    <form method="get">
+    <form method="get"class="filtro-anio-form">
         <label for="anio">Filtrar por año:</label>
         <select name="anio" onchange="this.form.submit()">
             <option value="">-- Todos --</option>
@@ -150,7 +180,7 @@
         datosGrafico += "]";
     %>
 
-    <h3>Lista de retirados</h3>
+
     <table border="1" class="table">
         <tr>
             <th>Identificación</th>
