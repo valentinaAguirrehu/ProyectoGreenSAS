@@ -144,7 +144,7 @@
                             <td><label for="tipoEntrega">Tipo de entrega:</label></td>
                             <td>
                                 <select name="tipoEntrega" required>
-                                    <option value="">Seleccione tipo</option>
+                                    <option value="">Seleccione un tipo</option>
                                     <option value="Completa">Completa</option>
                                     <option value="Parcial">Parcial</option>
                                 </select>
