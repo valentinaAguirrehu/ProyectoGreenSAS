@@ -58,8 +58,8 @@
         <li class="dropdown">
             <a href="#">Notificaciones<img src="../presentacion/iconos/flecha.png" alt="Icono flecha" class="icono-menu"></a>
             <ul class="dropdown-content">     
-                <li><a href="../8.Notificaciones/notificacionesContrato.jsp">Envío de correos electrónicos</a></li>
                 <li><a href="../8.Notificaciones/HistorialCorreos.jsp">Historial correos electrónicos</a></li>
+                <li><a href="../8.Notificaciones/enviarCorreos.jsp">Enviar correos</a></li>
             </ul>
         </li>
     </ul>
