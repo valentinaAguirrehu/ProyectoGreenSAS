@@ -4,6 +4,9 @@
     Author     : Angie
 --%>
 
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="clases.Persona"%>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="clasesGenericas.ConectorBD" %>
@@ -20,17 +23,15 @@
 
     String idPersona = request.getParameter("idPersona");
 
+    // AJAX: Obtener prendas por tipo de prenda entregadas a una persona
     String tipoPrendaAjax = request.getParameter("ajax_tipo_prenda");
-    String estadoAjax = request.getParameter("ajax_estado");
-    if (tipoPrendaAjax != null && estadoAjax != null && request.getParameter("ajax_id_prenda") == null) {
+    if (tipoPrendaAjax != null && request.getParameter("ajax_id_prenda") == null) {
         response.setContentType("application/json");
-
         ResultSet rsPrendas = ConectorBD.consultar(
                 "SELECT DISTINCT p.id_prenda, p.nombre FROM prenda p "
                 + "JOIN detalleEntrega de ON p.id_prenda = de.id_prenda "
                 + "JOIN entregaDotacion ed ON de.id_entrega = ed.id_entrega "
                 + "WHERE p.id_tipo_prenda = " + tipoPrendaAjax
-                + " AND de.estado = '" + estadoAjax + "' "
                 + " AND ed.id_persona = " + idPersona
                 + " ORDER BY p.nombre"
         );
@@ -58,6 +59,7 @@
         return;
     }
 
+    // AJAX: Obtener tipos de prenda disponibles
     String tiposPorEstado = request.getParameter("ajax_tipos_por_estado");
     if (tiposPorEstado != null) {
         response.setContentType("application/json");
@@ -67,7 +69,6 @@
                 + "FROM tipoPrenda tp "
                 + "JOIN prenda p ON tp.id_tipo_prenda = p.id_tipo_prenda "
                 + "JOIN inventarioDotacion i ON p.id_prenda = i.id_prenda "
-                + "WHERE i.estado = '" + tiposPorEstado + "' "
                 + "ORDER BY tp.nombre"
         );
 
@@ -90,33 +91,41 @@
         return;
     }
 
+    // AJAX: Obtener tallas disponibles para una prenda
     String idPrendaAjax = request.getParameter("ajax_id_prenda");
-    if (idPrendaAjax != null && estadoAjax != null) {
+    if (idPrendaAjax != null) {
         response.setContentType("application/json");
 
+        // 1. Consultar tallas y unidad de negocio asociada
         ResultSet rsTallas = ConectorBD.consultar(
-                "SELECT DISTINCT talla FROM inventarioDotacion "
+                "SELECT DISTINCT talla, unidad_negocio FROM inventarioDotacion "
                 + "WHERE id_prenda = " + idPrendaAjax
-                + " AND estado = '" + estadoAjax + "' "
-                + "ORDER BY talla"
+                + " ORDER BY talla"
         );
 
-        StringBuilder jsonTallas = new StringBuilder("{\"valores\":[");
+        StringBuilder json = new StringBuilder("{\"valores\":[");
         boolean primero = true;
+        String unidadNegocio = "";
+
         while (rsTallas.next()) {
             if (!primero) {
-                jsonTallas.append(",");
+                json.append(",");
             }
-            jsonTallas.append("\"").append(rsTallas.getString("talla")).append("\"");
+            json.append("\"").append(rsTallas.getString("talla")).append("\"");
             primero = false;
+
+            // Guardar la unidad de negocio (siempre será la misma, así que basta con tomarla una vez)
+            if (unidadNegocio.isEmpty()) {
+                unidadNegocio = rsTallas.getString("unidad_negocio");
+            }
         }
-        jsonTallas.append("]}");
         rsTallas.close();
-        out.print(jsonTallas.toString());
+        json.append("], \"unidad_negocio\":\"").append(unidadNegocio).append("\"}");
+
+        out.print(json.toString());
         return;
     }
 
-    ResultSet estados = ConectorBD.consultar("SELECT DISTINCT estado FROM inventarioDotacion ORDER BY estado");
     ResultSet tipos = ConectorBD.consultar("SELECT id_tipo_prenda, nombre FROM tipoPrenda");
 %>
 
@@ -132,8 +141,8 @@
             <h3 class="titulo">Registrar devolución de dotación</h3>
             <form action="devolucionDotacionActualizar.jsp" method="post">
                 <input type="hidden" name="accion" value="Registrar">
-                
-                
+
+
                 <table class="table2">
                     <tbody>
                         <tr>
@@ -155,10 +164,10 @@
                 <table class="table" id="tablaDotacion">
                     <thead>
                         <tr>
-                            <th>Estado</th>
                             <th>Tipo de prenda</th>
                             <th>Prenda</th>
                             <th>Talla</th>
+                            <th>Unidad de Negocio</th>
                             <th>
                                 <button type="button" onclick="agregarFila()">
                                     <img src="../presentacion/iconos/agregar.png" alt="Agregar" width="24" height="24">
@@ -169,21 +178,17 @@
                     <tbody>
                         <tr class="fila-dotacion">
                             <td>
-                                <select name="estado[]" class="select-estado" required onchange="cargarTiposDesdeEstado(this)">
-                                    <option value="">Seleccionar</option>
-                                    <%
-                                        while (estados.next()) {
-                                    %>
-                                    <option value="<%=estados.getString("estado")%>"><%=estados.getString("estado")%></option>
-                                    <%
-                                        }
-                                        estados.close();
-                                    %>
-                                </select>
-                            </td>
-                            <td>
                                 <select class="select-tipo" name="id_tipo_prenda[]" required onchange="cargarPrendas(this)">
                                     <option value="">Seleccione</option>
+                                    <%
+                                        while (tipos.next()) {
+                                    %>
+                                    <option value="<%=tipos.getString("id_tipo_prenda")%>"><%=tipos.getString("nombre")%></option>
+                                    <%
+                                        }
+
+                                        tipos.close();
+                                    %>
                                 </select>
                             </td>
                             <td>
@@ -193,8 +198,12 @@
                             </td>
                             <td>
                                 <select name="talla[]" class="input-talla" required>
-                                    <option value="">Seleccione talla</option>
+                                    <option value="">Seleccionar</option>
                                 </select>
+                            </td>
+
+                            <td>
+                                <input type="text" name="unidad_negocio[]" class="unidad-negocio" readonly>
                             </td>
                             <td>
                                 <button type="button" class="fila-icono" onclick="eliminarFila(this)">
@@ -203,6 +212,7 @@
                             </td>
                         </tr>
                     </tbody>
+
                     <input type="hidden" name="idPersona" value="<%= idPersona != null ? idPersona : ""%>">
                 </table>
 
@@ -211,134 +221,107 @@
                     <a href="historialDotacion.jsp?identificacion=<%= identificacion%>" class="btn-rojo">Cancelar</a>
                 </div>
             </form>
-        </div>
+            <script>
+                function agregarFila() {
+                    const filaBase = document.querySelector(".fila-dotacion");
+                    const nuevaFila = filaBase.cloneNode(true);
 
-        <script>
-            function agregarFila() {
-                const filaBase = document.querySelector(".fila-dotacion");
-                const nuevaFila = filaBase.cloneNode(true);
+                    nuevaFila.querySelectorAll("select").forEach(select => {
+                        select.value = "";
+                        if (select.classList.contains("select-prenda") || select.classList.contains("input-talla")) {
+                            select.innerHTML = '<option value="">Seleccionar</option>';
+                        }
+                    });
 
-                nuevaFila.querySelectorAll("select").forEach(select => {
-                    select.value = "";
-                    if (select.classList.contains("select-prenda") || select.classList.contains("input-talla")) {
-                        select.innerHTML = '<option value="">Seleccionar</option>';
-                    }
-                });
+                    nuevaFila.querySelector(".select-tipo").addEventListener("change", function () {
+                        cargarPrendas(this);
+                    });
+                    nuevaFila.querySelector(".select-prenda").addEventListener("change", function () {
+                        cargarTallas(this);
+                    });
 
-                nuevaFila.querySelector(".select-tipo").addEventListener("change", function () {
-                    cargarPrendas(this);
-                });
-                nuevaFila.querySelector(".select-prenda").addEventListener("change", function () {
-                    cargarTallas(this);
-                });
-                nuevaFila.querySelector(".select-estado").addEventListener("change", function () {
-                    cargarTallasDesdeEstado(this);
-                });
+                    document.querySelector("#tablaDotacion tbody").appendChild(nuevaFila);
+                }
 
-                document.querySelector("#tablaDotacion tbody").appendChild(nuevaFila);
-            }
+                function eliminarFila(btn) {
+                    const fila = btn.closest("tr");
+                    const tbody = document.querySelector("#tablaDotacion tbody");
+                    if (tbody.rows.length > 1)
+                        fila.remove();
+                }
 
-            function eliminarFila(btn) {
-                const fila = btn.closest("tr");
-                const tbody = document.querySelector("#tablaDotacion tbody");
-                if (tbody.rows.length > 1)
-                    fila.remove();
-            }
+                function cargarPrendas(selectTipo) {
+                    const fila = selectTipo.closest("tr");
+                    const prendaSelect = fila.querySelector(".select-prenda");
+                    const idPersona = "<%= idPersona != null ? idPersona : ""%>";
 
-            function cargarPrendas(selectTipo) {
-                const fila = selectTipo.closest("tr");
-                const prendaSelect = fila.querySelector(".select-prenda");
-                const estado = fila.querySelector(".select-estado").value;
-                const idPersona = "<%= idPersona != null ? idPersona : ""%>";
+                    prendaSelect.innerHTML = '<option value="">Cargando...</option>';
 
-                prendaSelect.innerHTML = '<option value="">Cargando...</option>';
-
-                if (selectTipo.value && estado) {
-                    fetch("devolucionDotacion.jsp?ajax_tipo_prenda=" + selectTipo.value + "&ajax_estado=" + encodeURIComponent(estado) + "&idPersona=" + idPersona)
-                            .then(res => res.json())
-                            .then(data => {
-                                prendaSelect.innerHTML = '';
-                                if (data.length === 1 && data[0].id_prenda === "") {
-                                    const opt = document.createElement("option");
-                                    opt.value = "";
-                                    opt.textContent = data[0].nombre;
-                                    opt.disabled = true;
-                                    opt.selected = true;
-                                    prendaSelect.appendChild(opt);
-                                } else {
-                                    const defaultOption = document.createElement("option");
-                                    defaultOption.value = "";
-                                    defaultOption.textContent = "Seleccionar";
-                                    prendaSelect.appendChild(defaultOption);
-
-                                    data.forEach(p => {
+                    if (selectTipo.value) {
+                        fetch("devolucionDotacion.jsp?ajax_tipo_prenda=" + selectTipo.value + "&idPersona=" + idPersona)
+                                .then(res => res.json())
+                                .then(data => {
+                                    prendaSelect.innerHTML = '';
+                                    if (data.length === 1 && data[0].id_prenda === "") {
                                         const opt = document.createElement("option");
-                                        opt.value = p.id_prenda;
-                                        opt.textContent = p.nombre;
+                                        opt.value = "";
+                                        opt.textContent = data[0].nombre;
+                                        opt.disabled = true;
+                                        opt.selected = true;
                                         prendaSelect.appendChild(opt);
+                                    } else {
+                                        const defaultOption = document.createElement("option");
+                                        defaultOption.value = "";
+                                        defaultOption.textContent = "Seleccionar";
+                                        prendaSelect.appendChild(defaultOption);
+
+                                        data.forEach(p => {
+                                            const opt = document.createElement("option");
+                                            opt.value = p.id_prenda;
+                                            opt.textContent = p.nombre;
+                                            prendaSelect.appendChild(opt);
+                                        });
+                                    }
+                                });
+                    } else {
+                        prendaSelect.innerHTML = '<option value="">Seleccionar</option>';
+                    }
+                }
+
+                function cargarTallas(selectPrenda) {
+                    const fila = selectPrenda.closest("tr");
+                    const idPrenda = selectPrenda.value;
+                    const selectTalla = fila.querySelector(".input-talla");
+                    const inputUnidad = fila.querySelector(".unidad-negocio"); // <- Este input es el campo readonly
+
+                    selectTalla.innerHTML = '<option value="">Cargando...</option>';
+                    inputUnidad.value = ""; // Limpiar valor anterior
+
+                    if (idPrenda) {
+                        fetch("devolucionDotacion.jsp?ajax_id_prenda=" + idPrenda)
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Cargar las tallas
+                                    selectTalla.innerHTML = '<option value="">Seleccione talla</option>';
+                                    data.valores.forEach(talla => {
+                                        const option = document.createElement("option");
+                                        option.value = talla;
+                                        option.textContent = talla;
+                                        selectTalla.appendChild(option);
                                     });
-                                }
-                            });
-                } else {
-                    prendaSelect.innerHTML = '<option value="">Seleccionar</option>';
-                }
-            }
 
-            function cargarTallas(selectPrenda) {
-                const fila = selectPrenda.closest("tr");
-                const idPrenda = selectPrenda.value;
-                const estado = fila.querySelector("select[name='estado[]']").value;
-                const selectTalla = fila.querySelector(".input-talla");
-
-                selectTalla.innerHTML = '<option value="">Cargando...</option>';
-
-                if (idPrenda) {
-                    fetch("devolucionDotacion.jsp?ajax_id_prenda=" + idPrenda + "&ajax_estado=" + encodeURIComponent(estado))
-                            .then(response => response.json())
-                            .then(data => {
-                                selectTalla.innerHTML = '<option value="">Seleccione talla</option>';
-                                data.valores.forEach(talla => {
-                                    const option = document.createElement("option");
-                                    option.value = talla;
-                                    option.textContent = talla;
-                                    selectTalla.appendChild(option);
+                                    // Prellenar unidad de negocio
+                                    inputUnidad.value = data.unidad_negocio || '';
+                                })
+                                .catch(() => {
+                                    selectTalla.innerHTML = '<option value="">Error al cargar tallas</option>';
+                                    inputUnidad.value = "";
                                 });
-                            })
-                            .catch(() => {
-                                selectTalla.innerHTML = '<option value="">Error al cargar tallas</option>';
-                            });
-                } else {
-                    selectTalla.innerHTML = '<option value="">Seleccione talla</option>';
+                    } else {
+                        selectTalla.innerHTML = '<option value="">Seleccione talla</option>';
+                        inputUnidad.value = "";
+                    }
                 }
-            }
-
-            function cargarTiposDesdeEstado(selectEstado) {
-                const fila = selectEstado.closest("tr");
-                const tipoSelect = fila.querySelector(".select-tipo");
-                const estado = selectEstado.value;
-
-                tipoSelect.innerHTML = '<option value="">Cargando...</option>';
-
-                if (estado) {
-                    fetch("devolucionDotacion.jsp?ajax_tipos_por_estado=" + encodeURIComponent(estado))
-                            .then(res => res.json())
-                            .then(data => {
-                                tipoSelect.innerHTML = '<option value="">Seleccione</option>';
-                                data.forEach(t => {
-                                    const opt = document.createElement("option");
-                                    opt.value = t.id_tipo;
-                                    opt.textContent = t.nombre;
-                                    tipoSelect.appendChild(opt);
-                                });
-                            })
-                            .catch(() => {
-                                tipoSelect.innerHTML = '<option value="">Error al cargar tipos de prenda</option>';
-                            });
-                } else {
-                    tipoSelect.innerHTML = '<option value="">Seleccione</option>';
-                }
-            }
-        </script>
-
+            </script>
     </body>
 </html>
