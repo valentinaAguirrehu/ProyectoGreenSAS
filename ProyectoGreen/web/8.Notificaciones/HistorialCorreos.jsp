@@ -23,6 +23,10 @@
 
         <div class="content">
             <h3 class="titulo">Historial de correos electrónicos enviados</h3>
+            
+            
+
+          
 
             <%
                 Connection conn = null;
@@ -60,48 +64,50 @@
                         }
             %>
 
+
             <div class="botones-container">
                 <div class="grupo-izquierda">
                     <a href="HistorialCorreos.jsp?tipo=Administradores" class="boton">Administradores</a>
                     <a href="HistorialCorreos.jsp?tipo=Persona" class="boton">Colaboradores</a>
                 </div>
                 <div class="grupo-derecha">
-                    <a href="javascript:void(0);" onclick="validarEliminacion('<%= ultimaFechaEnvioString %>')" class="boton eliminar">Eliminar Historial (Todos)</a>
+                    <a href="javascript:void(0);" onclick="validarEliminacion('<%= ultimaFechaEnvioString%>')" class="boton eliminar">Eliminar Historial (Todos)</a>
                 </div>
             </div>
-
+           
             <table>
-                <tr>
-                    <th>Destinatario</th>
-                    <th>Fecha de Envío</th>
-                </tr>
-
-                <%
-                    while (rs.next()) {
-                        String destinatario = rs.getString("destinatario");
-                        Timestamp fechaEnvio = rs.getTimestamp("fechaEnvio");
-                %>
-                <tr>
-                    <td><%= destinatario %></td>
-                    <td><%= sdf.format(fechaEnvio) %></td>
-                </tr>
-                <%
-                    }
-                } else {
-                %>
-                <p style="text-align:center;">No hay registros para mostrar.</p>
-                <%
-                    }
-                } catch (Exception e) {
-                    out.println("<tr><td colspan='2'>Error: " + e.getMessage() + "</td></tr>");
-                    e.printStackTrace();
-                } finally {
-                    if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
-                    if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
-                    if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
-                }
+            <tr>
+                <th>Destinatario</th>
+                <th>Fecha de Envío</th>
+            </tr>
+            <%
+                while (rs.next()) {
+                    String destinatario = rs.getString("destinatario");
+                    Timestamp fechaEnvio = rs.getTimestamp("fechaEnvio");
             %>
-            </table>
+            <tr>
+                <td><%= destinatario %></td>
+                <td><%= sdf.format(fechaEnvio) %></td>
+            </tr>
+            <%
+                }
+            } else {
+            %>
+         
+            <%
+                }
+            } catch (Exception e) {
+                out.println("<tr><td colspan='2'>Error: " + e.getMessage() + "</td></tr>");
+                e.printStackTrace();
+            } finally {
+                if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+                if (stmt != null) try { stmt.close(); } catch (SQLException ignore) {}
+                if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
+            }
+        %>
+        </table>
+
+
         </div>
 
         <script>
@@ -119,9 +125,9 @@
 
             document.addEventListener("DOMContentLoaded", function () {
                 controlarPermisos(
-                    <%= administrador.getpEliminar() %>,
-                    <%= administrador.getpEditar() %>,
-                    <%= administrador.getpAgregar() %>
+            <%= administrador.getpEliminar()%>,
+            <%= administrador.getpEditar()%>,
+            <%= administrador.getpAgregar()%>
                 );
             });
         </script>

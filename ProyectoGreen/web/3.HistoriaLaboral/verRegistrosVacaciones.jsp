@@ -176,11 +176,12 @@
         </tr>
         <%= tabla%>
     </table>
-</div>
-
 <% if (listaVacaciones.isEmpty()) { %>
 <p style="color:red;">No hay registros de vacaciones.</p>
 <% }%>
+    
+</div>
+
 <script>
     // PERMISOS
 
