@@ -1,3 +1,4 @@
+<%@page import="clases.Cargo"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*, java.text.SimpleDateFormat" %>
 <%@ page import="clases.Administrador" %>
@@ -39,7 +40,7 @@
                     String url2 = "jdbc:mysql://localhost:3306/proyectogreen?characterEncoding=utf8";
                     conn2 = DriverManager.getConnection(url2, "adso", "utilizar");
 
-                    String sql2 = "SELECT identificacion, nombres, apellidos, email, fechaTerPriContrato "
+                    String sql2 = "SELECT identificacion, nombres, apellidos, idcargo, unidadNegocio, establecimiento, email, fechaTerPriContrato "
                             + "FROM persona "
                             + "WHERE tipo = 'C' AND fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
 
@@ -62,23 +63,31 @@
                     <th>Identificación</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
+                    <th>Cargo</th>
+                    <th>Unidad de negocio</th>
+                    <th>Establecimiento</th>
                     <th>Email</th>
                     <th>Fecha término contrato</th>
                 </tr>
 
                 <%
                     while (rs2.next()) {
+                        String identificacion = rs2.getString("identificacion");
                 %>
                 <tr>
-                    <td><%= rs2.getString("identificacion")%></td>
+                    <td><%= identificacion%></td>
                     <td><%= rs2.getString("nombres")%></td>
                     <td><%= rs2.getString("apellidos")%></td>
+                    <td><%= Cargo.getCargoPersona(identificacion)%></td>
+                    <td><%= rs2.getString("unidadNegocio")%></td>
+                    <td><%= rs2.getString("establecimiento")%></td>
                     <td><%= rs2.getString("email")%></td>
                     <td><%= rs2.getDate("fechaTerPriContrato")%></td>
                 </tr>
                 <%
                     }
                 %>
+
             </table>
 
             <%
