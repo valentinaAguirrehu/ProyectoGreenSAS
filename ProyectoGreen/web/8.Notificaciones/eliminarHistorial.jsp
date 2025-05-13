@@ -1,9 +1,3 @@
-<%-- 
-    Document   : eliminarHistorial
-    Created on : 25/04/2025, 05:32:28 PM
-    Author     : VALEN
---%>
-
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.sql.*, java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
@@ -49,7 +43,7 @@
     PreparedStatement stmt = null;
     ResultSet rs = null;
     boolean eliminado = false;
-    
+
     try {
         // Establecer conexión
         Class.forName("com.mysql.jdbc.Driver");
@@ -65,10 +59,10 @@
             Timestamp ultimaFechaEnvio = rs.getTimestamp("fechaEnvio");
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 
-            // Verificar si han pasado más de 48 horas
-            long diferenciaHoras = (System.currentTimeMillis() - ultimaFechaEnvio.getTime()) / (1000 * 60 * 60);
-            if (diferenciaHoras >= 48) {
-                // Si han pasado más de 48 horas, eliminar los registros
+            // Verificar si han pasado más de 5 minutos
+            long diferenciaMinutos = (System.currentTimeMillis() - ultimaFechaEnvio.getTime()) / (1000 * 60);
+            if (diferenciaMinutos >= 5) {
+                // Si han pasado más de 5 minutos, eliminar los registros
                 String sqlEliminar = "DELETE FROM historialCorreos";
                 stmt = conn.prepareStatement(sqlEliminar);
                 int filasEliminadas = stmt.executeUpdate();
@@ -97,7 +91,7 @@
     } else {
 %>
     <div class="mensaje">
-        <p>No se puede eliminar el historial. Deben pasar al menos 48 horas desde el último envío.</p>
+        <p>No se puede eliminar el historial. Deben pasar al menos 5 minutos desde el último envío.</p>
     </div>
 <%
     }

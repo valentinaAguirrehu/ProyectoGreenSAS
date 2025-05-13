@@ -109,27 +109,27 @@
 
 
         </div>
+<script>
+    function validarEliminacion(fechaUltimaEnvio) {
+        var fechaLimite = new Date(fechaUltimaEnvio);
+        fechaLimite.setMinutes(fechaLimite.getMinutes() + 5); // Cambiado de 48 horas a 5 minutos
+        var ahora = new Date();
 
-        <script>
-            function validarEliminacion(fechaUltimaEnvio) {
-                var fechaLimite = new Date(fechaUltimaEnvio);
-                fechaLimite.setHours(fechaLimite.getHours() + 48);
-                var ahora = new Date();
+        if (ahora < fechaLimite) {
+            alert("No se puede eliminar el historial. Deben pasar al menos 5 minutos desde el último envío.");
+        } else {
+            window.location.href = "eliminarHistorial.jsp";
+        }
+    }
 
-                if (ahora < fechaLimite) {
-                    alert("No se puede eliminar el historial. Deben pasar al menos 48 horas desde el último envío.");
-                } else {
-                    window.location.href = "eliminarHistorial.jsp";
-                }
-            }
+    document.addEventListener("DOMContentLoaded", function () {
+        controlarPermisos(
+            <%= administrador.getpEliminar() %>,
+            <%= administrador.getpEditar() %>,
+            <%= administrador.getpAgregar() %>
+        );
+    });
+</script>
 
-            document.addEventListener("DOMContentLoaded", function () {
-                controlarPermisos(
-            <%= administrador.getpEliminar()%>,
-            <%= administrador.getpEditar()%>,
-            <%= administrador.getpAgregar()%>
-                );
-            });
-        </script>
     </body>
 </html>
