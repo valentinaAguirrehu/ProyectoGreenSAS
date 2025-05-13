@@ -19,29 +19,6 @@
     }
 
     String idPersona = request.getParameter("idPersona");
-    
-    String unidadAjax = request.getParameter("ajax_unidad");
-if (unidadAjax != null) {
-    response.setContentType("application/json");
-
-    ResultSet rsEstados = ConectorBD.consultar(
-        "SELECT DISTINCT estado FROM inventarioDotacion " +
-        "WHERE unidad_negocio = '" + unidadAjax + "' " +
-        "ORDER BY estado"
-    );
-
-    StringBuilder jsonEstados = new StringBuilder("[");
-    boolean primero = true;
-    while (rsEstados.next()) {
-        if (!primero) jsonEstados.append(",");
-        jsonEstados.append("\"").append(rsEstados.getString("estado")).append("\"");
-        primero = false;
-    }
-    jsonEstados.append("]");
-    rsEstados.close();
-    out.print(jsonEstados.toString());
-    return;
-}
 
     String tipoPrendaAjax = request.getParameter("ajax_tipo_prenda");
     String estadoAjax = request.getParameter("ajax_estado");
@@ -150,32 +127,44 @@ if (unidadAjax != null) {
             <form action="entregaDotacionActualizar.jsp" method="post">
                 <input type="hidden" name="accion" value="Registrar">
 
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <label for="fechaEntrega">Fecha de entrega:</label>
-                    <input type="date" name="fechaEntrega" required>
-                </div>
-
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <label for="tipoEntrega">Tipo de entrega:</label>
-                    <select name="tipoEntrega" required>
-                        <option value="">Seleccione tipo</option>
-                        <option value="Completa">Completa</option>
-                        <option value="Parcial">Parcial</option>
-                    </select>
-                </div>
-                 <div style="text-align: center; margin-bottom: 20px;">
-                    <label for="unidadNegocio">Unidad de negocio:</label>
-                    <select name="unidadNegocio" required>
-                        <option value="">Seleccione unidad</option>
-                        <option value="RPS">RPS</option>
-                        <option value="EDS">EDS</option>
-                    </select>
-                </div>
+                <table class="table2">
+                    <tbody>
+                        <tr>
+                            <td><label for="fechaEntrega">Fecha de entrega:</label></td>
+                            <td><input type="date" name="fechaEntrega" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="tipoEntrega">Tipo de entrega:</label></td>
+                            <td>
+                                <select name="tipoEntrega" required>
+                                    <option value="">Seleccione tipo</option>
+                                    <option value="Completa">Completa</option>
+                                    <option value="Parcial">Parcial</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="estado[]">Estado:</label></td>
+                            <td>
+                                <select name="estado[]" class="select-estado" required onchange="cargarTiposDesdeEstado(this)">
+                                    <option value="">Seleccionar</option>
+                                    <%                        while (estados.next()) {
+                                    %>
+                                    <option value="<%=estados.getString("estado")%>">
+                                        <%=estados.getString("estado")%>
+                                    </option>
+                                    <%
+                                        }
+                                        estados.close();
+                                    %>
+                                </select>
+                            </td>
+                        </tr>
+                </table>
 
                 <table class="table" id="tablaDotacion">
                     <thead>
                         <tr>
-                            <th>Estado</th>
                             <th>Tipo de prenda</th>
                             <th>Prenda</th>
                             <th>Talla</th>
@@ -188,19 +177,6 @@ if (unidadAjax != null) {
                     </thead>
                     <tbody>
                         <tr class="fila-dotacion">
-                            <td>
-                                <select name="estado[]" class="select-estado" required onchange="cargarTiposDesdeEstado(this)">
-                                    <option value="">Seleccionar</option>
-                                    <%
-                                        while (estados.next()) {
-                                    %>
-                                    <option value="<%=estados.getString("estado")%>"><%=estados.getString("estado")%></option>
-                                    <%
-                                        }
-                                        estados.close();
-                                    %>
-                                </select>
-                            </td>
                             <td>
                                 <select class="select-tipo" name="id_tipo_prenda[]" required onchange="cargarPrendas(this)">
                                     <option value="">Seleccione</option>
@@ -228,7 +204,7 @@ if (unidadAjax != null) {
 
                 <div class="botones-form">
                     <button type="submit" class="btn-verde">Guardar</button>
-                  <a href="historialDotacion.jsp?identificacion=<%= identificacion %>" class="btn-rojo">Cancelar</a>
+                    <a href="historialDotacion.jsp?identificacion=<%= identificacion%>" class="btn-rojo">Cancelar</a>
                 </div>
             </form>
         </div>
