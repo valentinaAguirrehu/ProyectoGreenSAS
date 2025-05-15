@@ -136,6 +136,38 @@
 
 <head>
     <link rel="stylesheet" href="../presentacion/style-Usuarios.css">
+
+    <style>
+        .dias-acumulados-con-boton {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+
+        .dias-acumulados-con-boton p {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .btn-volver {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            background-color: #218838;
+        }
+    </style>
+
 </head>
 
 <div class="content">
@@ -156,11 +188,13 @@
     <% } %>
 
     <% if (personaSeleccionada != null) {%>
-    <div style="margin-top:20px;">
 
-        <p><strong>Vacaciones acumuladas restantes:</strong> <%= vacacionesAcumuladas%> días</p>
-    </div>
-    <% }%>
+   <div class="dias-acumulados-con-boton">
+    <p>Vacaciones acumuladas restantes: <%= vacacionesAcumuladas %> días</p>
+    <a href="../3.HistoriaLaboral/detalleHistoria.jsp?identificacion=<%= personaSeleccionada.getIdentificacion() %>&tipo=Votros" class="btn-volver">VOLVER</a>
+</div>
+
+    <% } %>
 
     <table border="1" class="table" style="margin-top:20px;">
         <tr>
@@ -176,10 +210,11 @@
         </tr>
         <%= tabla%>
     </table>
-<% if (listaVacaciones.isEmpty()) { %>
-<p style="color:red;">No hay registros de vacaciones.</p>
-<% }%>
-    
+
+    <% if (listaVacaciones.isEmpty()) { %>
+    <p style="color:red;">No hay registros de vacaciones.</p>
+    <% }%>
+
 </div>
 
 <script>
