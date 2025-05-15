@@ -23,8 +23,11 @@
     String[] id_prenda = request.getParameterValues("id_prenda[]");
     String[] talla = request.getParameterValues("talla[]");
     String[] estado = request.getParameterValues("estado[]");
+    String[] unidadNegocio = request.getParameterValues("unidad_negocio[]");
     String fechaDevolucion = request.getParameter("fechaDevolucion");
     String tipoEntrega = request.getParameter("tipoEntrega");
+    String responsable = request.getParameter("responsable");
+    String observacion = request.getParameter("observacion");
 
     int numeroDevolucion = 1;
     try {
@@ -54,10 +57,13 @@
                     .append("\"id_prenda\":").append(id_prenda[i]).append(",")
                     .append("\"talla\":\"").append(talla[i]).append("\",")
                     .append("\"estado\":\"Usada\",")
+                    .append("\"unidad_negocio\":\"").append(unidadNegocio[i]).append("\",")
                     .append("\"id_persona\":").append(idPersonaNum).append(",")
                     .append("\"fecha_devolucion\":\"").append(fechaDevolucion).append("\",")
                     .append("\"tipo_entrega\":\"").append(tipoEntrega).append("\",")
-                    .append("\"numero_devolucion\":").append(numeroDevolucion)
+                    .append("\"numero_devolucion\":").append(numeroDevolucion).append(",")
+                    .append("\"responsable\":\"").append(responsable).append("\",")
+                    .append("\"observacion\":\"").append(observacion).append("\"")
                     .append("}");
         }
     }
