@@ -20,6 +20,8 @@
     String unidadNegocio = request.getParameter("unidad_negocio");
     String fechaEntrega = request.getParameter("fechaEntrega");
     String tipoEntrega = request.getParameter("tipoEntrega");
+    String responsable = request.getParameter("responsable");
+    String observacion = request.getParameter("observacion");
 
     int numeroEntrega = 1;
     try {
@@ -55,11 +57,12 @@
                     .append("\"id_persona\":").append(idPersonaNum).append(",")
                     .append("\"fecha_entrega\":\"").append(fechaEntrega).append("\",")
                     .append("\"tipo_entrega\":\"").append(tipoEntrega).append("\",")
-                    .append("\"numero_entrega\":").append(numeroEntrega)
+                    .append("\"numero_entrega\":").append(numeroEntrega).append(",")
+                    .append("\"responsable\":\"").append(responsable).append("\",")
+                    .append("\"observacion\":\"").append(observacion).append("\"")
                     .append("}");
         }
     }
-
     json.append("]");
 
     EntregaDotacion entrega = new EntregaDotacion();

@@ -114,7 +114,6 @@
             json.append("\"").append(rsTallas.getString("talla")).append("\"");
             primero = false;
 
-            // Guardar la unidad de negocio (siempre será la misma, así que basta con tomarla una vez)
             if (unidadNegocio.isEmpty()) {
                 unidadNegocio = rsTallas.getString("unidad_negocio");
             }
@@ -150,6 +149,10 @@
                             <td><input type="date" name="fechaDevolucion" required></td>
                         </tr>
                         <tr>
+                            <td><label for="responsable">Responsable:</label></td>
+                            <td><input type="text" name="responsable" required></td>
+                        </tr>
+                        <tr>
                             <td><label for="tipoEntrega">Tipo de entrega:</label></td>
                             <td>
                                 <select name="tipoEntrega" required>
@@ -158,6 +161,10 @@
                                     <option value="Parcial">Parcial</option>
                                 </select>
                             </td>
+                        </tr>
+                        <tr>
+                            <td><label for="observacion">Observación:</label></td>
+                            <td><input type="text" name="observacion"></td>
                         </tr>
                 </table>
 
@@ -232,6 +239,16 @@
                             select.innerHTML = '<option value="">Seleccionar</option>';
                         }
                     });
+
+                    // Limpiar unidad de negocio
+                    const unidadNegocio = nuevaFila.querySelector(".unidad-negocio");
+                    if (unidadNegocio) {
+                        if (unidadNegocio.tagName === "SELECT") {
+                            unidadNegocio.innerHTML = '<option value="">Seleccionar</option>';
+                        } else {
+                            unidadNegocio.value = "";
+                        }
+                    }
 
                     nuevaFila.querySelector(".select-tipo").addEventListener("change", function () {
                         cargarPrendas(this);

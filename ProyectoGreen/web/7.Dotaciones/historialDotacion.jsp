@@ -120,12 +120,14 @@
         <thead>
             <tr>
                 <th>Entrega</th>
+                <th>Responsable</th>
                 <th>Fecha</th>
                 <th>Tipo de entrega</th>
                 <th>Prenda</th>
                 <th>Talla</th>
                 <th>Unidad de negocio</th>
                 <th>Estado</th>
+                <th>Observación</th>
             </tr>
         </thead>
         <tbody>
@@ -133,7 +135,7 @@
                 if (entregas.isEmpty()) {
             %>
             <tr>
-                <td colspan="7" style="text-align: center; font-style: italic;">
+                <td colspan="9" style="text-align: center; font-style: italic;">
                     No se ha registrado ninguna entrega de dotación para esta persona.
                 </td>
             </tr>
@@ -156,16 +158,20 @@
             <tr class="<%= claseGrupo%>">
                 <% if (primera) {%>
                 <td rowspan="<%= grupo.size()%>"><%= entrega.getNumeroEntrega()%></td>
+                <td rowspan="<%= grupo.size()%>"><%= entrega.getResponsable()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= entrega.getFechaEntrega()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= entrega.getTipoEntrega()%></td>
-                <% primera = false;
-                    }%>
+                <% }%>
                 <td><%= prenda%></td>
                 <td><%= detalle.getTalla()%></td>
-                <td><%= detalle.getUnidadNegocio()%></td>
-                <td><%= detalle.getEstado()%></td>
-
+                <% if (primera) {%>
+                <td rowspan="<%= grupo.size()%>"><%= detalle.getUnidadNegocio()%></td>
+                <td rowspan="<%= grupo.size()%>"><%= detalle.getEstado()%></td>
+                <td rowspan="<%= grupo.size()%>"><%= entrega.getObservacion()%></td>
+                <% } %>
             </tr>
+            <% primera = false; %>
+
             <%
                         }
                     }
@@ -179,12 +185,13 @@
         <thead>
             <tr>
                 <th>Devolución</th>
+                <th>Responsable</th>
                 <th>Fecha</th>
                 <th>Tipo de entrega</th>
                 <th>Prenda</th>
                 <th>Talla</th>
                 <th>Unidad de negocio</th>
-                <th>Estado</th>
+                <th>Observación</th>
             </tr>
         </thead>
         <tbody>
@@ -193,7 +200,7 @@
                 if (devoluciones.isEmpty()) {
             %>
             <tr>
-                <td colspan="7" style="text-align: center; font-style: italic;">
+                <td colspan="8" style="text-align: center; font-style: italic;">
                     No se ha registrado ninguna devolución de dotación para esta persona.
                 </td>
             </tr>
@@ -216,16 +223,18 @@
             <tr class="<%= claseGrupo%>">
                 <% if (primera) {%>
                 <td rowspan="<%= grupo.size()%>"><%= devolucion.getNumeroDevolucion()%></td>
+                <td rowspan="<%= grupo.size()%>"><%= devolucion.getResponsable()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= devolucion.getFechaDevolucion()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= devolucion.getTipoEntrega()%></td>
-                <% primera = false;
-                    }%>
+                <% }%>
                 <td><%= prenda%></td>
                 <td><%= detalle.getTalla()%></td>
-                <td><%= detalle.getUnidadNegocio() %></td>
-                <td><%= detalle.getEstado()%></td>
-
+                <% if (primera) {%>
+                <td rowspan="<%= grupo.size()%>"><%= detalle.getUnidadNegocio()%></td>
+                <td rowspan="<%= grupo.size()%>"><%= devolucion.getObservacion()%></td>
+                <% } %>
             </tr>
+            <% primera = false; %>
             <%
                         }
                     }

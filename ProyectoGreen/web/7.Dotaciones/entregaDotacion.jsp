@@ -140,6 +140,10 @@
                             <td><input type="date" name="fechaEntrega" required></td>
                         </tr>
                         <tr>
+                            <td><label for="responsable">Responsable:</label></td>
+                            <td><input type="text" name="responsable" required></td>
+                        </tr>
+                        <tr>
                             <td><label for="tipoEntrega">Tipo de entrega:</label></td>
                             <td>
                                 <select name="tipoEntrega" required>
@@ -178,7 +182,10 @@
                                 </select>
                             </td>
                         </tr>
-
+                        <tr>
+                            <td><label for="observacion">Observación:</label></td>
+                            <td><input type="text" name="observacion"></td>
+                        </tr>
                     </tbody>
                 </table>
 
