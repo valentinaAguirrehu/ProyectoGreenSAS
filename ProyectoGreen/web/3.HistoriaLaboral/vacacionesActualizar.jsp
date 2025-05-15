@@ -43,11 +43,9 @@
     vacacion.setDiasDisfrutados(variables.get("diasDisfrutados"));
     vacacion.setDiasCompensados(variables.get("diasCompensados"));
     vacacion.setDiasCompensar(variables.get("diasCompensar"));
-
-    // Verifica si la observación está vacía y la establece como null
     String observacion = variables.get("observacion");
     if (observacion != null && observacion.trim().isEmpty()) {
-        vacacion.setObservacion(null); // Asignar null si está vacía
+        vacacion.setObservacion(null); 
     } else {
         vacacion.setObservacion(observacion);
     }

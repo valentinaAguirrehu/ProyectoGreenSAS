@@ -147,8 +147,7 @@
             <th>Cargo</th>
             <th>Unidad de negocio</th>
             <th>Fecha ingreso</th>
-            <th>Días disfrutados</th>
-            <th>Días compensados</th>
+
             <th>Días acumulados restantes</th>
         </tr>
 
@@ -178,6 +177,11 @@
                 } catch (Exception e) {
                     diasRestantes = -1;
                 }
+
+                if (diasRestantes <= 0) {
+                    continue; // No mostrar empleados sin días acumulados
+                }
+
         %>
         <tr>
             <td><%= p.getIdentificacion()%></td>
@@ -185,8 +189,6 @@
             <td><%= Cargo.getCargoPersona(p.getIdentificacion())%></td>
             <td><%= p.getUnidadNegocio()%></td>
             <td><%= p.getFechaIngreso()%></td>
-            <td><%= diasDisfrutados%></td>
-            <td><%= diasCompensar%></td>
             <td><%= diasRestantes >= 0 ? diasRestantes : "Error cálculo"%></td>
         </tr>
         <%

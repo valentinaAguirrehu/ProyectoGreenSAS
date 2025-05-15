@@ -132,12 +132,10 @@
             <th>Cargo</th>
             <th>Unidad de negocio</th>
             <th>Fecha ingreso</th>
-            <th>Días disfrutados</th>
+      
             <th>Días acumulados restantes</th>
         </tr>
-
         <%
-            // Asegúrate de que la clase Persona filtra por el campo correcto que es 'tipo'
             List<Persona> listaPersonas = Persona.getListaEnObjetos("tipo = 'C'", null);
 
             for (Persona p : listaPersonas) {
@@ -155,6 +153,9 @@
                 } catch (Exception e) {
                     diasRestantes = -1;
                 }
+
+                // Solo mostramos si tiene días acumulados restantes
+                if (diasRestantes > 0) {
         %>
         <tr>
             <td><%= p.getIdentificacion()%></td>
@@ -162,11 +163,13 @@
             <td><%= Cargo.getCargoPersona(p.getIdentificacion())%></td>  
             <td><%= p.getUnidadNegocio()%></td>
             <td><%= p.getFechaIngreso()%></td>
-            <td><%= diasDisfrutados%></td>
-            <td><%= diasRestantes >= 0 ? diasRestantes : "Aun no se genera"%></td>
+         
+            <td><%= diasRestantes%></td>
         </tr>
         <%
-            }
+                } // fin del if
+            } // fin del for
         %>
+
     </table>
 </div>
