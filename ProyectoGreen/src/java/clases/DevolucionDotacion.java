@@ -18,28 +18,13 @@ public class DevolucionDotacion {
     private String idDevolucion;
     private String idPersona;
     private String fechaDevolucion;
-    private String numeroDevolucion;
     private String tipoEntrega;
+    private String numeroDevolucion;
+    private String responsable;
+    private String observacion;
     private String jsonPrendas;
 
     public DevolucionDotacion() {
-    }
-
-    public DevolucionDotacion(String idDevolucion) {
-        String sql = "SELECT * FROM devolucionDotacion WHERE id_devolucion = " + idDevolucion;
-        ResultSet rs = ConectorBD.consultar(sql);
-
-        try {
-            if (rs.next()) {
-                this.idDevolucion = idDevolucion;
-                this.idPersona = rs.getString("id_persona");
-                this.fechaDevolucion = rs.getString("fecha_devolucion");
-                this.numeroDevolucion = rs.getString("numero_devolucion");
-                this.tipoEntrega = rs.getString("tipo_entrega");
-            }
-        } catch (Exception e) {
-            System.out.println("Error cargando devolución: " + e.getMessage());
-        }
     }
 
     public String getIdDevolucion() {
@@ -82,18 +67,28 @@ public class DevolucionDotacion {
         this.numeroDevolucion = numeroDevolucion;
     }
 
+    public String getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+
     public String getJsonPrendas() {
         return jsonPrendas;
     }
 
     public void setJsonPrendas(String jsonPrendas) {
         this.jsonPrendas = jsonPrendas;
-    }
-
-    public boolean grabar() {
-        String sql = "INSERT INTO devolucionDotacion (id_persona, fecha_devolucion, numero_devolucion, tipo_entrega) "
-                + "VALUES ('" + idPersona + "', '" + fechaDevolucion + "', '" + numeroDevolucion + "',  '" + tipoEntrega + "')";
-        return ConectorBD.ejecutarQuery(sql);
     }
 
     public boolean modificar(String idAnterior) {
@@ -133,6 +128,8 @@ public class DevolucionDotacion {
                 d.setFechaDevolucion(rs.getString("fecha_devolucion"));
                 d.setTipoEntrega(rs.getString("tipo_entrega"));
                 d.setNumeroDevolucion(rs.getString("numero_devolucion"));
+                d.setResponsable(rs.getString("responsable"));
+                d.setObservacion(rs.getString("observacion"));
                 lista.add(d);
             }
             rs.close();

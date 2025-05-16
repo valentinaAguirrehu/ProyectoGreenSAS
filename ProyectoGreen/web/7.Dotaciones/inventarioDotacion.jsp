@@ -71,7 +71,7 @@
             <h3 class="titulo">INVENTARIO DE DOTACIÓN NUEVA</h3>
 
             <div>
-                <a href="inventarioFormulario.jsp?accion=Adicionar" class="boton-agregar" style="display: inline-flex; align-items: center; gap: 6px;">
+                <a href="inventarioFormulario.jsp?accion=Adicionar" class="subir" style="display: inline-flex; align-items: center; gap: 6px;">
                     <img src="../presentacion/iconos/agregar.png" width="16" height="16" alt="Agregar">
                     Agregar prendas
                 </a>

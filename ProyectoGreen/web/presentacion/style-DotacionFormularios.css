@@ -21,7 +21,7 @@ th, td {
 
 table input,
 table select {
-    width: 90%;
+    width: 100%;
     padding: 8px;
     border: 1px solid #aaa;
     border-radius: 4px;

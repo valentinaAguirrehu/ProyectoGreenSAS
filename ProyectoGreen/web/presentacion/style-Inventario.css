@@ -89,14 +89,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 /* Botón de agregar */
 
-.contenedor-boton-agregar {
+.contenedor-subir {
     display: flex;
     justify-content: flex-end;
     padding: 10px 30px;
     margin-bottom: 20px; /* Espacio entre el botón y el campo de búsqueda */
 }
 
-.boton-agregar {
+.subir {
     background-color: #2c6e49;
     color: white;
     border: none;
@@ -111,6 +111,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     transition: background-color 0.3s ease;
 }
 
-.boton-agregar:hover {
+.subir:hover {
     background-color: #24553a;
 }
