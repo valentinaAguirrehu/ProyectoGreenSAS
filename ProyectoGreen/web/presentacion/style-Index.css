@@ -2,7 +2,6 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: "Poppins", sans-serif;
     display: flex;
     height: 100vh;
     background: linear-gradient(to right, #0f3d21, #1c7430);
@@ -40,15 +39,16 @@ body {
     width: 90px;
     height: auto;
     margin-bottom: 15px;
-    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.4));
 }
 
 /* Texto de bienvenida */
 .left-section p {
-    font-size: 20px;
+    font-size: 28px;
     font-weight: 600;
     color: white;
     margin: 5px 0;
+    font-family: Georgia, serif;
 }
 
 /* Sección derecha */
@@ -66,7 +66,7 @@ body {
 /* Título */
 .right-section h2 {
     color: #145a32;
-    font-size: 22px;
+    font-size: 25px;
     margin-bottom: 20px;
 }
 
@@ -84,6 +84,7 @@ body {
     color: #145a32;
     text-align: center;
     display: block;
+    font-size: 20px;
 }
 
 /* Contenedor del input con icono */
@@ -96,6 +97,7 @@ body {
     background: rgba(255, 255, 255, 0.7);
     width: 100%;
     transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45); 
 }
 
 .icon-input input {
@@ -142,8 +144,8 @@ button:hover {
 
 /* Estilo del logo */
 .logo {
-    width: 180px; /* Ajusta el tamaño del logo */
+    width: 220px; 
     height: auto;
-    margin-bottom: 50px; /* Aumenta el espacio entre el logo y el texto */
+    margin-bottom: 50px;
     filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.3));
 }

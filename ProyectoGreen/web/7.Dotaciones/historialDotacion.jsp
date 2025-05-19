@@ -136,7 +136,7 @@
                 if (entregas.isEmpty()) {
             %>
             <tr>
-                <td colspan="9" style="text-align: center; font-style: italic;">
+                <td colspan="10" style="text-align: center; font-style: italic;">
                     No se ha registrado ninguna entrega de dotación para esta persona.
                 </td>
             </tr>
