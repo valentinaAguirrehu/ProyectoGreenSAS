@@ -90,6 +90,7 @@
                                value="<%= persona.getTipoDocumento() != null ? persona.getTipoDocumento() : ""%>"required>
                     </td>
                 </tr>
+                
                 <tr>
                     <th>Número de documento<span style="color: red;">*</span></th>
 <!--                        <input type="text" name="identificacion" id="identificacion" value="<%= persona.getIdentificacion() %>" -->

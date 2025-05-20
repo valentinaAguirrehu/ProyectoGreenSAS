@@ -21,7 +21,7 @@
         response.sendRedirect("persona.jsp");
     }
 
-   SeguridadSocial seguridadSocial = (SeguridadSocial) request.getAttribute("seguridadSocial");
+    SeguridadSocial seguridadSocial = (SeguridadSocial) request.getAttribute("seguridadSocial");
     request.setAttribute("seguridadSocial", seguridadSocial);
 
     // Crear objeto persona y asignar valores del formulario
@@ -45,7 +45,7 @@
     persona.setEstadoCivil(request.getParameter("estadoCivilFinal"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     String datosHijos = request.getParameter("hijosRegistrados");
- persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
+    persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
     persona.setIdMunicipioExpedicion(request.getParameter("idMunicipio"));
     persona.setIdDepartamentoNacimiento(request.getParameter("idDepartamento"));
     persona.setIdMunicipioNacimiento(request.getParameter("idMunicipio"));
