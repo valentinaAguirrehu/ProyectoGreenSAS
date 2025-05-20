@@ -12,7 +12,12 @@ public class EntregaDotacion {
     private String fechaEntrega;
     private String tipoEntrega;
     private String numeroEntrega;
+    private String responsable;
+    private String observacion;
     private String jsonPrendas;
+
+    public EntregaDotacion() {
+    }
 
     // Getters y Setters
     public String getIdEntrega() {
@@ -55,6 +60,22 @@ public class EntregaDotacion {
         this.numeroEntrega = numeroEntrega;
     }
 
+    public String getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+
     public String getJsonPrendas() {
         return jsonPrendas;
     }
@@ -63,24 +84,27 @@ public class EntregaDotacion {
         this.jsonPrendas = jsonPrendas;
     }
 
-    // Métodos para base de datos
-    public boolean grabar() {
-        String sql = "INSERT INTO entregaDotacion (id_persona, fechaEntrega, tipoEntrega, numero_entrega) "
-                + "VALUES ('" + idPersona + "', '" + fechaEntrega + "', '" + tipoEntrega + "','" + numeroEntrega + "')";
-        return ConectorBD.ejecutarQuery(sql);
-    }
-
-    public boolean modificar(String idAnterior) {
+    public boolean modificarEntregaDotacion() {
+        if (this.idEntrega == null || this.idEntrega.trim().isEmpty()) {
+            System.out.println("Error: idEntrega no definido para modificar.");
+            return false;
+        }
         String sql = "UPDATE entregaDotacion SET id_persona='" + idPersona
                 + "', fechaEntrega='" + fechaEntrega
                 + "', tipoEntrega='" + tipoEntrega
                 + "', numero_entrega='" + numeroEntrega
-                + "' WHERE id_entrega=" + idAnterior;
+                + "', responsable='" + responsable
+                + "', observacion='" + observacion
+                + "' WHERE id_entrega=" + idEntrega;
         return ConectorBD.ejecutarQuery(sql);
     }
 
-    public boolean eliminar(String id) {
-        String sql = "DELETE FROM entregaDotacion WHERE id_entrega=" + id;
+    public boolean eliminarEntregaDotacion() {
+        if (this.idEntrega == null || this.idEntrega.trim().isEmpty()) {
+            System.out.println("Error: idEntrega no definido para eliminar.");
+            return false;
+        }
+        String sql = "DELETE FROM entregaDotacion WHERE id_entrega=" + idEntrega;
         return ConectorBD.ejecutarQuery(sql);
     }
 
@@ -104,6 +128,8 @@ public class EntregaDotacion {
                 e.setFechaEntrega(rs.getString("fechaEntrega"));
                 e.setTipoEntrega(rs.getString("tipoEntrega"));
                 e.setNumeroEntrega(rs.getString("numero_entrega"));
+                e.setResponsable(rs.getString("responsable"));
+                e.setObservacion(rs.getString("observacion"));
                 lista.add(e);
             }
             rs.close();

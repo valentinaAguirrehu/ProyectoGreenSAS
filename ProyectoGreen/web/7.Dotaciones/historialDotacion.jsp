@@ -70,7 +70,7 @@
         background-color: #b4ddb4;
     }
 
-    .boton-agregar {
+    .subir {
         background-color: #186a25;
         color: white;
         padding: 10px 16px;
@@ -81,11 +81,11 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .boton-agregar:hover {
+    .subir:hover {
         background-color: #053b0e;
     }
 
-    .boton-agregar img {
+    .subirr img {
         vertical-align: middle;
     }
 </style>
@@ -100,11 +100,11 @@
         </div>
 
         <div style="display: inline-flex; gap: 10px;">
-            <a href="entregaDotacion.jsp?accion=Adicionar&idPersona=<%=idPersona%>" class="boton-agregar" style="display: inline-flex; align-items: center; gap: 6px;">
+            <a href="entregaDotacion.jsp?accion=Adicionar&idPersona=<%=idPersona%>" class="subir" style="display: inline-flex; align-items: center; gap: 6px;">
                 <img src="../presentacion/iconos/agregar.png" width="16" height="16" alt="Agregar">
                 Registrar entrega
             </a>
-            <a href="devolucionDotacion.jsp?accion=Adicionar&idPersona=<%=idPersona%>" class="boton-agregar" style="display: inline-flex; align-items: center; gap: 6px;">
+            <a href="devolucionDotacion.jsp?accion=Adicionar&idPersona=<%=idPersona%>" class="subir" style="display: inline-flex; align-items: center; gap: 6px;">
                 <img src="../presentacion/iconos/agregar.png" width="16" height="16" alt="Agregar">
                 Registrar devolución
             </a>
@@ -128,6 +128,7 @@
                 <th>Unidad de negocio</th>
                 <th>Estado</th>
                 <th>Observación</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -135,7 +136,7 @@
                 if (entregas.isEmpty()) {
             %>
             <tr>
-                <td colspan="9" style="text-align: center; font-style: italic;">
+                <td colspan="10" style="text-align: center; font-style: italic;">
                     No se ha registrado ninguna entrega de dotación para esta persona.
                 </td>
             </tr>
@@ -168,6 +169,16 @@
                 <td rowspan="<%= grupo.size()%>"><%= detalle.getUnidadNegocio()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= detalle.getEstado()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= entrega.getObservacion()%></td>
+                <td rowspan="<%= grupo.size()%>">
+                    <a class='editar'
+                       href='entregaDotacion.jsp?accion=Modificar&id=<%= entrega.getIdEntrega()%>&idPersona=<%= entrega.getIdPersona()%>&numeroEntrega=<%= entrega.getNumeroEntrega()%>'
+                       title='Modificar'>
+                        <img src='../presentacion/iconos/modificar.png' width='25' height='25'>
+                    </a>
+                    <img src='../presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar'
+                         onclick='eliminarEntrega("<%= entrega.getIdEntrega()%>", "<%= entrega.getIdPersona()%>")'>
+                </td>
+
                 <% } %>
             </tr>
             <% primera = false; %>
@@ -192,6 +203,7 @@
                 <th>Talla</th>
                 <th>Unidad de negocio</th>
                 <th>Observación</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -200,7 +212,7 @@
                 if (devoluciones.isEmpty()) {
             %>
             <tr>
-                <td colspan="8" style="text-align: center; font-style: italic;">
+                <td colspan="9" style="text-align: center; font-style: italic;">
                     No se ha registrado ninguna devolución de dotación para esta persona.
                 </td>
             </tr>
@@ -232,6 +244,15 @@
                 <% if (primera) {%>
                 <td rowspan="<%= grupo.size()%>"><%= detalle.getUnidadNegocio()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= devolucion.getObservacion()%></td>
+                <td rowspan="<%= grupo.size()%>">
+                    <a class='editar'
+                       href='entregaDotacion.jsp?accion=Modificar&id=<%= devolucion.getIdDevolucion()%>&idPersona=<%= devolucion.getIdPersona()%>&numeroEntrega=<%= devolucion.getNumeroDevolucion()%>'
+                       title='Modificar'>
+                        <img src='../presentacion/iconos/modificar.png' width='25' height='25'>
+                    </a>
+                    <img src='../presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar'
+                         onclick='eliminarEntrega("<%= devolucion.getIdDevolucion()%>", "<%= devolucion.getIdPersona()%>")'> 
+                </td>
                 <% } %>
             </tr>
             <% primera = false; %>
@@ -245,6 +266,13 @@
 </div>
 
 <script>
+
+    function eliminarEntrega(idEntrega, idPersona) {
+        if (confirm("¿Está seguro de que desea eliminar esta entrega? Al hacerlo, también se eliminarán las prendas asociadas, por lo que ya no estarán disponibles en el inventario ni podrán ser devueltas.")) {
+            window.location.href = "entregaDotacionActualizar.jsp?accion=Eliminar&id=" + idEntrega + "&idPersona=" + idPersona;
+        }
+    }
+
     function mostrarTabla(tipo) {
         document.getElementById("tabla-entregas").classList.remove("active");
         document.getElementById("tabla-devoluciones").classList.remove("active");

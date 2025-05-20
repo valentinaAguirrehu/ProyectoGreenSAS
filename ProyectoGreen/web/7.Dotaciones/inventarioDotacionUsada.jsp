@@ -67,7 +67,7 @@
 
             <!-- Botón alineado a la derecha -->
             <div style="margin-top: 30px;"> <!-- Aquí mueves el botón más abajo -->
-                <a href="inventarioFormularioUsada.jsp?accion=Adicionar" class="boton-agregar" style="display: inline-flex; align-items: center; gap: 6px;">
+                <a href="inventarioFormularioUsada.jsp?accion=Adicionar" class="subir" style="display: inline-flex; align-items: center; gap: 6px;">
                     <img src="../presentacion/iconos/agregar.png" width="16" height="16" alt="Agregar">
                     Agregar prendas
                 </a>

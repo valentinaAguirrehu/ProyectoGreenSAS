@@ -1,9 +1,3 @@
-<%-- 
-    Document   : politicas
-    Created on : 7/05/2025, 05:24:10 PM
-    Author     : Valentina
---%>
-
 <%--  
     Document   : politicas
     Created on : 7/05/2025, 05:24:10 PM
@@ -119,7 +113,7 @@
             <p>Los colaboradores deben firmar un consentimiento informado, el cual se almacenará digitalmente en su perfil laboral.</p>
         </div>
 <div style="text-align: center; margin-top: 30px;">
-    <button onclick="window.location.href='1.Cargos/principal.jsp'" style="
+    <button onclick="window.location.href='0.Inicio/principal.jsp'" style="
         background-color: #145a32;
         color: white;
         padding: 12px 24px;

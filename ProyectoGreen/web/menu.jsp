@@ -23,7 +23,7 @@
 <nav class="sidebar">
     <link rel="stylesheet" href="../presentacion/style-Menu.css">
     <ul>
-        <li><a href="../1.Cargos/principal.jsp">Inicio</a></li>
+        <li><a href="../0.Inicio/principal.jsp">Inicio</a></li>
         <li><a href="../1.Cargos/cargos.jsp">Cargos</a></li>
 
         <li class="dropdown">
