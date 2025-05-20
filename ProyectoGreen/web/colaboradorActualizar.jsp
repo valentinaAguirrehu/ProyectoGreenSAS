@@ -1,8 +1,9 @@
 <%-- 
-    Document   : temporalesActualizar
-    Created on : 8/03/2025, 02:18:59 PM
+    Document   : colaboradorActualizar
+    Created on : 12/05/2025, 04:24:24 PM
     Author     : Mary
 --%>
+
 <%@page import="clases.SeguridadSocial"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Hijo"%>
@@ -15,21 +16,14 @@
     String accion = request.getParameter("accion");
     String identificacionAnterior = request.getParameter("identificacionAnterior");
 
-    if ("CambiarTipo".equals(accion) && identificacionAnterior != null && !identificacionAnterior.trim().equals("")) {
-        String sql = "UPDATE persona SET tipo = 'C' WHERE identificacion = '" + identificacionAnterior + "'";
-        ConectorBD.ejecutarQuery(sql);
-        response.sendRedirect("temporales.jsp");
-    }
-
-
-    SeguridadSocial seguridadSocial = (SeguridadSocial) request.getAttribute("seguridadSocial");
+   SeguridadSocial seguridadSocial = (SeguridadSocial) request.getAttribute("seguridadSocial");
     request.setAttribute("seguridadSocial", seguridadSocial);
 
     // Crear objeto persona y asignar valores del formulario
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
-    persona.setTipo("T");
-//    persona.setIdCargo(request.getParameter("idCargo"));
+    persona.setTipo("C");
+    persona.setIdCargo(request.getParameter("idCargo"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
@@ -46,7 +40,7 @@
     persona.setEstadoCivil(request.getParameter("estadoCivilFinal"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     String datosHijos = request.getParameter("hijosRegistrados");
-    persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
+ persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
     persona.setIdMunicipioExpedicion(request.getParameter("idMunicipio"));
     persona.setIdDepartamentoNacimiento(request.getParameter("idDepartamento"));
     persona.setIdMunicipioNacimiento(request.getParameter("idMunicipio"));
@@ -107,7 +101,7 @@
     // 🔥 Solo redirigir automáticamente si se guardó (Adicionar), no si se elimina ni modifica
     if (personaGuardada && "Adicionar".equals(accion)) {
         String identificacionParaRedirigir = persona.getIdentificacion();
-        response.sendRedirect("seguridadSocialTFormulario.jsp?identificacion=" + identificacionParaRedirigir);
+        response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + identificacionParaRedirigir);
         return; // Detiene el JSP después de redirigir
     }
 
@@ -119,7 +113,5 @@
 <!-- Verifica si la persona fue guardada con éxito y muestra el siguiente formulario -->
 
 <script type="text/javascript">
-    document.location = "seguridadSocialTFormulario.jsp";
+    document.location = "seguridadSocialFormulario.jsp";
 </script>
-
-

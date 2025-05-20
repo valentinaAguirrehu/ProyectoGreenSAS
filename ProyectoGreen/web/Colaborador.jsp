@@ -1,9 +1,13 @@
 <%-- 
-    Document   : aprendizFormulario
+    Document   : Colaborador
+    Created on : 12/05/2025, 04:23:28 PM
+    Author     : Mary
+--%>
+<%-- 
+    Document   : personaFormulario
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
-
 
 <%@page import="clases.Departamento"%>
 <%@page import="clases.Municipio"%>
@@ -17,35 +21,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
-
+   
     String accion = request.getParameter("accion");
     String identificacion = request.getParameter("identificacion");
-    System.out.println("ID: " + identificacion + ", Acción: " + accion);
-
-    if ("modificar".equalsIgnoreCase(accionEstado) && idEstado != null) {
-        String sql = "UPDATE persona SET estado = 'Temporal' WHERE identificacion = '" + idEstado + "'";
-        int resultado = ConectorBD.ejecutarQuery(sql);
-
-        if (resultado > 0) {
-            response.sendRedirect("aprendizFormulario.jsp?identificacion=" + idEstado + "&mensaje=Estado actualizado a Temporal");
-            return;
-        } else {
-            request.setAttribute("errorEstado", "Error al cambiar el estado");
-        }
-    }
-
     Persona persona = new Persona();
 
     if ("Modificar".equals(accion)) {
         persona = new Persona(identificacion);
 
     }
-
+    
     // Validar que la identificación no sea nula o vacía
     if (identificacion != null && !identificacion.isEmpty()) {
         session.setAttribute("identificacion", identificacion);  // Almacenar en sesión
     }
-
+   
     // Obtener los parámetros del formulario y evitar valores nulos
     String idDepartamento = request.getParameter("departamento") != null ? request.getParameter("departamento") : "";
     String idMunicipio = request.getParameter("lugarExpedicion") != null ? request.getParameter("lugarExpedicion") : "";
@@ -64,16 +54,16 @@
 <body>
     <div class="content"> 
         <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
-        <form name="formulario" method="post" action="aprendizActualizar.jsp" onsubmit="obtenerDatosHijos(); pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
+        <form name="formulario" method="post" action="personaActualizar.jsp" onsubmit="obtenerDatosHijos(); pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
             <h1>Datos personales</h1>
             <table border="1">
                 <tr>
                     <th>Nombres<span style="color: red;">*</span></th>
-                    <td><input type="text" name="nombres" value="<%= persona.getNombres()%>" size="50" maxlength="50" required></td>
+                    <td><input type="text" name="nombres" value="<%= persona.getNombres()%>" size="50" maxlength="50"required></td>
                 </tr>
                 <tr>
                     <th>Apellidos<span style="color: red;">*</span></th>
-                    <td><input type="text" name="apellidos" value="<%= persona.getApellidos()%>" size="50" maxlength="50" required></td>
+                    <td><input type="text" name="apellidos" value="<%= persona.getApellidos()%>" size="50" maxlength="50"required></td>
                 </tr>
                 <tr>
                     <th colspan="2">Sexo<span style="color: red;">*</span></th>
@@ -89,7 +79,7 @@
                 <tr>
                     <th>Documento de identidad<span style="color: red;">*</span></th>
                     <td>
-                        <select name="tipoDocumentoSelect" id="tipoDocumento" onchange="manejarOtro('tipoDocumento', 'otroTipoDocumento', 'tipoDocumentoHidden')" required>
+                        <select name="tipoDocumentoSelect" id="tipoDocumento" onchange="manejarOtro('tipoDocumento', 'otroTipoDocumento', 'tipoDocumentoHidden')"required>
                             <option value="Cedula de Ciudadania" <%= (persona.getTipoDocumento() == null || persona.getTipoDocumento().isEmpty() || "CC".equals(persona.getTipoDocumento())) ? "selected" : ""%>>Cédula de Ciudadanía</option>
                             <option value="Tarjeta de Identidad" <%= "TI".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Tarjeta de Identidad</option>
                             <option value="Cedula de Extranjeria" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cédula de Extranjería</option>
@@ -102,12 +92,12 @@
                                value="">
                         <!-- Campo oculto para almacenar el valor final -->
                         <input type="hidden" id="tipoDocumentoHidden" name="tipoDocumento"
-                               value="<%= persona.getTipoDocumento() != null ? persona.getTipoDocumento() : ""%>" required>
+                               value="<%= persona.getTipoDocumento() != null ? persona.getTipoDocumento() : ""%>"required>
                     </td>
                 </tr>
                 <tr>
                     <th>Número de documento<span style="color: red;">*</span></th>
-<!--                        <input type="text" name="identificacion" id="identificacion" value="<%= persona.getIdentificacion()%>" -->
+<!--                        <input type="text" name="identificacion" id="identificacion" value="<%= persona.getIdentificacion() %>" -->
                     <td><input type="text" id="identificacion" name="identificacion" value="<%=persona.getIdentificacion()%>" 
                                size="50" maxlength="50" 
                                onkeypress="return soloNumeros(event)" 
@@ -118,7 +108,7 @@
                 </tr>
                 <tr>
                     <th>Fecha de expedición<span style="color: red;">*</span></th>
-                    <td><input type="date" name="fechaExpedicion" value="<%= persona.getFechaExpedicion()%>" required></td>
+                    <td><input type="date" name="fechaExpedicion" value="<%= persona.getFechaExpedicion()%>"required></td>
                 </tr>
                 <tr>
                     <th colspan="2" >Lugar de expedición<span style="color: red;">*</span></th>
@@ -158,7 +148,7 @@
                 </tr>
                 <tr>
                     <th>Fecha de nacimiento<span style="color: red;">*</span></th>
-                    <td><input type="date" name="fechaNacimiento" value="<%= persona.getFechaNacimiento()%>" required></td>
+                    <td><input type="date" name="fechaNacimiento" value="<%= persona.getFechaNacimiento()%>"required></td>
                 </tr>
                 <tr>
                     <th colspan="2">Lugar de nacimiento</th>
@@ -198,24 +188,24 @@
                 <tr>
                     <th>Tipo de sangre<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= persona.getTipoSangre().getSelectTipoSangre("tipoSangre")%>
+                        <%= persona.getTipoSangre().getSelectTipoSangre("tipoSangre") %>
                     </td>
                 </tr>
 
                 <tr>
                     <th>Tipo de vivienda<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= persona.getTipoVivienda().getSelectTipoVivienda("tipoVivienda")%>
+                        <%= persona.getTipoVivienda().getSelectTipoVivienda("tipoVivienda") %>
                     </td>
                 </tr>
 
                 <tr>
                     <th>Dirección<span style="color: red;">*</span></th>
-                    <td><input type="text" name="direccion" value="<%= persona.getDireccion()%>" size="50" maxlength="50" required></td>
+                    <td><input type="text" name="direccion" value="<%= persona.getDireccion()%>" size="50" maxlength="50"required></td>
                 </tr>
                 <tr>
                     <th>Barrio<span style="color: red;">*</span></th>
-                    <td><input type="text" name="barrio" value="<%= persona.getBarrio()%>" size="50" maxlength="50" required></td>
+                    <td><input type="text" name="barrio" value="<%= persona.getBarrio()%>" size="50" maxlength="50"required></td>
                 </tr>
                 <tr>
                     <th>Celular<span style="color: red;">*</span></th>
@@ -231,13 +221,13 @@
                 </tr>
                 <tr>
                     <th>Correo electrónico<span style="color: red;">*</span></th>
-                    <td><input type="email" name="email" value="<%= persona.getEmail()%>" size="50" maxlength="50" required></td>
+                    <td><input type="email" name="email" value="<%= persona.getEmail()%>" size="50" maxlength="50"required></td>
                 </tr>
 
                 <tr>
                     <th>Estado civil<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= persona.getEstadoCivil().getSelectEstadoCivil("estadoCivil")%>
+                        <%= persona.getEstadoCivil().getSelectEstadoCivil("estadoCivil") %>
                     </td>
                 </tr>
                 <tr>
@@ -285,7 +275,7 @@
                     <tr>
                         <td><input type="text" name="identificacionHijo[]" value="<%= hijo.getIdentificacion()%>" size="10" maxlength="10"></td>
                         <td><input type="text" name="nombreHijo[]" value="<%= hijo.getNombres()%>" size="50" maxlength="50"></td>
-                        <td><input type="date" name="fechaNacimientoHijo[]" value= "<%= hijo.getFechaNacimiento()%>"></td>
+                        <td><input type="date" name="fechaNacimientoHijo[]" value="<%= hijo.getFechaNacimiento()%>"></td>
                         <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <%
@@ -303,8 +293,6 @@
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
                 <input type="button" value="Cancelar" onClick="window.history.back()">
-                <!-- Nuevo botón de cambio de estado -->
-                <a href="aprendizFormulario.jsp?idEstado=<%= persona.getIdentificacion()%>&accionEstado=modificar">Poner en Temporal</a>
             </div>
 
             <% if ("Modificar".equals(accion)) { %>
@@ -322,7 +310,7 @@
             var identificacionVisible = document.getElementById("identificacion").value;
             var accion = document.getElementById("accion").value;
 
-            var url = 'seguridadSocialAFormulario.jsp?irASiguiente=true'
+            var url = 'seguridadSocialFormulario.jsp?irASiguiente=true'
                     + '&identificacion=' + encodeURIComponent(identificacionVisible)
                     + '&accion=' + encodeURIComponent(accion);
 
@@ -401,31 +389,16 @@
             manejarOtro('tipoSangre', 'tipoSangreOtro', 'tipoSangreFinal');
             manejarOtro('tipoVivienda', 'tipoViviendaOtro', 'tipoViviendaFinal');
         });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            var accionSubmit = document.querySelector('input[name="accion"]');
-            if (accionSubmit && accionSubmit.value === "Modificar") {
-                // Interceptar el submit para redirigir como "Siguiente"
-                accionSubmit.closest("form").addEventListener("submit", function (e) {
-                    e.preventDefault(); // Evita el envío normal
-                    irASiguiente();     // Llama a tu función existente
-                });
-            }
-        });
-
-
+        
+    document.addEventListener("DOMContentLoaded", function () {
+        var accionSubmit = document.querySelector('input[name="accion"]');
+        if (accionSubmit && accionSubmit.value === "Modificar") {
+            // Interceptar el submit para redirigir como "Siguiente"
+            accionSubmit.closest("form").addEventListener("submit", function (e) {
+                e.preventDefault(); // Evita el envío normal
+                irASiguiente();     // Llama a tu función existente
+            });
+        }
+    });
 
     </script>
-    <%
-        if (request.getParameter("mensaje") != null) {
-    %>
-    <p style="color: green;"><%= request.getParameter("mensaje")%></p>
-    <%
-        }
-
-        if (request.getAttribute("errorEstado") != null) {
-    %>
-    <p style="color: red;"><%= request.getAttribute("errorEstado")%></p>
-    <%
-        }
-    %>

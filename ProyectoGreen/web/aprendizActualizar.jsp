@@ -3,6 +3,7 @@
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
+<%@page import="clases.SeguridadSocial"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Hijo"%>
 <%@page import="clasesGenericas.ConectorBD"%>
@@ -13,13 +14,19 @@
     // Capturar acción y valores del formulario
     String accion = request.getParameter("accion");
     String identificacionAnterior = request.getParameter("identificacionAnterior");
+    if ("CambiarTipo".equals(accion) && identificacionAnterior != null && !identificacionAnterior.trim().equals("")) {
+        String sql = "UPDATE persona SET tipo = 'T' WHERE identificacion = '" + identificacionAnterior + "'";
+        ConectorBD.ejecutarQuery(sql); // Ejecuta la actualización en la base de datos
+        response.sendRedirect("aprendiz.jsp"); // Redirige a la página aprendiz.jsp
+    }
+
+    SeguridadSocial seguridadSocial = (SeguridadSocial) request.getAttribute("seguridadSocial");
+    request.setAttribute("seguridadSocial", seguridadSocial);
 
     // Crear objeto persona y asignar valores del formulario
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("A");
-    persona.setIdCargo(request.getParameter("idCargo"));
-    persona.setCctn(request.getParameter("cctn"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
@@ -27,91 +34,20 @@
     persona.setSexo(request.getParameter("sexo"));
     persona.setFechaNacimiento(request.getParameter("fechaNacimiento"));
     persona.setLugarNacimiento(request.getParameter("lugarNacimiento"));
-    persona.setTipoSangre(request.getParameter("tipoSangre"));
-    persona.setTipoVivienda(request.getParameter("tipoVivienda"));
+    persona.setTipoSangre(request.getParameter("tipoSangreFinal"));
+    persona.setTipoVivienda(request.getParameter("tipoViviendaFinal"));
     persona.setDireccion(request.getParameter("direccion"));
     persona.setBarrio(request.getParameter("barrio"));
     persona.setCelular(request.getParameter("celular"));
     persona.setEmail(request.getParameter("email"));
-    persona.setNivelEducativo(request.getParameter("nivelEducativo"));
-    persona.setEps(request.getParameter("eps"));
-    persona.setEstadoCivil(request.getParameter("estadoCivil"));
-    persona.setFechaIngreso(request.getParameter("fechaIngreso"));
-    persona.setFechaRetiro(request.getParameter("fechaRetiro"));
-    persona.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
-    persona.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
-    persona.setTituloAprendiz(request.getParameter("tituloAprendiz"));
-    persona.setUnidadNegocio(request.getParameter("unidadNegocio"));
-    persona.setCentroCostos(request.getParameter("centroCostos"));
-    persona.setEstablecimiento(request.getParameter("establecimiento"));
-    persona.setArea(request.getParameter("No aplica"));
-    persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
+    persona.setEstadoCivil(request.getParameter("estadoCivilFinal"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
-    persona.setSalario(request.getParameter("salario"));
-    persona.setPrimerRefNombre(request.getParameter("primerRefNombre"));
-    persona.setPrimerRefParentezco(request.getParameter("primerRefParentezco"));
-    persona.setPrimerRefCelular(request.getParameter("primerRefCelular"));
-    persona.setSegundaRefNombre(request.getParameter("segundaRefNombre"));
-    persona.setSegundaRefParentezco(request.getParameter("segundaRefParentezco"));
-    persona.setSegundaRefCelular(request.getParameter("segundaRefCelular"));
-    persona.setTerceraRefNombre(request.getParameter("terceraRefNombre"));
-    persona.setTerceraRefParentezco(request.getParameter("terceraRefParentezco"));
-    persona.setTerceraRefCelular(request.getParameter("terceraRefCelular"));
-    persona.setCuartaRefNombre(request.getParameter("cuartaRefNombre"));
-    persona.setCuartaRefParentezco(request.getParameter("cuartaRefParentezco"));
-    persona.setCuartaRefCelular(request.getParameter("cuartaRefCelular"));
-    persona.setTieneHijos(request.getParameter("tieneHijos"));
     String datosHijos = request.getParameter("hijosRegistrados");
-
-    persona.setTallaCamisa(request.getParameter("No aplica"));
-    persona.setTallaChaqueta(request.getParameter("No aplica"));
-    persona.setTallaO(request.getParameter("No aplica"));
-    //persona.setTallaPantalon(request.getParameter("No aplica"));
-    //persona.setTallaCalzado(request.getParameter("tallaCalzado"));
-    persona.setTieneVehiculo(request.getParameter("tieneVehiculo"));
-    persona.setNumeroPlacaVehiculo(request.getParameter("numeroPlacaVehiculo"));
-    persona.setTipoVehiculo(request.getParameter("tipoVehiculo"));
-    persona.setModeloVehiculo(request.getParameter("modeloVehiculo"));
-    persona.setLinea(request.getParameter("linea"));
-    persona.setMarca(request.getParameter("marca"));
-    persona.setColor(request.getParameter("color"));
-    persona.setCilindraje(request.getParameter("cilindraje"));
-    persona.setNumLicenciaTransito(request.getParameter("numLicenciaTransito"));
-    persona.setFechaExpLicenciaTransito(request.getParameter("fechaExpLicenciaTransito"));
-    persona.setNumLicenciaConduccion(request.getParameter("numLicenciaConduccion"));
-    persona.setFechaExpConduccion(request.getParameter("fechaExpConduccion"));
-    persona.setFechaVencimiento(request.getParameter("fechaVencimiento"));
-    persona.setRestricciones(request.getParameter("restricciones"));
-    persona.setTitularTrjPro(request.getParameter("titularTrjPro"));
-    persona.setEstado(request.getParameter("estado"));
-    persona.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
-    persona.setFondoPensiones(request.getParameter("No aplica"));
-    persona.setFondoCesantias(request.getParameter("No aplica"));
-    persona.setProfesion(request.getParameter("profesion"));
     persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
     persona.setIdMunicipioExpedicion(request.getParameter("idMunicipio"));
     persona.setIdDepartamentoNacimiento(request.getParameter("idDepartamento"));
     persona.setIdMunicipioNacimiento(request.getParameter("idMunicipio"));
-    persona.setArl(request.getParameter("arl"));
-
-    persona.setEducacion(request.getParameter("educacion"));
-    persona.setTallaGuantes(request.getParameter("No aplica"));
-    persona.setTallaBuzo(request.getParameter("No aplica"));
-    persona.setTallaCamisa(request.getParameter("no aplica"));
-    persona.setTallaChaqueta(request.getParameter("no aplica"));
-
-    String tallaPantalonStr = request.getParameter("tallaPantalon");
-    String tallaCalzadoStr = request.getParameter("tallaCalzado");
-
-    String tallaPantalon = (tallaPantalonStr != null && !tallaPantalonStr.trim().isEmpty() && !tallaPantalonStr.equalsIgnoreCase("No Aplica"))
-            ? tallaPantalonStr
-            : null;
-
-    String tallaCalzado = (tallaCalzadoStr != null && !tallaCalzadoStr.trim().isEmpty() && !tallaCalzadoStr.equalsIgnoreCase("No Aplica"))
-            ? tallaCalzadoStr
-            : null;
-
-    // Capturar valores del formulario
+//    // Capturar valores del formulario
     String idDepartamentoExpedicion = request.getParameter("departamentoExpedicion");
     String idMunicipioExpedicion = request.getParameter("lugarExpedicion");
 
@@ -132,6 +68,7 @@
     String[] fechasNacimientoHijos = request.getParameterValues("fechaNacimientoHijo[]");
 
     // Acción según el botón presionado
+    // Acción según el botón presionado
     boolean personaGuardada = false;
     switch (accion) {
         case "Adicionar":
@@ -145,11 +82,10 @@
             break;
     }
 
-    // 🔹 Solo proceder con los hijos si la persona se guardó correctamente
+    // Solo proceder con los hijos si la persona se guardó correctamente
     if (personaGuardada && identificacionesHijos != null) {
         for (int i = 0; i < identificacionesHijos.length; i++) {
             if (!identificacionesHijos[i].trim().isEmpty() && !nombresHijos[i].trim().isEmpty() && !fechasNacimientoHijos[i].trim().isEmpty()) {
-
                 // Insertar en la tabla hijos si no existe
                 String sqlHijo = "INSERT INTO hijos (identificacion, nombres, fechaNacimiento) VALUES ('"
                         + identificacionesHijos[i] + "', '" + nombresHijos[i] + "', '" + fechasNacimientoHijos[i] + "') "
@@ -159,17 +95,27 @@
                 // Insertar en persona_hijos con autoincremental id
                 String sqlRelacion = "INSERT INTO persona_hijos (identificacionPersona, identificacionHijo) VALUES ('"
                         + persona.getIdentificacion() + "', '" + identificacionesHijos[i] + "')";
-
-                System.out.println("SQL Relación: " + sqlRelacion); // <-- Agregado para depurar
+                System.out.println("SQL Relación: " + sqlRelacion);
                 ConectorBD.ejecutarQuery(sqlRelacion);
             }
         }
     }
 
-    // Depuración: Imprimir los datos enviados
-    System.out.println("Datos enviados a guardar_hijos: " + identificacionesHijos);
+    // 🔥 Solo redirigir automáticamente si se guardó (Adicionar), no si se elimina ni modifica
+    if (personaGuardada && "Adicionar".equals(accion)) {
+        String identificacionParaRedirigir = persona.getIdentificacion();
+        response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + identificacionParaRedirigir);
+        return; // Detiene el JSP después de redirigir
+    }
 
+    // Si no se guardó, puedes mostrar un error o quedarte en la misma página
 %>
+
+
+
+<!-- Verifica si la persona fue guardada con éxito y muestra el siguiente formulario -->
+
 <script type="text/javascript">
-    document.location = "aprendiz.jsp";
+    document.location = "seguridadSocialFormulario.jsp";
+
 </script>

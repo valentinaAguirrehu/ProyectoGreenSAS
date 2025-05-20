@@ -1,3 +1,4 @@
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
@@ -19,9 +20,7 @@
         String nombres = persona.getNombres();
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
-        String establecimiento = persona.getEstablecimiento();
-        String unidadNegocio = persona.getUnidadNegocio();
-        String fechaIngreso = persona.getFechaIngreso();
+        String fechaIngreso = InformacionLaboral.getFechaIngresoPersona(persona.getIdentificacion());
 
         lista += "<tr>";
         lista += "<td>" + tipoDocumento + "</td>";
@@ -29,8 +28,8 @@
         lista += "<td>" + nombres + "</td>";
         lista += "<td>" + apellidos + "</td>";
         lista += "<td>" + cargo + "</td>";
-        lista += "<td>" + establecimiento + "</td>";
-        lista += "<td>" + unidadNegocio + "</td>";
+//        lista += "<td>" + establecimiento + "</td>";
+//        lista += "<td>" + unidadNegocio + "</td>";
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
         lista += "<img src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboral(" + persona.getIdentificacion() + ")'>";
@@ -39,6 +38,7 @@
         lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
         lista += "<img  class='eliminar' src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
         lista += "<img class='subir' src='presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+        lista += "<img class='subir' src='presentacion/iconos/cambiarTipo.png' title='Pasar a colaborador' onClick='cambiarAColaborador(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         lista += "</td>";
         lista += "</tr>";
     }
@@ -74,8 +74,8 @@
             <th>Número de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
-            <th>Cargo</th>
-            <th>Establecimiento</th>
+            <!--<th>Cargo</th>-->
+            <!--<th>Establecimiento</th>-->
             <th>Unidad de negocio</th>
             <th>Fecha de ingreso</th>
             <th>
@@ -91,7 +91,7 @@
 <!-- Script para eliminar un temporal con confirmaciÃ³n -->
 <script type="text/javascript">
     function eliminar(identificacion) {
-        var respuesta = confirm("Â¿Realmente desea eliminar el registro del colaborador temporal?");
+        var respuesta = confirm("¿Realmente desea eliminar el registro del colaborador temporal?");
         if (respuesta) {
             window.location.href = "temporalesActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -131,14 +131,14 @@
             case "establecimiento":
                 columnIndex = 5;
                 break;
-            case "unidadNegocio": 
+            case "unidadNegocio":
                 columnIndex = 6;
                 break;
             case "fechaIngreso":
                 columnIndex = 7;
                 break;
             default:
-                columnIndex = -1; 
+                columnIndex = -1;
         }
 
         for (let i = 1; i < rows.length; i++) {
@@ -160,5 +160,13 @@
     <%= administrador.getpLeer()%>
         );
     });
+
+
+    function cambiarAColaborador(identificacion) {
+        var confirmar = confirm("¿Desea cambiar el tipo de esta persona a 'C' (Colaborador)?");
+        if (confirmar) {
+            window.location.href = "temporalesActualizar.jsp?accion=CambiarTipo&identificacionAnterior=" + identificacion;
+        }
+    }
 
 </script>
