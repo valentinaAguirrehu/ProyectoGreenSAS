@@ -1,4 +1,5 @@
- <%@page import="java.time.LocalDate"%>
+<%@page import="clases.InformacionLaboral"%>
+<%@page import="java.time.LocalDate"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.Period"%>
 <%@page import="java.util.List"%>
@@ -6,14 +7,14 @@
 <%@page import="clases.DetallesHistoria"%>
 <%@page import="clases.Cargo"%>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-  
-<%! 
+
+<%!
 // Función para obtener el nombre del mes en español
-String obtenerMesEnEspanol(int mesNumero) {
-    String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-    return meses[mesNumero - 1];
-}
+    String obtenerMesEnEspanol(int mesNumero) {
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        return meses[mesNumero - 1];
+    }
 %>
 
 <%
@@ -26,6 +27,7 @@ String obtenerMesEnEspanol(int mesNumero) {
     LocalDate fechaActual = LocalDate.now();
 
     class Cumpleanero {
+
         Persona persona;
         LocalDate fechaNacimiento;
         int edad;
@@ -59,7 +61,10 @@ String obtenerMesEnEspanol(int mesNumero) {
                         nombreCargo = cargo.getNombre();
                     }
 
-                    String establecimiento = persona.getEstablecimiento() != null ? persona.getEstablecimiento() : "Sin establecimiento";
+                    InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
+                    String establecimiento = (info != null && info.getEstablecimiento() != null && !info.getEstablecimiento().isEmpty())
+                            ? info.getEstablecimiento()
+                            : "Sin establecimiento";
 
                     String documentoPDF = null;
                     String filtro = "idPersona = '" + persona.getIdentificacion() + "' AND tipo = 'documentoIdentidad'";
@@ -94,15 +99,15 @@ String obtenerMesEnEspanol(int mesNumero) {
 
         if (c.documentoPDF != null && !c.documentoPDF.isEmpty()) {
             lista.append("<td align='center'><a href='")
-                 .append(c.documentoPDF)
-                 .append("' target='_blank'><img src='../presentacion/iconos/documentoId.png' width='20'></a></td>");
+                    .append(c.documentoPDF)
+                    .append("' target='_blank'><img src='../presentacion/iconos/documentoId.png' width='20'></a></td>");
         } else {
             lista.append("<td align='center'>No disponible</td>");
         }
 
         lista.append("</tr>");
     }
-    
+
     int mesActualNumero = LocalDate.now().getMonthValue();
     int diferenciaMeses = Math.abs(mesNumero - mesActualNumero);
 
@@ -113,10 +118,10 @@ String obtenerMesEnEspanol(int mesNumero) {
 
     if (diferenciaMeses > 3) {
 %>
-        <script>
-            alert("Solo se puede ver hasta tres meses antes o después del mes actual.");
-            window.location.href = "?mes=<%= mesActualNumero %>";
-        </script>
+<script>
+    alert("Solo se puede ver hasta tres meses antes o después del mes actual.");
+    window.location.href = "?mes=<%= mesActualNumero%>";
+</script>
 <%
         return; // Detener el procesamiento
     }
@@ -125,60 +130,62 @@ String obtenerMesEnEspanol(int mesNumero) {
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Cumpleañeros</title>
-    <link rel="stylesheet" href="../presentacion/style-Cumpleanos.css">
-</head>
+    <head>
+        <title>Cumpleañeros</title>
+        <link rel="stylesheet" href="../presentacion/style-Cumpleanos.css">
+    </head>
 
-<%@ include file="../menu.jsp" %>
+    <%@ include file="../menu.jsp" %>
 
-<div class="content">
-    <body>
-        <div id="tituloMes">
-            <h1>CUMPLEAÑEROS DEL MES</h1>
-            <div class="mes-con-iconos">
-                <img src="../presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
-                <h2><%= mesActual %></h2>
-                <img src="../presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+    <div class="content">
+        <body>
+            <div id="tituloMes">
+                <h1>CUMPLEAÑEROS DEL MES</h1>
+                <div class="mes-con-iconos">
+                    <img src="../presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+                    <h2><%= mesActual%></h2>
+                    <img src="../presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+                </div>
             </div>
-        </div>
 
-        <table id="tablaCumpleanos">
-            <thead>
-                <tr>
-                    <th>Día</th>
-                    <th>Nombre</th>
-                    <th>Edad</th>
-                    <th>Fecha de nacimiento</th>
-                    <th>Cargo</th>
-                    <th>Establecimiento</th>
-                    <th>Documento de identidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%= cumpleaneros.isEmpty() ? "<tr><td colspan='7' align='center'><b>No hay cumpleañeros este mes</b></td></tr>" : lista.toString() %>
-            </tbody>
-        </table>
+            <table id="tablaCumpleanos">
+                <thead>
+                    <tr>
+                        <th>Día</th>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Fecha de nacimiento</th>
+                        <th>Cargo</th>
+                        <th>Establecimiento</th>
+                        <th>Documento de identidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%= cumpleaneros.isEmpty() ? "<tr><td colspan='7' align='center'><b>No hay cumpleañeros este mes</b></td></tr>" : lista.toString()%>
+                </tbody>
+            </table>
 
-        <div class="buttons">
-            <img src="../presentacion/iconos/izquierda.png" alt="Mes Anterior" class="icono" onclick="irAlMesAnterior()">
-            <img src="../presentacion/iconos/derecha.png" alt="Siguiente Mes" class="icono" onclick="irAlSiguienteMes()">
-        </div>
-    </body>
-</div>
+            <div class="buttons">
+                <img src="../presentacion/iconos/izquierda.png" alt="Mes Anterior" class="icono" onclick="irAlMesAnterior()">
+                <img src="../presentacion/iconos/derecha.png" alt="Siguiente Mes" class="icono" onclick="irAlSiguienteMes()">
+            </div>
+        </body>
+    </div>
 
-<script>
-    let mesActualJS = <%= mesNumero %>;
-    function irAlSiguienteMes() {
-        let siguiente = mesActualJS + 1;
-        if (siguiente > 12) siguiente = 1;
-        location.href = "?mes=" + siguiente;
-    }
+    <script>
+        let mesActualJS = <%= mesNumero%>;
+        function irAlSiguienteMes() {
+            let siguiente = mesActualJS + 1;
+            if (siguiente > 12)
+                siguiente = 1;
+            location.href = "?mes=" + siguiente;
+        }
 
-    function irAlMesAnterior() {
-        let anterior = mesActualJS - 1;
-        if (anterior < 1) anterior = 12;
-        location.href = "?mes=" + anterior;
-    }
-</script>
+        function irAlMesAnterior() {
+            let anterior = mesActualJS - 1;
+            if (anterior < 1)
+                anterior = 12;
+            location.href = "?mes=" + anterior;
+        }
+    </script>
 </html>

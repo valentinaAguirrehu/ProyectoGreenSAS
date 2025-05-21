@@ -82,7 +82,7 @@
         margin-left: 220px;
         padding: 20px;
     }
-    
+
     .filtro-anio-form {
         display: flex;
         align-items: center;
@@ -96,7 +96,7 @@
     }
 
     .filtro-anio-form label {
-  
+
         color: #333;
     }
 
@@ -123,19 +123,19 @@
 <div class="content">
     <h3 class="titulo">REPORTE DE INGRESO DE COLABORADORES - GREEN S.A.S</h3>
 
-<%
-    if (!isDownloadMode) {
-%>
+    <%
+        if (!isDownloadMode) {
+    %>
     <!-- Exportar -->
-    <a href="ingresoColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : "" %>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
-    <a href="ingresoColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : "" %>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
+    <a href="ingresoColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
+    <a href="ingresoColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
 
     <!-- Filtro por año -->
     <form method="get" class="filtro-anio-form">
         <label for="anio">Filtrar por año:</label>
         <select name="anio" onchange="this.form.submit()">
             <option value="">-- Todos --</option>
-            
+
             <%
                 Set<Integer> añosDisponibles = new HashSet<>();
                 List<Persona> listaPersonas = Persona.getListaEnObjetos("tipo = 'C' AND fechaIngreso IS NOT NULL", null);
@@ -153,113 +153,117 @@
                 for (Integer anio : añosDisponibles) {
                     String anioParam = request.getParameter("anio");
             %>
-                <option value="<%= anio %>" <%= (anioParam != null && anioParam.equals(String.valueOf(anio))) ? "selected" : "" %>><%= anio %></option>
+            <option value="<%= anio%>" <%= (anioParam != null && anioParam.equals(String.valueOf(anio))) ? "selected" : ""%>><%= anio%></option>
             <%
                 }
             %>
         </select>
     </form>
-<%
-    }
-%>
-
-<%
-    // Filtrar personas
-    String anioFiltro = request.getParameter("anio");
-    if (anioFiltro != null && !anioFiltro.isEmpty()) {
-        try {
-            Integer.parseInt(anioFiltro); // Verifica si el parámetro es un número válido
-        } catch (NumberFormatException e) {
-            // Si no es un número válido, puedes mostrar un mensaje de error
-            System.out.println("Error: el año seleccionado no es válido.");
-            anioFiltro = null;  // Restablecer el filtro a null si el año es inválido
+    <%
         }
-    }
-    String condicion = "tipo = 'C' AND fechaIngreso IS NOT NULL";
-    if (anioFiltro != null && !anioFiltro.isEmpty()) {
-        condicion += " AND YEAR(fechaIngreso) = " + anioFiltro;
-    }
-    List<Persona> listaPersonasFiltradas = Persona.getListaEnObjetos(condicion, "fechaIngreso ASC");
+    %>
 
-    // Datos para gráfico
-    List<Persona> todasLasPersonas = Persona.getListaEnObjetos("tipo = 'C' AND fechaIngreso IS NOT NULL", null);
-    Map<Integer, Integer> ingresosPorAnio = new HashMap<>();
-    int totalIngresos = 0;
-
-    for (Persona p : todasLasPersonas) {
-        if (p.getFechaIngreso() != null && !p.getFechaIngreso().isEmpty()) {
+    <%
+        // Filtrar personas
+        String anioFiltro = request.getParameter("anio");
+        if (anioFiltro != null && !anioFiltro.isEmpty()) {
             try {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaIngreso()));
-                int anio = cal.get(Calendar.YEAR);
-                ingresosPorAnio.put(anio, ingresosPorAnio.getOrDefault(anio, 0) + 1);
-                totalIngresos++;
-            } catch (ParseException e) {
-                // Si la fecha tiene un formato incorrecto, se captura el error
-                System.out.println("Error al parsear la fecha: " + p.getFechaIngreso());
+                Integer.parseInt(anioFiltro); // Verifica si el parámetro es un número válido
+            } catch (NumberFormatException e) {
+                // Si no es un número válido, puedes mostrar un mensaje de error
+                System.out.println("Error: el año seleccionado no es válido.");
+                anioFiltro = null;  // Restablecer el filtro a null si el año es inválido
             }
         }
-    }
+        String condicion = "tipo = 'C' AND fechaIngreso IS NOT NULL";
+        if (anioFiltro != null && !anioFiltro.isEmpty()) {
+            condicion += " AND YEAR(fechaIngreso) = " + anioFiltro;
+        }
+        List<Persona> listaPersonasFiltradas = Persona.getListaEnObjetos(condicion, "fechaIngreso ASC");
 
-    String tablaResumen = "";
-    String datosGrafico = "[";
-    int contador = 0;
-    for (Map.Entry<Integer, Integer> entry : ingresosPorAnio.entrySet()) {
-        int anio = entry.getKey();
-        int cantidad = entry.getValue();
-        double porcentaje = (cantidad / (double) totalIngresos) * 100;
+        // Datos para gráfico
+        List<Persona> todasLasPersonas = Persona.getListaEnObjetos("tipo = 'C' AND fechaIngreso IS NOT NULL", null);
+        Map<Integer, Integer> ingresosPorAnio = new HashMap<>();
+        int totalIngresos = 0;
 
-        tablaResumen += "<tr>";
-        tablaResumen += "<td>" + anio + "</td>";
-        tablaResumen += "<td>" + cantidad + "</td>";
-        tablaResumen += "<td>" + String.format("%.2f", porcentaje) + "%</td>";
-        tablaResumen += "</tr>";
+        for (Persona p : todasLasPersonas) {
+            if (p.getFechaIngreso() != null && !p.getFechaIngreso().isEmpty()) {
+                try {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaIngreso()));
+                    int anio = cal.get(Calendar.YEAR);
+                    ingresosPorAnio.put(anio, ingresosPorAnio.getOrDefault(anio, 0) + 1);
+                    totalIngresos++;
+                } catch (ParseException e) {
+                    // Si la fecha tiene un formato incorrecto, se captura el error
+                    System.out.println("Error al parsear la fecha: " + p.getFechaIngreso());
+                }
+            }
+        }
 
-        if (contador++ > 0) datosGrafico += ",";
-        datosGrafico += "{ years: '" + anio + "', value: " + cantidad + " }";
-    }
-    datosGrafico += "]";
-%>
+        String tablaResumen = "";
+        String datosGrafico = "[";
+        int contador = 0;
+        for (Map.Entry<Integer, Integer> entry : ingresosPorAnio.entrySet()) {
+            int anio = entry.getKey();
+            int cantidad = entry.getValue();
+            double porcentaje = (cantidad / (double) totalIngresos) * 100;
 
-<!-- Tabla principal -->
-<table border="1" class="table">
-    <tr>
-        <th>Identificación</th>
-        <th>Nombre completo</th>
-        <th>Cargo</th>
-        <th>Unidad de negocio</th>
-        <th>Fecha de ingreso</th>
-    </tr>
+            tablaResumen += "<tr>";
+            tablaResumen += "<td>" + anio + "</td>";
+            tablaResumen += "<td>" + cantidad + "</td>";
+            tablaResumen += "<td>" + String.format("%.2f", porcentaje) + "%</td>";
+            tablaResumen += "</tr>";
 
-<%
-    for (Persona p : listaPersonasFiltradas) {
-        if (p.getFechaIngreso() == null || p.getFechaIngreso().isEmpty()) continue;
-
-        String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
-%>
-<tr>
-    <td><%= p.getIdentificacion() %></td>
-    <td><%= p.getNombres() %> <%= p.getApellidos() %></td>
-    <td><%= nombreCargo %></td>
-    <td><%= p.getUnidadNegocio() %></td>
-    <%
-        String[] fechaIngresoPartes = p.getFechaIngreso().split("-");
-        String anioIngreso = fechaIngresoPartes[0];
-        String mesIngreso = fechaIngresoPartes[1];
+            if (contador++ > 0) {
+                datosGrafico += ",";
+            }
+            datosGrafico += "{ years: '" + anio + "', value: " + cantidad + " }";
+        }
+        datosGrafico += "]";
     %>
-    <td>
-        <a href="ingresoMes.jsp?anio=<%= anioIngreso %>&mes=<%= mesIngreso %>">
-            <%= p.getFechaIngreso() %>
-        </a>
-    </td>
-</tr>
 
-<%
-    }
-%>
-</table>
+    <!-- Tabla principal -->
+    <table border="1" class="table">
+        <tr>
+            <th>Identificación</th>
+            <th>Nombre completo</th>
+            <th>Cargo</th>
+            <th>Unidad de negocio</th>
+            <th>Fecha de ingreso</th>
+        </tr>
 
-<% if (!isDownloadMode) { %>
+        <%
+            for (Persona p : listaPersonasFiltradas) {
+                if (p.getFechaIngreso() == null || p.getFechaIngreso().isEmpty()) {
+                    continue;
+                }
+
+                String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
+        %>
+        <tr>
+            <td><%= p.getIdentificacion()%></td>
+            <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
+            <td><%= nombreCargo%></td>
+            <td><%= p.getUnidadNegocio()%></td>
+            <%
+                String[] fechaIngresoPartes = p.getFechaIngreso().split("-");
+                String anioIngreso = fechaIngresoPartes[0];
+                String mesIngreso = fechaIngresoPartes[1];
+            %>
+            <td>
+                <a href="ingresoMes.jsp?anio=<%= anioIngreso%>&mes=<%= mesIngreso%>">
+                    <%= p.getFechaIngreso()%>
+                </a>
+            </td>
+        </tr>
+
+        <%
+            }
+        %>
+    </table>
+
+    <% if (!isDownloadMode) {%>
     <h3>Indicador de ingresos por año</h3>
 
     <!-- Contenedor horizontal -->
@@ -268,7 +272,7 @@
         <div>
             <table class="table" border="1">
                 <tr><th>Año</th><th>Ingresos</th><th>%</th></tr>
-                <%=tablaResumen%>
+                        <%=tablaResumen%>
             </table>
         </div>
 
@@ -281,38 +285,38 @@
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script>
-    am5.ready(function () {
-        var root = am5.Root.new("chartdiv");
-        root.setThemes([am5themes_Animated.new(root)]);
+            am5.ready(function () {
+                var root = am5.Root.new("chartdiv");
+                root.setThemes([am5themes_Animated.new(root)]);
 
-        var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
+                var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
 
-        var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-            categoryField: "years",
-            renderer: am5xy.AxisRendererX.new(root, { minGridDistance: 30 })
-        }));
+                var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                    categoryField: "years",
+                    renderer: am5xy.AxisRendererX.new(root, {minGridDistance: 30})
+                }));
 
-        var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-            renderer: am5xy.AxisRendererY.new(root, {})
-        }));
+                var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                    renderer: am5xy.AxisRendererY.new(root, {})
+                }));
 
-        var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-            name: "Ingresos",
-            xAxis: xAxis,
-            yAxis: yAxis,
-            valueYField: "value",
-            categoryXField: "years",
-            tooltip: am5.Tooltip.new(root, {
-                labelText: "{valueY}"
-            })
-        }));
+                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: "Ingresos",
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueYField: "value",
+                    categoryXField: "years",
+                    tooltip: am5.Tooltip.new(root, {
+                        labelText: "{valueY}"
+                    })
+                }));
 
-        var data = <%=datosGrafico%>;
+                var data = <%=datosGrafico%>;
 
-        xAxis.data.setAll(data);
-        series.data.setAll(data);
-        series.appear(1000);
-        chart.appear(1000, 100);
-    });
+                xAxis.data.setAll(data);
+                series.data.setAll(data);
+                series.appear(1000);
+                chart.appear(1000, 100);
+            });
     </script>
-<% } %>
+    <% }%>

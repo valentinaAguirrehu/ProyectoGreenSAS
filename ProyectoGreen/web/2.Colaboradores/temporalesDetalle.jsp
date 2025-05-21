@@ -40,10 +40,10 @@
     }
 %>
 
-<%@ include file="../menu.jsp" %>
+<%@ include file="menu.jsp" %>
 
 <head>
-    <link rel="stylesheet" href="../presentacion/style-FormularioColaboradores.css">
+    <link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
 </head>
 <body>
     <div class="content"> 
@@ -151,4 +151,4 @@
             <button class="submit" id="regresar" onClick="window.history.back()">Regresar</button>           
         </div>
     </div>
-</body>
+</body> 

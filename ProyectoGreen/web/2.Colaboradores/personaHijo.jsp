@@ -10,7 +10,7 @@
     int identificacionPersona = Integer.parseInt(request.getParameter("identificacionPersona"));
     int identificacionHijo = Integer.parseInt(request.getParameter("identificacionHijo"));
 
-    // Verificar si el hijo ya está registrado para esta persona
+    // Verificar si el hijo ya esta registrado para esta persona
     List<Integer> hijosRegistrados = PersonaHijo.obtenerHijosDePersona(identificacionPersona);
     
     if (hijosRegistrados.contains(identificacionHijo)) {

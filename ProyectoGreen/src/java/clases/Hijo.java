@@ -16,33 +16,37 @@ import java.util.List;
 public class Hijo {
 
     private String identificacion;
+    private String tipoIden;
     private String nombres;
     private String fechaNacimiento;
+    private String nivelEscolar;
     private String codigo;
 
     /**
      *
-     * @author Mary
+     * @author Maryf
      */
     public Hijo() {
     }
 
     public Hijo(String identificacion) {
-        String cadenaSQL = "SELECT identificacion, nombres, fechaNacimiento FROM hijos WHERE identificacion='" + identificacion + "'";
+        String cadenaSQL = "SELECT identificacion, tipoIden, nombres, fechaNacimiento, nivelEscolar FROM hijos WHERE identificacion='" + identificacion + "'";
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
         try {
             if (resultado.next()) {
                 this.identificacion = resultado.getString("identificacion");
+                this.tipoIden = resultado.getString("tipoIden");
                 this.nombres = resultado.getString("nombres");
                 this.fechaNacimiento = resultado.getString("fechaNacimiento");
-                this.codigo = "N"; // Evitar NullPointerException
+                this.nivelEscolar = resultado.getString("nivelEscolar");
+                this.codigo = "N"; // Valor por defecto para evitar null
             }
         } catch (SQLException ex) {
             System.out.println("Error al consultar el hijo: " + ex.getMessage());
         }
     }
 
-      public String calcularEdad() {
+    public String calcularEdad() {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate fechaNac = LocalDate.parse(this.fechaNacimiento, formatter);
@@ -52,13 +56,29 @@ public class Hijo {
             return "Fecha inválida";
         }
     }
-    
+
     public String getIdentificacion() {
         return identificacion;
     }
 
     public void setIdentificacion(String identificacion) {
         this.identificacion = identificacion;
+    }
+
+    public String getTipoIden() {
+        return tipoIden;
+    }
+
+    public void setTipoIden(String tipoIden) {
+        this.tipoIden = tipoIden;
+    }
+
+    public String getNivelEscolar() {
+        return nivelEscolar;
+    }
+
+    public void setNivelEscolar(String nivelEscolar) {
+        this.nivelEscolar = nivelEscolar;
     }
 
     public String getNombres() {
@@ -112,22 +132,27 @@ public class Hijo {
                 + "<input type='radio' name='tieneHijos' value='N' checked onclick='mostrarHijos()'>No";
     }
 
-    public boolean grabar() {
-    String sql = "INSERT INTO hijos (identificacion, nombres, fechaNacimiento) VALUES ("
-            + "'" + identificacion + "', "
-            + "'" + nombres + "', "
-            + "'" + fechaNacimiento + "')";
-
-    System.out.println("SQL para insertar hijo: " + sql);
-    return ConectorBD.ejecutarQuery(sql);
-}
-
+   public boolean grabar() {
+        String sql = "INSERT INTO hijos (identificacion, tipoIden, nombres, fechaNacimiento, nivelEscolar) VALUES ("
+                + "'" + identificacion + "', "
+                + "'" + tipoIden + "', "
+                + "'" + nombres + "', "
+                + "'" + fechaNacimiento + "', "
+                + "'" + nivelEscolar + "')";
+        System.out.println("SQL para insertar hijo: " + sql);
+        return ConectorBD.ejecutarQuery(sql);
+    }
 
     public boolean modificar(String identificacionHijoAnterior) {
-        String cadenaSQL = "UPDATE hijos SET nombres = '" + nombres + "', fechaNacimiento = '" + fechaNacimiento + "' "
+        String cadenaSQL = "UPDATE hijos SET "
+                + "nombres = '" + nombres + "', "
+                + "tipoIden = '" + tipoIden + "', "
+                + "fechaNacimiento = '" + fechaNacimiento + "', "
+                + "nivelEscolar = '" + nivelEscolar + "' "
                 + "WHERE identificacion = '" + identificacionHijoAnterior + "'";
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
+
 
     public static boolean eliminarPorIdentificacion(String identificacion) {
         String sqlRelacion = "DELETE FROM persona_hijos WHERE identificacionHijo = '" + identificacion + "'";
@@ -154,8 +179,10 @@ public class Hijo {
             while (datos.next()) {
                 Hijo hijo = new Hijo();
                 hijo.setIdentificacion(datos.getString("identificacion"));
+                hijo.setTipoIden(datos.getString("tipoIden"));
                 hijo.setNombres(datos.getString("nombres"));
                 hijo.setFechaNacimiento(datos.getString("fechaNacimiento"));
+                hijo.setNivelEscolar(datos.getString("nivelEscolar"));
                 lista.add(hijo);
             }
         } catch (SQLException ex) {
@@ -180,8 +207,10 @@ public class Hijo {
             while (datos.next()) {
                 Hijo hijo = new Hijo();
                 hijo.setIdentificacion(datos.getString("identificacion"));
+                hijo.setTipoIden(datos.getString("tipoIden"));
                 hijo.setNombres(datos.getString("nombres"));
                 hijo.setFechaNacimiento(datos.getString("fechaNacimiento"));
+                hijo.setNivelEscolar(datos.getString("nivelEscolar"));
                 lista.add(hijo);
             }
         } catch (SQLException ex) {

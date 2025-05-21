@@ -25,8 +25,8 @@ public class TipoPersona {
         this.codigo = codigo;
     }
 
-    public Persona getPersona() {
-        return new Persona(identificacion);
+    public Talla getPersona() {
+        return new Talla(identificacion);
     }
 
     public String getNombre() {

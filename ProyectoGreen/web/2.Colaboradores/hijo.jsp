@@ -29,7 +29,7 @@
         <th>Identificación</th>
         <th>Nombres</th>
         <th>Apellidos</th>
-        <th>Fecha de Nacimiento</th>
+        <th>Fecha de nacimiento</th>
         <th>Acciones</th>
     </tr>
     <%= lista %>
@@ -43,7 +43,7 @@
 
 <script type="text/javascript">
     function eliminar(identificacion) {
-        let respuesta = confirm("¿Realmente desea eliminar este hijo?");
+        let respuesta = confirm("¿Realmente desea eliminar el registro de este hijo?");
         if (respuesta) {
             document.location = "hijoActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }

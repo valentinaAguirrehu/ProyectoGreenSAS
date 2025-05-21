@@ -32,11 +32,11 @@
                 lista += "<td>" + persona.getTipoDocumento() + "</td>";
                 lista += "<td>" + persona.getIdentificacion() + "</td>";
                 lista += "<td>" + persona.getNombres() + " " + persona.getApellidos() + "</td>";
-                lista += "<td>" + persona.getEstablecimiento() + "</td>";
-                lista += "<td>" + persona.getUnidadNegocio() + "</td>";
+                //lista += "<td>" + persona.getEstablecimiento() + "</td>";
+                //lista += "<td>" + persona.getUnidadNegocio() + "</td>";
                 lista += "<td>" + nombreCargo + "</td>";
-                lista += "<td>" + persona.getFechaIngreso() + "</td>";
-                lista += "<td>" + persona.getFechaRetiro() + "</td>";
+                //lista += "<td>" + persona.getFechaIngreso() + "</td>";
+                //lista += "<td>" + persona.getFechaRetiro() + "</td>";
                 lista += "<td>" + retirado.getNumCaja() + "</td>";
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
@@ -85,8 +85,8 @@
             <th>Tipo del documento</th>
             <th>Documento</th>
             <th>Nombre</th>
-            <th>Establecimiento</th>                   
-            <th>Unidad de negocio</th>
+            <%--<th>Establecimiento</th>                   
+            <th>Unidad de negocio</th>--%>
             <th>Cargo</th>
             <th>Fecha de ingreso</th>
             <th>Fecha de retiro</th>
@@ -101,7 +101,7 @@
 
 <script type="text/javascript">
     function eliminar(identificacion) {
-        resultado = confirm("Realmente desea eliminar el registro con identificación " + identificacion + "?");
+        resultado = confirm("¿Realmente desea eliminar el registro con identificación " + identificacion + "?");
         if (resultado) {
             document.location = "retiradosActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
