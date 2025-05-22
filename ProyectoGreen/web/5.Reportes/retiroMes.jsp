@@ -172,7 +172,7 @@
             }
         }
 
-        List<Persona> retiradosTodos = Persona.getListaEnObjetos("tipo = 'R' AND FechaRetiro IS NOT NULL", "FechaRetiro ASC");
+        List<Persona> retiradosTodos = Persona.getListaEnObjetos("tipo = 'R'", null);
 
         Map<Integer, Integer> retirosPorMes = new TreeMap<>();
         int totalRetiros = 0;
@@ -204,12 +204,11 @@
                 if (contador++ > 0) {
                     datosGrafico.append(",");
                 }
-                datosGrafico.append("{ \"mes\": \"").append(mesesNombres[m - 1]).append("\", \"value\": ").append(cant).append(" }"); 
+                datosGrafico.append("{ \"mes\": \"").append(mesesNombres[m - 1]).append("\", \"value\": ").append(cant).append(" }");
             }
         }
         datosGrafico.append("]");
     %>
-
 
     <%   // Mostrar el mes y año en el título
         if (!mesNombre.isEmpty()) {
@@ -247,7 +246,7 @@
                     establecimiento = infoLab.getEstablecimiento();
                     fechaRetiro = infoLab.getFechaRetiro();
                 }
-        %>00
+        %>
         <tr>
             <td><%= p.getIdentificacion()%></td>
             <td><%= p.getNombres() + " " + p.getApellidos()%></td>
@@ -279,7 +278,7 @@
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script>
-        
+
         am5.ready(function () {
             var root = am5.Root.new("chartdiv");
             root.setThemes([am5themes_Animated.new(root)]);
