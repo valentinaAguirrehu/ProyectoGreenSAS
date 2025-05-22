@@ -21,10 +21,13 @@
         String url = "jdbc:mysql://localhost:3306/proyectogreen?characterEncoding=utf8";
         conn = DriverManager.getConnection(url, "adso", "utilizar");
 
-        String sql = "SELECT p.identificacion, p.nombres, p.apellidos, p.email, p.celular, p.establecimiento, p.unidadNegocio, c.nombre AS cargo, p.fechaTerPriContrato "
+        String sql = "SELECT p.identificacion, p.nombres, p.apellidos, p.email, p.celular, "
+                   + "il.establecimiento, il.unidadNegocio, c.nombre AS cargo, il.fechaTerPriContrato "
                    + "FROM persona p "
-                   + "JOIN cargo c ON p.idcargo = c.id "
-                   + "WHERE p.tipo = 'C' AND p.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
+                   + "JOIN informacionlaboral il ON p.identificacion = il.identificacion "
+                   + "JOIN cargo c ON p.idCargo = c.id "
+                   + "WHERE p.tipo = 'C' AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
+        
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rs = stmt.executeQuery();
 
@@ -82,10 +85,11 @@
         PreparedStatement adminStmt = conn.prepareStatement("SELECT email FROM administrador WHERE estado = 'Activo'");
         ResultSet adminRs = adminStmt.executeQuery();
 
+        // Crear resumen para administradores
         StringBuilder resumen = new StringBuilder("Buen día,\n\nLe informamos que los siguientes contratos vencerán en los próximos 30 días:\n\n");
         stmt = conn.prepareStatement(sql);
-        rs = stmt.executeQuery(); 
-        
+        rs = stmt.executeQuery();
+
         while (rs.next()) {
             resumen.append("Cédula: ").append(rs.getString("identificacion")).append("\n")
                    .append("Nombre: ").append(rs.getString("nombres")).append(" ").append(rs.getString("apellidos")).append("\n")
@@ -101,7 +105,7 @@
         resumen.append("\nTenga en cuenta que los colaboradores correspondientes ya han sido notificados por correo electrónico.\n\n")
                .append("Saludos cordiales.");
 
-        // Envío de resumen a los administradores
+        // Envío del resumen a cada administrador
         while (adminRs.next()) {
             String emailAdmin = adminRs.getString("email");
 
@@ -124,22 +128,15 @@
 
         adminRs.close();
         adminStmt.close();
-        
+
     } catch (Exception e) {
         e.printStackTrace();
     } finally {
-        try {
-            if (rs != null) rs.close();
-        } catch (SQLException ignored) {}
-        try {
-            if (stmt != null) stmt.close();
-        } catch (SQLException ignored) {}
-        try {
-            if (conn != null) conn.close();
-        } catch (SQLException ignored) {}
+        try { if (rs != null) rs.close(); } catch (SQLException ignored) {}
+        try { if (stmt != null) stmt.close(); } catch (SQLException ignored) {}
+        try { if (conn != null) conn.close(); } catch (SQLException ignored) {}
     }
 
-    // Redirección final
+    // Redirección final al historial
     response.sendRedirect("../8.Notificaciones/HistorialCorreos.jsp");
 %>
-
