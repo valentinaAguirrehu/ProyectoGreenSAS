@@ -20,7 +20,7 @@
     List<Persona> datos = Persona.getListaEnObjetos("tipo = 'C'", null);
 
     for (Persona persona : datos) {
-        String tipoDocumento = persona.getTipoDocumento();
+        String tipoDocumento = persona.getTipoDocumento().toString();
         String identificacion = persona.getIdentificacion();
         String nombres = persona.getNombres();
         String apellidos = persona.getApellidos();

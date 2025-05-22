@@ -81,7 +81,7 @@
 
                         <tr>
                             <th><label>Número de la placa</label></th>
-                            <td><input type="text" name="numeroPlacaVehiculo" value="<%= vehiculo.getNumeroPlacaVehiculo()%>" size="50" maxlength="50"required></td>
+                            <td><input type="text" name="numeroPlacaVehiculo" value="<%= vehiculo.getNumeroPlacaVehiculo()%>" size="50" maxlength="50"></td>
                         </tr>
                         <tr>
                             <th><label>Seleccione el tipo de transporte</label></th>

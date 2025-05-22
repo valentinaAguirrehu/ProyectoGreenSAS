@@ -137,12 +137,15 @@ public class Persona {
         this.idCargo = idCargo;
     }
 
-    public String getTipoDocumento() {
-        String resultado = tipoDocumento;
-        if (tipoDocumento == null) {
-            resultado = "";
-        }
-        return resultado;
+//    public String getTipoDocumento() {
+//        String resultado = tipoDocumento;
+//        if (tipoDocumento == null) {
+//            resultado = "";
+//        }
+//        return resultado;
+//    }
+      public TipoDocumento getTipoDocumento() {
+        return new TipoDocumento(tipoDocumento);
     }
 
     public void setTipoDocumento(String tipoDocumento) {
@@ -322,8 +325,11 @@ public class Persona {
     }
 
     public String getCuentaBancaria() {
-       
-        return cuentaBancaria;
+        String resultado = cuentaBancaria;
+        if (cuentaBancaria == null) {
+            resultado = "";
+        }
+        return resultado;
     }
 
     public void setCuentaBancaria(String cuentaBancaria) {

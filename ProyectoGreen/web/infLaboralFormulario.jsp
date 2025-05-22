@@ -4,45 +4,48 @@
     Author     : Mary
 --%>
 
+<%@page import="clases.Cargo"%>
 <%@page import="clases.InformacionLaboral"%>
 <%@page import="clasesGenericas.ConectorBD"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.util.List"%>
-<%@page import="clases.Cargo"%>
 
 
 
 <%
-    
+
     String accion = request.getParameter("accion");
     // Recuperar la identificación desde la URL o el formulario anterior
     String identificacion = request.getParameter("identificacion");
     // Instancia vacía con la identificación por si no se encuentra en BD
+
     System.out.println(" Entrando a infLaboralActualizar.jsp con identificacion=" + identificacion + " y accion=" + accion);
     InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
+    String opcionesCargos = Cargo.getListaEnOptions(informacionLaboral.getIdentificacion());
 
     if (accion == null) {
         accion = "Adicionar"; // Cambiar a Adicionar si aún no se ha guardado o el boton da null
     }
-    
+
     // Validar que la identificación no sea nula o vacía
     if (identificacion != null && !identificacion.isEmpty()) {
         session.setAttribute("identificacion", identificacion);  // Almacenar en sesión
     }
     // Solo intenta obtener de la BD si la acción es "Modificar"
     // Verifica si la acción a realizar es "Modificar"
-    
+
     if ("Modificar".equals(accion)) {
-    // Llama al método estático getInformacionPorIdentificacion de la clase InformacionLaboral
-    // para obtener los datos laborales de la persona identificada por 'identificacion'
-    InformacionLaboral tmp = InformacionLaboral.getInformacionPorIdentificacion(identificacion);
-    // Si la información laboral se encontró (es decir, 'tmp' no es null)
-    if (tmp != null) {
-        // Asigna los datos obtenidos a la variable 'informacionLaboral'
-        // Esto permite trabajar con la información laboral de la persona para modificarla
-        informacionLaboral = tmp;
+        // Llama al método estático getInformacionPorIdentificacion de la clase InformacionLaboral
+        // para obtener los datos laborales de la persona identificada por 'identificacion'
+        InformacionLaboral tmp = InformacionLaboral.getInformacionPorIdentificacion(identificacion);
+        // Si la información laboral se encontró (es decir, 'tmp' no es null)
+        if (tmp != null) {
+            // Asigna los datos obtenidos a la variable 'informacionLaboral'
+            // Esto permite trabajar con la información laboral de la persona para modificarla
+            informacionLaboral = tmp;
+        }
     }
-}
+
 
 %>
 
@@ -82,34 +85,28 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="fechaIngreso">Fecha Ingreso:</label></td>
-                    <td><input type="text" name="fechaIngreso" id="fechaIngreso" value="<%= informacionLaboral.getFechaIngreso()%>" /></td>
-                </tr>
-                <tr>
-                    <td><label for="fechaRetiro">Fecha Retiro:</label></td>
-                    <td><input type="text" name="fechaRetiro" id="fechaRetiro" value="<%= informacionLaboral.getFechaRetiro()%>" /></td>
-                </tr>
-                <tr>
-                    <td><label for="fechaTerPriContrato">Duración del primer contrato:</label></td>
+                    <th>Fecha de ingreso temporal</th>
                     <td>
-                        <input type="date" name="fechaTerPriContrato" id="fechaTerPriContrato" 
-                               value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : "" %>" />
-                        <!-- Impresión para verificar el valor -->
-                        <%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : "Valor no encontrado" %>
-                    </td>
+                        <input type="date" name="fechaIngresoTemporal" value="<%= informacionLaboral.getFechaIngresoTemporal()%>"></td>
                 </tr>
 
                 <tr>
-                    <td><label for="unidadNegocio">Unidad de Negocio:</label></td>
+                    <th>Fecha de retiro</th>
                     <td>
-                        <!-- Asignamos el valor dentro del atributo 'value' para que se muestre dentro del campo -->
-                        <input type="text" name="unidadNegocio" id="unidadNegocio" 
-                               value="<%= (informacionLaboral != null && informacionLaboral.getUnidadNegocio() != null) ? informacionLaboral.getUnidadNegocio() : "" %>" />
+                        <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaIngreso() : ""%>" >
                     </td>
                 </tr>
-
                 <tr>
-                    <th>Centro Costos:<span style="color: red;">*</span></th>
+                    <th>Duración del primer contrato:</th>
+                    <td>
+                        <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
+                    </td>
+                <tr>
+                    <th>Unidad de negocio</th>
+                    <td><input type="text" name="unidadNegocio" value="<%= informacionLaboral.getUnidadNegocio()%>" size="50" maxlength="50"required></td>
+                </tr>
+                <tr>
+                    <th>Centro de costos</th>
                     <td><input type="text" name="centroCostos" id="centroCostos" value="<%= informacionLaboral.getCentroCostos()%>" /></td>
                 </tr>
                 <tr>
@@ -119,6 +116,15 @@
                 <tr>
                     <th>Area<span style="color: red;">*</span></th>
                     <td><input type="text" name="area" id="area" value="<%= informacionLaboral.getArea()%>" /></td>
+                </tr>
+                <tr>
+                    <th>Cargos<span style="color: red;">*</span></th>
+                    <td>
+                        <input type="text" name="idCargo" id="idCargo" list="cargosList" required />
+                        <datalist id="cargosList">
+                            <%= opcionesCargos%> <!-- Aquí se insertan las opciones dinámicamente -->
+                        </datalist>
+                    </td>
                 </tr>
             </table>
 
@@ -148,7 +154,6 @@
         window.location.href = "tallaFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
     }
 
-    // Obtener las opciones del select y guardarlas en un array
     const listaCargos = [];
     document.querySelectorAll("#idCargo option").forEach(option => {
         if (option.value.trim() !== "") {
@@ -178,7 +183,6 @@
 
         sugerenciasDiv.style.display = "none";
     }
-
 
 
     // Función para precargar la unidad de negocio al seleccionar un establecimiento

@@ -43,6 +43,7 @@
     persona.setCelular(request.getParameter("celular"));
     persona.setEmail(request.getParameter("email"));
     persona.setEstadoCivil(request.getParameter("estadoCivilFinal"));
+    persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     String datosHijos = request.getParameter("hijosRegistrados");
     persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));

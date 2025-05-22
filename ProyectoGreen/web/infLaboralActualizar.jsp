@@ -20,12 +20,14 @@
     InformacionLaboral informacionLaboral = new InformacionLaboral();
     informacionLaboral.setIdentificacion(request.getParameter("identificacion"));
     informacionLaboral.setFechaIngreso(request.getParameter("fechaIngreso"));
+    informacionLaboral.setFechaIngresoTemporal(request.getParameter("fechaIngresoTemporal"));
     informacionLaboral.setFechaRetiro(request.getParameter("fechaRetiro"));
     informacionLaboral.setUnidadNegocio(request.getParameter("unidadNegocio"));
     informacionLaboral.setCentroCostos(request.getParameter("centroCostos"));
     informacionLaboral.setEstablecimiento(request.getParameter("establecimiento"));
     informacionLaboral.setArea(request.getParameter("area"));
     informacionLaboral.setSalario(request.getParameter("salario"));
+    informacionLaboral.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
 
     // Acción según el botón presionado
     switch (accion) {
