@@ -3,6 +3,7 @@
 <%@ page import="java.sql.Date" %>
 <%@ page import="clases.DiaFamilia" %>
 <%@ page import="clases.Persona" %>
+<%@ page import="clases.InformacionLaboral" %>  <%-- Importa esta clase --%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Calendar" %>
@@ -34,9 +35,11 @@
 <%
     String identificacionParam = request.getParameter("identificacion");
     Persona personaSeleccionada = null;
+    InformacionLaboral infoLaboral = null;
 
     if (identificacionParam != null && !identificacionParam.isEmpty()) {
         personaSeleccionada = new Persona(identificacionParam);
+        infoLaboral = InformacionLaboral.getInformacionPorIdentificacion(identificacionParam);
     }
 
     List<DiaFamilia> listaDias = new ArrayList<>();
@@ -87,8 +90,8 @@
     }
 
     int diasFamiliaAcumulados = 0;
-    if (personaSeleccionada != null) {
-        String fechaIngresoStr = personaSeleccionada.getFechaIngreso();
+    if (infoLaboral != null) {
+        String fechaIngresoStr = infoLaboral.getFechaIngreso();
         if (fechaIngresoStr != null && !fechaIngresoStr.isEmpty()) {
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -142,19 +145,19 @@
 <div class="content">
     <h3 class="titulo">REGISTROS DE DÍA DE LA FAMILIA</h3>
 
-    <% if (personaSeleccionada != null) {%>
+    <% if (personaSeleccionada != null) { %>
     <div style="margin-top:20px; border:1px solid #ccc; padding:10px; background:#f9f9f9;">
         <h3>Información del colaborador seleccionado:</h3>
-        <p><strong>Identificación:</strong> <%= personaSeleccionada.getIdentificacion()%></p>
-        <p><strong>Nombre completo:</strong> <%= personaSeleccionada.getNombres()%> <%= personaSeleccionada.getApellidos()%></p>
-        <p><strong>Cargo:</strong> <%= Cargo.getCargoPersona(personaSeleccionada.getIdentificacion())%></p>
-        <p><strong>Unidad de negocio:</strong> <%= personaSeleccionada.getUnidadNegocio()%></p>
-        <p><strong>Fecha de ingreso:</strong> <%= personaSeleccionada.getFechaIngreso()%></p>
+        <p><strong>Identificación:</strong> <%= personaSeleccionada.getIdentificacion() %></p>
+        <p><strong>Nombre completo:</strong> <%= personaSeleccionada.getNombres() %> <%= personaSeleccionada.getApellidos() %></p>
+        <p><strong>Cargo:</strong> <%= Cargo.getCargoPersona(personaSeleccionada.getIdentificacion()) %></p>
+        <p><strong>Unidad de negocio:</strong> <%= (infoLaboral != null && infoLaboral.getUnidadNegocio() != null) ? infoLaboral.getUnidadNegocio() : "No disponible" %></p>
+        <p><strong>Fecha de ingreso:</strong> <%= (infoLaboral != null && infoLaboral.getFechaIngreso() != null) ? infoLaboral.getFechaIngreso() : "No disponible" %></p>
     </div>
 
     <div class="dias-acumulados-con-boton">
-        <p>Días de la familia acumulados restantes: <%= diasFamiliaAcumulados%> días</p>
-        <a href="../3.HistoriaLaboral/detalleHistoria.jsp?identificacion=<%= personaSeleccionada.getIdentificacion()%>&tipo=DIAFAMotros" class="btn-volver">VOLVER</a>
+        <p>Días de la familia acumulados restantes: <%= diasFamiliaAcumulados %> días</p>
+        <a href="../3.HistoriaLaboral/detalleHistoria.jsp?identificacion=<%= personaSeleccionada.getIdentificacion() %>&tipo=DIAFAMotros" class="btn-volver">VOLVER</a>
     </div>
 
     <% } %>
@@ -164,31 +167,31 @@
             <th>Día Disfrutado</th>
             <th>Carta Día de la Familia</th>
             <th>Observación</th>
-                <% if (personaSeleccionada != null) {%>
+            <% if (personaSeleccionada != null) { %>
             <th>
-                <a href='../3.HistoriaLaboral/DiaFamiliaFormulario.jsp?accion=Adicionar&idPersona=<%= personaSeleccionada.getIdentificacion()%>&identificacion=<%= personaSeleccionada.getIdentificacion()%>'>
+                <a href='../3.HistoriaLaboral/DiaFamiliaFormulario.jsp?accion=Adicionar&idPersona=<%= personaSeleccionada.getIdentificacion() %>&identificacion=<%= personaSeleccionada.getIdentificacion() %>'>
                     <img src='../presentacion/iconos/agregar.png' width='25' height='25' title='Agregar Día de la Familia'>
                 </a>
             </th>
             <% } else { %>
             <th style="color:red;">Persona no seleccionada</th>
-                <% }%>
+            <% } %>
         </tr>
-        <%= tabla%>
+        <%= tabla %>
     </table>
 
     <% if (listaDias.isEmpty()) { %>
     <p style="color:red;">No hay registros de días de la familia.</p>
-    <% }%>
+    <% } %>
 </div>
 
 <script>
     // PERMISOS
     document.addEventListener("DOMContentLoaded", function () {
         controlarPermisos(
-    <%= administrador.getpEliminar()%>,
-    <%= administrador.getpEditar()%>,
-    <%= administrador.getpAgregar()%>
+            <%= administrador.getpEliminar() %>,
+            <%= administrador.getpEditar() %>,
+            <%= administrador.getpAgregar() %>
         );
     });
 </script>
