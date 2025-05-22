@@ -1,12 +1,28 @@
 <%@page import="clases.Cargo"%>
-<%@ page import="java.util.*" %>
-<%@ page import="clases.Persona" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@page import="clases.Persona"%>
+<%@page import="clases.InformacionLaboral"%> 
+<%@page import="java.util.*"%>
+<%@page import="java.text.SimpleDateFormat"%>
+
 <%
     boolean isDownloadMode = request.getParameter("formato") != null;
 
     String anioParam = request.getParameter("anio");
     String mesParam = request.getParameter("mes");
+
+    int anio = 0;
+    int mes = 0;
+
+    try {
+        anio = anioParam != null ? Integer.parseInt(anioParam) : 0;
+    } catch (Exception e) {
+        anio = 0;
+    }
+    try {
+        mes = mesParam != null ? Integer.parseInt(mesParam) : 0;
+    } catch (Exception e) {
+        mes = 0;
+    }
 
     if (isDownloadMode) {
         String tipoContenido = "";
@@ -96,99 +112,102 @@
         width: 35px; /* Tamaño de los iconos (ajusta según lo necesites) */
         height: 30px;
     }
-.btn-retorno {
-    background-color: #2c6e49;
-    color: white;
-    border: none;
-    padding: 16px 20px;
-    font-size: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+    .btn-retorno {
+        background-color: #2c6e49;
+        color: white;
+        border: none;
+        padding: 16px 20px;
+        font-size: 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
-.btn-retorno:hover {
-    background-color: #24723b;
-}
+    .btn-retorno:hover {
+        background-color: #24723b;
+    }
 
 
 </style>
 <% } %>
 
 <% if (!isDownloadMode) {%>
-<%@ include file="../menu.jsp" %> 
-<% } %> 
+<%@ include file="../menu.jsp" %>
+<% } %>
 
 <div class="content">
     <h3 class="titulo">REPORTE DE RETIROS DE COLABORADORES POR MES - GREEN S.A.S</h3>
 
     <%
-        // Meses para mostrar en el título
         String[] mesesNombres = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        String mesNombre = (mes > 0 && mes <= 12) ? mesesNombres[mes - 1] : "";
+        String condicion = "tipo = 'R' AND FechaRetiro IS NOT NULL";
 
-        // Mostrar el título con el mes seleccionado (y el año si está presente)
-        String mesNombre = "";
-        if (mesParam != null && !mesParam.isEmpty()) {
-            int mesIndex = Integer.parseInt(mesParam) - 1; // Ajuste para que enero sea 0
-            if (mesIndex >= 0 && mesIndex < mesesNombres.length) {
-                mesNombre = mesesNombres[mesIndex];
+        if (anio > 0) {
+            condicion += " AND YEAR(FechaRetiro) = " + anio;
+        }
+        if (mes > 0) {
+            condicion += " AND MONTH(FechaRetiro) = " + mes;
+        }
+
+        List<Persona> todas = Persona.getListaEnObjetos("tipo = 'R'", null);
+        List<Persona> retirados = new ArrayList<>();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (Persona p : todas) {
+            InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+            if (info != null && info.getFechaRetiro() != null && !info.getFechaRetiro().isEmpty()) {
+                Date fecha = sdf.parse(info.getFechaRetiro());
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(fecha);
+
+                int anioRetiro = cal.get(Calendar.YEAR);
+                int mesRetiro = cal.get(Calendar.MONTH) + 1;
+
+                if ((anio == 0 || anioRetiro == anio) && (mes == 0 || mesRetiro == mes)) {
+                    retirados.add(p);
+                }
             }
         }
 
+        List<Persona> retiradosTodos = Persona.getListaEnObjetos("tipo = 'R' AND FechaRetiro IS NOT NULL", "FechaRetiro ASC");
 
-    %>
-
-    <%       // Parámetros de filtro para la tabla principal (opcional)
-        String condicion = "tipo = 'R' AND fechaTerPriContrato IS NOT NULL";
-
-        if (anioParam != null && !anioParam.isEmpty()) {
-            condicion += " AND YEAR(fechaTerPriContrato) = " + anioParam;
-        }
-        if (mesParam != null && !mesParam.isEmpty()) {
-            condicion += " AND MONTH(fechaTerPriContrato) = " + mesParam;
-        }
-
-        // Lista de retirados filtrada (para tabla inferior)
-        List<Persona> retirados = Persona.getListaEnObjetos(condicion, "fechaTerPriContrato ASC");
-
-        // Segunda consulta para indicador de retiros por mes (SIN FILTROS)
-        List<Persona> retiradosTodos = Persona.getListaEnObjetos("tipo = 'R' AND fechaTerPriContrato IS NOT NULL", "fechaTerPriContrato ASC");
-
-        Map<Integer, Integer> retirosPorMes = new HashMap<>();
+        Map<Integer, Integer> retirosPorMes = new TreeMap<>();
         int totalRetiros = 0;
 
         for (Persona p : retiradosTodos) {
-            if (p.getFechaTerPriContrato() != null) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaTerPriContrato()));
-                int mes = cal.get(Calendar.MONTH) + 1;
-                retirosPorMes.put(mes, retirosPorMes.getOrDefault(mes, 0) + 1);
-                totalRetiros++;
-            }
-        }
-
-        String tablaResumen = "";
-        String datosGrafico = "[";
-        int contador = 0;
-
-        Map<Integer, Integer> retirosPorMesOrdenado = new TreeMap<>(retirosPorMes);
-
-        for (int mes = 1; mes <= 12; mes++) {
-            if (retirosPorMesOrdenado.containsKey(mes)) {
-                int cantidad = retirosPorMesOrdenado.get(mes);
-                double porcentaje = (cantidad / (double) totalRetiros) * 100;
-
-                tablaResumen += "<tr><td>" + mesesNombres[mes - 1] + "</td><td>" + cantidad + "</td><td>" + String.format("%.2f", porcentaje) + "%</td></tr>";
-
-                if (contador++ > 0) {
-                    datosGrafico += ",";
+            InformacionLaboral infoLab = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+            if (infoLab != null) {
+                String fechaRetiro = infoLab.getFechaRetiro();
+                if (fechaRetiro != null && !fechaRetiro.isEmpty()) {
+                    Date fecha = sdf.parse(fechaRetiro);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(fecha);
+                    int mesRetiro = cal.get(Calendar.MONTH) + 1;
+                    retirosPorMes.put(mesRetiro, retirosPorMes.getOrDefault(mesRetiro, 0) + 1);
+                    totalRetiros++;
                 }
-                datosGrafico += "{ mes: '" + mesesNombres[mes - 1] + "', value: " + cantidad + " }";
             }
         }
 
-        datosGrafico += "]";
+        StringBuilder tablaResumen = new StringBuilder();
+        StringBuilder datosGrafico = new StringBuilder("[");
+        int contador = 0;
+        for (int m = 1; m <= 12; m++) {
+            int cant = retirosPorMes.getOrDefault(m, 0);
+            if (cant > 0) {
+                double porcentaje = (cant / (double) totalRetiros) * 100;
+                tablaResumen.append("<tr><td>").append(mesesNombres[m - 1]).append("</td><td>").append(cant).append("</td><td>")
+                        .append(String.format("%.2f", porcentaje)).append("%</td></tr>");
+                if (contador++ > 0) {
+                    datosGrafico.append(",");
+                }
+                datosGrafico.append("{ \"mes\": \"").append(mesesNombres[m - 1]).append("\", \"value\": ").append(cant).append(" }"); 
+            }
+        }
+        datosGrafico.append("]");
     %>
 
 
@@ -210,7 +229,6 @@
     </div>
     <% } %>
 
- 
     <table border="1" class="table">
         <tr>
             <th>Identificación</th>
@@ -219,23 +237,31 @@
             <th>Establecimiento</th>
             <th>Fecha de retiro</th>
         </tr>
-        <%    for (Persona p : retirados) {
-                String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
-        %>
+        <% for (Persona p : retirados) {
+                Cargo cargoObj = new Cargo();
+                String nombreCargo = cargoObj.getCargoPersona(p.getIdentificacion());
+                InformacionLaboral infoLab = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+                String establecimiento = "";
+                String fechaRetiro = "";
+                if (infoLab != null) {
+                    establecimiento = infoLab.getEstablecimiento();
+                    fechaRetiro = infoLab.getFechaRetiro();
+                }
+        %>00
         <tr>
             <td><%= p.getIdentificacion()%></td>
-            <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
+            <td><%= p.getNombres() + " " + p.getApellidos()%></td>
             <td><%= nombreCargo%></td>
-            <td><%= p.getEstablecimiento()%></td>
-            <td><%= p.getFechaTerPriContrato()%></td>
+            <td><%= establecimiento%></td>
+            <td><%= fechaRetiro%></td>
         </tr>
         <% }%>
     </table>
-      <div style="text-align: center; margin-top: 20px;">
-    <a href="retiroColaboradores.jsp">
-        <button class="btn-retorno">VER AÑO</button>
-    </a>
-</div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="retiroColaboradores.jsp">
+            <button class="btn-retorno">VER AÑO</button>
+        </a>
+    </div>
 
     <% if (!isDownloadMode) {%>
     <h3>Indicador de retiros por mes</h3>
@@ -248,13 +274,12 @@
         </div>
         <div id="chartdiv" style="width: 700px; height: 400px;"></div>
     </div>
-         
-
 
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script>
+        
         am5.ready(function () {
             var root = am5.Root.new("chartdiv");
             root.setThemes([am5themes_Animated.new(root)]);
@@ -285,4 +310,3 @@
     </script>
     <% }%>
 </div>
-r

@@ -5,6 +5,7 @@
 --%>
 
 <%@page import="clases.Cargo"%>
+<%@page import="clases.InformacionLaboral"%>
 <%@ page import="java.sql.Date" %>
 <%@ page import="clases.Vacaciones" %>
 <%@ page import="clases.Persona" %>
@@ -41,24 +42,20 @@
         min-height: 10vh;
         margin: 0;
     }
-    /* Estilo del título */
     .titulo {
         text-align: center;
         font-size: 24px;
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 2px;
-        font-weight: bold;
         color: #2c6e49;
         position: relative;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra ligera para efecto 3D */
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease-in-out;
     }
-    /* Efecto de elevación al pasar el mouse */
     .titulo:hover {
         transform: scale(1.05);
     }
-    /* Estilos de la tabla */
     .table {
         width: 100%;
         border-collapse: collapse;
@@ -80,7 +77,6 @@
     .table tr:hover {
         background-color: #daf2da;
     }
-    /* Iconos de acciones */
     .table img {
         cursor: pointer;
         transition: transform 0.2s;
@@ -88,14 +84,13 @@
     .table img:hover {
         transform: scale(1.1);
     }
-    /* Botón de añadir */
     .table th:last-child {
         text-align: center;
     }
     .content {
         flex-grow: 1;
         overflow-x: auto;
-        margin-left: 220px; /* Desplazar el contenido a la derecha */
+        margin-left: 220px;
         padding: 20px;
     }
 </style>
@@ -107,7 +102,6 @@
         java.util.Calendar ingreso = java.util.Calendar.getInstance();
         ingreso.setTime(fechaIngreso);
 
-        // Calcular los años completos de trabajo
         int aniosTrabajados = fechaActual.get(java.util.Calendar.YEAR) - ingreso.get(java.util.Calendar.YEAR);
         if (fechaActual.get(java.util.Calendar.MONTH) < ingreso.get(java.util.Calendar.MONTH)
                 || (fechaActual.get(java.util.Calendar.MONTH) == ingreso.get(java.util.Calendar.MONTH)
@@ -118,10 +112,7 @@
             aniosTrabajados = 0;
         }
 
-        // Acumula 15 días por cada año completo de trabajo
         int diasAcumulados = aniosTrabajados * 15;
-
-        // Se restan los días disfrutados + compensados
         return diasAcumulados - diasRestados;
     }
 %>
@@ -134,29 +125,30 @@
 
     <h3 class="titulo">REPORTE GENERAL DE VACACIONES </h3>
 
-    <%-- Íconos para exportar si no es modo descarga --%>
     <% if (!isDownloadMode) { %>
     <a href="vacaciones.jsp?formato=excel" target="_blank"><img src="../presentacion/iconos/excel.png " alt="Exportar a Excel"></a>
     <a href="vacaciones.jsp?formato=word" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
-        <% } %>
+    <% } %>
 
     <table border="1" class="table" style="margin-top:20px; width:100%; font-size: 14px;">
         <tr style="background-color: #e0e0e0;">
             <th>Identificación</th>
             <th>Nombre completo</th>
             <th>Cargo</th>
+            <th>Establecimiento</th>
             <th>Unidad de negocio</th>
             <th>Fecha ingreso</th>
-
             <th>Días acumulados restantes</th>
         </tr>
 
         <%
-            // Asegúrate de que la clase Persona filtra por el campo correcto que es 'tipo'
             List<Persona> listaPersonas = Persona.getListaEnObjetos("tipo = 'C'", null);
 
             for (Persona p : listaPersonas) {
-                if (p.getFechaIngreso() == null || p.getFechaIngreso().isEmpty()) {
+
+                InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+
+                if (info == null || info.getFechaIngreso() == null || info.getFechaIngreso().isEmpty()) {
                     continue;
                 }
 
@@ -171,7 +163,7 @@
 
                 int diasRestantes = 0;
                 try {
-                    java.util.Date fechaIngreso = new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaIngreso());
+                    java.util.Date fechaIngreso = new SimpleDateFormat("yyyy-MM-dd").parse(info.getFechaIngreso());
                     int totalRestado = diasDisfrutados + diasCompensar;
                     diasRestantes = calcularVacacionesAcumuladas(fechaIngreso, totalRestado);
                 } catch (Exception e) {
@@ -179,17 +171,17 @@
                 }
 
                 if (diasRestantes <= 0) {
-                    continue; // No mostrar empleados sin días acumulados
+                    continue;
                 }
-
         %>
         <tr>
-            <td><%= p.getIdentificacion()%></td>
-            <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
-            <td><%= Cargo.getCargoPersona(p.getIdentificacion())%></td>
-            <td><%= p.getUnidadNegocio()%></td>
-            <td><%= p.getFechaIngreso()%></td>
-            <td><%= diasRestantes >= 0 ? diasRestantes : "Error cálculo"%></td>
+            <td><%= p.getIdentificacion() %></td>
+            <td><%= p.getNombres() %> <%= p.getApellidos() %></td>
+            <td><%= Cargo.getCargoPersona(p.getIdentificacion()) %></td>
+            <td><%= info.getUnidadNegocio() != null ? info.getUnidadNegocio() : "-" %></td>
+            <td><%= info.getEstablecimiento() != null ? info.getEstablecimiento() : "-" %></td>
+            <td><%= info.getFechaIngreso() %></td>
+            <td><%= diasRestantes >= 0 ? diasRestantes : "Error cálculo" %></td>
         </tr>
         <%
             }

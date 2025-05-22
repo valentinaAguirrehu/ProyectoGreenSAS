@@ -33,14 +33,16 @@
         int edad;
         String cargo;
         String establecimiento;
+        String unidadNegocio;
         String documentoPDF;
 
-        Cumpleanero(Persona p, LocalDate fn, int edad, String cargo, String establecimiento, String doc) {
+        Cumpleanero(Persona p, LocalDate fn, int edad, String cargo, String establecimiento, String unidadNegocio, String doc) {
             this.persona = p;
             this.fechaNacimiento = fn;
             this.edad = edad;
             this.cargo = cargo;
             this.establecimiento = establecimiento;
+            this.unidadNegocio = unidadNegocio;
             this.documentoPDF = doc;
         }
     }
@@ -62,9 +64,14 @@
                     }
 
                     InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
+
                     String establecimiento = (info != null && info.getEstablecimiento() != null && !info.getEstablecimiento().isEmpty())
                             ? info.getEstablecimiento()
                             : "Sin establecimiento";
+
+                    String unidadNegocio = (info != null && info.getUnidadNegocio() != null && !info.getUnidadNegocio().isEmpty())
+                            ? info.getUnidadNegocio()
+                            : "Sin unidad";
 
                     String documentoPDF = null;
                     String filtro = "idPersona = '" + persona.getIdentificacion() + "' AND tipo = 'documentoIdentidad'";
@@ -73,7 +80,7 @@
                         documentoPDF = docs.get(0).getDocumentoPDF();
                     }
 
-                    cumpleaneros.add(new Cumpleanero(persona, fechaNacimiento, edad, nombreCargo, establecimiento, documentoPDF));
+                    cumpleaneros.add(new Cumpleanero(persona, fechaNacimiento, edad, nombreCargo, establecimiento, unidadNegocio, documentoPDF));
                 }
             }
         } catch (Exception e) {
@@ -96,6 +103,7 @@
         lista.append("<td align='center'>").append(c.persona.getFechaNacimiento()).append("</td>");
         lista.append("<td>").append(c.cargo).append("</td>");
         lista.append("<td>").append(c.establecimiento).append("</td>");
+        lista.append("<td>").append(c.unidadNegocio).append("</td>");
 
         if (c.documentoPDF != null && !c.documentoPDF.isEmpty()) {
             lista.append("<td align='center'><a href='")
@@ -157,6 +165,7 @@
                         <th>Fecha de nacimiento</th>
                         <th>Cargo</th>
                         <th>Establecimiento</th>
+                        <th>Unidad de negocio</th>
                         <th>Documento de identidad</th>
                     </tr>
                 </thead>
