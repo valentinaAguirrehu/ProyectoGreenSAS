@@ -13,12 +13,14 @@
     // Capturar acción y valores del formulario
     String accion = request.getParameter("accion");
     String identificacionAnterior = request.getParameter("identificacionAnterior");
+    System.out.println("ID CARGO JSP: " + request.getParameter("idCargo"));
 
-     Talla talla = (Talla) request.getAttribute("talla");
+    Talla talla = (Talla) request.getAttribute("talla");
     request.setAttribute("talla", talla);
     // Crear objeto InformacionLaboral y asignar valores del formulario
     InformacionLaboral informacionLaboral = new InformacionLaboral();
     informacionLaboral.setIdentificacion(request.getParameter("identificacion"));
+    informacionLaboral.setIdCargo(request.getParameter("idCargo"));
     informacionLaboral.setFechaIngreso(request.getParameter("fechaIngreso"));
     informacionLaboral.setFechaIngresoTemporal(request.getParameter("fechaIngresoTemporal"));
     informacionLaboral.setFechaRetiro(request.getParameter("fechaRetiro"));

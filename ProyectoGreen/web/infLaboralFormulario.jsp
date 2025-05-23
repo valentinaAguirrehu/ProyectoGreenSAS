@@ -61,7 +61,7 @@
 
     <div class="content">
         <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
-        <form name="formularioInfLaboral" method="post" action="infLaboralActualizar.jsp" onsubmit="obtenerDatosHijos(); pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
+        <form name="formularioInfLaboral" method="post" action="infLaboralActualizar.jsp" onsubmit="return true;">
 
             <h1>Informacion laboral</h1>
             <table border="1">
@@ -70,12 +70,9 @@
                     <td>
                         <!-- Mostrar identificación recibida en readonly -->
                         <input type="text" name="identificacion" id="identificacion" value="<%= identificacion%>" readonly />
-
-                        <!-- También enviarla como campo oculto para el UPDATE -->
-                        <input type="hidden" name="identificacionAnterior" value="<%= informacionLaboral.getIdentificacion()%>">
-
-                        <!-- Campo oculto para la acción -->
+                        <input type="hidden" name="identificacionAnterior" value="<%= informacionLaboral.getIdentificacion() %>">
                         <input type="hidden" name="accion" id="accionHidden" value="<%=accion%>">
+
                     </td>
                 </tr>
                 <tr>
@@ -93,38 +90,59 @@
                 <tr>
                     <th>Fecha de retiro</th>
                     <td>
-                        <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaIngreso() : ""%>" >
+                        <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" >
                     </td>
                 </tr>
                 <tr>
-                    <th>Duración del primer contrato:</th>
+                    <th>Duración del primer contrato<span style="color: red;">*</span></th>
                     <td>
                         <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
                     </td>
                 <tr>
                     <th>Unidad de negocio</th>
-                    <td><input type="text" name="unidadNegocio" value="<%= informacionLaboral.getUnidadNegocio()%>" size="50" maxlength="50"required></td>
+                    <td>
+                        <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
+                            <option value="">Seleccione...</option>
+                            <%
+                                String[] unidades = { "EDS", "RPS" };
+                                for (String u : unidades) {
+                            %>
+                            <option value="<%= u %>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : "" %>><%= u %></option>
+                            <% } %>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <th>Centro de costos</th>
-                    <td><input type="text" name="centroCostos" id="centroCostos" value="<%= informacionLaboral.getCentroCostos()%>" /></td>
+                    <td>
+                        <select name="centroCostos" id="centroCostos" required>
+                            <!-- Opciones se llenarán con JavaScript -->
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <th>Lugar de trabajo<span style="color: red;">*</span></th>
-                    <td><input type="text" name="establecimiento" id="establecimiento" value="<%= informacionLaboral.getEstablecimiento()%>" /></td>
-                </tr>
+                    <td colspan="2">
+                        <%= informacionLaboral.getEstablecimiento().getSelectLugarTrabajo("establecimiento") %>
+                    </td>               
+                </tr>              
                 <tr>
                     <th>Area<span style="color: red;">*</span></th>
-                    <td><input type="text" name="area" id="area" value="<%= informacionLaboral.getArea()%>" /></td>
-                </tr>
+                    <td colspan="2">
+                        <%= informacionLaboral.getArea().getSelectArea("area") %>
+                    </td>                                
                 <tr>
                     <th>Cargos<span style="color: red;">*</span></th>
                     <td>
-                        <input type="text" name="idCargo" id="idCargo" list="cargosList" required />
+                        <input type="text" name="idCargo" id="idCargo" list="cargosList" value="<%= informacionLaboral.getIdCargo() %>" required />
                         <datalist id="cargosList">
                             <%= opcionesCargos%> <!-- Aquí se insertan las opciones dinámicamente -->
                         </datalist>
                     </td>
+                </tr>
+                <tr>
+                    <th>Salario<span style="color: red;">*</span></th>
+                    <td><input type="text" name="salario" id="salario" value="<%= informacionLaboral.getSalario()%>" /></td>
                 </tr>
             </table>
 
@@ -185,33 +203,65 @@
     }
 
 
-    // Función para precargar la unidad de negocio al seleccionar un establecimiento
-    function precargarUnidadNegocio() {
-        var establecimiento = document.getElementById("establecimiento").value;
-        var unidadNegocio = document.getElementById("unidadNegocio");
+    // Opciones para cada unidad de negocio
+    const centrosPorUnidad = {
+        "EDS": [
+            "Juanambu",
+            "Terminal Americano",
+            "Puente",
+            "Cano Bajo"
+        ],
+        "RPS": [
+            "Avenida",
+            "Principal",
+            "Centro",
+            "Unicentro",
+            "Centro de Procesos",
+            "Teleoperaciones"
+        ]
+    };
 
-        // Mapeo de establecimientos a unidades de negocio
-        var unidades = {
-            "Avenida": "Green S.A.S. RPS",
-            "Principal": "Green S.A.S. RPS",
-            "Centro": "Green S.A.S. RPS",
-            "Unicentro": "Green S.A.S. RPS",
-            "Centro de Procesos": "Green S.A.S. RPS",
-            "Teleoperaciones": "Green S.A.S. RPS",
-            "Juanambu": "Green S.A.S. EDS",
-            "Terminal Americano": "Green S.A.S. EDS",
-            "Puente": "Green S.A.S. EDS",
-            "Cano Bajo": "Green S.A.S. EDS",
-            "GreenField": "Green S.A.S."
-        };
+    function precargarCentroCostos() {
+        const unidadSelect = document.getElementById("unidadNegocio");
+        const centroSelect = document.getElementById("centroCostos");
+        const unidad = unidadSelect.value;
 
-        // Asignar unidad de negocio basada en el establecimiento seleccionado
-        unidadNegocio.value = unidades[establecimiento] || "";
+        // Limpiar opciones previas
+        centroSelect.innerHTML = '';
+
+        if (unidad && centrosPorUnidad[unidad]) {
+            centrosPorUnidad[unidad].forEach(function (centro) {
+                let option = document.createElement("option");
+                option.value = centro;
+                option.text = centro;
+                centroSelect.add(option);
+            });
+            centroSelect.selectedIndex = 0;
+        } else {
+            let option = document.createElement("option");
+            option.value = "";
+            option.text = "Seleccione unidad primero";
+            centroSelect.add(option);
+        }
     }
 
-    // Precargar la unidad de negocio al cargar la página
-    document.addEventListener("DOMContentLoaded", precargarUnidadNegocio);
+    function precargarCentroCostosConValorInicial() {
+        precargarCentroCostos();
 
+        const centroSelect = document.getElementById("centroCostos");
+        const centroGuardado = "<%= informacionLaboral.getCentroCostos() != null ? informacionLaboral.getCentroCostos() : "" %>";
+
+        for (let i = 0; i < centroSelect.options.length; i++) {
+            if (centroSelect.options[i].value === centroGuardado) {
+                centroSelect.selectedIndex = i;
+                break;
+            }
+        }
+    }
+
+    window.onload = function () {
+        precargarCentroCostosConValorInicial();
+    }
 
 
     function validarNumerico(inputName) {
@@ -230,8 +280,8 @@
 
     // Ejecutar la función al cargar la página para mostrar u ocultar correctamente
     window.onload = function () {
-        mostrarOcultarVehiculo();
-        cargarUnidadNegocio();
-
+        precargarCentroCostosConValorInicial();
     };
+
+
 </script>
