@@ -257,57 +257,15 @@
             }
         %>
     </table>
-
-    <h3 class="titulo">Indicador por meses</h3>
-    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
-        <div style="flex: 1; min-width: 300px;">
-            <table border="1" class="table">
-                <thead>
-                    <tr>
-                        <th>Mes</th>
-                        <th>Cantidad de Ingresos</th>
-                        <th>Porcentaje</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%= tablaResumen%>
-                </tbody>
-            </table>
-        </div>
-        <div style="flex: 1; min-width: 300px;">
-            <canvas id="graficaIngresos"></canvas>
-        </div>
+    <%
+        if (!isDownloadMode) {
+    %>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="ingresoColaboradores.jsp">
+            <button class="btn-retorno">VOLVER</button>
+        </a>
     </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-    const data = <%= datosGrafico%>;
-    const ctx = document.getElementById('graficaIngresos').getContext('2d');
-    const labels = data.map(item => item.label);
-    const values = data.map(item => item.value);
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                    label: 'Ingresos por Mes',
-                    data: values,
-                    backgroundColor: '#5abbd8',
-                    borderRadius: 4
-                }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
-                    }
-                }
-            }
+    <%
         }
-    });
-</script>
+    %>
+</div>
