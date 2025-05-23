@@ -9,6 +9,11 @@
     if (isDownloadMode) {
         String tipoContenido = "";
         String extensionArchivo = "";
+
+        // Obtener fecha actual formateada dd-MM-yyyy
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
+        String fechaActual = sdf.format(new java.util.Date());
+
         switch (request.getParameter("formato")) {
             case "excel":
                 tipoContenido = "application/vnd.ms-excel";
@@ -23,8 +28,11 @@
                 isDownloadMode = false;
         }
         if (isDownloadMode) {
+            // Aquí se agrega el guion y la fecha actual
+            String nombreArchivo = "Reporte_Retirados_Por_Año-" + fechaActual + extensionArchivo;
+
             response.setContentType(tipoContenido);
-            response.setHeader("Content-Disposition", "inline; filename=\"Reporte_Retirados" + extensionArchivo + "\"");
+            response.setHeader("Content-Disposition", "inline; filename=\"" + nombreArchivo + "\"");
         }
     }
 %>
@@ -106,8 +114,8 @@
 </style>
 <% } %>
 
-<% if (!isDownloadMode) { %>
-    <%@ include file="../menu.jsp" %> 
+<% if (!isDownloadMode) {%>
+<%@ include file="../menu.jsp" %> 
 <% } %>
 
 <div class="content">
@@ -140,28 +148,24 @@
         }
     %>
 
-    <% if (!isDownloadMode) { %>
-        <a href="retiroColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank">
-            <img src="../presentacion/iconos/excel.png" alt="Exportar a Excel">
-        </a>
-        <a href="retiroColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank">
-            <img src="../presentacion/iconos/word.png" alt="Exportar a Word">
-        </a>
+    <% if (!isDownloadMode) {%>
+    <a href="retiroColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
+    <a href="retiroColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
 
-        <form method="get" class="filtro-anio-form">
-            <label for="anio">Filtrar por año:</label>
-            <select name="anio" onchange="this.form.submit()">
-                <option value="">-- Todos --</option>
-                <%
-                    String paramAnio = request.getParameter("anio");
-                    for (Integer anio : años) {
-                %>
-                    <option value="<%= anio %>" <%= (paramAnio != null && paramAnio.equals(String.valueOf(anio))) ? "selected" : "" %>>
-                        <%= anio %>
-                    </option>
-                <% } %>
-            </select>
-        </form>
+    <form method="get" class="filtro-anio-form">
+        <label for="anio">Filtrar por año:</label>
+        <select name="anio" onchange="this.form.submit()">
+            <option value="">-- Todos --</option>
+            <%
+                String paramAnio = request.getParameter("anio");
+                for (Integer anio : años) {
+            %>
+            <option value="<%= anio%>" <%= (paramAnio != null && paramAnio.equals(String.valueOf(anio))) ? "selected" : ""%>>
+                <%= anio%>
+            </option>
+            <% } %>
+        </select>
+    </form>
     <% } %>
 
     <%
@@ -202,8 +206,8 @@
             double porcentaje = (cantidad / (double) totalRetiros) * 100;
 
             tablaResumen.append("<tr><td>").append(anio).append("</td><td>")
-                        .append(cantidad).append("</td><td>")
-                        .append(String.format("%.2f", porcentaje)).append("%</td></tr>");
+                    .append(cantidad).append("</td><td>")
+                    .append(String.format("%.2f", porcentaje)).append("%</td></tr>");
 
             if (contador++ > 0) {
                 datosGrafico.append(",");
@@ -219,6 +223,7 @@
             <th>Nombre completo</th>
             <th>Cargo</th>
             <th>Establecimiento</th>
+            <th>Unidad de negocio</th>
             <th>Fecha de retiro</th>
         </tr>
         <%
@@ -237,13 +242,14 @@
                     String mesLink = String.format("%02d", cal.get(Calendar.MONTH) + 1);
         %>
         <tr>
-            <td><%= p.getIdentificacion() %></td>
-            <td><%= p.getNombres() %> <%= p.getApellidos() %></td>
-            <td><%= nombreCargo %></td>
-            <td><%= hl.getEstablecimiento() %></td> 
+            <td><%= p.getIdentificacion()%></td>
+            <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
+            <td><%= nombreCargo%></td>
+            <td><%= hl.getEstablecimiento()%></td> 
+            <td><%= hl.getUnidadNegocio()%></td>  
             <td>
-                <a href="retiroMes.jsp?anio=<%= anioLink %>&mes=<%= mesLink %>">
-                    <%= sdf.format(fechaRetiroDate) %>
+                <a href="retiroMes.jsp?anio=<%= anioLink%>&mes=<%= mesLink%>">
+                    <%= sdf.format(fechaRetiroDate)%>
                 </a>
             </td>
         </tr>
@@ -255,22 +261,22 @@
         %>
     </table>
 
-    <% if (!isDownloadMode) { %>
-        <h3>Indicador de retiros por año</h3>
-        <div style="display: flex; gap: 20px; align-items: flex-start;">
-            <div>
-                <table class="table" border="1">
-                    <tr><th>Año</th><th>Retiros</th><th>%</th></tr>
-                    <%= tablaResumen.toString() %>
-                </table>
-            </div>
-            <div id="chartdiv" style="width: 700px; height: 400px;"></div>
+    <% if (!isDownloadMode) {%>
+    <h3 class="titulo">Indicador por años</h3>
+    <div style="display: flex; gap: 20px; align-items: flex-start;">
+        <div>
+            <table class="table" border="1">
+                <tr><th>Año</th><th>Retiros</th><th>%</th></tr>
+                        <%= tablaResumen.toString()%>
+            </table>
         </div>
+        <div id="chartdiv" style="width: 700px; height: 400px;"></div>
+    </div>
 
-        <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-        <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-        <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-        <script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script>
             am5.ready(function () {
                 var root = am5.Root.new("chartdiv");
                 root.setThemes([am5themes_Animated.new(root)]);
@@ -292,12 +298,12 @@
                         labelText: "{valueY}"
                     })
                 }));
-                var data = <%= datosGrafico.toString() %>;
+                    var data = <%= datosGrafico.toString()%>;
                 xAxis.data.setAll(data);
                 series.data.setAll(data);
                 series.appear(1000);
                 chart.appear(1000, 100);
             });
-        </script>
-    <% } %>
+    </script>
+    <% }%>
 </div>

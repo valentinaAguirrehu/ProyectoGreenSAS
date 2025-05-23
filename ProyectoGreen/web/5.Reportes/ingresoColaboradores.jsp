@@ -10,6 +10,11 @@
     if (isDownloadMode) {
         String tipoContenido = "";
         String extensionArchivo = "";
+
+        // Obtener fecha actual formateada dd-MM-yyyy
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
+        String fechaActual = sdf.format(new java.util.Date());
+
         switch (request.getParameter("formato")) {
             case "excel":
                 tipoContenido = "application/vnd.ms-excel";
@@ -21,7 +26,8 @@
                 break;
         }
         response.setContentType(tipoContenido);
-        response.setHeader("Content-Disposition", "inline; filename=\"Reporte_Ingresos_Colaboradores" + extensionArchivo + "\"");
+        String nombreArchivo = "Reporte_Ingresos_Por_Año-" + fechaActual + extensionArchivo;
+        response.setHeader("Content-Disposition", "inline; filename=\"" + nombreArchivo + "\"");
     }
 %>
 
@@ -123,7 +129,7 @@
 <div class="content">
     <h3 class="titulo">REPORTE DE INGRESO DE COLABORADORES - GREEN S.A.S</h3>
 
-    <% if (!isDownloadMode) { %>
+    <% if (!isDownloadMode) {%>
     <a href="ingresoColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
     <a href="ingresoColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
 
@@ -202,7 +208,7 @@
         }
 
         String tablaResumen = "";
-        String datosGrafico = "["; 
+        String datosGrafico = "[";
         int contador = 0;
         for (Map.Entry<Integer, Integer> entry : ingresosPorAnio.entrySet()) {
             int anio = entry.getKey();
@@ -216,10 +222,8 @@
             }
             datosGrafico += "{ years: '" + anio + "', value: " + cantidad + " }";
         }
-        datosGrafico += "]"; 
+        datosGrafico += "]";
     %>
-
-  
 
     <!-- Tabla principal -->
     <table border="1" class="table">
@@ -227,119 +231,113 @@
             <th>Identificación</th>
             <th>Nombre</th>
             <th>Cargo</th>
+            <th>Establecimiento</th>
             <th>Unidad de Negocio</th>
             <th>Fecha de Ingreso</th>
         </tr>
-    <%
-        for (Persona p : personasConIngreso) {
-            InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
-            if (info == null || info.getFechaIngreso() == null || info.getFechaIngreso().isEmpty()) {
-                continue;
-            }
+        <%
+            for (Persona p : personasConIngreso) {
+                InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+                if (info == null || info.getFechaIngreso() == null || info.getFechaIngreso().isEmpty()) {
+                    continue;
+                }
 
-            String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
-            String[] fechaIngresoPartes = info.getFechaIngreso().split("-");
-            String anioIngreso = fechaIngresoPartes[0];
-            String mesIngreso = fechaIngresoPartes[1];
-    %>
+                String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
+                String[] fechaIngresoPartes = info.getFechaIngreso().split("-");
+                String anioIngreso = fechaIngresoPartes[0];
+                String mesIngreso = fechaIngresoPartes[1];
+        %>
         <tr>
-            <td><%= p.getIdentificacion() %></td>
-            <td><%= p.getNombres() %> <%= p.getApellidos() %></td>
-            <td><%= nombreCargo %></td>
-            <td><%= info.getUnidadNegocio() %></td>
+            <td><%= p.getIdentificacion()%></td>
+            <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
+            <td><%= nombreCargo%></td>
+            <td><%= info.getEstablecimiento()%></td> 
+            <td><%= info.getUnidadNegocio()%></td>
             <td>
-                <a href="ingresoMes.jsp?anio=<%= anioIngreso %>&mes=<%= mesIngreso %>">
-                    <%= info.getFechaIngreso() %>
+                <a href="ingresoMes.jsp?anio=<%= anioIngreso%>&mes=<%= mesIngreso%>">
+                    <%= info.getFechaIngreso()%>
                 </a>
             </td>
         </tr>
-    <%
+        <%
+            }
+        %>
+    </table>
+
+    <style>
+        .contenedor-flex {
+            display: flex;
+            gap: 20px; /* espacio entre gráfica y tabla */
+            align-items: flex-start; /* alinear arriba */
+            flex-wrap: wrap; /* se acomoda mejor en pantallas pequeñas */
         }
-    %>
-    </table>
-    <h3 class="titulo">Resumen por Año</h3>
 
-<style>
-    .contenedor-flex {
-        display: flex;
-        gap: 20px; /* espacio entre gráfica y tabla */
-        align-items: flex-start; /* alinear arriba */
-        flex-wrap: wrap; /* se acomoda mejor en pantallas pequeñas */
-    }
+        .tabla {
+            border-collapse: collapse;
+            width: 300px;
+        }
 
-    .tabla {
-        border-collapse: collapse;
-        width: 300px;
-    }
+        .tabla th, .tabla td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
 
-    .tabla th, .tabla td {
-        padding: 8px;
-        text-align: center;
-        border: 1px solid #ccc;
-    }
+        #chartdiv {
+            width: 600px;
+            height: 400px;
+        }
+    </style>
 
-    #chartdiv {
-        width: 600px;
-        height: 400px;
-    }
-</style>
-
-<div class="contenedor-flex">
-    <div id="chartdiv"></div>
-
-    <table class="tabla">
-        <thead>
-            <tr>
-                <th>Año</th>
-                <th>Cantidad de Ingresos</th>
-                <th>Porcentaje</th>
-            </tr>
-        </thead>
-        <tbody>
-            <%= tablaResumen %>
-        </tbody>
-    </table>
-</div>
+    <% if (!isDownloadMode) {%>
+    <h3 class="titulo">Indicador por años</h3>
+    <div style="display: flex; gap: 20px; align-items: flex-start;">
+        <div>
+            <table class="table" border="1">
+                <tr><th>Año</th><th>Ingresos</th><th>%</th></tr>
+                        <%= tablaResumen.toString()%>
+            </table>
+        </div>
+        <div id="chartdiv" style="width: 700px; height: 400px;"></div>
+    </div>
 
     <!-- Incluir la librería -->
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-<div id="chartdiv" style="width: 100%; height: 500px;"></div>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
+    <script>
+            am5.ready(function () {
+                var root = am5.Root.new("chartdiv");
+                root.setThemes([am5themes_Animated.new(root)]);
+                var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                    panX: true,
+                    panY: true,
+                    wheelX: "panX",
+                    wheelY: "zoomX"
+                }));
 
-<script>
-    am5.ready(function() {
-        var root = am5.Root.new("chartdiv");
-        root.setThemes([am5themes_Animated.new(root)]);
-        var chart = root.container.children.push(am5xy.XYChart.new(root, {
-            panX: true,
-            panY: true,
-            wheelX: "panX",
-            wheelY: "zoomX"
-        }));
+                var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                    categoryField: "years",
+                    renderer: am5xy.AxisRendererX.new(root, {})
+                }));
 
-        var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-            categoryField: "years",
-            renderer: am5xy.AxisRendererX.new(root, {})
-        }));
+                var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                    renderer: am5xy.AxisRendererY.new(root, {})
+                }));
 
-        var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-            renderer: am5xy.AxisRendererY.new(root, {})
-        }));
+                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: "Ingresos",
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueYField: "value",
+                    categoryXField: "years"
+                }));
 
-        var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-            name: "Ingresos",
-            xAxis: xAxis,
-            yAxis: yAxis,
-            valueYField: "value",
-            categoryXField: "years"
-        }));
-
-        var data = <%= datosGrafico %>;
-        xAxis.data.setAll(data);
-        series.data.setAll(data);
-    });
-</script>
-
+                var data = <%= datosGrafico%>;
+                xAxis.data.setAll(data);
+                series.data.setAll(data);
+            });
+    </script>
+    <% }%>
 </div>

@@ -10,6 +10,9 @@
     if (isDownloadMode) {
         String tipoContenido = "";
         String extensionArchivo = "";
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
+        String fechaActual = sdf.format(new java.util.Date());
+
         switch (request.getParameter("formato")) {
             case "excel":
                 tipoContenido = "application/vnd.ms-excel";
@@ -21,7 +24,8 @@
                 break;
         }
         response.setContentType(tipoContenido);
-        response.setHeader("Content-Disposition", "inline; filename=\"Reporte_Ingresos_Colaboradores" + extensionArchivo + "\"");
+        String nombreArchivo = "Reporte_Ingresos_Por_Mes-" + fechaActual + extensionArchivo;
+        response.setHeader("Content-Disposition", "inline; filename=\"" + nombreArchivo + "\"");
     }
 %>
 
@@ -29,6 +33,7 @@
 <style>
     body {
         display: flex;
+        min-height: 10vh;
         margin: 0;
     }
     .titulo {
@@ -37,8 +42,13 @@
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 2px;
-        color: #2c6e49;
+        color:  #2c6e49;
+        position: relative;
         text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+    }
+    .titulo:hover {
+        transform: scale(1.05);
     }
     .table {
         width: 100%;
@@ -59,30 +69,54 @@
         text-transform: uppercase;
     }
     .table tr:hover {
-        background-color: #daf2da;
+        background-color:#daf2da;
     }
     .content {
         flex-grow: 1;
+        overflow-x: auto;
+        margin-left: 220px;
         padding: 20px;
     }
-    .filtro-anio-form {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background-color: #f4f4f4;
-        padding: 12px 16px;
+    .titulo-mes {
+        text-align: center;  /* Alineación a la izquierda */
+        font-size: 18px;  /* Título más grande */
+        font-weight: bold;  /* Negrita */
+        color: #000;
+        margin-top: 20px;  /* Espacio superior */
+    }
+
+    .iconos-container {
+        text-align: center; /* Centra los iconos */
+        margin: 15px 0; /* Espaciado superior e inferior */
+    }
+
+    .iconos-container a {
+        margin: 0 4px; /* Espacio entre los iconos */
+        display: inline-block;
+    }
+
+    .iconos-container img {
+        width: 35px; /* Tamaño de los iconos (ajusta según lo necesites) */
+        height: 30px;
+    }
+    .btn-retorno {
+        background-color: #2c6e49;
+        color: white;
+        border: none;
+        padding: 16px 20px;
+        font-size: 12px;
         border-radius: 6px;
-        width: fit-content;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
-    .filtro-anio-form select {
-        padding: 6px 10px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+
+    .btn-retorno:hover {
+        background-color: #24723b;
     }
+
 </style>
+
 <% } %>
 
 <% if (!isDownloadMode) {%>
@@ -90,42 +124,12 @@
 <% } %> 
 
 <div class="content">
-    <h3 class="titulo">REPORTE DE INGRESO DE COLABORADORES - GREEN S.A.S</h3>
-
-    <% if (!isDownloadMode) { %>
-    <a href="ingresoColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
-    <a href="ingresoColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
-
-    <form method="get" class="filtro-anio-form">
-        <label for="anio">Filtrar por año:</label>
-        <select name="anio" onchange="this.form.submit()">
-            <option value="">-- Todos --</option>
-            <%
-                Set<Integer> añosDisponibles = new HashSet<>();
-                List<Persona> listaPersonas = Persona.getListaEnObjetos("tipo = 'C'", null);
-                for (Persona p : listaPersonas) {
-                    InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
-                    if (info != null && info.getFechaIngreso() != null && !info.getFechaIngreso().isEmpty()) {
-                        try {
-                            Calendar cal = Calendar.getInstance();
-                            cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(info.getFechaIngreso()));
-                            añosDisponibles.add(cal.get(Calendar.YEAR));
-                        } catch (ParseException e) {}
-                    }
-                }
-                for (Integer anio : añosDisponibles) {
-                    String anioParam = request.getParameter("anio");
-            %>
-            <option value="<%= anio %>" <%= (anioParam != null && anioParam.equals(String.valueOf(anio))) ? "selected" : "" %>><%= anio %></option>
-            <%
-                }
-            %>
-        </select>
-    </form>
-    <% } %>
+    <h3 class="titulo">REPORTE DE INGRESO DE COLABORADORES POR MES - GREEN S.A.S</h3>
 
     <%
-        String anioFiltro = request.getParameter("anio");
+        String anioParam = request.getParameter("anio");
+        String mesParam = request.getParameter("mes");
+
         List<Persona> listaFiltrada = Persona.getListaEnObjetos("tipo = 'C'", "nombres");
 
         List<Persona> personasConIngreso = new ArrayList<>();
@@ -136,10 +140,17 @@
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(info.getFechaIngreso()));
                     int anio = cal.get(Calendar.YEAR);
-                    if (anioFiltro == null || anioFiltro.isEmpty() || anio == Integer.parseInt(anioFiltro)) {
+                    int mes = cal.get(Calendar.MONTH) + 1; // Enero = 1
+
+                    boolean anioCoincide = (anioParam == null || anioParam.isEmpty() || anio == Integer.parseInt(anioParam));
+                    boolean mesCoincide = (mesParam == null || mesParam.isEmpty() || mes == Integer.parseInt(mesParam));
+
+                    if (anioCoincide && mesCoincide) {
                         personasConIngreso.add(p);
                     }
-                } catch (ParseException e) {}
+                } catch (ParseException | NumberFormatException e) {
+                    // Puedes loguear el error si deseas
+                }
             }
         }
 
@@ -147,6 +158,26 @@
             "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
             "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
         };
+
+        // Obtener el nombre del mes si está presente
+        String mesNombre = "";
+        if (mesParam != null && !mesParam.isEmpty()) {
+            try {
+                int mesIndex = Integer.parseInt(mesParam) - 1;
+                if (mesIndex >= 0 && mesIndex < nombresMeses.length) {
+                    mesNombre = nombresMeses[mesIndex];
+                }
+            } catch (NumberFormatException e) {
+                // mes inválido
+            }
+        }
+
+        // Mostrar título con mes y año
+        if (!mesNombre.isEmpty()) {
+            out.println("<h4 class='titulo-mes'>Mes: " + mesNombre + " " + (anioParam != null ? anioParam : "") + "</h4>");
+        } else {
+            out.println("<h4 class='titulo-mes'>Retiros (Mes no seleccionado)</h4>");
+        }
 
         Map<String, Integer> ingresosPorMes = new LinkedHashMap<>();
         int totalIngresos = 0;
@@ -161,7 +192,8 @@
                     String nombreMes = nombresMeses[mes];
                     ingresosPorMes.put(nombreMes, ingresosPorMes.getOrDefault(nombreMes, 0) + 1);
                     totalIngresos++;
-                } catch (ParseException e) {}
+                } catch (ParseException e) {
+                }
             }
         }
 
@@ -175,32 +207,20 @@
             double porcentaje = (cantidad / (double) totalIngresos) * 100;
             tablaResumen += "<tr><td>" + mes + "</td><td>" + cantidad + "</td><td>" + String.format("%.2f", porcentaje) + "%</td></tr>";
 
-            if (contador++ > 0) datosGrafico += ",";
+            if (contador++ > 0) {
+                datosGrafico += ",";
+            }
             datosGrafico += "{ label: '" + mes + "', value: " + cantidad + " }";
         }
         datosGrafico += "]";
     %>
 
-    <h3 class="titulo">Resumen Mensual</h3>
-    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
-        <div style="flex: 1; min-width: 300px;">
-            <canvas id="graficaIngresos"></canvas>
-        </div>
-        <div style="flex: 1; min-width: 300px;">
-            <table border="1" class="table">
-                <thead>
-                    <tr>
-                        <th>Mes</th>
-                        <th>Cantidad de Ingresos</th>
-                        <th>Porcentaje</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%= tablaResumen %>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <% if (!isDownloadMode) {%>
+    <div class="iconos-container">
+        <a href="ingresoColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
+        <a href="ingresoColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
+    </div>    
+    <% } %>
 
     <!-- Tabla principal -->
     <table border="1" class="table" style="margin-top: 30px;">
@@ -211,35 +231,59 @@
             <th>Unidad de Negocio</th>
             <th>Fecha de Ingreso</th>
         </tr>
-    <%
-        for (Persona p : personasConIngreso) {
-            InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
-            if (info == null || info.getFechaIngreso() == null || info.getFechaIngreso().isEmpty()) continue;
-            String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
-            String[] fechaIngresoPartes = info.getFechaIngreso().split("-");
-            String anioIngreso = fechaIngresoPartes[0];
-            String mesIngreso = fechaIngresoPartes[1];
-    %>
+        <%
+            for (Persona p : personasConIngreso) {
+                InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+                if (info == null || info.getFechaIngreso() == null || info.getFechaIngreso().isEmpty()) {
+                    continue;
+                }
+                String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
+                String[] fechaIngresoPartes = info.getFechaIngreso().split("-");
+                String anioIngreso = fechaIngresoPartes[0];
+                String mesIngreso = fechaIngresoPartes[1];
+        %>
         <tr>
-            <td><%= p.getIdentificacion() %></td>
-            <td><%= p.getNombres() %> <%= p.getApellidos() %></td>
-            <td><%= nombreCargo %></td>
-            <td><%= info.getUnidadNegocio() %></td>
+            <td><%= p.getIdentificacion()%></td>
+            <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
+            <td><%= nombreCargo%></td>
+            <td><%= info.getUnidadNegocio()%></td>
             <td>
-                <a href="ingresoMes.jsp?anio=<%= anioIngreso %>&mes=<%= mesIngreso %>">
-                    <%= info.getFechaIngreso() %>
+                <a href="ingresoMes.jsp?anio=<%= anioIngreso%>&mes=<%= mesIngreso%>">
+                    <%= info.getFechaIngreso()%>
                 </a>
             </td>
         </tr>
-    <%
-        }
-    %>
+        <%
+            }
+        %>
     </table>
+
+    <h3 class="titulo">Indicador por meses</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
+        <div style="flex: 1; min-width: 300px;">
+            <table border="1" class="table">
+                <thead>
+                    <tr>
+                        <th>Mes</th>
+                        <th>Cantidad de Ingresos</th>
+                        <th>Porcentaje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%= tablaResumen%>
+                </tbody>
+            </table>
+        </div>
+        <div style="flex: 1; min-width: 300px;">
+            <canvas id="graficaIngresos"></canvas>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-    const data = <%= datosGrafico %>;
+    const data = <%= datosGrafico%>;
     const ctx = document.getElementById('graficaIngresos').getContext('2d');
     const labels = data.map(item => item.label);
     const values = data.map(item => item.value);
@@ -249,21 +293,13 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Ingresos por Mes',
-                data: values,
-                backgroundColor: '#2c6e49',
-                borderRadius: 4
-            }]
+                    label: 'Ingresos por Mes',
+                    data: values,
+                    backgroundColor: '#5abbd8',
+                    borderRadius: 4
+                }]
         },
         options: {
-            responsive: true,
-            plugins: {
-                legend: { display: false },
-                title: {
-                    display: true,
-                    text: 'Gráfico de Ingresos por Mes'
-                }
-            },
             scales: {
                 y: {
                     beginAtZero: true,

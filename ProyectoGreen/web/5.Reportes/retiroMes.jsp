@@ -27,6 +27,9 @@
     if (isDownloadMode) {
         String tipoContenido = "";
         String extensionArchivo = "";
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
+        String fechaActual = sdf.format(new java.util.Date());
+
         switch (request.getParameter("formato")) {
             case "excel":
                 tipoContenido = "application/vnd.ms-excel";
@@ -38,7 +41,8 @@
                 break;
         }
         response.setContentType(tipoContenido);
-        response.setHeader("Content-Disposition", "inline; filename=\"Reporte_Retirados" + extensionArchivo + "\"");
+        String nombreArchivo = "Reporte_Retirados_Por_Mes-" + fechaActual + extensionArchivo;
+        response.setHeader("Content-Disposition", "inline; filename=\"" + nombreArchivo + "\"");
     }
 %>
 
@@ -128,7 +132,6 @@
         background-color: #24723b;
     }
 
-
 </style>
 <% } %>
 
@@ -137,7 +140,7 @@
 <% } %>
 
 <div class="content">
-    <h3 class="titulo">REPORTE DE RETIROS DE COLABORADORES POR MES - GREEN S.A.S</h3>
+    <h3 class="titulo">REPORTE DE COLABORADORES RETIRADOS POR MES - GREEN S.A.S</h3>
 
     <%
         String[] mesesNombres = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
@@ -212,7 +215,7 @@
 
     <%   // Mostrar el mes y año en el título
         if (!mesNombre.isEmpty()) {
-            out.println("<h4 class='titulo-mes'>Retiros del mes de " + mesNombre + " " + (anioParam != null ? anioParam : "") + "</h4>");
+            out.println("<h4 class='titulo-mes'>Mes: " + mesNombre + " " + (anioParam != null ? anioParam : "") + "</h4>");
         } else {
             out.println("<h4 class='titulo-mes'>Retiros (Mes no seleccionado)</h4>");
         }%>
@@ -234,17 +237,23 @@
             <th>Nombre completo</th>
             <th>Cargo</th>
             <th>Establecimiento</th>
+            <th>Unidad de negocio</th>
             <th>Fecha de retiro</th>
         </tr>
-        <% for (Persona p : retirados) {
+        <%
+            for (Persona p : retirados) {
                 Cargo cargoObj = new Cargo();
                 String nombreCargo = cargoObj.getCargoPersona(p.getIdentificacion());
                 InformacionLaboral infoLab = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
                 String establecimiento = "";
                 String fechaRetiro = "";
+                String unidadNegocio = "";  // <-- inicializo aquí
+
                 if (infoLab != null) {
                     establecimiento = infoLab.getEstablecimiento();
                     fechaRetiro = infoLab.getFechaRetiro();
+                    // Supongamos que existe método getUnidadNegocio()
+                    unidadNegocio = infoLab.getUnidadNegocio();
                 }
         %>
         <tr>
@@ -252,18 +261,25 @@
             <td><%= p.getNombres() + " " + p.getApellidos()%></td>
             <td><%= nombreCargo%></td>
             <td><%= establecimiento%></td>
+            <td><%= unidadNegocio%></td>
             <td><%= fechaRetiro%></td>
         </tr>
-        <% }%>
+        <% } %>
     </table>
+    <%
+        if (!isDownloadMode) {
+    %>
     <div style="text-align: center; margin-top: 20px;">
         <a href="retiroColaboradores.jsp">
-            <button class="btn-retorno">VER AÑO</button>
+            <button class="btn-retorno">VOLVER</button>
         </a>
     </div>
+    <%
+        }
+    %>
 
     <% if (!isDownloadMode) {%>
-    <h3>Indicador de retiros por mes</h3>
+    <h3 class="titulo">Indicador por meses</h3>
     <div style="display: flex; gap: 20px; align-items: flex-start;">
         <div>
             <table class="table" border="1">
