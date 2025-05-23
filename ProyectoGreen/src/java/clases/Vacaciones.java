@@ -19,8 +19,7 @@ public class Vacaciones {
     private String diasCompensar;
     private String observacion;
 
-    public Vacaciones() {
-    }
+    public Vacaciones() {}
 
     public Vacaciones(String idVacaciones) {
         String consultaSQL = "SELECT idVacaciones, Id_persona, periodoDisfrute, periodoDisfruteFin, diasDisfrutados, diasCompensados, diasCompensar, observacion "
@@ -43,6 +42,7 @@ public class Vacaciones {
     }
 
     // Getters y setters...
+
     public String getIdVacaciones() {
         return idVacaciones;
     }
@@ -107,72 +107,72 @@ public class Vacaciones {
         this.observacion = observacion;
     }
 
-public boolean grabar() {
-    // Primero, obtener la fecha de ingreso de la persona desde la base de datos (asumo que tienes un método para obtenerla)
-    String consultaFechaIngreso = "SELECT fechaIngreso FROM persona WHERE identificacion = '" + idPersona + "'";
-    ResultSet rsFechaIngreso = ConectorBD.consultar(consultaFechaIngreso);
-    Date fechaIngreso = null;
+    
+   
+    // Método para grabar vacaciones
+    public boolean grabar() {
+        // Cambiado: se consulta ahora en 'informacionlaboral'
+        String consultaFechaIngreso = "SELECT fechaIngreso FROM informacionlaboral WHERE identificacion = '" + idPersona + "'";
+        ResultSet rsFechaIngreso = ConectorBD.consultar(consultaFechaIngreso);
+        Date fechaIngreso = null;
 
-    try {
-        if (rsFechaIngreso.next()) {
-            fechaIngreso = rsFechaIngreso.getDate("fechaIngreso");
+        try {
+            if (rsFechaIngreso != null && rsFechaIngreso.next()) {
+                fechaIngreso = rsFechaIngreso.getDate("fechaIngreso");
+            } else {
+                System.out.println("No se encontró fecha de ingreso en informacionlaboral.");
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+        int diasDisfrutadosInt = Integer.parseInt(diasDisfrutados);
+        int diasRestantes = calcularVacacionesAcumuladas(fechaIngreso, diasDisfrutadosInt);
+
+        if (diasRestantes >= 0) {
+            String consultaSQL = "INSERT INTO vacaciones (Id_persona, periodoDisfrute, periodoDisfruteFin, diasDisfrutados, diasCompensados, diasCompensar, observacion) VALUES ("
+                    + "'" + idPersona + "', "
+                    + (periodoDisfrute != null ? "'" + periodoDisfrute + "'" : "NULL") + ", "
+                    + (periodoDisfruteFin != null ? "'" + periodoDisfruteFin + "'" : "NULL") + ", "
+                    + "'" + diasDisfrutados + "', "
+                    + (diasCompensados != null ? "'" + diasCompensados + "'" : "NULL") + ", "
+                    + "'" + diasCompensar + "', "
+                    + (observacion != null ? "'" + observacion + "'" : "NULL") + ")";
+            return ConectorBD.ejecutarQuery(consultaSQL);
+        } else {
+            System.out.println("Error: no puedes disfrutar más días de vacaciones de los acumulados.");
+            return false;
+        }
     }
 
-    // Calcular los días restantes
-    int diasDisfrutadosInt = Integer.parseInt(diasDisfrutados);
-    int diasRestantes = calcularVacacionesAcumuladas(fechaIngreso, diasDisfrutadosInt);
-
-    // Si los días disfrutados no superan los días acumulados
-    if (diasRestantes >= 0) {
-        // Realizar la inserción solo si los días disfrutados no superan los días acumulados
-        String consultaSQL = "INSERT INTO vacaciones (Id_persona, periodoDisfrute, periodoDisfruteFin, diasDisfrutados, diasCompensados, diasCompensar, observacion) VALUES ("
-                + "'" + idPersona + "', "
-                + (periodoDisfrute != null && !periodoDisfrute.trim().isEmpty() ? "'" + periodoDisfrute + "'" : "NULL") + ", "
-                + (periodoDisfruteFin != null && !periodoDisfruteFin.trim().isEmpty() ? "'" + periodoDisfruteFin + "'" : "NULL") + ", "
-                + "'" + diasDisfrutados + "', "
-                + (diasCompensados != null && !diasCompensados.trim().isEmpty() ? "'" + diasCompensados + "'" : "NULL") + ", "
-                + "'" + diasCompensar + "', "
-                + "'" + observacion + "')";
-        return ConectorBD.ejecutarQuery(consultaSQL);
-    } else {
-        // Si los días disfrutados son mayores que los acumulados
-        System.out.println("Error: no puedes disfrutar más días de vacaciones de los acumulados.");
-        return false;
-    }
-}
-
-
-    // Método para modificar una entrada existente
     public boolean modificar(String idAnterior) {
         String consultaSQL = "UPDATE vacaciones SET "
                 + "Id_persona = '" + idPersona + "', "
-                + "periodoDisfrute = " + (periodoDisfrute != null && !periodoDisfrute.trim().isEmpty() ? "'" + periodoDisfrute + "'" : "NULL") + ", "
-                + "periodoDisfruteFin = " + (periodoDisfruteFin != null && !periodoDisfruteFin.trim().isEmpty() ? "'" + periodoDisfruteFin + "'" : "NULL") + ", "
+                + "periodoDisfrute = " + (periodoDisfrute != null ? "'" + periodoDisfrute + "'" : "NULL") + ", "
+                + "periodoDisfruteFin = " + (periodoDisfruteFin != null ? "'" + periodoDisfruteFin + "'" : "NULL") + ", "
                 + "diasDisfrutados = '" + diasDisfrutados + "', "
-                + "diasCompensados = " + (diasCompensados != null && !diasCompensados.trim().isEmpty() ? "'" + diasCompensados + "'" : "NULL") + ", "
+                + "diasCompensados = " + (diasCompensados != null ? "'" + diasCompensados + "'" : "NULL") + ", "
                 + "diasCompensar = '" + diasCompensar + "', "
-                + "observacion = '" + observacion + "' "
+                + "observacion = " + (observacion != null ? "'" + observacion + "'" : "NULL") + " "
                 + "WHERE idVacaciones = '" + idAnterior + "'";
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
 
-    // Método para eliminar una entrada
     public boolean eliminar(String id) {
         String consultaSQL = "DELETE FROM vacaciones WHERE idVacaciones = '" + id + "'";
         return ConectorBD.ejecutarQuery(consultaSQL);
     }
 
-    // Método para obtener todas las vacaciones
     public static ResultSet getLista() {
         String consultaSQL = "SELECT v.idVacaciones, v.Id_persona, v.periodoDisfrute, v.periodoDisfruteFin, v.diasDisfrutados, v.diasCompensados, "
-                + "v.diasCompensar, v.observacion, p.nombres, p.apellidos, p.fechaIngreso "
+                + "v.diasCompensar, v.observacion, p.nombres, p.apellidos "
                 + "FROM vacaciones v "
                 + "JOIN persona p ON v.Id_persona = p.identificacion";
         return ConectorBD.consultar(consultaSQL);
     }
+
 
     // Obtener lista como objetos
     public static List<Vacaciones> getListaEnObjetos(String filtro, String orden) {
@@ -230,6 +230,7 @@ public boolean grabar() {
 
     // Calcular los días acumulados: 15 días por cada año completo de trabajo
     int diasAcumulados = 0;
+    
     if (aniosDeTrabajo >= 1) {
         diasAcumulados = 15 * aniosDeTrabajo; // 15 días por cada año completo trabajado
     }
