@@ -41,6 +41,7 @@ public class DiaFamilia {
         } catch (SQLException ex) {
             System.out.println("Error al consultar DiaFamilia: " + ex.getMessage());
         }
+        
     }
 
     public String getIdDiaFamilia() {

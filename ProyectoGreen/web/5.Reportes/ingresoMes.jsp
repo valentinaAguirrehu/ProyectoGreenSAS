@@ -248,9 +248,9 @@
             <td><%= nombreCargo%></td>
             <td><%= info.getUnidadNegocio()%></td>
             <td>
-                <a href="ingresoMes.jsp?anio=<%= anioIngreso%>&mes=<%= mesIngreso%>">
-                    <%= info.getFechaIngreso()%>
-                </a>
+             
+                <%= info.getFechaIngreso()%>
+
             </td>
         </tr>
         <%

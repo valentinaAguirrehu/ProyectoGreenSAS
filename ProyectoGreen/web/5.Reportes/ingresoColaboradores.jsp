@@ -189,7 +189,7 @@
             }
         }
 
-        Map<Integer, Integer> ingresosPorAnio = new TreeMap<>();
+        Map<String, Integer> ingresosPorPeriodo = new TreeMap<>();
         int totalIngresos = 0;
 
         for (Persona p : listaPersonasFiltradas) {
@@ -198,9 +198,22 @@
                 try {
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(info.getFechaIngreso()));
+
                     int anio = cal.get(Calendar.YEAR);
-                    ingresosPorAnio.put(anio, ingresosPorAnio.getOrDefault(anio, 0) + 1);
-                    totalIngresos++;
+                    int mes = cal.get(Calendar.MONTH) + 1;
+
+                    if (anioFiltro == null || anioFiltro.isEmpty()) {
+                        // Agrupar por año
+                        String clave = String.valueOf(anio);
+                        ingresosPorPeriodo.put(clave, ingresosPorPeriodo.getOrDefault(clave, 0) + 1);
+                        totalIngresos++;
+                    } else if (anio == Integer.parseInt(anioFiltro)) {
+                        // Agrupar por mes del año filtrado
+                        String clave = String.format("%02d", mes); // ejemplo: "01" para enero
+                        ingresosPorPeriodo.put(clave, ingresosPorPeriodo.getOrDefault(clave, 0) + 1);
+                        totalIngresos++;
+                    }
+
                 } catch (ParseException e) {
                     System.out.println("Error al parsear la fecha para gráfica");
                 }
@@ -210,19 +223,30 @@
         String tablaResumen = "";
         String datosGrafico = "[";
         int contador = 0;
-        for (Map.Entry<Integer, Integer> entry : ingresosPorAnio.entrySet()) {
-            int anio = entry.getKey();
+
+        for (Map.Entry<String, Integer> entry : ingresosPorPeriodo.entrySet()) {
+            String periodo = entry.getKey(); // año o mes
             int cantidad = entry.getValue();
             double porcentaje = (cantidad / (double) totalIngresos) * 100;
 
-            tablaResumen += "<tr><td>" + anio + "</td><td>" + cantidad + "</td><td>" + String.format("%.2f", porcentaje) + "%</td></tr>";
+            // Si es mes, conviértelo a nombre de mes
+            String label = periodo;
+            if (anioFiltro != null && !anioFiltro.isEmpty()) {
+                String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+                int mesIndex = Integer.parseInt(periodo) - 1;
+                label = meses[mesIndex];
+            }
+
+            tablaResumen += "<tr><td>" + label + "</td><td>" + cantidad + "</td><td>" + String.format("%.2f", porcentaje) + "%</td></tr>";
 
             if (contador++ > 0) {
                 datosGrafico += ",";
             }
-            datosGrafico += "{ years: '" + anio + "', value: " + cantidad + " }";
+            datosGrafico += "{ years: '" + label + "', value: " + cantidad + " }";
         }
         datosGrafico += "]";
+
     %>
 
     <!-- Tabla principal -->
@@ -235,8 +259,7 @@
             <th>Unidad de Negocio</th>
             <th>Fecha de Ingreso</th>
         </tr>
-        <%
-            for (Persona p : personasConIngreso) {
+        <%            for (Persona p : personasConIngreso) {
                 InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
                 if (info == null || info.getFechaIngreso() == null || info.getFechaIngreso().isEmpty()) {
                     continue;

@@ -171,7 +171,7 @@
     <%
         String anioFiltro = request.getParameter("anio");
         List<Persona> filtrados = new ArrayList<>();
-        Map<Integer, Integer> retirosPorAnio = new TreeMap<>();
+        Map<String, Integer> retirosPorPeriodo = new TreeMap<>();
         int totalRetiros = 0;
 
         for (Persona p : retirados) {
@@ -182,39 +182,58 @@
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(fechaRetiroDate);
                     int anio = cal.get(Calendar.YEAR);
+                    int mes = cal.get(Calendar.MONTH) + 1;
 
-                    // Filtro por año
-                    if (anioFiltro == null || anioFiltro.isEmpty() || anio == Integer.parseInt(anioFiltro)) {
-                        filtrados.add(p);
+                    if (anioFiltro == null || anioFiltro.isEmpty()) {
+                        // Agrupar por año
+                        String clave = String.valueOf(anio);
+                        retirosPorPeriodo.put(clave, retirosPorPeriodo.getOrDefault(clave, 0) + 1);
+                    } else if (anio == Integer.parseInt(anioFiltro)) {
+                        // Agrupar por mes
+                        String clave = String.format("%02d", mes);
+                        retirosPorPeriodo.put(clave, retirosPorPeriodo.getOrDefault(clave, 0) + 1);
                     }
 
-                    retirosPorAnio.put(anio, retirosPorAnio.getOrDefault(anio, 0) + 1);
-                    totalRetiros++;
+                    // Solo cuenta como total si entra en la condición
+                    if (anioFiltro == null || anioFiltro.isEmpty() || anio == Integer.parseInt(anioFiltro)) {
+                        filtrados.add(p);
+                        totalRetiros++;
+                    }
+
                 } catch (Exception e) {
                     // Ignorar fechas inválidas
                 }
             }
         }
 
-        // Construir tabla resumen y datos para gráfico
         StringBuilder tablaResumen = new StringBuilder();
         StringBuilder datosGrafico = new StringBuilder("[");
         int contador = 0;
-        for (Map.Entry<Integer, Integer> entry : retirosPorAnio.entrySet()) {
-            int anio = entry.getKey();
+
+        for (Map.Entry<String, Integer> entry : retirosPorPeriodo.entrySet()) {
+            String periodo = entry.getKey();
             int cantidad = entry.getValue();
             double porcentaje = (cantidad / (double) totalRetiros) * 100;
 
-            tablaResumen.append("<tr><td>").append(anio).append("</td><td>")
+            // Si se filtró por año, el período es un mes, así que lo convertimos a nombre
+            String label = periodo;
+            if (anioFiltro != null && !anioFiltro.isEmpty()) {
+                String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+                label = meses[Integer.parseInt(periodo) - 1];
+            }
+
+            tablaResumen.append("<tr><td>").append(label).append("</td><td>")
                     .append(cantidad).append("</td><td>")
                     .append(String.format("%.2f", porcentaje)).append("%</td></tr>");
 
             if (contador++ > 0) {
                 datosGrafico.append(",");
             }
-            datosGrafico.append("{ years: '").append(anio).append("', value: ").append(cantidad).append(" }");
+            datosGrafico.append("{ years: '").append(label).append("', value: ").append(cantidad).append(" }");
         }
         datosGrafico.append("]");
+
     %>
 
     <table border="1" class="table">
@@ -226,8 +245,7 @@
             <th>Unidad de negocio</th>
             <th>Fecha de retiro</th>
         </tr>
-        <%
-            for (Persona p : filtrados) {
+        <%            for (Persona p : filtrados) {
                 InformacionLaboral hl = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
                 if (hl == null || hl.getFechaRetiro() == null || hl.getFechaRetiro().isEmpty()) {
                     continue;
@@ -298,7 +316,7 @@
                         labelText: "{valueY}"
                     })
                 }));
-                    var data = <%= datosGrafico.toString()%>;
+                var data = <%= datosGrafico.toString()%>;
                 xAxis.data.setAll(data);
                 series.data.setAll(data);
                 series.appear(1000);
