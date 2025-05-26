@@ -91,19 +91,34 @@ public class DevolucionDotacion {
         this.jsonPrendas = jsonPrendas;
     }
 
-    public boolean modificar(String idAnterior) {
-        String sql = "UPDATE devolucionDotacion SET "
-                + "id_persona = '" + idPersona + "', "
-                + "fecha_devolucion = '" + fechaDevolucion + "', "
-                + "numero_devolucion = '" + numeroDevolucion + "', "
-                + "tipo_entrega = '" + tipoEntrega + "' "
-                + "WHERE id_devolucion = " + idAnterior;
+   public boolean modificarDevolucionDotacion() {
+        if (this.idDevolucion == null || this.idDevolucion.trim().isEmpty()) {
+            System.out.println("Error: idDevolucion no definido para modificar.");
+            return false;
+        }
+
+        String sql = "UPDATE devolucionDotacion SET id_persona='" + idPersona
+                + "', fecha_devolucion='" + fechaDevolucion
+                + "', tipo_entrega='" + tipoEntrega
+                + "', numero_devolucion='" + numeroDevolucion
+                + "', responsable='" + responsable
+                + "', observacion='" + observacion
+                + "' WHERE id_devolucion=" + idDevolucion;
+
         return ConectorBD.ejecutarQuery(sql);
     }
 
-    public boolean eliminar(String id) {
-        String sql = "DELETE FROM devolucionDotacion WHERE id_devolucion = " + id;
-        return ConectorBD.ejecutarQuery(sql);
+    public boolean eliminarDevolucionDotacion() {
+        if (this.idDevolucion == null || this.idDevolucion.trim().isEmpty()) {
+            System.out.println("Error: idDevolucion no definido para eliminar.");
+            return false;
+        }
+
+        String eliminarPrincipal = "DELETE FROM devolucionDotacion WHERE id_devolucion=" + idDevolucion;
+
+        boolean principalOk = ConectorBD.ejecutarQuery(eliminarPrincipal);
+
+        return principalOk;
     }
 
     public static List<DevolucionDotacion> getListaEnObjetos(String filtro, String orden) {
