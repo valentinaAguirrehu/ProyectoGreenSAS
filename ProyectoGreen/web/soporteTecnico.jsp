@@ -140,7 +140,7 @@
     <div class="team-container">
         <!-- Persona 1 -->
         <div class="profile-card">
-            <img src="presentacion/imagenes/imagensena.PNG" alt="Foto de Angie">
+            <img src="presentacion/imagenesManual/yo.PNG"alt="Foto de Angie">
             <h2>Angie Benavides</h2>
             <p><span class="label"><i class="fas fa-envelope"></i>Correo:</span>
                 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=angiebenavides1809@gmail.com" target="_blank">angiebenavides1809@gmail.com</a>
@@ -152,7 +152,7 @@
 
         <!-- Persona 2 -->
         <div class="profile-card">
-            <img src="presentacion/imagenes/imagensena.PNG" alt="Foto de Maria">
+            <img src="presentacion/imagenesManual/yo.PNG" alt="Foto de Maria">
             <h2>Maria de los Angeles Perez</h2>
             <p><span class="label"><i class="fas fa-envelope"></i>Correo:</span>
                 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=marysalazarr27@gmail.com" target="_blank">marysalazarr27@gmail.com</a>
@@ -164,7 +164,7 @@
 
         <!-- Persona 3 -->
         <div class="profile-card">
-            <img src="presentacion/imagenes/imagensena.PNG" alt="Foto de Valentina">
+            <img src="presentacion/imagenesManual/yo.PNG" alt="Foto de Valentina">
             <h2>Valentina Aguirre</h2>
             <p><span class="label"><i class="fas fa-envelope"></i>Correo:</span>
                 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=valentinaaguirre@gmail.com" target="_blank">valentinaaguirre@gmail.com</a>
