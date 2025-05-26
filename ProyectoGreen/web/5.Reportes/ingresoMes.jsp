@@ -215,6 +215,9 @@
         datosGrafico += "]";
     %>
 
+    <!-- Mostrar el conteo de personas -->
+    <p class="titulo-mes">Total de ingresos: <%= personasConIngreso.size()%></p>
+
     <% if (!isDownloadMode) {%>
     <div class="iconos-container">
         <a href="ingresoColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
@@ -248,7 +251,7 @@
             <td><%= nombreCargo%></td>
             <td><%= info.getUnidadNegocio()%></td>
             <td>
-             
+
                 <%= info.getFechaIngreso()%>
 
             </td>

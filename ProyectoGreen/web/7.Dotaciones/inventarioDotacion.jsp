@@ -41,7 +41,7 @@
         }
     }
 
-    String idFecha = "1"; 
+    String idFecha = "1";
     FechaProxEntregaDotacion fechas = new FechaProxEntregaDotacion(idFecha);
     String fechaAdmin = fechas.getFecha_admin();
     String fechaOperativo = fechas.getFecha_operativo();
@@ -151,21 +151,71 @@
         event.target.classList.add('active');
     }
 
-    function filtrarContenido() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const tabContents = document.querySelectorAll('.tab-content');
+    let ultimoValorBuscado = "";
 
-        tabContents.forEach(tab => {
+    function filtrarContenido() {
+        const input = document.getElementById('searchInput').value.toLowerCase().trim();
+        const tabs = document.querySelectorAll('.tab-content');
+        const buttons = document.querySelectorAll('.tab-btn');
+
+        // Si el usuario borró todo el texto y antes había escrito algo, recargar la página
+        if (input === "" && ultimoValorBuscado !== "") {
+            location.reload();
+            return;
+        }
+
+        // Actualizar el valor buscado
+        ultimoValorBuscado = input;
+
+        if (input === "") {
+            // Restaurar estado inicial
+            tabs.forEach((tab, i) => {
+                if (i === 0) {
+                    tab.classList.add('active');
+                    tab.style.display = "";
+                } else {
+                    tab.classList.remove('active');
+                    tab.style.display = "none";
+                }
+
+                // Mostrar todas las filas
+                const rows = tab.querySelectorAll("tbody tr");
+                rows.forEach(row => row.style.display = "");
+            });
+
+            buttons.forEach((btn, i) => {
+                if (i === 0) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            return;
+        }
+
+        // Mostrar todas las pestañas y aplicar filtro global
+        tabs.forEach(tab => {
+            tab.classList.add('active');
+            tab.style.display = "";
             const rows = tab.querySelectorAll("tbody tr");
-            let matchFound = false;
+            let hasMatch = false;
 
             rows.forEach(row => {
                 const text = row.innerText.toLowerCase();
-                const show = text.includes(input);
-                row.style.display = show ? "" : "none";
-                if (show)
-                    matchFound = true;
+                const match = text.includes(input);
+                row.style.display = match ? "" : "none";
+                if (match)
+                    hasMatch = true;
             });
+
+            // Ocultar pestaña si no tiene coincidencias
+            tab.style.display = hasMatch ? "" : "none";
         });
+
+        // Quitar estado activo de los botones de pestañas
+        buttons.forEach(btn => btn.classList.remove('active'));
     }
+
+
 </script>

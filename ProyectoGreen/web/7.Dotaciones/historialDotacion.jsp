@@ -170,13 +170,8 @@
                 <td rowspan="<%= grupo.size()%>"><%= detalle.getEstado()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= entrega.getObservacion()%></td>
                 <td rowspan="<%= grupo.size()%>">
-                    <a class='editar'
-                       href='entregaDotacion.jsp?accion=Modificar&id=<%= entrega.getIdEntrega()%>&idPersona=<%= entrega.getIdPersona()%>&numeroEntrega=<%= entrega.getNumeroEntrega()%>'
-                       title='Modificar'>
-                        <img src='../presentacion/iconos/modificar.png' width='25' height='25'>
-                    </a>
-                    <img src='../presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar'
-                         onclick='eliminarEntrega("<%= entrega.getIdEntrega()%>", "<%= entrega.getIdPersona()%>")'>
+                    <a class='editar'href='entregaDotacion.jsp?accion=Modificar&id=<%= entrega.getIdEntrega()%>&idPersona=<%= entrega.getIdPersona()%>&numeroEntrega=<%= entrega.getNumeroEntrega()%>'title='Modificar'><img src='../presentacion/iconos/modificar.png' width='25' height='25'></a>
+                    <a  class='eliminar'><img src='../presentacion/iconos/eliminar.png' width='25' height='25' title='Eliminar'onclick='eliminarEntrega("<%= entrega.getIdEntrega()%>", "<%= entrega.getIdPersona()%>")'></a>
                 </td>
 
                 <% } %>

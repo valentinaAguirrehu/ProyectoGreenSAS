@@ -220,6 +220,9 @@
             out.println("<h4 class='titulo-mes'>Retiros (Mes no seleccionado)</h4>");
         }%>
 
+    <!-- Mostrar el conteo de personas -->
+    <p class="titulo-mes">Total de retirados: <%= retirados.size()%></p>
+
     <% if (!isDownloadMode) {%>
     <div class="iconos-container">
         <a href="retiroMes.jsp?formato=excel<%= (anioParam != null ? "&anio=" + anioParam : "") + (mesParam != null ? "&mes=" + mesParam : "")%>" target="_blank">

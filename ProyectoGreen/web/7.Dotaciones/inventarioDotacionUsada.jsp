@@ -149,7 +149,14 @@
     }
 
     function filtrarContenido() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
+        const input = document.getElementById('searchInput').value.toLowerCase().trim();
+
+        if (input === "") {
+            // Si el campo está vacío, recargar la página para restaurar el contenido original
+            location.reload();
+            return;
+        }
+
         const tabContents = document.querySelectorAll('.tab-content');
 
         tabContents.forEach(tab => {
@@ -163,7 +170,19 @@
                 if (show)
                     matchFound = true;
             });
+
+            // Mostrar/ocultar la pestaña completa si tiene coincidencias
+            tab.style.display = matchFound ? "" : "none";
+            if (matchFound) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
         });
+
+        // Desactivar todos los botones de pestaña
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     }
+
 </script>
 
