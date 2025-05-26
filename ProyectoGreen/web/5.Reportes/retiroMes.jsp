@@ -48,90 +48,20 @@
 
 <% if (!isDownloadMode) { %>
 <style>
-    body {
-        display: flex;
-        min-height: 10vh;
-        margin: 0;
-    }
-    .titulo {
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color:  #2c6e49;
-        position: relative;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease-in-out;
-    }
-    .titulo:hover {
-        transform: scale(1.05);
-    }
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        border-radius: 8px;
-        overflow: hidden;
-    }
-    .table th, .table td {
-        padding: 12px;
-        border-bottom: 1px solid #ddd;
-        text-align: center;
-    }
-    .table th {
-        background-color: #2c6e49;
-        color: white;
-        text-transform: uppercase;
-    }
-    .table tr:hover {
-        background-color:#daf2da;
-    }
-    .content {
-        flex-grow: 1;
-        overflow-x: auto;
-        margin-left: 220px;
-        padding: 20px;
-    }
-    .titulo-mes {
-        text-align: center;  /* Alineación a la izquierda */
-        font-size: 18px;  /* Título más grande */
-        font-weight: bold;  /* Negrita */
-        color: #000;
-        margin-top: 20px;  /* Espacio superior */
-    }
-
-    .iconos-container {
-        text-align: center; /* Centra los iconos */
-        margin: 15px 0; /* Espaciado superior e inferior */
-    }
-
-    .iconos-container a {
-        margin: 0 4px; /* Espacio entre los iconos */
-        display: inline-block;
-    }
-
-    .iconos-container img {
-        width: 35px; /* Tamaño de los iconos (ajusta según lo necesites) */
-        height: 30px;
-    }
-    .btn-retorno {
-        background-color: #2c6e49;
-        color: white;
-        border: none;
-        padding: 16px 20px;
-        font-size: 12px;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-retorno:hover {
-        background-color: #24723b;
-    }
-
+    body { display: flex; min-height: 10vh; margin: 0; }
+    .titulo { text-align: center; font-size: 24px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: #2c6e49; position: relative; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease-in-out; }
+    .titulo:hover { transform: scale(1.05); }
+    .table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); border-radius: 8px; overflow: hidden; }
+    .table th, .table td { padding: 12px; border-bottom: 1px solid #ddd; text-align: center; }
+    .table th { background-color: #2c6e49; color: white; text-transform: uppercase; }
+    .table tr:hover { background-color: #daf2da; }
+    .content { flex-grow: 1; overflow-x: auto; margin-left: 220px; padding: 20px; }
+    .titulo-mes { text-align: center; font-size: 18px; font-weight: bold; color: #000; margin-top: 20px; }
+    .iconos-container { text-align: center; margin: 15px 0; }
+    .iconos-container a { margin: 0 4px; display: inline-block; }
+    .iconos-container img { width: 35px; height: 30px; }
+    .btn-retorno { background-color: #2c6e49; color: white; border: none; padding: 16px 20px; font-size: 12px; border-radius: 6px; cursor: pointer; transition: background-color 0.3s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+    .btn-retorno:hover { background-color: #24723b; }
 </style>
 <% } %>
 

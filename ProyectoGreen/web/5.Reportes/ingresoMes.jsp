@@ -42,7 +42,7 @@
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 2px;
-        color:  #2c6e49;
+        color: #2c6e49;
         position: relative;
         text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease-in-out;
@@ -69,7 +69,7 @@
         text-transform: uppercase;
     }
     .table tr:hover {
-        background-color:#daf2da;
+        background-color: #daf2da;
     }
     .content {
         flex-grow: 1;
@@ -78,25 +78,22 @@
         padding: 20px;
     }
     .titulo-mes {
-        text-align: center;  /* Alineación a la izquierda */
-        font-size: 18px;  /* Título más grande */
-        font-weight: bold;  /* Negrita */
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
         color: #000;
-        margin-top: 20px;  /* Espacio superior */
+        margin-top: 20px;
     }
-
     .iconos-container {
-        text-align: center; /* Centra los iconos */
-        margin: 15px 0; /* Espaciado superior e inferior */
+        text-align: center;
+        margin: 15px 0;
     }
-
     .iconos-container a {
-        margin: 0 4px; /* Espacio entre los iconos */
+        margin: 0 4px;
         display: inline-block;
     }
-
     .iconos-container img {
-        width: 35px; /* Tamaño de los iconos (ajusta según lo necesites) */
+        width: 35px;
         height: 30px;
     }
     .btn-retorno {
@@ -110,13 +107,10 @@
         transition: background-color 0.3s ease;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
-
     .btn-retorno:hover {
         background-color: #24723b;
     }
-
 </style>
-
 <% } %>
 
 <% if (!isDownloadMode) {%>
@@ -176,7 +170,7 @@
         if (!mesNombre.isEmpty()) {
             out.println("<h4 class='titulo-mes'>Mes: " + mesNombre + " " + (anioParam != null ? anioParam : "") + "</h4>");
         } else {
-            out.println("<h4 class='titulo-mes'>Retiros (Mes no seleccionado)</h4>");
+            out.println("<h4 class='titulo-mes'>Ingreso (Mes no seleccionado)</h4>");
         }
 
         Map<String, Integer> ingresosPorMes = new LinkedHashMap<>();
@@ -217,13 +211,21 @@
 
     <!-- Mostrar el conteo de personas -->
     <p class="titulo-mes">Total de ingresos: <%= personasConIngreso.size()%></p>
-
+    
     <% if (!isDownloadMode) {%>
     <div class="iconos-container">
-        <a href="ingresoMes.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
-        <a href="ingresoMes.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
-    </div>    
+        <a href="ingresoMes.jsp?formato=excel<%=(request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : "")
+                + (request.getParameter("mes") != null ? "&mes=" + request.getParameter("mes") : "")%>" target="_blank">
+            <img src="../presentacion/iconos/excel.png" alt="Exportar a Excel">
+        </a>
+
+        <a href="ingresoMes.jsp?formato=word<%=(request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : "")
+                + (request.getParameter("mes") != null ? "&mes=" + request.getParameter("mes") : "")%>" target="_blank">
+            <img src="../presentacion/iconos/word.png" alt="Exportar a Word">
+        </a>
+    </div>
     <% } %>
+
 
     <!-- Tabla principal -->
     <table border="1" class="table" style="margin-top: 30px;">
