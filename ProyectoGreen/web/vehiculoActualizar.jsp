@@ -24,7 +24,7 @@
     
     vehiculo.setTieneVehiculo(request.getParameter("tieneVehiculo"));
     vehiculo.setNumeroPlacaVehiculo(request.getParameter("numeroPlacaVehiculo"));
-    vehiculo.setTipoVehiculo(request.getParameter("tipoVehiculo"));
+    vehiculo.setTipoVehiculo(request.getParameter("tipoVehiculoFinal"));
     vehiculo.setModeloVehiculo(request.getParameter("modeloVehiculo"));
     vehiculo.setLinea(request.getParameter("linea"));
     vehiculo.setMarca(request.getParameter("marca"));

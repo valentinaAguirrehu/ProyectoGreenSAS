@@ -15,12 +15,12 @@
     Referencia referencia = (Referencia) request.getAttribute("referencia");
     request.setAttribute("referencia", referencia);
 
-    SeguridadSocial seguridadSocial = new SeguridadSocial();
+     SeguridadSocial seguridadSocial = new SeguridadSocial();
     seguridadSocial.setIdentificacion(request.getParameter("identificacion"));
-    seguridadSocial.setEps(request.getParameter("eps"));
-    seguridadSocial.setArl(request.getParameter("arl"));
-    seguridadSocial.setFondoPensiones(request.getParameter("fondoPensiones"));
-    seguridadSocial.setFondoCesantias(request.getParameter("fondoCesantias"));
+    seguridadSocial.setEps(request.getParameter("epsFinal"));
+    seguridadSocial.setArl(request.getParameter("arlFinal"));
+    seguridadSocial.setFondoPensiones(request.getParameter("fondoPensionesFinal"));
+    seguridadSocial.setFondoCesantias(request.getParameter("fondoCesantiasFinal"));
 
     switch (accion) {
         case "Adicionar":

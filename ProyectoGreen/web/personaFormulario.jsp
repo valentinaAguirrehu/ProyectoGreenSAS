@@ -290,7 +290,7 @@
                 <input type="submit" name="accion" value="<%=accion%>">
                 <input type="button" value="Cancelar" onClick="window.history.back()">
                 <!-- Nuevo botón de cambio de estado -->
-                <input type="button" value="Cambiar a Temporal" onclick="cambiarAEstadoTemporal()">
+                <!--<input type="button" value="Cambiar a Temporal" onclick="cambiarAEstadoTemporal()">-->
             </div>
 
             <% if ("Modificar".equals(accion)) { %>
@@ -368,38 +368,39 @@
 
 
         function manejarOtro(selectId, inputId, hiddenId) {
-            var select = document.getElementById(selectId);
-            var input = document.getElementById(inputId);
-            var hiddenInput = document.getElementById(hiddenId);
+    var select = document.getElementById(selectId);
+    var input = document.getElementById(inputId);
+    var hiddenInput = document.getElementById(hiddenId);
 
-            function actualizarHidden() {
-                if (select.value === "O") {
-                    hiddenInput.value = input.value;
-                } else {
-                    hiddenInput.value = select.value;
-                }
-            }
-
-            if (select.value === "O") {
-                input.style.display = "inline-block";
-                input.required = true;
-                actualizarHidden(); // Actualiza el hidden al momento
-
-                // Asegúrate de no duplicar el listener
-                input.removeEventListener("input", actualizarHidden);
-                input.addEventListener("input", actualizarHidden);
-            } else {
-                input.style.display = "none";
-                input.required = false;
-                input.value = "";
-                actualizarHidden();
-            }
+    function actualizarHidden() {
+        if (select.value === "O") {
+            hiddenInput.value = input.value;
+        } else {
+            hiddenInput.value = select.value;
         }
+    }
 
-        window.addEventListener('DOMContentLoaded', function () {
-            manejarOtro('tipoSangre', 'tipoSangreOtro', 'tipoSangreFinal');
-            manejarOtro('tipoVivienda', 'tipoViviendaOtro', 'tipoViviendaFinal');
-        });
+    if (select.value === "O") {
+        input.style.display = "inline-block";
+        input.required = true;
+        actualizarHidden(); // Actualiza el hidden al momento
+
+        input.removeEventListener("input", actualizarHidden);
+        input.addEventListener("input", actualizarHidden);
+    } else {
+        input.style.display = "none";
+        input.required = false;
+        input.value = "";
+        actualizarHidden();
+    }
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+    manejarOtro('tipoSangre', 'tipoSangreOtro', 'tipoSangreFinal');
+    manejarOtro('tipoVivienda', 'tipoViviendaOtro', 'tipoViviendaFinal');
+    manejarOtro('tipoDocumento', 'tipoDocumentoOtro', 'tipoDocumentoFinal');
+});
+
 
 
         // Función que se ejecuta al hacer clic en el botón para cambiar el estado a "Temporal"

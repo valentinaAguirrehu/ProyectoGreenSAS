@@ -4,6 +4,7 @@
     Author     : Mary
 --%>
 
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Vehiculo"%>
 <%@page import="clasesGenericas.ConectorBD"%>
 <%@page import="java.sql.ResultSet"%>
@@ -20,12 +21,8 @@
     System.out.println(" Entrando a vehiculoFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
     Vehiculo vehiculo = new Vehiculo(identificacion);
 
-    if (accion == null || identificacion == null) {
-        // Maneja el caso donde no se pase un parámetro necesario
-        response.sendRedirect("error.jsp");
-        return;
-//      accion = "Adicionar"; // Cambiar a Adicionar si aún no se ha guardado o el boton da null
-
+    if (accion == null) {
+        accion = "Adicionar";
     }
 
     // Validar que la identificación no sea nula o vacía
@@ -34,6 +31,7 @@
     }
     // Solo intenta obtener de la BD si la acción es "Modificar"
     // Verifica si la acción a realizar es "Modificar"
+    InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
 
     if ("Modificar".equals(accion)) {
         // Llama al método estático getInformacionPorIdentificacion de la clase InformacionLaboral
@@ -51,30 +49,23 @@
 
 <%@ include file="menu.jsp" %>
 
-<head>
-    <link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
+<link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
 </head>
 <body>
     <div class="content">
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> VEHICULO</h3>
         <form name="formularioInfLaboral" method="post" action="vehiculoActualizar.jsp" onsubmit=" pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
 
             <h1>Información del vehículo</h1>
             <table border="1">
-               <tr>
+                <tr>
                     <td><label for="identificacion">Identificación:</label></td>
                     <td>
-                        <!-- Mostrar identificación recibida en readonly -->
-                        <input type="text" name="identificacion" id="identificacion" value="<%= identificacion%>" readonly />
-
-                        <!-- También enviarla como campo oculto para el UPDATE -->
-                        <input type="hidden" name="identificacionAnterior" value="<%= vehiculo.getIdentificacion()%>">
-
-                        <!-- Campo oculto para la acción -->
-                        <input type="hidden" name="accion" id="accionHidden" value="<%=accion%>">
+                        <input type="text" name="identificacion" id="identificacion" value="<%= identificacion %>" readonly />
+                        <input type="hidden" name="identificacionAnterior" value="<%= vehiculo.getIdentificacion() %>">
+                        <input type="hidden" name="accion" id="accionHidden" value="<%= accion %>">
                     </td>
                 </tr>
-
                 <!-- Contenedor de la tabla de vehículos -->
                 <div id="tablaVehiculo" style="display: none;">
                     <table border="1">       
@@ -181,14 +172,14 @@
 
                 </div>
                 <script>
-                   function irASiguiente() {
-        var identificacionVisible = document.getElementById("identificacion").value;
-        var accion = document.getElementById("accionHidden").value; // Obtener la acción
-        document.getElementById("identificacionHidden").value = identificacionVisible;
+                    function irASiguiente() {
+                        var identificacionVisible = document.getElementById("identificacion").value;
+                        var accion = document.getElementById("accionHidden").value; // Obtener la acción
+                        document.getElementById("identificacionHidden").value = identificacionVisible;
 
-        // Redirigir a la siguiente página pasando los parámetros correctos
-        window.location.href = "infLaboralFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
-    }
+                        // Redirigir a la siguiente página pasando los parámetros correctos
+                        window.location.href = "infLaboralFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
+                    }
                     function mostrarOcultarVehiculo() {
                         var tieneVehiculo = document.querySelector('input[name="tieneVehiculo"]:checked').value;
 
@@ -237,4 +228,51 @@
                     window.onload = function () {
                         mostrarOcultarVehiculo();
                     };
+                    function manejarOtro(selectId, inputId, hiddenId) {
+                        var select = document.getElementById(selectId);
+                        var input = document.getElementById(inputId);
+                        var hiddenInput = document.getElementById(hiddenId);
+
+                        function actualizarHidden() {
+                            if (select.value === "O") {
+                                hiddenInput.value = input.value;
+                            } else {
+                                hiddenInput.value = select.value;
+                            }
+                        }
+
+                        if (select.value === "O") {
+                            input.style.display = "inline-block";
+                            input.required = true;
+                            actualizarHidden();
+
+                            input.removeEventListener("input", actualizarHidden);
+                            input.addEventListener("input", actualizarHidden);
+                        } else {
+                            input.style.display = "none";
+                            input.required = false;
+                            input.value = "";
+                            actualizarHidden();
+                        }
+
+                        // También escuchar cambios en el select para actualizar visibilidad y valor
+                        select.addEventListener("change", function () {
+                            if (select.value === "O") {
+                                input.style.display = "inline-block";
+                                input.required = true;
+                                actualizarHidden();
+                                input.addEventListener("input", actualizarHidden);
+                            } else {
+                                input.style.display = "none";
+                                input.required = false;
+                                input.value = "";
+                                actualizarHidden();
+                                input.removeEventListener("input", actualizarHidden);
+                            }
+                        });
+                    }
+
+                    window.addEventListener('DOMContentLoaded', function () {
+                        manejarOtro('tipoVehiculo', 'tipoVehiculoOtro', 'tipoVehiculoFinal');
+                    });
                 </script>

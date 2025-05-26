@@ -99,7 +99,7 @@
                         <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
                     </td>
                 <tr>
-                    <th>Unidad de negocio</th>
+                    <th>Unidad de negocio<span style="color: red;">*</span></th>
                     <td>
                         <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
                             <option value="">Seleccione...</option>
@@ -113,7 +113,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Centro de costos</th>
+                    <th>Centro de costos<span style="color: red;">*</span></th>
                     <td>
                         <select name="centroCostos" id="centroCostos" required>
                             <!-- Opciones se llenarán con JavaScript -->
