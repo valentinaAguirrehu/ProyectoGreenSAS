@@ -68,7 +68,7 @@
         .carousel-container {
             position: relative;
             max-width: 600px;
-            margin: 30px auto;
+            margin: 40px auto;
             overflow: hidden;
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
