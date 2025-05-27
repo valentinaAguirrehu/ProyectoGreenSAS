@@ -63,6 +63,54 @@
         .back-button:hover {
             background-color: #333;
         }
+
+        /* Carrusel */
+        .carousel-container {
+            position: relative;
+            max-width: 600px;
+            margin: 30px auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .carousel-slide {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            flex-shrink: 0;
+            user-select: none;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0,0,0,0.5);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 50%;
+            user-select: none;
+            z-index: 10;
+        }
+
+        .left-btn {
+            left: 10px;
+        }
+
+        .right-btn {
+            right: 10px;
+        }
+
+        .carousel-btn:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
     </style>
 </head>
 <body>
@@ -114,8 +162,48 @@
             <img src="../presentacion/imagenesManual/AdicionCargo.PNG" alt="Formulario para agregar cargo">
         </div>
 
+        <h3>¿Cómo modificar o eliminar un cargo?</h3>
+
+        <p>
+            En la tabla que se muestra de los cargos existentes, se encuentran dos íconos junto a cada registro: el ícono de un <strong>lápiz</strong> y el de un <strong>basurero</strong>. 
+            El <strong>lápiz</strong> representa la acción de <strong>modificar</strong> un cargo; al hacer clic en él, se abrirá una interfaz con los datos del cargo previamente registrados, permitiendo editarlos y guardarlos nuevamente. 
+            Por su parte, el ícono de <strong>basurero</strong> permite <strong>eliminar</strong> el cargo correspondiente de forma definitiva. Es recomendable confirmar esta acción, ya que eliminar un cargo lo quita del sistema completamente.
+        </p>
+
+        <!-- Carrusel de imágenes -->
+        <div class="carousel-container">
+            <button class="carousel-btn left-btn" onclick="moveSlide(-1)">&#10094;</button>
+            
+            <div class="carousel-slide">
+                <img src="../presentacion/imagenesManual/cargos.PNG" alt="Imagen 1">
+                <img src="../presentacion/imagenesManual/modificarCargo.png" alt="Imagen 2">
+                <img src="../presentacion/imagenesManual/eliminar.png" alt="Imagen 3">
+            </div>
+            
+            <button class="carousel-btn right-btn" onclick="moveSlide(1)">&#10095;</button>
+        </div>
+
         <a href="../9.ManualUso/manualUso.jsp" class="back-button"><i class="fas fa-arrow-left"></i> Volver al Manual</a>
     </div>
+
+<script>
+    const slideContainer = document.querySelector('.carousel-slide');
+    const slides = document.querySelectorAll('.carousel-slide img');
+    let currentIndex = 0;
+
+    function moveSlide(direction) {
+        currentIndex += direction;
+
+        if (currentIndex < 0) {
+            currentIndex = slides.length - 1;
+        } else if (currentIndex >= slides.length) {
+            currentIndex = 0;
+        }
+
+        const slideWidth = slides[0].clientWidth;
+        slideContainer.style.transform = 'translateX(' + (-slideWidth * currentIndex) + 'px)';
+    }
+</script>
 
 </body>
 </html>
