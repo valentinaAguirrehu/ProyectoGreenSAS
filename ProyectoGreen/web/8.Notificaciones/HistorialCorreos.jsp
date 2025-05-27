@@ -114,7 +114,7 @@ function validarEliminacion(fechaUltimaEnvio) {
     const ahora = new Date();
 
     if (ahora < fechaLimite) {
-        alert("No se puede eliminar el historial. Deben pasar al menos 5 minutos desde el último envío.");
+        alert("No se puede eliminar el historial. Deben pasar al menos 3 minutos desde el último envío.");
         return;
     }
 

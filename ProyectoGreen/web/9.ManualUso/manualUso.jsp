@@ -123,7 +123,7 @@
             </a>
 
             <!-- Módulo 5 -->
-            <a href="ruta/Notificaciones.jsp" class="module-card">
+            <a href="../9.ManualUso/usoNotificaciones.jsp" class="module-card">
                 <i class="fas fa-bell"></i>
                 <h3>Módulo Notificaciones</h3>
                 <p>Gestión y envío de notificaciones internas al personal.</p>

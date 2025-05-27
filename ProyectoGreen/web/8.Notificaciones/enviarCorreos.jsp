@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.sql.*, java.text.SimpleDateFormat" %>
+<%@ page import="java.sql.*, java.text.SimpleDateFormat, java.util.Date" %>
 <%@ page import="clases.Administrador" %>
 
 <%
@@ -51,12 +51,23 @@
             hayRegistros = rs2.isBeforeFirst();
 
             if (hayRegistros) {
+                // Obtener solo la fecha actual (sin hora)
+                Date ahora = new Date();
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                String fechaActual = formato.format(ahora);
     %>
 
+    <!-- Mostrar la fecha actual -->
+    <p style="text-align: center; font-weight: bold; margin-top: 20px;">
+        Fecha actual: <%= fechaActual %>
+    </p>
+
+    <!-- Botón de enviar correos -->
     <form action="../8.Notificaciones/notificacionesContrato.jsp" method="post" style="text-align: center; margin: 20px 0;">
         <button type="submit" class="boton">Enviar Correos</button>
     </form>
 
+    <!-- Tabla de contratos -->
     <table>
         <tr>
             <th>Identificación</th>
