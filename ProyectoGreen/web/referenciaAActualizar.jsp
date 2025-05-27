@@ -1,5 +1,5 @@
 <%-- 
-    Document   : referenciaActualizar
+    Document   : referenciaAActualizar
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
@@ -44,7 +44,7 @@
                     referencia.grabar(); // Llama al método de grabar si es una persona nueva
                     // Redirige inmediatamente después de guardar
                     String id = referencia.getIdentificacion();
-                    response.sendRedirect("vehiculoFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
+                    response.sendRedirect("vehiculoAFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
                     return;
                 } else {
                     out.println("<p>Error: La identificación ya existe en la base de datos.</p>");
@@ -55,7 +55,7 @@
                 // Si la persona ya existe, proceder con la modificación
                 referencia.modificar(identificacionAnterior); // Llama al método de modificar
                 // Redirige al formulario manteniéndose en la vista
-                response.sendRedirect("vehiculoFormulario.jsp?identificacion=" + referencia.getIdentificacion() + "&accion=Modificar");
+                response.sendRedirect("vehiculoAFormulario.jsp?identificacion=" + referencia.getIdentificacion() + "&accion=Modificar");
                 return; // Esto termina la ejecución del JSP aquí
             // break eliminado porque ya no es necesario (ni válido)
 
@@ -72,7 +72,7 @@
         // Redirigir automáticamente si la acción es "Adicionar"
         if ("Adicionar".equals(accion) && referenciaGuardada) {
             String identificacionParaRedirigir = referencia.getIdentificacion();
-            response.sendRedirect("vehiculoFormulario.jsp?identificacion=" + identificacionParaRedirigir);
+            response.sendRedirect("vehiculoAFormulario.jsp?identificacion=" + identificacionParaRedirigir);
             return; // Detiene el JSP después de redirigir
         }
     } catch (Exception e) {
@@ -83,5 +83,5 @@
 
 
 <script type="text/javascript">
-    document.location = "persona.jsp";
+    document.location = "aprendiz.jsp";
 </script>

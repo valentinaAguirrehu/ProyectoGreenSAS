@@ -16,7 +16,7 @@
     // Recuperar la identificación desde la URL o el formulario anterior
     String identificacion = request.getParameter("identificacion");
     // Instancia vacía con la identificación por si no se encuentra en BD
-    System.out.println(" Entrando a referenciaFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
+    System.out.println(" Entrando a referenciaAFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
     Referencia referencia = new Referencia(identificacion);
 
     if (accion == null || identificacion == null) {
@@ -57,7 +57,7 @@
 <body>
     <div class="content"> 
         <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
-        <form name="formulario" method="post" action="referenciaActualizar.jsp" onsubmit="obtenerDatosHijos()">
+        <form name="formulario" method="post" action="referenciaAActualizar.jsp" onsubmit="obtenerDatosHijos()">
             <h1>Referencias familiares</h1>
             <table border="1">
 
@@ -153,12 +153,13 @@
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
                 <input type="button" value="Regresar" onClick="window.history.back()" />
-                <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
+                <input type="button" value="Cancelar" onclick="window.location.href = 'aprendiz.jsp'" />
             </div>
 
             <input type="hidden" id="identificacionHidden" name="identificacionHidden">
             <button type="button" onclick="irASiguiente()">Siguiente: Información Vehiculo</button>
         </form>
+
 </body>
 </html>
 </div>
@@ -169,7 +170,7 @@
         document.getElementById("identificacionHidden").value = identificacionVisible;
 
         // Redirigir a la siguiente página pasando los parámetros correctos
-        window.location.href = "vehiculoFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
+        window.location.href = "vehiculoAFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
     }
 
     let referenciaCount = <%= referenciasConDatos%>;

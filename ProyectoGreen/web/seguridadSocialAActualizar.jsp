@@ -1,9 +1,8 @@
 <%-- 
-    Document   : referenciaActualizar
+    Document   : referenciaAFormulario
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
---%>
-<%@page import="clases.Vehiculo"%>
+--%><%@page import="clases.Vehiculo"%>
 <%@page import="clases.SeguridadSocial"%>
 <%@page import="clases.Referencia"%>
 <%@page import="clasesGenericas.ConectorBD"%>

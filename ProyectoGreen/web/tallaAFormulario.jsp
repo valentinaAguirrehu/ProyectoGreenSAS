@@ -1,5 +1,5 @@
 <%-- 
-    Document   : tallaFormulario
+    Document   : tallaAFormulario
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
@@ -16,7 +16,7 @@
 <%
     String accion = request.getParameter("accion");
     String identificacion = request.getParameter("identificacion");
-    System.out.println("Entrando a tallaFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
+    System.out.println("Entrando a tallaAFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
 
     if (accion == null) {
         accion = "Adicionar";
@@ -40,17 +40,17 @@
 
 <body>
     <div class="content">
-        <h3><%= accion.toUpperCase() %> COLABORADOR</h3>
+        <h3><%= accion.toUpperCase()%> COLABORADOR</h3>
 
-        <form name="tallaFormulario" method="post" action="tallaActualizar.jsp" onsubmit="actualizarOcultos();">
+        <form name="tallaFormulario" method="post" action="tallaAActualizar.jsp" onsubmit="actualizarOcultos();">
             <h1>Información de Tallas</h1>
             <table border="1">
                 <tr>
                     <td><label for="identificacion">Identificación:</label></td>
                     <td>
-                        <input type="text" name="identificacion" id="identificacion" value="<%= identificacion %>" readonly />
-                        <input type="hidden" name="identificacionAnterior" value="<%= talla.getIdentificacion() %>">
-                        <input type="hidden" name="accion" id="accionHidden" value="<%= accion %>">
+                        <input type="text" name="identificacion" id="identificacion" value="<%= identificacion%>" readonly />
+                        <input type="hidden" name="identificacionAnterior" value="<%= talla.getIdentificacion()%>">
+                        <input type="hidden" name="accion" id="accionHidden" value="<%= accion%>">
                     </td>
                 </tr>
             </table>
@@ -59,7 +59,7 @@
                 <tr>
                     <th>Talla de camisa</th>
                     <td>
-                        <%= talla.getTallaCamisa().getSelectTipoMedidaTalla("tallaCamisa") %>
+                        <%= talla.getTallaCamisa().getSelectTipoMedidaTalla("tallaCamisa")%>
                         <input type="text" id="tallaCamisaOtro" style="display:none;" placeholder="Especifique otra talla">
                         <input type="hidden" name="tallaCamisaFinal" id="tallaCamisaFinal">
                     </td>
@@ -67,7 +67,7 @@
                 <tr>
                     <th>Talla de chaqueta</th>
                     <td>
-                        <%= talla.getTallaChaqueta().getSelectTipoMedidaTalla("tallaChaqueta") %>
+                        <%= talla.getTallaChaqueta().getSelectTipoMedidaTalla("tallaChaqueta")%>
                         <input type="text" id="tallaChaquetaOtro" style="display:none;" placeholder="Especifique otra talla">
                         <input type="hidden" name="tallaChaquetaFinal" id="tallaChaquetaFinal">
                     </td>
@@ -75,7 +75,7 @@
                 <tr>
                     <th>Talla de pantalón</th>
                     <td>
-                        <%= talla.getTallaPantalon().getSelectTipoMedidaTalla("tallaPantalon") %>
+                        <%= talla.getTallaPantalon().getSelectTipoMedidaTalla("tallaPantalon")%>
                         <input type="text" id="tallaPantalonOtro" style="display:none;" placeholder="Especifique otra talla">
                         <input type="hidden" name="tallaPantalonFinal" id="tallaPantalonFinal">
                     </td>
@@ -83,7 +83,7 @@
                 <tr>
                     <th>Talla de calzado</th>
                     <td>
-                        <%= talla.getTallaCalzado().getSelectTipoMedidaTalla("tallaCalzado") %>
+                        <%= talla.getTallaCalzado().getSelectTipoMedidaTalla("tallaCalzado")%>
                         <input type="text" id="tallaCalzadoOtro" style="display:none;" placeholder="Especifique otra talla">
                         <input type="hidden" name="tallaCalzadoFinal" id="tallaCalzadoFinal">
                     </td>
@@ -91,7 +91,7 @@
                 <tr>
                     <th>Talla de buzo</th>
                     <td>
-                        <%= talla.getTallaBuzo().getSelectTipoMedidaTalla("tallaBuzo") %>
+                        <%= talla.getTallaBuzo().getSelectTipoMedidaTalla("tallaBuzo")%>
                         <input type="text" id="tallaBuzoOtro" style="display:none;" placeholder="Especifique otra talla">
                         <input type="hidden" name="tallaBuzoFinal" id="tallaBuzoFinal">
                     </td>
@@ -99,7 +99,7 @@
                 <tr>
                     <th>Talla de overol</th>
                     <td>
-                        <%= talla.getTallaO().getSelectTipoMedidaTalla("tallaO") %>
+                        <%= talla.getTallaO().getSelectTipoMedidaTalla("tallaO")%>
                         <input type="text" id="tallaOOtro" style="display:none;" placeholder="Especifique otra talla">
                         <input type="hidden" name="tallaOFinal" id="tallaOFinal">
                     </td>
@@ -107,7 +107,7 @@
                 <tr>
                     <th>Talla de guantes</th>
                     <td>
-                        <%= talla.getTallaGuantes().getSelectTipoMedidaTalla("tallaGuantes") %>
+                        <%= talla.getTallaGuantes().getSelectTipoMedidaTalla("tallaGuantes")%>
                         <input type="text" id="tallaGuantesOtro" style="display:none;" placeholder="Especifique otra talla">
                         <input type="hidden" name="tallaGuantesFinal" id="tallaGuantesFinal">
                     </td>
@@ -115,7 +115,7 @@
             </table>
 
             <div class="botones-container">
-                <input type="submit" name="accion" value="<%= accion %>">
+                <input type="submit" name="accion" value="<%= accion%>">
                 <input type="button" value="Regresar" onClick="window.history.back()" />
                 <input type="button" value="Cancelar" onClick="window.history.back()">
             </div>
@@ -123,7 +123,7 @@
             <% if ("Modificar".equals(accion)) { %>
             <input type="hidden" id="identificacionHidden" name="identificacionHidden">
             <!--<button type="button" onclick="irASiguiente()">Siguiente: Seguridad social</button>-->
-            <% } %>
+            <% }%>
         </form>
     </div>
 
@@ -171,7 +171,7 @@
 
         function irASiguiente() {
             var id = document.getElementById("identificacion").value;
-            window.location.href = "seguridadSocialFormulario.jsp?identificacion=" + encodeURIComponent(id);
+            window.location.href = "seguridadSocialAFormulario.jsp?identificacion=" + encodeURIComponent(id);
         }
 
         window.addEventListener("DOMContentLoaded", function () {

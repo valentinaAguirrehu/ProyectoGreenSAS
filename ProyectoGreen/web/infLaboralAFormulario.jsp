@@ -19,7 +19,7 @@
     String identificacion = request.getParameter("identificacion");
     // Instancia vacía con la identificación por si no se encuentra en BD
 
-    System.out.println(" Entrando a infLaboralActualizar.jsp con identificacion=" + identificacion + " y accion=" + accion);
+    System.out.println(" Entrando a infLaboralAActualizar.jsp con identificacion=" + identificacion + " y accion=" + accion);
     InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
     String opcionesCargos = Cargo.getListaEnOptions(informacionLaboral.getIdentificacion());
 
@@ -59,8 +59,8 @@
 <body>
 
     <div class="content">
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
-        <form name="formularioInfLaboral" method="post" action="infLaboralActualizar.jsp" onsubmit="return true;">
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> APRENDIZ</h3>
+        <form name="formularioInfLaboral" method="post" action="infLaboralAActualizar.jsp" onsubmit="return true;">
 
             <h1>Informacion laboral</h1>
             <table border="1">
@@ -69,7 +69,7 @@
                     <td>
                         <!-- Mostrar identificación recibida en readonly -->
                         <input type="text" name="identificacion" id="identificacion" value="<%= identificacion%>" readonly />
-                        <input type="hidden" name="identificacionAnterior" value="<%= informacionLaboral.getIdentificacion() %>">
+                        <input type="hidden" name="identificacionAnterior" value="<%= informacionLaboral.getIdentificacion()%>">
                         <input type="hidden" name="accion" id="accionHidden" value="<%=accion%>">
 
                     </td>
@@ -103,11 +103,11 @@
                         <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
                             <option value="">Seleccione...</option>
                             <%
-                                String[] unidades = { "EDS", "RPS" };
+                                String[] unidades = {"EDS", "RPS"};
                                 for (String u : unidades) {
                             %>
-                            <option value="<%= u %>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : "" %>><%= u %></option>
-                            <% } %>
+                            <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
+                            <% }%>
                         </select>
                     </td>
                 </tr>
@@ -122,18 +122,18 @@
                 <tr>
                     <th>Lugar de trabajo<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= informacionLaboral.getEstablecimiento().getSelectLugarTrabajo("establecimiento") %>
+                        <%= informacionLaboral.getEstablecimiento().getSelectLugarTrabajo("establecimiento")%>
                     </td>               
                 </tr>              
                 <tr>
                     <th>Area<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= informacionLaboral.getArea().getSelectArea("area") %>
+                        <%= informacionLaboral.getArea().getSelectArea("area")%>
                     </td>                                
                 <tr>
                     <th>Cargos<span style="color: red;">*</span></th>
                     <td>
-                        <input type="text" name="idCargo" id="idCargo" list="cargosList" value="<%= informacionLaboral.getIdCargo() %>" required />
+                        <input type="text" name="idCargo" id="idCargo" list="cargosList" value="<%= informacionLaboral.getIdCargo()%>" required />
                         <datalist id="cargosList">
                             <%= opcionesCargos%> <!-- Aquí se insertan las opciones dinámicamente -->
                         </datalist>
@@ -149,7 +149,7 @@
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
                 <input type="button" value="Regresar" onClick="window.history.back()" />
-                <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
+                <input type="button" value="Cancelar" onclick="window.location.href = 'aprendiz.jsp'" />
             </div>
 
             <input type="hidden" id="identificacionHidden" name="identificacionHidden">
@@ -158,9 +158,8 @@
 
         </form>
 </body>
-    </div>
-    </html>
-
+</div>
+</html>
 
 <script>
     function irASiguiente() {
@@ -169,7 +168,7 @@
         document.getElementById("identificacionHidden").value = identificacionVisible;
 
         // Redirigir a la siguiente página pasando los parámetros correctos
-        window.location.href = "tallaFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
+        window.location.href = "tallaAFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
     }
 
     const listaCargos = [];
@@ -249,7 +248,7 @@
         precargarCentroCostos();
 
         const centroSelect = document.getElementById("centroCostos");
-        const centroGuardado = "<%= informacionLaboral.getCentroCostos() != null ? informacionLaboral.getCentroCostos() : "" %>";
+        const centroGuardado = "<%= informacionLaboral.getCentroCostos() != null ? informacionLaboral.getCentroCostos() : ""%>";
 
         for (let i = 0; i < centroSelect.options.length; i++) {
             if (centroSelect.options[i].value === centroGuardado) {

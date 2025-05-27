@@ -1,6 +1,6 @@
 
 <%-- 
-    Document   : seguridadSocialTFormulario
+    Document   : seguridadSocialAFormulario
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
@@ -16,7 +16,7 @@
     String accion = request.getParameter("accion");
     String identificacion = request.getParameter("identificacion");
 
-    System.out.println(" Entrando a seguridadSocialTFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
+    System.out.println(" Entrando a seguridadSocialAFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
     SeguridadSocial seguridadSocial = new SeguridadSocial(identificacion);
 
     if (accion == null) {
@@ -42,7 +42,7 @@
 <body>
     <div class="content"> 
         <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> SEGURIDAD SOCIAL</h3>
-        <form name="formulario" method="post" action="seguridadSocialTActualizar.jsp" onsubmit="obtenerDatosHijos()">
+        <form name="formulario" method="post" action="seguridadSocialAActualizar.jsp" onsubmit="obtenerDatosHijos()">
             <h1>Seguridad Social</h1>
             <table border="1">
                 <tr>
@@ -85,7 +85,7 @@
                 <input type="submit" name="accion" value="<%= accion%>" />
                 <!--            <input type="button" value="Cancelar" onClick="window.history.back()" /> este boton envia al anterior formulario-->
                 <input type="button" value="Regresar" onClick="window.history.back()" />
-                <input type="button" value="Cancelar" onclick="window.location.href = 'temporales.jsp'" />
+                <input type="button" value="Cancelar" onclick="window.location.href = 'aprendiz.jsp'" />
 
             </div>
 
@@ -100,7 +100,7 @@
             var accion = document.getElementById("accionHidden").value;
             document.getElementById("identificacionHidden").value = identificacionVisible;
 
-            window.location.href = "referenciaTFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
+            window.location.href = "referenciaAFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
         }
 
         function manejarOtro(selectId, inputId, hiddenId) {

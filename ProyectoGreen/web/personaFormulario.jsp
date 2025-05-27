@@ -47,7 +47,6 @@
 
 <%@ include file="../menu.jsp" %>
 
-<head>
     <link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
 </head>
 <body>
@@ -289,7 +288,8 @@
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
             <input type="button" value="Cancelar" onclick="window.location.href='persona.jsp'" />
-                <!-- Nuevo botón de cambio de estado -->
+            <input type="button" value="Regresar" onClick="window.history.back()" />
+    <!-- Nuevo botón de cambio de estado -->
                 <!--<input type="button" value="Cambiar a Temporal" onclick="cambiarAEstadoTemporal()">-->
             </div>
 

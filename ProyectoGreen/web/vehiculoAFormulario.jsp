@@ -1,8 +1,9 @@
 <%-- 
-    Document   : vahiculoFormulario
+    Document   : vahiculoAFormulario
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
+
 
 <%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Vehiculo"%>
@@ -18,7 +19,7 @@
     // Recuperar la identificación desde la URL o el formulario anterior
     String identificacion = request.getParameter("identificacion");
     // Instancia vacía con la identificación por si no se encuentra en BD
-    System.out.println(" Entrando a vehiculoFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
+    System.out.println(" Entrando a vehiculoAFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
     Vehiculo vehiculo = new Vehiculo(identificacion);
 
     if (accion == null) {
@@ -53,8 +54,8 @@
 </head>
 <body>
     <div class="content">
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> VEHICULO</h3>
-        <form name="formularioInfLaboral" method="post" action="vehiculoActualizar.jsp" onsubmit=" pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> APRENDIZ </h3>
+        <form name="formularioInfLaboral" method="post" action="vehiculoAActualizar.jsp" onsubmit=" pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
 
             <h1>Información del vehículo</h1>
             <table border="1">
@@ -158,7 +159,7 @@
                         <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                         <input type="submit" name="accion" value="<%=accion%>">
                         <input type="button" value="Regresar" onClick="window.history.back()" />
-                        <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
+                        <input type="button" value="Cancelar" onclick="window.location.href = 'aprendiz.jsp'" />
                     </div>
 
                     <input type="hidden" id="identificacionHidden" name="identificacionHidden">
@@ -179,7 +180,7 @@
                         document.getElementById("identificacionHidden").value = identificacionVisible;
 
                         // Redirigir a la siguiente página pasando los parámetros correctos
-                        window.location.href = "infLaboralFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
+                        window.location.href = "infLaboralAFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
                     }
                     function mostrarOcultarVehiculo() {
                         var tieneVehiculo = document.querySelector('input[name="tieneVehiculo"]:checked').value;
