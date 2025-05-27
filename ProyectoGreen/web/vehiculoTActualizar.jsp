@@ -56,7 +56,7 @@
             // Si la persona ya existe, proceder con la modificación
             vehiculo.modificar(identificacionAnterior); // Llama al método de modificar
        // Redirige al formulario manteniéndose en la vista
-            response.sendRedirect("infLaboralFormulario.jsp?identificacion=" + vehiculo.getIdentificacion() + "&accion=Modificar");
+            response.sendRedirect("infLaboralTFormulario.jsp?identificacion=" + vehiculo.getIdentificacion() + "&accion=Modificar");
             return; // Esto termina la ejecución del JSP aquí
         // break eliminado porque ya no es necesario (ni válido)
 
@@ -71,12 +71,12 @@
 if ("Adicionar".equals(accion)) {
     // Suponiendo que la persona ha sido correctamente guardada, redirigir
     String identificacionParaRedirigir = vehiculo.getIdentificacion();
-    response.sendRedirect("infLaboralFormulario.jsp?identificacion=" + identificacionParaRedirigir);
+    response.sendRedirect("infLaboralTFormulario.jsp?identificacion=" + identificacionParaRedirigir);
     return; // Detiene el JSP después de redirigir
 }
 %>
 
 
 <script type="text/javascript">
-    document.location = "persona.jsp";
+    document.location = "temporales.jsp";
 </script>

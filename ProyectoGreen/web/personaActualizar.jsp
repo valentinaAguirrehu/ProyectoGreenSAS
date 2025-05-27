@@ -28,7 +28,7 @@
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("C");
-    persona.setIdCargo(request.getParameter("idCargo"));
+//    persona.setIdCargo(request.getParameter("idCargo"));
     persona.setTipoDocumento(request.getParameter("tipoDocumentoFinal"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
@@ -116,13 +116,16 @@
             }
         }
     }
-    // 🔥 Solo redirigir automáticamente si se guardó (Adicionar), no si se elimina ni modifica
-    if (personaGuardada && "Adicionar".equals(accion)) {
-        String identificacionParaRedirigir = persona.getIdentificacion();
-        response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + identificacionParaRedirigir);
-        return; // Detiene el JSP después de redirigir
+//    // 🔥 Solo redirigir automáticamente si se guardó (Adicionar), no si se elimina ni modifica
+//    if (personaGuardada && "Adicionar".equals(accion)) {
+//        String identificacionParaRedirigir = persona.getIdentificacion();
+//        response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + identificacionParaRedirigir);
+//        return; // Detiene el JSP después de redirigir
+//    }
+if (personaGuardada && "Modificar".equals(accion)) {
+        response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
+        return;
     }
-
     // Si no se guardó, puedes mostrar un error o quedarte en la misma página
 %>
 

@@ -18,7 +18,7 @@
     // Recuperar la identificación desde la URL o el formulario anterior
     String identificacion = request.getParameter("identificacion");
     // Instancia vacía con la identificación por si no se encuentra en BD
-    System.out.println(" Entrando a vehiculoFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
+    System.out.println(" Entrando a vehiculoTFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
     Vehiculo vehiculo = new Vehiculo(identificacion);
 
     if (accion == null) {
@@ -54,7 +54,7 @@
 <body>
     <div class="content">
         <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> VEHICULO</h3>
-        <form name="formularioInfLaboral" method="post" action="vehiculoActualizar.jsp" onsubmit=" pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
+        <form name="formularioInfLaboral" method="post" action="vehiculoTActualizar.jsp" onsubmit=" pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
 
             <h1>Información del vehículo</h1>
             <table border="1">
@@ -157,7 +157,7 @@
                     <div class="botones-container">
                         <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                         <input type="submit" name="accion" value="<%=accion%>">
-                        <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
+                        <input type="button" value="Cancelar" onclick="window.location.href = 'temporales.jsp'" />
                     </div>
 
                     <input type="hidden" id="identificacionHidden" name="identificacionHidden">
@@ -178,7 +178,7 @@
                         document.getElementById("identificacionHidden").value = identificacionVisible;
 
                         // Redirigir a la siguiente página pasando los parámetros correctos
-                        window.location.href = "infLaboralFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
+                        window.location.href = "infLaboralTFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
                     }
                     function mostrarOcultarVehiculo() {
                         var tieneVehiculo = document.querySelector('input[name="tieneVehiculo"]:checked').value;

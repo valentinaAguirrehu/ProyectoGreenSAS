@@ -19,7 +19,7 @@
     String identificacion = request.getParameter("identificacion");
     // Instancia vacía con la identificación por si no se encuentra en BD
 
-    System.out.println(" Entrando a infLaboralActualizar.jsp con identificacion=" + identificacion + " y accion=" + accion);
+    System.out.println(" Entrando a infLaboralTActualizar.jsp con identificacion=" + identificacion + " y accion=" + accion);
     InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
     String opcionesCargos = Cargo.getListaEnOptions(informacionLaboral.getIdentificacion());
 
@@ -61,7 +61,7 @@
 
     <div class="content">
         <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
-        <form name="formularioInfLaboral" method="post" action="infLaboralActualizar.jsp" onsubmit="return true;">
+        <form name="formularioInfLaboral" method="post" action="infLaboralTActualizar.jsp" onsubmit="return true;">
 
             <h1>Informacion laboral</h1>
             <table border="1">
@@ -149,7 +149,7 @@
             <div class="botones-container">
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
-                <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
+                <input type="button" value="Cancelar" onclick="window.location.href = 'temporales.jsp'" />
             </div>
 
             <input type="hidden" id="identificacionHidden" name="identificacionHidden">
@@ -169,7 +169,7 @@
         document.getElementById("identificacionHidden").value = identificacionVisible;
 
         // Redirigir a la siguiente página pasando los parámetros correctos
-        window.location.href = "tallaFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
+        window.location.href = "tallaTFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
     }
 
     const listaCargos = [];

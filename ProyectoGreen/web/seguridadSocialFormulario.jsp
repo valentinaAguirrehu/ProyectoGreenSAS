@@ -1,3 +1,9 @@
+<%-- 
+    Document   : seguridadSocialActualizar
+    Created on : 14/05/2025, 12:59:58 PM
+    Author     : Mary
+--%>
+
 <%@page import="clases.SeguridadSocial"%>
 <%@page import="clasesGenericas.ConectorBD"%>
 <%@page import="java.sql.ResultSet"%>
@@ -81,7 +87,9 @@
         <div class="botones-container">
             <input type="hidden" name="identificacionAnterior" value="<%= identificacion %>" />
             <input type="submit" name="accion" value="<%= accion %>" />
-            <input type="button" value="Cancelar" onClick="window.history.back()" />
+<!--            <input type="button" value="Cancelar" onClick="window.history.back()" /> este boton envia al anterior formulario-->
+            <input type="button" value="Cancelar" onclick="window.location.href='persona.jsp'" />
+
         </div>
 
         <input type="hidden" id="identificacionHidden" name="identificacionHidden" />

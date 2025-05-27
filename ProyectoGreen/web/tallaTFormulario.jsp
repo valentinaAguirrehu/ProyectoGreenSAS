@@ -16,7 +16,7 @@
 <%
     String accion = request.getParameter("accion");
     String identificacion = request.getParameter("identificacion");
-    System.out.println("Entrando a tallaFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
+    System.out.println("Entrando a tallaTFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
 
     if (accion == null) {
         accion = "Adicionar";
@@ -42,7 +42,7 @@
     <div class="content">
         <h3><%= accion.toUpperCase() %> COLABORADOR</h3>
 
-        <form name="tallaFormulario" method="post" action="tallaActualizar.jsp" onsubmit="actualizarOcultos();">
+        <form name="tallaFormulario" method="post" action="tallaTActualizar.jsp" onsubmit="actualizarOcultos();">
             <h1>Información de Tallas</h1>
             <table border="1">
                 <tr>
@@ -169,7 +169,7 @@
 
         function irASiguiente() {
             var id = document.getElementById("identificacion").value;
-            window.location.href = "seguridadSocialFormulario.jsp?identificacion=" + encodeURIComponent(id);
+            window.location.href = "seguridadSocialTFormulario.jsp?identificacion=" + encodeURIComponent(id);
         }
 
         window.addEventListener("DOMContentLoaded", function () {

@@ -39,7 +39,7 @@
                 informacionLaboral.grabar(); // Llama al método de grabar si es una persona nueva
                 // Redirige inmediatamente después de guardar
                 String id = informacionLaboral.getIdentificacion();
-                response.sendRedirect("tallaFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
+                response.sendRedirect("tallaTFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
                 return;
             } else {
                 // Si ya existe, muestra un mensaje de error o realiza alguna acción (opcional)
@@ -51,7 +51,7 @@
             // Si la persona ya existe, proceder con la modificación
             informacionLaboral.modificar(identificacionAnterior); // Llama al método de modificar
             // Redirige al formulario manteniéndose en la vista
-            response.sendRedirect("tallaFormulario.jsp?identificacion=" + informacionLaboral.getIdentificacion() + "&accion=Modificar");
+            response.sendRedirect("tallaTFormulario.jsp?identificacion=" + informacionLaboral.getIdentificacion() + "&accion=Modificar");
             return; // Esto termina la ejecución del JSP aquí
         // break eliminado porque ya no es necesario (ni válido)
 
@@ -65,5 +65,5 @@
 %>
 
 <script type="text/javascript">
-    document.location = "persona.jsp";
+    document.location = "temporales.jsp";
 </script>

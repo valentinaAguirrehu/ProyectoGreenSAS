@@ -16,7 +16,7 @@ String accion = request.getParameter("accion");
     // Recuperar la identificación desde la URL o el formulario anterior
     String identificacion = request.getParameter("identificacion");
     // Instancia vacía con la identificación por si no se encuentra en BD
-    System.out.println(" Entrando a referenciaFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
+    System.out.println(" Entrando a referenciaTFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
     Referencia referencia = new Referencia(identificacion);
 
     if (accion == null || identificacion == null) {
@@ -58,7 +58,7 @@ if (referencia.getCuartaRefNombre() != null && !referencia.getCuartaRefNombre().
 <body>
     <div class="content"> 
         <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
-        <form name="formulario" method="post" action="referenciaActualizar.jsp" onsubmit="obtenerDatosHijos()">
+        <form name="formulario" method="post" action="referenciaTActualizar.jsp" onsubmit="obtenerDatosHijos()">
             <h1>Referencias familiares</h1>
             <table border="1">
 
@@ -153,7 +153,7 @@ if (referencia.getCuartaRefNombre() != null && !referencia.getCuartaRefNombre().
             <div class="botones-container">
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
-            <input type="button" value="Cancelar" onclick="window.location.href='persona.jsp'" />
+            <input type="button" value="Cancelar" onclick="window.location.href='temporales.jsp'" />
             </div>
 
             <input type="hidden" id="identificacionHidden" name="identificacionHidden">
@@ -172,7 +172,7 @@ if (referencia.getCuartaRefNombre() != null && !referencia.getCuartaRefNombre().
         document.getElementById("identificacionHidden").value = identificacionVisible;
 
         // Redirigir a la siguiente página pasando los parámetros correctos
-        window.location.href = "vehiculoFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
+        window.location.href = "vehiculoTFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
     }
 
     let referenciaCount = <%= referenciasConDatos %>;
