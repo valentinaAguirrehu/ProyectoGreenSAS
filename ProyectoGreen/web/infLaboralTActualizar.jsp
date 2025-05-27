@@ -21,7 +21,7 @@
     InformacionLaboral informacionLaboral = new InformacionLaboral();
     informacionLaboral.setIdentificacion(request.getParameter("identificacion"));
     informacionLaboral.setIdCargo(request.getParameter("idCargo"));
-    informacionLaboral.setFechaIngreso(request.getParameter("fechaIngreso"));
+    informacionLaboral.setFechaIngreso(request.getParameter("NA"));
     informacionLaboral.setFechaIngresoTemporal(request.getParameter("fechaIngresoTemporal"));
     informacionLaboral.setFechaRetiro(request.getParameter("fechaRetiro"));
     informacionLaboral.setUnidadNegocio(request.getParameter("unidadNegocio"));

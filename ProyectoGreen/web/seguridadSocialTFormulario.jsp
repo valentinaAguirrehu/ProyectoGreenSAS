@@ -60,7 +60,7 @@
                     <%= seguridadSocial.getEps().getSelectEps("eps") %>
                 </td>
             </tr>
-            <tr>
+<!--            <tr>
                 <th>Fondo Cesantias<span style="color: red;">*</span></th>
                 <td colspan="2">
                     <%= seguridadSocial.getFondoCesantias().getSelectFondoCesantias("fondoCesantias") %>
@@ -77,7 +77,7 @@
                 <td colspan="2">
                     <%= seguridadSocial.getArl().getSelectArl("arl") %>
                 </td>
-            </tr>        
+            </tr>        -->
         </table>
 
         <div class="botones-container">

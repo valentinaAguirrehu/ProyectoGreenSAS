@@ -1,161 +1,60 @@
 <%-- 
-    Document   : seguridadSocialTActualizar
-    Created on : 14/05/2025, 12:59:58 PM
+    Document   : seguridadSocialActualizar
+    Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
-
+<%@page import="clases.Referencia"%>
 <%@page import="clases.SeguridadSocial"%>
 <%@page import="clasesGenericas.ConectorBD"%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8" />
-    <title>Formulario Seguridad Social</title>
-    <link rel="stylesheet" href="presentacion/style-PersonaFormulario.css" />
-    <link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css" />
-</head>
-<body>
 <%
     String accion = request.getParameter("accion");
-    String identificacion = request.getParameter("identificacion");
+    String identificacionAnterior = request.getParameter("identificacionAnterior");
 
-    System.out.println(" Entrando a seguridadSocialTFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
-    SeguridadSocial seguridadSocial = new SeguridadSocial(identificacion);
+    Referencia referencia = (Referencia) request.getAttribute("referencia");
+    request.setAttribute("referencia", referencia);
 
-    if (accion == null) {
-        accion = "Adicionar";
+    SeguridadSocial seguridadSocial = new SeguridadSocial();
+    seguridadSocial.setIdentificacion(request.getParameter("identificacion"));
+    seguridadSocial.setEps(request.getParameter("epsFinal"));
+    seguridadSocial.setArl(request.getParameter("NA"));
+    seguridadSocial.setFondoPensiones(request.getParameter("NA"));
+    seguridadSocial.setFondoCesantias(request.getParameter("NA"));
+
+    switch (accion) {
+        case "Adicionar":
+            // Solo si no existe, lo graba y redirige al formulario para continuar llenando
+            if (seguridadSocial.getSeguridadSocialPorIdentificacion(seguridadSocial.getIdentificacion()) == null) {
+                seguridadSocial.grabar();
+
+                // Redirige al formulario después de guardar
+                String id = seguridadSocial.getIdentificacion();
+                response.sendRedirect("referenciaTFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
+                return; // Importante para evitar que siga ejecutando el resto del JSP
+            } else {
+                out.println("<p>Error: La identificación ya existe en la base de datos.</p>");
+            }
+            break;
+
+        case "Modificar":
+            seguridadSocial.modificar(identificacionAnterior);
+
+            // Redirige al formulario manteniéndose en la vista
+            response.sendRedirect("referenciaTFormulario.jsp?identificacion=" + seguridadSocial.getIdentificacion() + "&accion=Modificar");
+            return; // Esto termina la ejecución del JSP aquí
+        // break eliminado porque ya no es necesario (ni válido)
+
+      case "Cancelar":
+        response.sendRedirect("temporales.jsp");
+        return;
     }
 
-    if (identificacion != null && !identificacion.isEmpty()) {
-        session.setAttribute("identificacion", identificacion);
-    }
-
-    if ("Modificar".equals(accion)) {
-        SeguridadSocial tmp = SeguridadSocial.getSeguridadSocialPorIdentificacion(identificacion);
-        if (tmp != null) {
-            seguridadSocial = tmp;
-        }
-    }
 %>
 
-<%@ include file="menu.jsp" %>
 
-<div class="content"> 
-    <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA") %> SEGURIDAD SOCIAL</h3>
-    <form name="formulario" method="post" action="seguridadSocialTActualizar.jsp" onsubmit="obtenerDatosHijos()">
-        <h1>Seguridad Social</h1>
-        <table border="1">
-            <tr>
-                <td><label for="identificacion">Identificación:</label></td>
-                <td>
-                    <input type="text" name="identificacion" id="identificacion" value="<%= identificacion %>" readonly />
-                    <input type="hidden" name="identificacionAnterior" value="<%= seguridadSocial.getIdentificacion() %>" />
-                    <input type="hidden" name="accion" id="accionHidden" value="<%= accion %>" />
-                </td>
-            </tr>
-
-            <tr>
-                <th>EPS<span style="color: red;">*</span></th>
-                <td colspan="2">
-                    <%= seguridadSocial.getEps().getSelectEps("eps") %>
-                </td>
-            </tr>
-            <tr>
-                <th>Fondo Cesantias<span style="color: red;">*</span></th>
-                <td colspan="2">
-                    <%= seguridadSocial.getFondoCesantias().getSelectFondoCesantias("fondoCesantias") %>
-                </td>
-            </tr>                
-            <tr>
-                <th>Fondo de pensiones<span style="color: red;">*</span></th>
-                <td colspan="2">
-                    <%= seguridadSocial.getFondoPensiones().getSelectFondoPensiones("fondoPensiones") %>
-                </td>
-            </tr>                        
-            <tr>
-                <th>Arl<span style="color: red;">*</span></th>
-                <td colspan="2">
-                    <%= seguridadSocial.getArl().getSelectArl("arl") %>
-                </td>
-            </tr>        
-        </table>
-
-        <div class="botones-container">
-            <input type="hidden" name="identificacionAnterior" value="<%= identificacion %>" />
-            <input type="submit" name="accion" value="<%= accion %>" />
-<!--            <input type="button" value="Cancelar" onClick="window.history.back()" /> este boton envia al anterior formulario-->
-            <input type="button" value="Cancelar" onclick="window.location.href='temporales.jsp'" />
-
-        </div>
-
-        <input type="hidden" id="identificacionHidden" name="identificacionHidden" />
-        <button type="button" onclick="irASiguiente()">Siguiente: Referencias familiares</button>
-    </form>
-</div>
-
-<script>
-    function irASiguiente() {
-        var identificacionVisible = document.getElementById("identificacion").value;
-        var accion = document.getElementById("accionHidden").value;
-        document.getElementById("identificacionHidden").value = identificacionVisible;
-
-        window.location.href = "referenciaTFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
-    }
-
-    function manejarOtro(selectId, inputId, hiddenId) {
-        var select = document.getElementById(selectId);
-        var input = document.getElementById(inputId);
-        var hiddenInput = document.getElementById(hiddenId);
-
-        function actualizarHidden() {
-            if (select.value === "O") {
-                hiddenInput.value = input.value;
-            } else {
-                hiddenInput.value = select.value;
-            }
-        }
-
-        if (select.value === "O") {
-            input.style.display = "inline-block";
-            input.required = true;
-            actualizarHidden();
-
-            input.removeEventListener("input", actualizarHidden);
-            input.addEventListener("input", actualizarHidden);
-        } else {
-            input.style.display = "none";
-            input.required = false;
-            input.value = "";
-            actualizarHidden();
-        }
-
-        // También escuchar cambios en el select para actualizar visibilidad y valor
-        select.addEventListener("change", function() {
-            if (select.value === "O") {
-                input.style.display = "inline-block";
-                input.required = true;
-                actualizarHidden();
-                input.addEventListener("input", actualizarHidden);
-            } else {
-                input.style.display = "none";
-                input.required = false;
-                input.value = "";
-                actualizarHidden();
-                input.removeEventListener("input", actualizarHidden);
-            }
-        });
-    }
-
-    window.addEventListener('DOMContentLoaded', function () {
-        manejarOtro('eps', 'epsOtro', 'epsFinal');
-        manejarOtro('fondoCesantias', 'fondoCesantiasOtro', 'fondoCesantiasFinal');
-        manejarOtro('fondoPensiones', 'fondoPensionesOtro', 'fondoPensionesFinal');
-        manejarOtro('arl', 'arlOtro', 'arlFinal');
-    });
+<script type="text/javascript">
+    // Esto se ejecuta solo si no hubo redirección
+    document.location = "temporales.jsp";
+//    aqui cambiar para que siga el modificar
 </script>
-</body>
-</html>

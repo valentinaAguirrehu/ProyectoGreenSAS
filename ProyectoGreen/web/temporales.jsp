@@ -17,7 +17,7 @@
     for (Persona persona : datos) {
 
         String identificacion = persona.getIdentificacion();
-        String tipoDocumento = persona.getTipoDocumento().getCodigo();
+        String tipoDocumento = persona.getTipoDocumento().toString();
         String nombres = persona.getNombres();
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
