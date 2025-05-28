@@ -80,17 +80,17 @@
         if (id_prenda[i] != null && !id_prenda[i].isEmpty()) {
             if (json.length() > 1) json.append(",");
             json.append("{")
-                .append("\"id_prenda\":").append(id_prenda[i]).append(",")
-                .append("\"talla\":\"").append(talla[i]).append("\",")
-                .append("\"estado\":\"").append(estado[i]).append("\",")
-                .append("\"unidad_negocio\":\"").append(unidadNegocio[i]).append("\",")
-                .append("\"id_persona\":").append(idPersonaNum).append(",")
-                .append("\"fecha_devolucion\":\"").append(fechaDevolucion).append("\",")
-                .append("\"tipo_entrega\":\"").append(tipoEntrega).append("\",")
-                .append("\"numero_devolucion\":").append(numeroDevolucion).append(",")
-                .append("\"responsable\":\"").append(responsable).append("\",")
-                .append("\"observacion\":\"").append(observacion).append("\"")
-                .append("}");
+                    .append("\"id_prenda\":").append(id_prenda[i]).append(",")
+                    .append("\"talla\":\"").append(talla[i]).append("\",")
+                    .append("\"estado\":\"Usada\",")
+                    .append("\"unidad_negocio\":\"").append(unidadNegocio[i]).append("\",")
+                    .append("\"id_persona\":").append(idPersonaNum).append(",")
+                    .append("\"fecha_devolucion\":\"").append(fechaDevolucion).append("\",")
+                    .append("\"tipo_entrega\":\"").append(tipoEntrega).append("\",")
+                    .append("\"numero_devolucion\":").append(numeroDevolucion).append(",")
+                    .append("\"responsable\":\"").append(responsable).append("\",")
+                    .append("\"observacion\":\"").append(observacion).append("\"")
+                    .append("}");
         }
     }
     json.append("]");

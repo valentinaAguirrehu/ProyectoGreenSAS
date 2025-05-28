@@ -139,9 +139,8 @@
         <div class="content">
             <h3 class="titulo">Registrar devolución de dotación</h3>
             <form action="devolucionDotacionActualizar.jsp" method="post">
-                <input type="hidden" name="accion" value="Registrar">
-
-
+                <input type="hidden" name="accion" value="<%= (request.getAttribute("devolucion") != null) ? "Modificar" : "Registrar" %>">
+                
                 <table class="table2">
                     <tbody>
                         <tr>

@@ -120,6 +120,11 @@
     ResultSet unidades = ConectorBD.consultar("SELECT DISTINCT unidad_negocio FROM inventarioDotacion ORDER BY unidad_negocio");
 %>
 
+<% if (request.getAttribute("modo") != null && request.getAttribute("modo").equals("Modificar")) { %>
+    <input type="hidden" name="id" value="<%= request.getAttribute("idEntrega") %>">
+    <input type="hidden" name="numeroEntrega" value="<%= request.getAttribute("numeroEntrega") %>">
+<% } %>
+
 <jsp:include page="../menu.jsp" />
 
 <html>
@@ -131,8 +136,8 @@
         <div class="content">
             <h3 class="titulo">Registrar entrega de dotación</h3>
             <form action="entregaDotacionActualizar.jsp" method="post">
-                <input type="hidden" name="accion" value="Registrar">
-
+                <input type="hidden" name="accion" value="<%= request.getAttribute("modo") != null && request.getAttribute("modo").equals("Modificar") ? "Modificar" : "Registrar" %>">
+                
                 <table class="table2">
                     <tbody>
                         <tr>
