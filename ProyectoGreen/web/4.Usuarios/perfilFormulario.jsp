@@ -52,12 +52,12 @@
             <form method="post" action="perfilActualizar.jsp">
                 <div class="form-group">
                     <label for="identificacion">Identificación:</label>
-                    <input type="text" name="identificacion" id="identificacion" value="<%=usuarioActual.getIdentificacion()%>" readonly>
+                    <input type="text" name="identificacion" id="identificacion" value="<%=usuarioActual.getIdentificacion()%>" readonly required>
                 </div>
 
                 <div class="form-group">
                     <label for="nombres">Nombres:</label>
-                    <input type="text" name="nombres" id="nombres" value="<%=usuarioActual.getNombres()%>">
+                    <input type="text" name="nombres" id="nombres" value="<%=usuarioActual.getNombres()%>" required>
                 </div>
 
                 <input type="text" name="celular" id="celular" value="<%=usuarioActual.getCelular()%>"
@@ -65,17 +65,17 @@
 
                 <div class="form-group">
                     <label for="email">Correo electrónico:</label>
-                    <input type="email" name="email" id="email" value="<%=usuarioActual.getEmail()%>">
+                    <input type="email" name="email" id="email" value="<%=usuarioActual.getEmail()%>" required>
                 </div>
 
                 <div class="form-group">
                     <label for="clave">Nueva contraseña:</label>
-                    <input type="password" name="clave" id="clave" onkeyup="validarClave();">
+                    <input type="password" name="clave" id="clave" onkeyup="validarClave();" required>
                 </div>
 
                 <div class="form-group">
                     <label for="confirmarClave">Confirmar contraseña:</label>
-                    <input type="password" name="confirmarClave" id="confirmarClave" onkeyup="verificarCoincidencia();">
+                    <input type="password" name="confirmarClave" id="confirmarClave" onkeyup="verificarCoincidencia();" required>
                 </div>
 
                 <div id="requisitosClave">
