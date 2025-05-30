@@ -114,7 +114,7 @@
                 Si <strong>no hay contratos por vencer</strong> en ese periodo, se mostrará un mensaje informativo que indica que no existen contratos próximos a vencer.
             </li>
             <li>
-                Si <strong>sí hay contratos por vencer</strong>, aparecerá un listado con las personas cuyos contratos están próximos a vencer dentro de los próximos 30 días.
+                Si <strong>hay contratos por vencer</strong>, aparecerá un listado con las personas cuyos contratos están próximos a vencer dentro de los próximos 30 días.
             </li>
         </ul>
 
