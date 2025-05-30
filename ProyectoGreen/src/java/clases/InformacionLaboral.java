@@ -340,6 +340,20 @@ public class InformacionLaboral {
 
         return ""; // Si no tiene fecha, devuelve cadena vacía
     }
+      public static String getFechaRetiroPersona(String identificacionPersona) {
+        String sql = "SELECT fechaRetiro FROM informacionLaboral WHERE identificacion = '" + identificacionPersona + "'";
+
+        try {
+            ResultSet rs = ConectorBD.consultar(sql);
+            if (rs.next()) {
+                return rs.getString("fechaRetiro"); // Devuelve la fecha directamente
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ""; // Si no tiene fecha, devuelve cadena vacía
+    }
 
     public String getSelectCentroCostos() {
         String[] opciones = {"23", "33", "43", "53", "63", "214", "224", "234", "244", "294", "295"};

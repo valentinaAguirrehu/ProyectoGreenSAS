@@ -41,7 +41,7 @@
 </head>
 <body>
     <div class="content"> 
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> SEGURIDAD SOCIAL</h3>
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> APRENDIZ</h3>
         <form name="formulario" method="post" action="seguridadSocialAActualizar.jsp" onsubmit="obtenerDatosHijos()">
             <h1>Seguridad Social</h1>
             <table border="1">

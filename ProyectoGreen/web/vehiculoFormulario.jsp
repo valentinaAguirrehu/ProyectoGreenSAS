@@ -53,7 +53,7 @@
 </head>
 <body>
     <div class="content">
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> VEHICULO</h3>
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
         <form name="formularioInfLaboral" method="post" action="vehiculoActualizar.jsp" onsubmit=" pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
 
             <h1>Información del vehículo</h1>

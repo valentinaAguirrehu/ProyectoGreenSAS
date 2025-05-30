@@ -3,6 +3,7 @@
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
+<%@page import="clases.Educacion"%>
 <%@page import="clases.Talla"%>
 <%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Hijo"%>
@@ -21,15 +22,23 @@
     InformacionLaboral informacionLaboral = new InformacionLaboral();
     informacionLaboral.setIdentificacion(request.getParameter("identificacion"));
     informacionLaboral.setIdCargo(request.getParameter("idCargo"));
-    informacionLaboral.setFechaIngreso(request.getParameter("fechaIngreso"));
+    informacionLaboral.setFechaIngreso(request.getParameter("NA"));
     informacionLaboral.setFechaIngresoTemporal(request.getParameter("fechaIngresoTemporal"));
-    informacionLaboral.setFechaRetiro(request.getParameter("fechaRetiro"));
+    informacionLaboral.setFechaRetiro(request.getParameter("NA"));
     informacionLaboral.setUnidadNegocio(request.getParameter("unidadNegocio"));
     informacionLaboral.setCentroCostos(request.getParameter("centroCostos"));
     informacionLaboral.setEstablecimiento(request.getParameter("establecimiento"));
     informacionLaboral.setArea(request.getParameter("area"));
     informacionLaboral.setSalario(request.getParameter("salario"));
-    informacionLaboral.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
+    informacionLaboral.setFechaTerPriContrato(request.getParameter("NA"));
+    Educacion educacion = new Educacion();
+    educacion.setIdentificacion(request.getParameter("identificacion"));  // clave foránea o pk
+    educacion.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
+    educacion.setFechaFinalizacionEtapaLectiva(request.getParameter("fechaFinalizacionEtapaLectiva"));
+    educacion.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
+    educacion.setFechaFinalizacionEtapaProductiva(request.getParameter("fechaFinalizacionEtapaProductiva"));
+    educacion.setFechaRetiroAnticipado(request.getParameter("fechaRetiroAnticipado"));
+    educacion.setTituloAprendiz(request.getParameter("tituloAprendiz"));
 
     // Acción según el botón presionado
     switch (accion) {

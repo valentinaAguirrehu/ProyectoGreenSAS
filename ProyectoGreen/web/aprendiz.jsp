@@ -14,7 +14,7 @@
     List<Persona> datos = Persona.getListaEnObjetos("tipo = 'A'", null);
 
     for (Persona persona : datos) {
-        String tipoDocumento = persona.getTipoDocumento().getCodigo();
+        String tipoDocumento = persona.getTipoDocumento().toString();
         String identificacion = persona.getIdentificacion();
         String nombres = persona.getNombres();
         String apellidos = persona.getApellidos();

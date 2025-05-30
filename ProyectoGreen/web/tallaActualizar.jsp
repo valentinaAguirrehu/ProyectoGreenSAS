@@ -50,5 +50,5 @@
 %>
 
 <script type="text/javascript">
-    document.location = "persona.jsp";
+    document.location = "prendiz.jsp";
 </script>

@@ -4,6 +4,7 @@
     Author     : Angie
 --%>
 
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Retirados"%>
@@ -32,24 +33,34 @@
                 lista += "<td>" + persona.getTipoDocumento() + "</td>";
                 lista += "<td>" + persona.getIdentificacion() + "</td>";
                 lista += "<td>" + persona.getNombres() + " " + persona.getApellidos() + "</td>";
-                lista += "<td>" + persona.getEstablecimiento() + "</td>";
-                lista += "<td>" + persona.getUnidadNegocio() + "</td>";
+//                lista += "<td>" + persona.getEstablecimiento() + "</td>";
+//                lista += "<td>" + persona.getUnidadNegocio() + "</td>";
                 lista += "<td>" + nombreCargo + "</td>";
-                lista += "<td>" + persona.getFechaIngreso() + "</td>";
-                lista += "<td>" + persona.getFechaRetiro() + "</td>";
+                String fechaIngreso = InformacionLaboral.getFechaIngresoPersona(persona.getIdentificacion());
+                String fechaRetiro = InformacionLaboral.getFechaRetiroPersona(persona.getIdentificacion());
+//                lista += "<td>" + persona.getFechaRetiro() + "</td>";
                 lista += "<td>" + retirado.getNumCaja() + "</td>";
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
                 lista += "<td>";
-                lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
-                lista += "<img class='ver' src='presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboralRetirados(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
-                lista += "<a href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
-                        + "' title='Modificar' class='editar'><img src='presentacion/iconos/modificar.png'></a>";
-                lista += "<img src='presentacion/iconos/eliminar.png' class='eliminar' title='Eliminar' onClick='eliminar("
-                        + persona.getIdentificacion() + ")'>";
-                lista += "</td>";
-                lista += "</tr>";
 
+                lista += "<img class='ver' src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
+                lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + persona.getIdentificacion() + "' title='Modificar'>";
+                lista += "<img class='editar' src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
+                lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")'> ";
+                lista += "<img class='eliminar' src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
+                lista += "<img class='subir' src='presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+                lista += "<img class='subir' src='presentacion/iconos/cambiarTipo.png' title='Pasar a temporal' onClick='cambiarATemporal(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+                lista += "</td>";
+
+//                lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
+//                lista += "<img class='ver' src='presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboralRetirados(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
+//                lista += "<a href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
+//                        + "' title='Modificar' class='editar'><img src='presentacion/iconos/modificar.png'></a>";
+//                lista += "<img src='presentacion/iconos/eliminar.png' class='eliminar' title='Eliminar' onClick='eliminar("
+//                        + persona.getIdentificacion() + ")'>";
+//                lista += "</td>";
+//                lista += "</tr>";
             }
         }
     }
@@ -69,8 +80,8 @@
                 <option value="identificacion">Identificación</option>
                 <option value="nombre">Nombre</option>
                 <option value="cargo">Cargo</option>
-                <option value="unidadNegocio">Unidad de negocio</option>
-                <option value="establecimiento">Establecimiento</option>                 
+                <!--<option value="unidadNegocio">Unidad de negocio</option>-->
+                <!--<option value="establecimiento">Establecimiento</option>-->                 
                 <option value="caja">Número de caja</option>
                 <option value="carpeta">Número de carpeta</option>
                 <option value="fechaRetiro">Fecha de retiro</option>
@@ -85,8 +96,8 @@
             <th>Tipo del documento</th>
             <th>Documento</th>
             <th>Nombre</th>
-            <th>Establecimiento</th>                   
-            <th>Unidad de negocio</th>
+            <!--<th>Establecimiento</th>-->                   
+            <!--<th>Unidad de negocio</th>-->
             <th>Cargo</th>
             <th>Fecha de ingreso</th>
             <th>Fecha de retiro</th>

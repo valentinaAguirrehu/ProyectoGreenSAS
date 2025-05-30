@@ -21,7 +21,6 @@
         response.sendRedirect("temporales.jsp");
     }
 
-
     SeguridadSocial seguridadSocial = (SeguridadSocial) request.getAttribute("seguridadSocial");
     request.setAttribute("seguridadSocial", seguridadSocial);
 
@@ -29,8 +28,8 @@
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("T");
-//    persona.setIdCargo(request.getParameter("idCargo"));
-    persona.setTipoDocumento(request.getParameter("tipoDocumentoFinal"));
+//  persona.setIdCargo(request.getParameter("idCargo"));
+    persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
     persona.setApellidos(request.getParameter("apellidos"));
@@ -44,6 +43,8 @@
     persona.setCelular(request.getParameter("celular"));
     persona.setEmail(request.getParameter("email"));
     persona.setEstadoCivil(request.getParameter("estadoCivilFinal"));
+    persona.setNivelEdu(request.getParameter("nivelEdu"));
+    persona.setProfesion(request.getParameter("profesion"));
     persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     String datosHijos = request.getParameter("hijosRegistrados");
@@ -74,7 +75,6 @@
     String[] nivelEscolarHijo = request.getParameterValues("nivelEscolarHijo[]");
 
     // Acción según el botón presionado
-    // Acción según el botón presionado
     boolean personaGuardada = false;
     switch (accion) {
         case "Adicionar":
@@ -82,13 +82,14 @@
             break;
         case "Modificar":
             personaGuardada = persona.modificar(identificacionAnterior);
-            break;
+            response.sendRedirect("seguridadSocialTFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
+            return;
         case "Eliminar":
             personaGuardada = persona.eliminar();
             break;
     }
 
-   // Solo proceder con los hijos si la persona se guardó correctamente
+    // Solo proceder con los hijos si la persona se guardó correctamente
     if (personaGuardada && identificacionesHijos != null) {
         for (int i = 0; i < identificacionesHijos.length; i++) {
             if (!identificacionesHijos[i].trim().isEmpty()
@@ -118,17 +119,18 @@
             }
         }
     }
-//    // 🔥 Solo redirigir automáticamente si se guardó (Adicionar), no si se elimina ni modifica
-//    if (personaGuardada && "Adicionar".equals(accion)) {
-//        String identificacionParaRedirigir = persona.getIdentificacion();
-//        response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + identificacionParaRedirigir);
-//        return; // Detiene el JSP después de redirigir
-//    }
-if (personaGuardada && "Modificar".equals(accion)) {
-        response.sendRedirect("seguridadSocialTFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
-        return;
+    // 🔥 Solo redirigir automáticamente si se guardó (Adicionar), no si se elimina ni modifica
+    if (personaGuardada && "Adicionar".equals(accion)) {
+        String identificacionParaRedirigir = persona.getIdentificacion();
+        response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + identificacionParaRedirigir);
+        return; // Detiene el JSP después de redirigir
     }
-    // Si no se guardó, puedes mostrar un error o quedarte en la misma página
+//    if (personaGuardada && "Modificar".equals(accion)) {
+//        response.sendRedirect("seguridadSocialTFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
+//        return;
+//    }
+//    // Si no se guardó, puedes mostrar un error o quedarte en la misma página
+
 %>
 
 
@@ -138,5 +140,4 @@ if (personaGuardada && "Modificar".equals(accion)) {
 <script type="text/javascript">
     document.location = "temporales.jsp";
 </script>
-
 

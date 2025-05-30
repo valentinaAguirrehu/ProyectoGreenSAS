@@ -49,6 +49,8 @@ public class Persona {
     private List<Hijo> hijos = new ArrayList<>();
     private String idDepartamento;  // Campo virtual
     private String idMunicipio;    // Campo virtual
+    private String nivelEdu;
+    private String profesion;
     private String cuentaBancaria;
     private String numeroCuenta;
 
@@ -80,6 +82,8 @@ public class Persona {
                 celular = resultado.getString("celular");
                 email = resultado.getString("email");
                 estadoCivil = resultado.getString("estadoCivil");
+                nivelEdu = resultado.getString("nivelEdu");
+                profesion = resultado.getString("profesion");
                 cuentaBancaria = resultado.getString("cuentaBancaria");
                 numeroCuenta = resultado.getString("numeroCuenta");
                 tieneHijos = resultado.getString("tieneHijos");
@@ -88,7 +92,7 @@ public class Persona {
                 this.hijos = Hijo.obtenerHijosDePersona(identificacion);
             }
         } catch (SQLException ex) {
-                    System.out.println("Ejecutando consultaPersona: " + cadenaSQL);
+            System.out.println("Ejecutando consultaPersona: " + cadenaSQL);
             System.out.println("Error al consultar persona: " + ex.getMessage());
         } finally {
             try {
@@ -144,7 +148,7 @@ public class Persona {
 //        }
 //        return resultado;
 //    }
-      public TipoDocumento getTipoDocumento() {
+    public TipoDocumento getTipoDocumento() {
         return new TipoDocumento(tipoDocumento);
     }
 
@@ -316,12 +320,36 @@ public class Persona {
 //        }
 //        return resultado;
 //    }
-
-     public EstadoCivil getEstadoCivil() {
+    public EstadoCivil getEstadoCivil() {
         return new EstadoCivil(estadoCivil);
     }
+
     public void setEstadoCivil(String estadoCivil) {
         this.estadoCivil = estadoCivil;
+    }
+
+    public String getNivelEdu() {
+        String resultado = nivelEdu;
+        if (nivelEdu == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setNivelEdu(String nivelEdu) {
+        this.nivelEdu = nivelEdu;
+    }
+
+    public String getProfesion() {
+        String resultado = profesion;
+        if (profesion == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
     }
 
     public String getCuentaBancaria() {
@@ -398,8 +426,6 @@ public class Persona {
         this.sexo = genero;
     }
 
-   
-
     //  para lugarExpedicion (el campo concatenado)
     public String getLugarExpedicion() {
         return lugarExpedicion;
@@ -467,13 +493,13 @@ public class Persona {
     }
 
     public boolean grabar() {
- String cadenaSQL = "INSERT INTO persona ("
+        String cadenaSQL = "INSERT INTO persona ("
                 + "identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
                 + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
                 + "tipoVivienda, direccion, barrio, celular, email, estadoCivil, tieneHijos, "
-                + "cuentaBancaria, numeroCuenta) VALUES ('"
+                + "cuentaBancaria, nivelEdu, profesion, numeroCuenta) VALUES ('"
                 + identificacion + "', '"
-                + tipo + "', " 
+                + tipo + "', "
                 + (idCargo != null ? "'" + idCargo + "'" : "NULL") + ", '"
                 + tipoDocumento + "', "
                 + (fechaExpedicion != null && !fechaExpedicion.isEmpty() ? "'" + fechaExpedicion + "'" : "NULL") + ", '"
@@ -490,9 +516,11 @@ public class Persona {
                 + celular + "', '"
                 + email + "', "
                 + (estadoCivil != null && !estadoCivil.isEmpty() ? "'" + estadoCivil + "'" : "NULL") + ", "
-                + (tieneHijos != null && !tieneHijos.isEmpty() ? "'" + tieneHijos + "'" : "NULL") + ", '"
-                + (cuentaBancaria != null && !cuentaBancaria.isEmpty() ? cuentaBancaria : "NULL") + "', "
-                + (numeroCuenta != null && !numeroCuenta.isEmpty() ? numeroCuenta : "NULL")
+                + (tieneHijos != null && !tieneHijos.isEmpty() ? "'" + tieneHijos + "'" : "NULL") + ", "
+                + (cuentaBancaria != null && !cuentaBancaria.isEmpty() ? "'" + cuentaBancaria + "'" : "NULL") + ", "
+                + (nivelEdu != null && !nivelEdu.isEmpty() ? "'" + nivelEdu + "'" : "NULL") + ", "
+                + (profesion != null && !profesion.isEmpty() ? "'" + profesion + "'" : "NULL") + ", "
+                + (numeroCuenta != null && !numeroCuenta.isEmpty() ? "'" + numeroCuenta + "'" : "NULL")
                 + ");";
 
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
@@ -548,6 +576,8 @@ public class Persona {
                 + "celular=" + (celular != null ? "'" + celular + "'" : "NULL") + ", "
                 + "email=" + (email != null ? "'" + email + "'" : "NULL") + ", "
                 + "estadoCivil=" + (estadoCivil != null ? "'" + estadoCivil + "'" : "NULL") + ", "
+                + "nivelEdu=" + (nivelEdu != null ? "'" + nivelEdu + "'" : "NULL") + ", "
+                + "profesion=" + (profesion != null ? "'" + profesion + "'" : "NULL") + ", "
                 + "cuentaBancaria=" + (cuentaBancaria != null ? "'" + cuentaBancaria + "'" : "NULL") + ", "
                 + "numeroCuenta=" + (numeroCuenta != null ? "'" + numeroCuenta + "'" : "NULL") + ", "
                 + "tieneHijos=" + (tieneHijos != null ? "'" + tieneHijos + "'" : "NULL") + " "
@@ -571,40 +601,38 @@ public class Persona {
         return resultado;
     }
 
-public boolean eliminar() {
-    // Eliminar registros en las tablas relacionadas
-    eliminarHijos();
-    eliminarInformacionLaboral();
-    eliminarReferencia();  // Eliminar registros de la tabla referencia
+    public boolean eliminar() {
+        // Eliminar registros en las tablas relacionadas
+        eliminarHijos();
+        eliminarInformacionLaboral();
+        eliminarReferencia();  // Eliminar registros de la tabla referencia
 
-    // Finalmente, eliminar el registro en la tabla Persona
-    String cadenaSQL = "DELETE FROM Persona WHERE identificacion = '" + identificacion + "'";
-    ConectorBD.ejecutarQuery(cadenaSQL);
+        // Finalmente, eliminar el registro en la tabla Persona
+        String cadenaSQL = "DELETE FROM Persona WHERE identificacion = '" + identificacion + "'";
+        ConectorBD.ejecutarQuery(cadenaSQL);
 
-    return true; // Indicar que la eliminación fue exitosa
-}
+        return true; // Indicar que la eliminación fue exitosa
+    }
 
-private void eliminarHijos() {
-    // Eliminar los registros relacionados con los hijos en la tabla persona_hijos
-    ConectorBD.ejecutarQuery("DELETE FROM persona_hijos WHERE identificacionPersona = '" + identificacion + "'");
-}
+    private void eliminarHijos() {
+        // Eliminar los registros relacionados con los hijos en la tabla persona_hijos
+        ConectorBD.ejecutarQuery("DELETE FROM persona_hijos WHERE identificacionPersona = '" + identificacion + "'");
+    }
 
-private void eliminarInformacionLaboral() {
-    // Eliminar los registros en la tabla informacionlaboral
-    ConectorBD.ejecutarQuery("DELETE FROM informacionlaboral WHERE identificacion = '" + identificacion + "'");
-}
+    private void eliminarInformacionLaboral() {
+        // Eliminar los registros en la tabla informacionlaboral
+        ConectorBD.ejecutarQuery("DELETE FROM informacionlaboral WHERE identificacion = '" + identificacion + "'");
+    }
 
-private void eliminarTrabajo() {
-    // Si existe una tabla trabajo, eliminar los registros relacionados
-    ConectorBD.ejecutarQuery("DELETE FROM trabajo WHERE identificacion = '" + identificacion + "'");
-}
+    private void eliminarTrabajo() {
+        // Si existe una tabla trabajo, eliminar los registros relacionados
+        ConectorBD.ejecutarQuery("DELETE FROM trabajo WHERE identificacion = '" + identificacion + "'");
+    }
 
-private void eliminarReferencia() {
-    // Eliminar los registros en la tabla referencia relacionados con la identificacion
-    ConectorBD.ejecutarQuery("DELETE FROM referencia WHERE identificacion = '" + identificacion + "'");
-}
-
-
+    private void eliminarReferencia() {
+        // Eliminar los registros en la tabla referencia relacionados con la identificacion
+        ConectorBD.ejecutarQuery("DELETE FROM referencia WHERE identificacion = '" + identificacion + "'");
+    }
 
     public static ResultSet getLista(String filtro, String orden) {
         if (filtro != null && !"".equals(filtro)) {
@@ -620,7 +648,7 @@ private void eliminarReferencia() {
 
         String cadenaSQL = "SELECT identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, "
                 + "lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, celular, email, estadoCivil, tieneHijos, "
-                + " cuentaBancaria, numeroCuenta FROM persona " + filtro + orden;
+                + " cuentaBancaria, nivelEdu, profesion, numeroCuenta FROM persona " + filtro + orden;
 
         System.out.println("Ejecutando consultaPersona: " + cadenaSQL);
         return ConectorBD.consultar(cadenaSQL);
@@ -650,6 +678,8 @@ private void eliminarReferencia() {
                     persona.setCelular(datos.getString("celular"));
                     persona.setEmail(datos.getString("email"));
                     persona.setEstadoCivil(datos.getString("estadoCivil"));
+                    persona.setNivelEdu(datos.getString("nivelEdu"));
+                    persona.setProfesion(datos.getString("profesion"));
                     persona.setCuentaBancaria(datos.getString("cuentaBancaria"));
                     persona.setNumeroCuenta(datos.getString("numeroCuenta"));
                     persona.setTieneHijos(datos.getString("tieneHijos"));
@@ -707,6 +737,8 @@ private void eliminarReferencia() {
                         datos.getString("email"),
                         datos.getString("estadoCivil"),
                         datos.getString("tieneHijos"),
+                        datos.getString("nivelEdu"),
+                        datos.getString("profesion"),
                         datos.getString("cuentaBancaria"),
                         datos.getString("numeroCuenta")
 

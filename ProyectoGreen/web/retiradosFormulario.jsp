@@ -4,6 +4,7 @@
     Author     : Mary
 --%>
 
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
@@ -15,6 +16,7 @@
     String accion = request.getParameter("accion");
     String id = request.getParameter("id");
     String identificacion = request.getParameter("identificacion");
+    InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
 
     Persona persona = null;
     Retirados retirado = new Retirados();
@@ -76,17 +78,19 @@
                     <td><span id="cargo"><%= nombreCargo%></span></td>
                 </tr>
                 <tr>
-                    <th>Establecimiento</th>
-                    <td><span id="establecimiento"><%= (persona != null) ? persona.getEstablecimiento() : ""%></span></td>
+                    <th>Lugar de trabajo<span style="color: red;">*</span></th>
+                    <td colspan="2">
+                        <input type="text" name="establecimiento" value="<%= (informacionLaboral != null && informacionLaboral.getEstablecimiento() != null) ? informacionLaboral.getEstablecimiento() : ""%>" required >
+
+                    </td>               
                 </tr>
                 <tr>
                     <th>Fecha de ingreso</th>
-                    <td><span id="fechaIngreso"><%= (persona != null) ? persona.getFechaIngreso() : ""%></span></td>
+                <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required >
                 </tr>
                 <tr>
                     <th>Fecha de retiro</th>
-                    <td><input class="recuadro" type="date" name="fechaRetiro" 
-                               value="<%= (persona != null) ? persona.getFechaRetiro() : ""%>" required></td>
+                <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" required >
                 </tr>
                 <tr>
                     <th>Número de caja</th>

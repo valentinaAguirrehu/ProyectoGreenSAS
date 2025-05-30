@@ -40,7 +40,7 @@
 
 <body>
     <div class="content">
-        <h3><%= accion.toUpperCase() %> COLABORADOR</h3>
+        <h3><%= accion.toUpperCase() %> TEMPORAL</h3>
 
         <form name="tallaFormulario" method="post" action="tallaTActualizar.jsp" onsubmit="actualizarOcultos();">
             <h1>Información de Tallas</h1>
@@ -116,12 +116,13 @@
 
             <div class="botones-container">
                 <input type="submit" name="accion" value="<%= accion %>">
-                <input type="button" value="Cancelar" onClick="window.history.back()">
+                <input type="button" value="Regresar" onClick="window.history.back()" />
+                <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
             </div>
 
             <% if ("Modificar".equals(accion)) { %>
-                <input type="hidden" id="identificacionHidden" name="identificacionHidden">
-                <!--<button type="button" onclick="irASiguiente()">Siguiente: Seguridad social</button>-->
+            <input type="hidden" id="identificacionHidden" name="identificacionHidden">
+            <!--<button type="button" onclick="irASiguiente()">Siguiente: Seguridad social</button>-->
             <% } %>
         </form>
     </div>
@@ -147,7 +148,8 @@
 
             select.addEventListener("change", actualizar);
             input.addEventListener("input", function () {
-                if (select.value === "O") hidden.value = input.value;
+                if (select.value === "O")
+                    hidden.value = input.value;
             });
 
             actualizar(); // Ejecutar al cargar la página

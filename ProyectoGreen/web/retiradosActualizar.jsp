@@ -1,3 +1,4 @@
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clasesGenericas.ConectorBD"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Retirados"%>
@@ -38,9 +39,11 @@
     if (variables.get("identificacion") == null || variables.get("identificacion").trim().isEmpty()) {
         return;
     }
+   
+    InformacionLaboral informacionLaboral = new InformacionLaboral();
+    informacionLaboral.setFechaRetiro(variables.get("fechaRetiro"));
 
     Persona persona = new Persona(variables.get("identificacion"));
-    persona.setFechaRetiro(variables.get("fechaRetiro"));
     persona.setTipo("R");
 
     Retirados retirado = new Retirados(variables.get("id"));

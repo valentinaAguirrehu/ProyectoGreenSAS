@@ -1,9 +1,8 @@
 <%-- 
-    Document   : temporalesFormulario
+    Document   : personaFormulario
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
-
 
 <%@page import="clases.Departamento"%>
 <%@page import="clases.Municipio"%>
@@ -53,7 +52,7 @@
 </head>
 <body>
     <div class="content"> 
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> TEMPORAL</h3>
         <form name="formulario" method="post" action="temporalesActualizar.jsp" onsubmit="obtenerDatosHijos(); pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
             <h1>Datos personales</h1>
             <table border="1">
@@ -218,6 +217,15 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>Nivel educativo<span style="color: red;">*</span></th>
+                    <td><input type="text" name="nivelEdu" value="<%= persona.getNivelEdu()%>" size="50" maxlength="50" required></td>
+                </tr>
+                <tr>
+                    <th>Profesion</th>
+                    <td><input type="text" name="profesion" value="<%= persona.getProfesion()%>" size="50" maxlength="50"></td>
+                </tr>
+
+                <tr>
                     <th>Cuenta bancaria<span style="color: red;">*</span></th>
                     <td><input type="text" name="cuentaBancaria" value="<%= persona.getCuentaBancaria()%>" size="50" maxlength="50"required></td>
                 </tr>
@@ -285,11 +293,12 @@
             </div>
 
 
+
             <div class="botones-container">
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
-                <input type="button" value="Cancelar" onclick="window.location.href = 'temporales.jsp'" />
-                <input type="button" value="Regresar" onClick="window.history.back()" /> 
+                <input type="button" value="Regresar" onClick="window.history.back()" />
+                <input type="button" value="Cancelar" onClick="window.history.back()">
                 <!-- Nuevo botón de cambio de estado -->
                 <!--<input type="button" value="Cambiar a Temporal" onclick="cambiarAEstadoTemporal()">-->
             </div>
@@ -386,6 +395,7 @@
                 input.required = true;
                 actualizarHidden(); // Actualiza el hidden al momento
 
+                // Asegúrate de no duplicar el listener
                 input.removeEventListener("input", actualizarHidden);
                 input.addEventListener("input", actualizarHidden);
             } else {
@@ -399,9 +409,7 @@
         window.addEventListener('DOMContentLoaded', function () {
             manejarOtro('tipoSangre', 'tipoSangreOtro', 'tipoSangreFinal');
             manejarOtro('tipoVivienda', 'tipoViviendaOtro', 'tipoViviendaFinal');
-            manejarOtro('tipoDocumento', 'tipoDocumentoOtro', 'tipoDocumentoFinal');
         });
-
 
 
         // Función que se ejecuta al hacer clic en el botón para cambiar el estado a "Temporal"

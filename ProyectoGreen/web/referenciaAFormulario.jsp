@@ -56,7 +56,7 @@
 </head>
 <body>
     <div class="content"> 
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> APRENDIZ</h3>
         <form name="formulario" method="post" action="referenciaAActualizar.jsp" onsubmit="obtenerDatosHijos()">
             <h1>Referencias familiares</h1>
             <table border="1">

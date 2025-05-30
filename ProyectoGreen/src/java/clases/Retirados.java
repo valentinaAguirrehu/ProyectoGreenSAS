@@ -44,54 +44,54 @@ public class Retirados {
     }
 
     public String getId() {
-     if (id == null) {
+        if (id == null) {
             id = "";
         }
-        return  id;
+        return id;
     }
-    
+
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public String getIdentificacionPersona() {
-     if (identificacionPersona == null) {
+        if (identificacionPersona == null) {
             identificacionPersona = "";
         }
-        return  identificacionPersona;
+        return identificacionPersona;
     }
 
-    
     public void setIdentificacionPersona(String identificacionPersona) {
         this.identificacionPersona = identificacionPersona;
     }
 
     public String getObservaciones() {
-     if (observaciones == null) {
+        if (observaciones == null) {
             observaciones = "";
         }
-        return  observaciones;
+        return observaciones;
     }
+
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
 
     public String getNumCaja() {
-     if (numCaja == null) {
+        if (numCaja == null) {
             numCaja = "";
         }
-        return  numCaja;
+        return numCaja;
     }
-    
+
     public void setNumCaja(String numCaja) {
         this.numCaja = numCaja;
     }
 
     public String getNumCarpeta() {
-     if (numCarpeta == null) {
+        if (numCarpeta == null) {
             numCarpeta = "";
         }
-        return  numCarpeta;
+        return numCarpeta;
     }
 
     public void setNumCarpeta(String numCarpeta) {
@@ -138,10 +138,11 @@ public class Retirados {
 
         String cadenaSQL = "SELECT "
                 + "r.id, r.identificacionPersona, r.observaciones, r.numCaja, r.numCarpeta, "
-                + "p.identificacion, p.nombres, p.apellidos, p.establecimiento, "
-                + "p.fechaIngreso, p.fechaRetiro "
+                + "p.identificacion, p.nombres, p.apellidos, "
+                + "il.establecimiento, il.fechaIngreso, il.fechaRetiro "
                 + "FROM retirados r "
                 + "JOIN persona p ON r.identificacionPersona = p.identificacion "
+                + "LEFT JOIN informacionlaboral il ON p.identificacion = il.identificacion "
                 + "WHERE p.tipo = 'R' AND r.identificacionPersona IS NOT NULL "
                 + filtro + orden;
 
@@ -180,7 +181,7 @@ public class Retirados {
                 auxiliar = " selected";
             }
             lista.append("<option value='").append(retirado.getId()).append("'")
-                    .append(auxiliar).append(">") 
+                    .append(auxiliar).append(">")
                     .append(retirado.getIdentificacionPersona()).append("</option>");
         }
         return lista.toString();

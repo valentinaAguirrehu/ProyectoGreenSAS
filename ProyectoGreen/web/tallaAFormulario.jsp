@@ -40,7 +40,7 @@
 
 <body>
     <div class="content">
-        <h3><%= accion.toUpperCase()%> COLABORADOR</h3>
+        <h3><%= accion.toUpperCase()%> APRENDIZ</h3>
 
         <form name="tallaFormulario" method="post" action="tallaAActualizar.jsp" onsubmit="actualizarOcultos();">
             <h1>Información de Tallas</h1>
@@ -117,7 +117,7 @@
             <div class="botones-container">
                 <input type="submit" name="accion" value="<%= accion%>">
                 <input type="button" value="Regresar" onClick="window.history.back()" />
-                <input type="button" value="Cancelar" onClick="window.history.back()">
+                <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
             </div>
 
             <% if ("Modificar".equals(accion)) { %>

@@ -28,7 +28,7 @@
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("A");
-       persona.setIdCargo(request.getParameter("idCargo"));
+    persona.setIdCargo(request.getParameter("idCargo"));
     persona.setTipoDocumento(request.getParameter("tipoDocumentoFinal"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
@@ -43,6 +43,8 @@
     persona.setCelular(request.getParameter("celular"));
     persona.setEmail(request.getParameter("email"));
     persona.setEstadoCivil(request.getParameter("estadoCivilFinal"));
+    persona.setNivelEdu(request.getParameter("nivelEdu"));
+    persona.setProfesion(request.getParameter("profesion"));
     persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     String datosHijos = request.getParameter("hijosRegistrados");
@@ -80,7 +82,8 @@
             break;
         case "Modificar":
             personaGuardada = persona.modificar(identificacionAnterior);
-            break;
+            response.sendRedirect("seguridadSocialAFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
+            return;
         case "Eliminar":
             personaGuardada = persona.eliminar();
             break;
@@ -117,16 +120,16 @@
         }
     }
 //    // 🔥 Solo redirigir automáticamente si se guardó (Adicionar), no si se elimina ni modifica
-//    if (personaGuardada && "Adicionar".equals(accion)) {
-//        String identificacionParaRedirigir = persona.getIdentificacion();
-//        response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + identificacionParaRedirigir);
-//        return; // Detiene el JSP después de redirigir
-//    }
-if (personaGuardada && "Modificar".equals(accion)) {
-        response.sendRedirect("seguridadSocialAFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
-        return;
+    if (personaGuardada && "Adicionar".equals(accion)) {
+        String identificacionParaRedirigir = persona.getIdentificacion();
+        response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + identificacionParaRedirigir);
+        return; // Detiene el JSP después de redirigir
     }
-    // Si no se guardó, puedes mostrar un error o quedarte en la misma página
+//if (personaGuardada && "Modificar".equals(accion)) {
+//        response.sendRedirect("seguridadSocialAFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
+//        return;
+//    }
+//    // Si no se guardó, puedes mostrar un error o quedarte en la misma página
 %>
 
 

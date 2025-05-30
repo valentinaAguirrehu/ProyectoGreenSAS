@@ -47,21 +47,21 @@
 
 <%@ include file="../menu.jsp" %>
 
-    <link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
+<link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
 </head>
 <body>
     <div class="content"> 
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> APRENDIZ</h3>
         <form name="formulario" method="post" action="aprendizActualizar.jsp" onsubmit="obtenerDatosHijos(); pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
             <h1>Datos personales</h1>
             <table border="1">
                 <tr>
                     <th>Nombres<span style="color: red;">*</span></th>
-                    <td><input type="text" name="nombres" value="<%= persona.getNombres()%>" size="50" maxlength="50"required></td>
+                    <td><input type="text" name="nombres" value="<%= persona.getNombres()%>" size="50" maxlength="50" required></td>
                 </tr>
                 <tr>
                     <th>Apellidos<span style="color: red;">*</span></th>
-                    <td><input type="text" name="apellidos" value="<%= persona.getApellidos()%>" size="50" maxlength="50"required></td>
+                    <td><input type="text" name="apellidos" value="<%= persona.getApellidos()%>" size="50" maxlength="50" required></td>
                 </tr>
                 <tr>
                     <th colspan="2">Sexo<span style="color: red;">*</span></th>
@@ -216,6 +216,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>Nivel educativo<span style="color: red;">*</span></th>
+                    <td><input type="text" name="nivelEdu" value="<%= persona.getNivelEdu()%>" size="50" maxlength="50" required></td>
+                </tr>
+                <tr>
+                    <th>Profesion</th>
+                    <td><input type="text" name="profesion" value="<%= persona.getProfesion()%>" size="50" maxlength="50"></td>
+                </tr>
+                <tr>
                     <th>Cuenta bancaria<span style="color: red;">*</span></th>
                     <td><input type="text" name="cuentaBancaria" value="<%= persona.getCuentaBancaria()%>" size="50" maxlength="50" required></td>
                 </tr>
@@ -287,7 +295,8 @@
             <div class="botones-container">
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
-            <input type="button" value="Cancelar" onclick="window.location.href='aprendiz.jsp'" />
+                <input type="button" value="Regresar" onClick="window.history.back()" />
+                <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
                 <!-- Nuevo botón de cambio de estado -->
                 <!--<input type="button" value="Cambiar a Temporal" onclick="cambiarAEstadoTemporal()">-->
             </div>
@@ -367,38 +376,38 @@
 
 
         function manejarOtro(selectId, inputId, hiddenId) {
-    var select = document.getElementById(selectId);
-    var input = document.getElementById(inputId);
-    var hiddenInput = document.getElementById(hiddenId);
+            var select = document.getElementById(selectId);
+            var input = document.getElementById(inputId);
+            var hiddenInput = document.getElementById(hiddenId);
 
-    function actualizarHidden() {
-        if (select.value === "O") {
-            hiddenInput.value = input.value;
-        } else {
-            hiddenInput.value = select.value;
+            function actualizarHidden() {
+                if (select.value === "O") {
+                    hiddenInput.value = input.value;
+                } else {
+                    hiddenInput.value = select.value;
+                }
+            }
+
+            if (select.value === "O") {
+                input.style.display = "inline-block";
+                input.required = true;
+                actualizarHidden(); // Actualiza el hidden al momento
+
+                input.removeEventListener("input", actualizarHidden);
+                input.addEventListener("input", actualizarHidden);
+            } else {
+                input.style.display = "none";
+                input.required = false;
+                input.value = "";
+                actualizarHidden();
+            }
         }
-    }
 
-    if (select.value === "O") {
-        input.style.display = "inline-block";
-        input.required = true;
-        actualizarHidden(); // Actualiza el hidden al momento
-
-        input.removeEventListener("input", actualizarHidden);
-        input.addEventListener("input", actualizarHidden);
-    } else {
-        input.style.display = "none";
-        input.required = false;
-        input.value = "";
-        actualizarHidden();
-    }
-}
-
-window.addEventListener('DOMContentLoaded', function () {
-    manejarOtro('tipoSangre', 'tipoSangreOtro', 'tipoSangreFinal');
-    manejarOtro('tipoVivienda', 'tipoViviendaOtro', 'tipoViviendaFinal');
-    manejarOtro('tipoDocumento', 'tipoDocumentoOtro', 'tipoDocumentoFinal');
-});
+        window.addEventListener('DOMContentLoaded', function () {
+            manejarOtro('tipoSangre', 'tipoSangreOtro', 'tipoSangreFinal');
+            manejarOtro('tipoVivienda', 'tipoViviendaOtro', 'tipoViviendaFinal');
+            manejarOtro('tipoDocumento', 'tipoDocumentoOtro', 'tipoDocumentoFinal');
+        });
 
 
 

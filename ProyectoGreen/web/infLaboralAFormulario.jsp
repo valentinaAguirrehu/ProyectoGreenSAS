@@ -6,6 +6,7 @@
 
 <%@page import="clases.Cargo"%>
 <%@page import="clases.InformacionLaboral"%>
+<%@page import="clases.Educacion"%>
 <%@page import="clasesGenericas.ConectorBD"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.util.List"%>
@@ -14,38 +15,44 @@
 
 <%
 
-    String accion = request.getParameter("accion");
-    // Recuperar la identificación desde la URL o el formulario anterior
-    String identificacion = request.getParameter("identificacion");
-    // Instancia vacía con la identificación por si no se encuentra en BD
+   String accion = request.getParameter("accion");
+// Recuperar la identificación desde la URL o el formulario anterior
+String identificacion = request.getParameter("identificacion");
 
-    System.out.println(" Entrando a infLaboralAActualizar.jsp con identificacion=" + identificacion + " y accion=" + accion);
-    InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
-    String opcionesCargos = Cargo.getListaEnOptions(informacionLaboral.getIdentificacion());
+// Instancia vacía con la identificación por si no se encuentra en BD
+System.out.println("Entrando a personaFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
 
-    if (accion == null) {
-        accion = "Adicionar"; // Cambiar a Adicionar si aún no se ha guardado o el boton da null
+// Información Laboral
+InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
+String opcionesCargos = Cargo.getListaEnOptions(informacionLaboral.getIdentificacion());
+
+// Educación
+Educacion educacion = new Educacion(identificacion);
+
+// Acción por defecto
+if (accion == null) {
+    accion = "Adicionar"; // Cambiar a Adicionar si aún no se ha guardado o el botón da null
+}
+
+// Validar que la identificación no sea nula o vacía
+if (identificacion != null && !identificacion.isEmpty()) {
+    session.setAttribute("identificacion", identificacion);  // Almacenar en sesión
+}
+
+// Solo intenta obtener de la BD si la acción es "Modificar"
+if ("Modificar".equals(accion)) {
+    // Cargar información laboral si existe
+    InformacionLaboral tmpInfLab = InformacionLaboral.getInformacionPorIdentificacion(identificacion);
+    if (tmpInfLab != null) {
+        informacionLaboral = tmpInfLab;
     }
 
-    // Validar que la identificación no sea nula o vacía
-    if (identificacion != null && !identificacion.isEmpty()) {
-        session.setAttribute("identificacion", identificacion);  // Almacenar en sesión
+    // Cargar educación si existe
+    Educacion tmpEducacion = Educacion.getInformacionPorIdentificacion(identificacion);
+    if (tmpEducacion != null) {
+        educacion = tmpEducacion;
     }
-    // Solo intenta obtener de la BD si la acción es "Modificar"
-    // Verifica si la acción a realizar es "Modificar"
-
-    if ("Modificar".equals(accion)) {
-        // Llama al método estático getInformacionPorIdentificacion de la clase InformacionLaboral
-        // para obtener los datos laborales de la persona identificada por 'identificacion'
-        InformacionLaboral tmp = InformacionLaboral.getInformacionPorIdentificacion(identificacion);
-        // Si la información laboral se encontró (es decir, 'tmp' no es null)
-        if (tmp != null) {
-            // Asigna los datos obtenidos a la variable 'informacionLaboral'
-            // Esto permite trabajar con la información laboral de la persona para modificarla
-            informacionLaboral = tmp;
-        }
-    }
-
+}
 
 %>
 
@@ -73,43 +80,77 @@
                         <input type="hidden" name="accion" id="accionHidden" value="<%=accion%>">
 
                     </td>
-                </tr>
+<!--                <tr>
+                    <th>Fecha de ingreso empresa<span style="color: red;">*</span></th>
+                    <td>
+                        <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
+                    </td>
+                </tr>-->
                 <!--                <tr>
-                                    <th>Fecha de ingreso empresa<span style="color: red;">*</span></th>
+                                    <th>Fecha de ingreso temporal</th>
                                     <td>
-                                        <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
-                                    </td>
+                                        <input type="date" name="fechaIngresoTemporal" value="<%= informacionLaboral.getFechaIngresoTemporal()%>"></td>
                                 </tr>-->
                 <tr>
-                    <th>Fecha de ingreso temporal</th>
+                    <th>Fecha etapa lectiva <span style="color: red;">*</span></th>
                     <td>
-                        <input type="date" name="fechaIngresoTemporal" value="<%= informacionLaboral.getFechaIngresoTemporal()%>"></td>
+                        <input type="date" name="fechaEtapaLectiva" value="<%= (educacion != null && educacion.getFechaEtapaLectiva() != null) ? educacion.getFechaEtapaLectiva() : ""%>" required >
+                    </td>
                 </tr>
-
                 <tr>
+                    <th>Fecha finalizacion etapa lectiva <span style="color: red;">*</span></th>
+                    <td>
+                        <input type="date" name="fechaFinalizacionEtapaLectiva" value="<%= (educacion != null && educacion.getFechaFinalizacionEtapaLectiva() != null) ? educacion.getFechaEtapaLectiva() : ""%>" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Fecha etapa productiva <span style="color: red;">*</span></th>
+                    <td>
+                        <input type="date" name="fechaEtapaProductiva" value="<%= (educacion != null && educacion.getFechaEtapaProductiva() != null) ? educacion.getFechaEtapaProductiva() : ""%>" required >
+                    </td>
+                </tr>
+                <tr>
+                    <th>Fecha finalizacion etapa productiva<span style="color: red;">*</span></th>
+                    <td>
+                        <input type="date" name="fechaFinalizacionEtapaProductiva" value="<%= (educacion != null && educacion.getFechaFinalizacionEtapaProductiva() != null) ? educacion.getFechaFinalizacionEtapaProductiva() : ""%>" required >
+                    </td>
+                </tr>
+<!--                <tr>
                     <th>Fecha de retiro</th>
                     <td>
                         <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" >
                     </td>
-                </tr>
+                </tr>-->
                 <tr>
+                    <th>Fecha de retiro anticipado</th>
+                    <td>
+                        <input type="date" name="fechaRetiroAnticipado" value="<%= (educacion != null && educacion.getFechaRetiroAnticipado() != null) ? educacion.getFechaRetiroAnticipado() : ""%>" >
+                    </td>
+                </tr>
+<!--                <tr>
                     <th>Duración del primer contrato<span style="color: red;">*</span></th>
                     <td>
                         <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
                     </td>
+                <tr>-->
                 <tr>
-                    <th>Unidad de negocio<span style="color: red;">*</span></th>
+                    <th>Titulo aprendiz<span style="color: red;">*</span></th>
                     <td>
-                        <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
-                            <option value="">Seleccione...</option>
-                            <%
-                                String[] unidades = {"EDS", "RPS"};
-                                for (String u : unidades) {
-                            %>
-                            <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
-                            <% }%>
-                        </select>
+                        <input type="text" name="tituloAprendiz" value="<%= (educacion != null && educacion.getFechaRetiroAnticipado() != null) ? educacion.getFechaRetiroAnticipado() : ""%>" required>
                     </td>
+                </tr>
+                <th>Unidad de negocio<span style="color: red;">*</span></th>
+                <td>
+                    <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
+                        <option value="">Seleccione...</option>
+                        <%
+                            String[] unidades = {"EDS", "RPS"};
+                            for (String u : unidades) {
+                        %>
+                        <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
+                        <% }%>
+                    </select>
+                </td>
                 </tr>
                 <tr>
                     <th>Centro de costos<span style="color: red;">*</span></th>

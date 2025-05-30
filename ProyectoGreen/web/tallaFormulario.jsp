@@ -117,7 +117,7 @@
             <div class="botones-container">
                 <input type="submit" name="accion" value="<%= accion %>">
                 <input type="button" value="Regresar" onClick="window.history.back()" />
-                <input type="button" value="Cancelar" onClick="window.history.back()">
+                <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
             </div>
 
             <% if ("Modificar".equals(accion)) { %>

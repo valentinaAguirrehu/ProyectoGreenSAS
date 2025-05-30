@@ -53,7 +53,7 @@
 </head>
 <body>
     <div class="content">
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> VEHICULO</h3>
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> TEMPORAL</h3>
         <form name="formularioInfLaboral" method="post" action="vehiculoTActualizar.jsp" onsubmit=" pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
 
             <h1>Información del vehículo</h1>
@@ -157,6 +157,7 @@
                     <div class="botones-container">
                         <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                         <input type="submit" name="accion" value="<%=accion%>">
+                        <input type="button" value="Regresar" onClick="window.history.back()" />
                         <input type="button" value="Cancelar" onclick="window.location.href = 'temporales.jsp'" />
                     </div>
 

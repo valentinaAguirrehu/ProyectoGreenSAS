@@ -60,7 +60,7 @@
 <body>
 
     <div class="content">
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> TEMPORAL</h3>
         <form name="formularioInfLaboral" method="post" action="infLaboralTActualizar.jsp" onsubmit="return true;">
 
             <h1>Informacion laboral</h1>
@@ -75,12 +75,12 @@
 
                     </td>
                 </tr>
-<!--                <tr>
-                    <th>Fecha de ingreso empresa<span style="color: red;">*</span></th>
-                    <td>
-                        <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
-                    </td>
-                </tr>-->
+                <!--                <tr>
+                                    <th>Fecha de ingreso empresa<span style="color: red;">*</span></th>
+                                    <td>
+                                        <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
+                                    </td>
+                                </tr>-->
                 <tr>
                     <th>Fecha de ingreso temporal</th>
                     <td>
@@ -149,6 +149,7 @@
             <div class="botones-container">
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
+                <input type="button" value="Regresar" onClick="window.history.back()" />
                 <input type="button" value="Cancelar" onclick="window.location.href = 'temporales.jsp'" />
             </div>
 

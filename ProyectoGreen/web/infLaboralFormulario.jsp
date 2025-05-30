@@ -74,12 +74,12 @@
 
                     </td>
                 </tr>
-                <!--                <tr>
-                                    <th>Fecha de ingreso empresa<span style="color: red;">*</span></th>
-                                    <td>
-                                        <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
-                                    </td>
-                                </tr>-->
+                <tr>
+                    <th>Fecha de ingreso empresa<span style="color: red;">*</span></th>
+                    <td>
+                        <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
+                    </td>
+                </tr>
                 <tr>
                     <th>Fecha de ingreso temporal</th>
                     <td>
