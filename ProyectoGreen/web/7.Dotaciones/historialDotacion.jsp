@@ -258,13 +258,13 @@
 <script>
 
     function eliminarEntrega(idEntrega, idPersona) {
-        if (confirm("¿Está seguro de que desea eliminar esta entrega? Al hacerlo, también se eliminarán las prendas asociadas, por lo que ya no estarán disponibles en el inventario ni podrán ser devueltas.")) {
+        if (confirm("¿Está seguro de que desea eliminar el registro de esta entrega? Al hacerlo, también se eliminarán las prendas asociadas, por lo que ya no estarán disponibles en el inventario ni podrán ser devueltas.")) {
             window.location.href = "entregaDotacionActualizar.jsp?accion=Eliminar&id=" + idEntrega + "&idPersona=" + idPersona;
         }
     }
     
     function eliminarDevolucion(idDevolucion, idPersona) {
-        if (confirm("¿Está seguro de que desea eliminar esta devolución?")) {
+        if (confirm("¿Está seguro de que desea eliminar el registro de esta devolución?")) {
             window.location.href = "devolucionDotacionActualizar.jsp?accion=Eliminar&id=" + idDevolucion + "&idPersona=" + idPersona;
         }
     }

@@ -37,36 +37,37 @@
             <tr>
                 <th>Permisos</th>
                 <td>
-                <!-- Contenedor de permisos en dos columnas -->
-                <div class="permiso-container">
-                    <!-- Primera columna -->
-                    <div class="permiso-item">
-                        <input type="checkbox" class="permiso" id="pLeer" name="pLeer" value="S" <%= "S".equals(usuario.getpLeer()) ? "checked" : ""%>>
-                        <label for="pLeer">Leer</label>
-                    </div>
-                    <div class="permiso-item">
-                        <input type="checkbox" class="permiso" id="pEliminar" name="pEliminar" value="S" <%= "S".equals(usuario.getpEliminar()) ? "checked" : ""%>>
-                        <label for="pEliminar">Eliminar</label>
-                    </div>
+                    <!-- Contenedor de permisos en dos columnas -->
+                    <div class="permiso-container">
+                        <!-- Primera columna -->
+                        <div class="permiso-item">
+                            <input type="checkbox" class="permiso" id="pLeer" name="pLeer" value="S" checked disabled>
+                            <label for="pLeer">Leer (obligatorio)</label>
+                            <input type="hidden" name="pLeer" value="S">
+                        </div>
+                        <div class="permiso-item">
+                            <input type="checkbox" class="permiso" id="pEliminar" name="pEliminar" value="S" <%= "S".equals(usuario.getpEliminar()) ? "checked" : ""%>>
+                            <label for="pEliminar">Eliminar</label>
+                        </div>
 
-                    <div class="permiso-item">
-                        <input type="checkbox" class="permiso" id="pEditar" name="pEditar" value="S" <%= "S".equals(usuario.getpEditar()) ? "checked" : ""%>>
-                        <label for="pEditar">Editar</label>
-                    </div>
-                    <div class="permiso-item">
-                        <input type="checkbox" class="permiso" id="pDescargar" name="pDescargar" value="S" <%= "S".equals(usuario.getpDescargar()) ? "checked" : ""%>>
-                        <label for="pDescargar">Ver y descargar</label>
-                    </div>
+                        <div class="permiso-item">
+                            <input type="checkbox" class="permiso" id="pEditar" name="pEditar" value="S" <%= "S".equals(usuario.getpEditar()) ? "checked" : ""%>>
+                            <label for="pEditar">Editar</label>
+                        </div>
+                        <div class="permiso-item">
+                            <input type="checkbox" class="permiso" id="pDescargar" name="pDescargar" value="S" <%= "S".equals(usuario.getpDescargar()) ? "checked" : ""%>>
+                            <label for="pDescargar">Ver y descargar</label>
+                        </div>
 
-                    <div class="permiso-item">
-                        <input type="checkbox" class="permiso" id="pAgregar" name="pAgregar" value="S" <%= "S".equals(usuario.getpAgregar()) ? "checked" : ""%>>
-                        <label for="pAgregar">Agregar</label>
+                        <div class="permiso-item">
+                            <input type="checkbox" class="permiso" id="pAgregar" name="pAgregar" value="S" <%= "S".equals(usuario.getpAgregar()) ? "checked" : ""%>>
+                            <label for="pAgregar">Agregar</label>
+                        </div>
+                        <div class="permiso-item">   <!-- Checkbox para seleccionar todos -->
+                            <input type="checkbox" id="selectAll"> 
+                            <label for="selectAll">Seleccionar todos</label>
+                        </div>
                     </div>
-                    <div class="permiso-item">   <!-- Checkbox para seleccionar todos -->
-                        <input type="checkbox" id="selectAll"> 
-                        <label for="selectAll">Seleccionar todos</label>
-                    </div>
-                </div>
                 </td>
             </tr>
             <tr>
@@ -80,11 +81,11 @@
             </tr>
             <tr>
                 <th>Nueva contraseña</th>
-                <td><input class="recuadro" type="password" name="clave" id="clave" onkeyup="validarClave();"></td>
+                <td><input class="recuadro" type="password" name="clave" id="clave" onkeyup="validarClave();" required></td>
             </tr>
             <tr>
                 <th>Confirmar contraseña</th>
-                <td><input class="recuadro" type="password" name="confirmarClave" id="confirmarClave" onkeyup="verificarCoincidencia();"></td>
+                <td><input class="recuadro" type="password" name="confirmarClave" id="confirmarClave" onkeyup="verificarCoincidencia();" required></td>
             </tr>
         </table>
 
@@ -108,7 +109,7 @@
 </div>
 <script>
     document.getElementById("selectAll").addEventListener("change", function () {
-        let checkboxes = document.querySelectorAll(".permiso");
+        let checkboxes = document.querySelectorAll(".permiso:not(#pLeer)");
         checkboxes.forEach(checkbox => {
             checkbox.checked = this.checked;
         });
@@ -139,7 +140,7 @@
         let allChecked = Array.from(permisos).every(permiso => permiso.checked);
         document.getElementById("selectAll").checked = allChecked;
     };
-    
+
     function validarClave() {
         let clave = document.getElementById("clave").value;
         document.getElementById("minimoCaracteres").style.color = clave.length >= 8 ? "green" : "red";

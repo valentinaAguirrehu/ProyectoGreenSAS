@@ -1,10 +1,10 @@
-<%@ page import="java.util.Arrays" %>
-<%@ page import="java.util.Enumeration" %>
+<%@ page import="java.util.*" %>
 <%@ page import="clases.EntregaDotacion" %>
 <%@ page import="clasesGenericas.ConectorBD" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
+    request.setCharacterEncoding("UTF-8");
     String accion = request.getParameter("accion");
     String idPersona = request.getParameter("idPersona");
 
@@ -16,9 +16,7 @@
     int idPersonaNum = Integer.parseInt(idPersona);
 
     if ("Eliminar".equals(accion)) {
-        // Obtener el ID de la entrega a eliminar
         String idEntrega = request.getParameter("id");
-
         if (idEntrega == null || idEntrega.trim().isEmpty()) {
             out.println("Error: id de entrega no recibido.");
             return;
@@ -33,11 +31,10 @@
         } else {
             response.sendRedirect("historialDotacion.jsp?identificacion=" + idPersona);
         }
-
         return;
     }
 
-    // Si no es eliminar, continúa con Registro o Modificación
+    // Recolección de datos comunes
     String[] id_prenda = request.getParameterValues("id_prenda[]");
     String[] talla = request.getParameterValues("talla[]");
     String estado = request.getParameter("estado");
@@ -50,10 +47,8 @@
     int numeroEntrega = 1;
 
     if ("Modificar".equals(accion)) {
-        // Mantener el número de entrega recibido
         numeroEntrega = Integer.parseInt(request.getParameter("numeroEntrega"));
     } else {
-        // Solo generar nuevo número si es Registro
         try {
             java.sql.ResultSet rs = ConectorBD.consultar(
                 "SELECT MAX(numero_entrega) AS max_entrega FROM entregaDotacion WHERE id_persona = " + idPersonaNum
@@ -71,8 +66,8 @@
         }
     }
 
+    // Construcción del JSON con los detalles de las prendas
     StringBuilder json = new StringBuilder("[");
-
     int longitudMinima = Math.min(id_prenda.length, talla.length);
 
     for (int i = 0; i < longitudMinima; i++) {
@@ -96,6 +91,7 @@
     }
     json.append("]");
 
+    // Crear objeto de entrega
     EntregaDotacion entrega = new EntregaDotacion();
     entrega.setIdPersona(idPersona);
     entrega.setFechaEntrega(fechaEntrega);
@@ -110,8 +106,12 @@
     if ("Registrar".equals(accion)) {
         exito = entrega.registrarEntregaDotacion();
     } else if ("Modificar".equals(accion)) {
-        entrega.setIdEntrega(request.getParameter("id")); // importante para actualizar
-        exito = entrega.modificarEntregaDotacion(); // este método lo deberías tener en tu clase
+        String idEntrega = request.getParameter("id");
+        entrega.setIdEntrega(idEntrega);
+        exito = entrega.modificarEntregaDotacion();
+        if (exito) {
+            exito = entrega.actualizarDetalleEntrega(); // Asegúrate de tener este método
+        }
     }
 
     if (!exito) {
@@ -120,4 +120,3 @@
         response.sendRedirect("historialDotacion.jsp?identificacion=" + idPersona);
     }
 %>
-

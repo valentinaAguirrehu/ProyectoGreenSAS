@@ -3,6 +3,8 @@
 <%@ page import="clasesGenericas.ConectorBD" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%@ page import="java.sql.ResultSet" %>
+
 <%
     Persona persona = (Persona) session.getAttribute("persona");
     String identificacion = "";
@@ -14,13 +16,12 @@
 
     String idPersona = request.getParameter("idPersona");
 
-    // -------------------- CARGAR TIPOS DE PRENDA --------------------
+    // CARGAR TIPOS DE PRENDA
     String tiposPorEstado = request.getParameter("ajax_tipos_por_estado");
     String unidadParaTipos = request.getParameter("ajax_unidad");
 
     if (tiposPorEstado != null && unidadParaTipos != null) {
         response.setContentType("application/json");
-
         ResultSet rsTipos = ConectorBD.consultar(
                 "SELECT DISTINCT tp.id_tipo_prenda, tp.nombre "
                 + "FROM tipoPrenda tp "
@@ -30,7 +31,6 @@
                 + "AND i.unidad_negocio = '" + unidadParaTipos + "' "
                 + "ORDER BY tp.nombre"
         );
-
         StringBuilder jsonTipos = new StringBuilder("[");
         boolean primeroTipo = true;
         while (rsTipos.next()) {
@@ -50,14 +50,13 @@
         return;
     }
 
-    // -------------------- CARGAR PRENDAS --------------------
+    // CARGAR PRENDAS
     String tipoPrendaAjax = request.getParameter("ajax_tipo_prenda");
     String estadoAjax = request.getParameter("ajax_estado");
     String unidadAjax = request.getParameter("ajax_unidad");
 
     if (tipoPrendaAjax != null && estadoAjax != null && unidadAjax != null && request.getParameter("ajax_id_prenda") == null) {
         response.setContentType("application/json");
-
         ResultSet rsPrendas = ConectorBD.consultar(
                 "SELECT DISTINCT p.id_prenda, p.nombre FROM prenda p "
                 + "JOIN inventarioDotacion i ON p.id_prenda = i.id_prenda "
@@ -66,7 +65,6 @@
                 + "AND i.unidad_negocio = '" + unidadAjax + "' "
                 + "ORDER BY p.nombre"
         );
-
         StringBuilder json = new StringBuilder("[");
         boolean primero = true;
         while (rsPrendas.next()) {
@@ -86,12 +84,10 @@
         return;
     }
 
-    // -------------------- CARGAR TALLAS --------------------
+    // CARGAR TALLAS
     String idPrendaAjax = request.getParameter("ajax_id_prenda");
-
     if (idPrendaAjax != null && estadoAjax != null && unidadAjax != null) {
         response.setContentType("application/json");
-
         ResultSet rsTallas = ConectorBD.consultar(
                 "SELECT DISTINCT talla FROM inventarioDotacion "
                 + "WHERE id_prenda = " + idPrendaAjax + " "
@@ -99,7 +95,6 @@
                 + "AND unidad_negocio = '" + unidadAjax + "' "
                 + "ORDER BY talla"
         );
-
         StringBuilder jsonTallas = new StringBuilder("{\"valores\":[");
         boolean primero = true;
         while (rsTallas.next()) {
@@ -115,15 +110,10 @@
         return;
     }
 
-    // -------------------- CARGAR ESTADOS Y UNIDADES --------------------
+    // ESTADOS Y UNIDADES
     ResultSet estados = ConectorBD.consultar("SELECT DISTINCT estado FROM inventarioDotacion ORDER BY estado");
     ResultSet unidades = ConectorBD.consultar("SELECT DISTINCT unidad_negocio FROM inventarioDotacion ORDER BY unidad_negocio");
 %>
-
-<% if (request.getAttribute("modo") != null && request.getAttribute("modo").equals("Modificar")) { %>
-    <input type="hidden" name="id" value="<%= request.getAttribute("idEntrega") %>">
-    <input type="hidden" name="numeroEntrega" value="<%= request.getAttribute("numeroEntrega") %>">
-<% } %>
 
 <jsp:include page="../menu.jsp" />
 
@@ -131,67 +121,66 @@
     <head>
         <link rel="stylesheet" href="../presentacion/style-Cargos.css">
         <link rel="stylesheet" href="../presentacion/style-DotacionFormularios.css" />
+        <script src="../presentacion/dotacion.js"></script> <%-- Asegúrate de tener este archivo JS para AJAX y dinámicas --%>
     </head>
     <body>
         <div class="content">
-            <h3 class="titulo">Registrar entrega de dotación</h3>
+            <h3 class="titulo"><%= request.getAttribute("modo") != null && request.getAttribute("modo").equals("Modificar") ? "Modificar entrega de dotación" : "Registrar entrega de dotación"%></h3>
             <form action="entregaDotacionActualizar.jsp" method="post">
-                <input type="hidden" name="accion" value="<%= request.getAttribute("modo") != null && request.getAttribute("modo").equals("Modificar") ? "Modificar" : "Registrar" %>">
-                
-                <table class="table2">
-                    <tbody>
-                        <tr>
-                            <td><label for="fechaEntrega">Fecha de entrega:</label></td>
-                            <td><input type="date" name="fechaEntrega" required></td>
-                        </tr>
-                        <tr>
-                            <td><label for="responsable">Responsable:</label></td>
-                            <td><input type="text" name="responsable" required></td>
-                        </tr>
-                        <tr>
-                            <td><label for="tipoEntrega">Tipo de entrega:</label></td>
-                            <td>
-                                <select name="tipoEntrega" required>
-                                    <option value="">Seleccione tipo</option>
-                                    <option value="Completa">Completa</option>
-                                    <option value="Parcial">Parcial</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="estado">Estado:</label></td>
-                            <td>
-                                <select name="estado" class="select-estado" id="estadoGeneral" required>
-                                    <option value="">Seleccionar un estado</option>
-                                    <% while (estados.next()) {%>
-                                    <option value="<%=estados.getString("estado")%>">
-                                        <%=estados.getString("estado")%>
-                                    </option>
-                                    <% }
-                                        estados.close(); %>
-                                </select>
-                            </td>
-                        </tr>
+                <input type="hidden" name="accion" value="<%= request.getAttribute("modo") != null && request.getAttribute("modo").equals("Modificar") ? "Modificar" : "Registrar"%>">
+                <input type="hidden" name="id" value="<%= request.getAttribute("idEntrega") != null ? request.getAttribute("idEntrega") : ""%>">
+                <input type="hidden" name="numeroEntrega" value="<%= request.getAttribute("numeroEntrega") != null ? request.getAttribute("numeroEntrega") : ""%>">
+                <input type="hidden" name="idPersona" value="<%= idPersona != null ? idPersona : ""%>">
 
-                        <tr>
-                            <td><label for="unidad_negocio">Unidad de negocio:</label></td>
-                            <td>
-                                <select name="unidad_negocio" class="select-unidad" id="unidadGeneral" required>
-                                    <option value="">Seleccione una unidad</option>
-                                    <% while (unidades.next()) {%>
-                                    <option value="<%=unidades.getString("unidad_negocio")%>">
-                                        <%=unidades.getString("unidad_negocio")%>
-                                    </option>
-                                    <% }
-                                        unidades.close();%>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="observacion">Observación:</label></td>
-                            <td><input type="text" name="observacion"></td>
-                        </tr>
-                    </tbody>
+                <table class="table2">
+                    <tr>
+                        <td><label for="fechaEntrega">Fecha de entrega:</label></td>
+                        <td><input type="date" name="fechaEntrega" required value="<%= request.getAttribute("fechaEntrega") != null ? request.getAttribute("fechaEntrega") : ""%>"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="responsable">Responsable:</label></td>
+                        <td><input type="text" name="responsable" required value="<%= request.getAttribute("responsable") != null ? request.getAttribute("responsable") : ""%>"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="tipoEntrega">Tipo de entrega:</label></td>
+                        <td>
+                            <select name="tipoEntrega" required>
+                                <option value="">Seleccione tipo</option>
+                                <option value="Completa" <%= "Completa".equals(request.getAttribute("tipoEntrega")) ? "selected" : ""%>>Completa</option>
+                                <option value="Parcial" <%= "Parcial".equals(request.getAttribute("tipoEntrega")) ? "selected" : ""%>>Parcial</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="estado">Estado:</label></td>
+                        <td>
+                            <select name="estado" class="select-estado" id="estadoGeneral" required>
+                                <option value="">Seleccionar un estado</option>
+                                <% while (estados.next()) {
+                                    String estado = estados.getString("estado");%>
+                                <option value="<%= estado%>" <%= estado.equals(request.getAttribute("estado")) ? "selected" : ""%>><%= estado%></option>
+                                <% }
+                                estados.close(); %>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="unidad_negocio">Unidad de negocio:</label></td>
+                        <td>
+                            <select name="unidad_negocio" class="select-unidad" id="unidadGeneral" required>
+                                <option value="">Seleccione una unidad</option>
+                                <% while (unidades.next()) {
+                                    String unidad = unidades.getString("unidad_negocio");%>
+                                <option value="<%= unidad%>" <%= unidad.equals(request.getAttribute("unidad_negocio")) ? "selected" : ""%>><%= unidad%></option>
+                                <% }
+                                unidades.close();%>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="observacion">Observación:</label></td>
+                        <td><input type="text" name="observacion" value="<%= request.getAttribute("observacion") != null ? request.getAttribute("observacion") : ""%>"></td>
+                    </tr>
                 </table>
 
                 <table class="table" id="tablaDotacion">
@@ -209,21 +198,9 @@
                     </thead>
                     <tbody>
                         <tr class="fila-dotacion">
-                            <td>
-                                <select class="select-tipo" name="id_tipo_prenda[]" required onchange="cargarPrendas(this)">
-                                    <option value="">Seleccione</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select name="id_prenda[]" class="select-prenda" required onchange="cargarTallas(this)">
-                                    <option value="">Seleccionar</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select name="talla[]" class="input-talla" required>
-                                    <option value="">Seleccione talla</option>
-                                </select>
-                            </td>
+                            <td><select class="select-tipo" name="id_tipo_prenda[]" required onchange="cargarPrendas(this)"><option value="">Seleccione</option></select></td>
+                            <td><select name="id_prenda[]" class="select-prenda" required onchange="cargarTallas(this)"><option value="">Seleccionar</option></select></td>
+                            <td><select name="talla[]" class="input-talla" required><option value="">Seleccione talla</option></select></td>
                             <td>
                                 <button type="button" class="fila-icono" onclick="eliminarFila(this)">
                                     <img src="../presentacion/iconos/eliminar.png" alt="Eliminar" width="24" height="24">
@@ -231,7 +208,6 @@
                             </td>
                         </tr>
                     </tbody>
-                    <input type="hidden" name="idPersona" value="<%= idPersona != null ? idPersona : ""%>">
                 </table>
 
                 <div class="botones-form">
@@ -240,166 +216,182 @@
                 </div>
             </form>
         </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById("estadoGeneral").addEventListener("change", function () {
+            actualizarSelectoresExistentes();
+        });
+        document.getElementById("unidadGeneral").addEventListener("change", function () {
+            actualizarSelectoresExistentes();
+        });
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                document.getElementById("estadoGeneral").addEventListener("change", function () {
-                    actualizarSelectoresExistentes();
-                });
-                document.getElementById("unidadGeneral").addEventListener("change", function () {
-                    actualizarSelectoresExistentes();
-                });
+        function actualizarSelectoresExistentes() {
+            const estado = document.getElementById("estadoGeneral").value;
+            const unidad = document.getElementById("unidadGeneral").value;
 
-                function actualizarSelectoresExistentes() {
-                    const estado = document.getElementById("estadoGeneral").value;
-                    const unidad = document.getElementById("unidadGeneral").value;
-
-                    if (estado && unidad) {
-                        const filas = document.querySelectorAll(".fila-dotacion");
-                        filas.forEach(fila => {
-                            const tipoSelect = fila.querySelector(".select-tipo");
-                            const prendaSelect = fila.querySelector(".select-prenda");
-                            const tallaSelect = fila.querySelector(".input-talla");
-                            tipoSelect.innerHTML = '<option value="">Cargando...</option>';
-                            fetch("entregaDotacion.jsp?ajax_tipos_por_estado=" + encodeURIComponent(estado) + "&ajax_unidad=" + encodeURIComponent(unidad))
-                                    .then(res => res.json())
-                                    .then(data => {
-                                        tipoSelect.innerHTML = '<option value="">Seleccionar tipo</option>';
-                                        data.forEach(tipo => {
-                                            const opt = document.createElement("option");
-                                            opt.value = tipo.id_tipo;
-                                            opt.textContent = tipo.nombre;
-                                            tipoSelect.appendChild(opt);
-                                        });
-                                    })
-                                    .catch(() => {
-                                        tipoSelect.innerHTML = '<option value="">Error al cargar tipos</option>';
-                                    });
-                        });
-                    }
-                }
-
-                // Función para agregar nuevas filas
-                function agregarFila() {
-                    const filaBase = document.querySelector(".fila-dotacion");
-                    const nuevaFila = filaBase.cloneNode(true);
-
-                    nuevaFila.querySelectorAll("select").forEach(select => {
-                        select.value = "";
-                        select.innerHTML = '<option value="">Seleccionar</option>';
-                    });
-
-                    const tipoSelect = nuevaFila.querySelector(".select-tipo");
-                    const prendaSelect = nuevaFila.querySelector(".select-prenda");
-                    const tallaSelect = nuevaFila.querySelector(".input-talla");
-
-                    const estado = document.getElementById("estadoGeneral").value;
-                    const unidad = document.getElementById("unidadGeneral").value;
-
-                    if (estado && unidad) {
-                        tipoSelect.innerHTML = '<option value="">Cargando...</option>';
-                        fetch("entregaDotacion.jsp?ajax_tipos_por_estado=" + encodeURIComponent(estado) + "&ajax_unidad=" + encodeURIComponent(unidad))
-                                .then(res => res.json())
-                                .then(data => {
-                                    tipoSelect.innerHTML = '<option value="">Seleccionar tipo</option>';
-                                    data.forEach(tipo => {
-                                        const opt = document.createElement("option");
-                                        opt.value = tipo.id_tipo;
-                                        opt.textContent = tipo.nombre;
-                                        tipoSelect.appendChild(opt);
-                                    });
-                                })
-                                .catch(() => {
-                                    tipoSelect.innerHTML = '<option value="">Error al cargar tipos</option>';
-                                });
-                    }
-
-                    tipoSelect.addEventListener("change", function () {
-                        cargarPrendas(this);
-                    });
-
-                    prendaSelect.addEventListener("change", function () {
-                        cargarTallas(this);
-                    });
-
-                    document.querySelector("#tablaDotacion tbody").appendChild(nuevaFila);
-                }
-
-                // Función para eliminar una fila
-                function eliminarFila(btn) {
-                    const fila = btn.closest("tr");
-                    const tbody = document.querySelector("#tablaDotacion tbody");
-                    if (tbody.rows.length > 1)
-                        fila.remove();
-                }
-
-                // Función para cargar prendas según tipo de prenda
-                function cargarPrendas(selectTipo) {
-                    const fila = selectTipo.closest("tr");
+            if (estado && unidad) {
+                const filas = document.querySelectorAll(".fila-dotacion");
+                filas.forEach(fila => {
+                    const tipoSelect = fila.querySelector(".select-tipo");
                     const prendaSelect = fila.querySelector(".select-prenda");
-                    const estado = document.getElementById("estadoGeneral").value;
-                    const unidad = document.getElementById("unidadGeneral").value;
-                    const tipo = selectTipo.value;
+                    const tallaSelect = fila.querySelector(".input-talla");
 
-                    prendaSelect.innerHTML = '<option value="">Cargando...</option>';
+                    tipoSelect.innerHTML = '<option value="">Cargando...</option>';
+                    prendaSelect.innerHTML = '<option value="">Seleccionar</option>';
+                    tallaSelect.innerHTML = '<option value="">Seleccione talla</option>';
 
-                    if (tipo && estado && unidad) {
-                        fetch("entregaDotacion.jsp?ajax_tipo_prenda=" + tipo + "&ajax_estado=" + encodeURIComponent(estado) + "&ajax_unidad=" + encodeURIComponent(unidad))
-                                .then(res => res.json())
-                                .then(data => {
-                                    prendaSelect.innerHTML = '<option value="">Seleccionar prenda</option>';
-                                    data.forEach(p => {
-                                        const opt = document.createElement("option");
-                                        opt.value = p.id_prenda;
-                                        opt.textContent = p.nombre;
-                                        prendaSelect.appendChild(opt);
-                                    });
-                                })
-                                .catch(() => {
-                                    prendaSelect.innerHTML = '<option value="">Error al cargar prendas</option>';
+                    fetch("entregaDotacion.jsp?ajax_tipos_por_estado=" + encodeURIComponent(estado) + "&ajax_unidad=" + encodeURIComponent(unidad))
+                            .then(res => res.json())
+                            .then(data => {
+                                tipoSelect.innerHTML = '<option value="">Seleccionar tipo</option>';
+                                data.forEach(tipo => {
+                                    const opt = document.createElement("option");
+                                    opt.value = tipo.id_tipo;
+                                    opt.textContent = tipo.nombre;
+                                    tipoSelect.appendChild(opt);
                                 });
-                    } else {
-                        prendaSelect.innerHTML = '<option value="">Seleccionar</option>';
-                    }
-                }
+                            })
+                            .catch(() => {
+                                tipoSelect.innerHTML = '<option value="">Error al cargar tipos</option>';
+                            });
 
-                // Función para cargar tallas según prenda seleccionada
-                function cargarTallas(selectPrenda) {
-                    const fila = selectPrenda.closest("tr");
-                    const idPrenda = selectPrenda.value;
-                    const estado = document.getElementById("estadoGeneral").value;
-                    const unidad = document.getElementById("unidadGeneral").value;
-                    const selectTalla = fila.querySelector(".input-talla");
+                    // Reasignar listeners
+                    tipoSelect.removeEventListener("change", tipoSelect._listener);
+                    tipoSelect._listener = function () {
+                        cargarPrendas(this);
+                    };
+                    tipoSelect.addEventListener("change", tipoSelect._listener);
 
-                    selectTalla.innerHTML = '<option value="">Cargando...</option>';
+                    prendaSelect.removeEventListener("change", prendaSelect._listener);
+                    prendaSelect._listener = function () {
+                        cargarTallas(this);
+                    };
+                    prendaSelect.addEventListener("change", prendaSelect._listener);
+                });
+            }
+        }
 
-                    if (idPrenda && estado && unidad) {
-                        fetch("entregaDotacion.jsp?ajax_id_prenda=" + idPrenda + "&ajax_estado=" + encodeURIComponent(estado) + "&ajax_unidad=" + encodeURIComponent(unidad))
-                                .then(response => response.json())
-                                .then(data => {
-                                    selectTalla.innerHTML = '<option value="">Seleccione talla</option>';
-                                    data.valores.forEach(talla => {
-                                        const option = document.createElement("option");
-                                        option.value = talla;
-                                        option.textContent = talla;
-                                        selectTalla.appendChild(option);
-                                    });
-                                })
-                                .catch(() => {
-                                    selectTalla.innerHTML = '<option value="">Error al cargar tallas</option>';
-                                });
-                    } else {
-                        selectTalla.innerHTML = '<option value="">Seleccione talla</option>';
-                    }
-                }
+        // Función para agregar nuevas filas
+        function agregarFila() {
+            const filaBase = document.querySelector(".fila-dotacion");
+            const nuevaFila = filaBase.cloneNode(true);
 
-                window.agregarFila = agregarFila;
-                window.eliminarFila = eliminarFila;
-                window.cargarPrendas = cargarPrendas;
-                window.cargarTallas = cargarTallas;
+            nuevaFila.querySelectorAll("select").forEach(select => {
+                select.value = "";
+                select.innerHTML = '<option value="">Seleccionar</option>';
             });
 
+            const tipoSelect = nuevaFila.querySelector(".select-tipo");
+            const prendaSelect = nuevaFila.querySelector(".select-prenda");
+            const tallaSelect = nuevaFila.querySelector(".input-talla");
 
-        </script>
-    </body>
+            const estado = document.getElementById("estadoGeneral").value;
+            const unidad = document.getElementById("unidadGeneral").value;
+
+            if (estado && unidad) {
+                tipoSelect.innerHTML = '<option value="">Cargando...</option>';
+                fetch("entregaDotacion.jsp?ajax_tipos_por_estado=" + encodeURIComponent(estado) + "&ajax_unidad=" + encodeURIComponent(unidad))
+                        .then(res => res.json())
+                        .then(data => {
+                            tipoSelect.innerHTML = '<option value="">Seleccionar tipo</option>';
+                            data.forEach(tipo => {
+                                const opt = document.createElement("option");
+                                opt.value = tipo.id_tipo;
+                                opt.textContent = tipo.nombre;
+                                tipoSelect.appendChild(opt);
+                            });
+                        })
+                        .catch(() => {
+                            tipoSelect.innerHTML = '<option value="">Error al cargar tipos</option>';
+                        });
+            }
+
+            tipoSelect.addEventListener("change", function () {
+                cargarPrendas(this);
+            });
+
+            prendaSelect.addEventListener("change", function () {
+                cargarTallas(this);
+            });
+
+            document.querySelector("#tablaDotacion tbody").appendChild(nuevaFila);
+        }
+
+        // Función para eliminar una fila
+        function eliminarFila(btn) {
+            const fila = btn.closest("tr");
+            const tbody = document.querySelector("#tablaDotacion tbody");
+            if (tbody.rows.length > 1)
+                fila.remove();
+        }
+
+        // Función para cargar prendas según tipo de prenda
+        function cargarPrendas(selectTipo) {
+            const fila = selectTipo.closest("tr");
+            const prendaSelect = fila.querySelector(".select-prenda");
+            const estado = document.getElementById("estadoGeneral").value;
+            const unidad = document.getElementById("unidadGeneral").value;
+            const tipo = selectTipo.value;
+
+            prendaSelect.innerHTML = '<option value="">Cargando...</option>';
+
+            if (tipo && estado && unidad) {
+                fetch("entregaDotacion.jsp?ajax_tipo_prenda=" + tipo + "&ajax_estado=" + encodeURIComponent(estado) + "&ajax_unidad=" + encodeURIComponent(unidad))
+                        .then(res => res.json())
+                        .then(data => {
+                            prendaSelect.innerHTML = '<option value="">Seleccionar prenda</option>';
+                            data.forEach(p => {
+                                const opt = document.createElement("option");
+                                opt.value = p.id_prenda;
+                                opt.textContent = p.nombre;
+                                prendaSelect.appendChild(opt);
+                            });
+                        })
+                        .catch(() => {
+                            prendaSelect.innerHTML = '<option value="">Error al cargar prendas</option>';
+                        });
+            } else {
+                prendaSelect.innerHTML = '<option value="">Seleccionar</option>';
+            }
+        }
+
+        // Función para cargar tallas según prenda seleccionada
+        function cargarTallas(selectPrenda) {
+            const fila = selectPrenda.closest("tr");
+            const idPrenda = selectPrenda.value;
+            const estado = document.getElementById("estadoGeneral").value;
+            const unidad = document.getElementById("unidadGeneral").value;
+            const selectTalla = fila.querySelector(".input-talla");
+
+            selectTalla.innerHTML = '<option value="">Cargando...</option>';
+
+            if (idPrenda && estado && unidad) {
+                fetch("entregaDotacion.jsp?ajax_id_prenda=" + idPrenda + "&ajax_estado=" + encodeURIComponent(estado) + "&ajax_unidad=" + encodeURIComponent(unidad))
+                        .then(response => response.json())
+                        .then(data => {
+                            selectTalla.innerHTML = '<option value="">Seleccione talla</option>';
+                            data.valores.forEach(talla => {
+                                const option = document.createElement("option");
+                                option.value = talla;
+                                option.textContent = talla;
+                                selectTalla.appendChild(option);
+                            });
+                        })
+                        .catch(() => {
+                            selectTalla.innerHTML = '<option value="">Error al cargar tallas</option>';
+                        });
+            } else {
+                selectTalla.innerHTML = '<option value="">Seleccione talla</option>';
+            }
+        }
+
+        window.agregarFila = agregarFila;
+        window.eliminarFila = eliminarFila;
+        window.cargarPrendas = cargarPrendas;
+        window.cargarTallas = cargarTallas;
+    });
+
+
+</script>
+</body>
 </html>
