@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>Soporte Técnico - GREEN S.A.S.</title>
 
-    <!-- Font Awesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -138,9 +137,9 @@
     <h1>Equipo de Soporte Técnico</h1>
 
     <div class="team-container">
-        <!-- Persona 1 -->
+
         <div class="profile-card">
-            <img src="presentacion/imagenesManual/yo.PNG"alt="Foto de Angie">
+            <img src="presentacion/imagenesManual/yo.PNG"  alt="Foto de Angie">
             <h2>Angie Benavides</h2>
             <p><span class="label"><i class="fas fa-envelope"></i>Correo:</span>
                 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=angiebenavides1809@gmail.com" target="_blank">angiebenavides1809@gmail.com</a>
@@ -150,7 +149,7 @@
             </p>
         </div>
 
-        <!-- Persona 2 -->
+
         <div class="profile-card">
             <img src="presentacion/imagenesManual/yo.PNG" alt="Foto de Maria">
             <h2>Maria de los Angeles Perez</h2>
@@ -162,12 +161,12 @@
             </p>
         </div>
 
-        <!-- Persona 3 -->
+    
         <div class="profile-card">
             <img src="presentacion/imagenesManual/yo.PNG" alt="Foto de Valentina">
             <h2>Valentina Aguirre</h2>
             <p><span class="label"><i class="fas fa-envelope"></i>Correo:</span>
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=valentinaaguirre@gmail.com" target="_blank">valentinaaguirre@gmail.com</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=valentinaaguirre2006@gmail.com" target="_blank">valentinaaguirre@gmail.com</a>
             </p>
             <p><span class="label"><i class="fab fa-linkedin"></i>LinkedIn:</span>
                 <a href="https://www.linkedin.com/in/valentinaaguirre" target="_blank">Ver perfil</a>
@@ -175,10 +174,9 @@
         </div>
     </div>
 
-    <!-- Botón Volver -->
     <a href="0.Inicio/principal.jsp" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a>
 
-    <!-- Marca de agua -->
+ 
     <div class="watermark">ProyectoGreen</div>
 
 </body>
