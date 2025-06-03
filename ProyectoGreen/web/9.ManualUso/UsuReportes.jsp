@@ -7,19 +7,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         html, body {
-            height: 100%;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', sans-serif;
             background-color: #fff;
             color: #111;
-            overflow: hidden; /* 🔒 Esto elimina la barra de scroll vertical */
         }
 
         body {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            align-items: center;
             padding: 20px 30px;
             box-sizing: border-box;
         }
@@ -31,13 +29,10 @@
         }
 
         .module-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            flex-grow: 1;
-            overflow: auto; /* Si hay demasiado contenido, solo esta parte podrá desplazarse */
-            padding-bottom: 10px;
+            max-width: 860px;
         }
 
         .module-card {
@@ -51,6 +46,7 @@
             transition: transform 0.3s ease;
             text-decoration: none;
             color: #000;
+            display: block;
         }
 
         .module-card:hover {
@@ -76,7 +72,7 @@
 
         .footer {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 30px;
         }
 
         .back-button {
@@ -91,9 +87,19 @@
             background-color: #333;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            .module-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .module-container {
+                grid-template-columns: 1fr;
+            }
+
             .module-card {
-                width: 90%;
+                width: 100%;
             }
         }
     </style>
@@ -103,41 +109,41 @@
     <h1>Reportes e Indicadores</h1>
 
     <div class="module-container">
-        <div class="module-card">
+        <a href="ReporteIngresoUSO.jsp" class="module-card">
             <i class="fas fa-user-plus"></i>
             <h3>Ingresos de Colaboradores</h3>
             <p>Visualiza los ingresos por mes y año en tabla y gráfica. Permite el seguimiento de crecimiento del personal.</p>
-        </div>
+        </a>
 
-        <div class="module-card">
+        <a href="reporteRetiroUSO.jsp" class="module-card">
             <i class="fas fa-user-minus"></i>
             <h3>Retiros de Colaboradores</h3>
             <p>Presenta los retiros por mes y año con representación gráfica. Útil para analizar rotación de personal.</p>
-        </div>
+        </a>
 
-        <div class="module-card">
+        <a href="dotacionesEntregadas.jsp" class="module-card">
             <i class="fas fa-box-open"></i>
             <h3>Dotaciones Entregadas</h3>
             <p>Reporte mensual y anual con gráficas que muestra la cantidad de dotaciones entregadas al personal.</p>
-        </div>
+        </a>
 
-        <div class="module-card">
+        <a href="reporteCumple.jsp" class="module-card">
             <i class="fas fa-birthday-cake"></i>
             <h3>Cumpleaños del Mes</h3>
             <p>Lista actualizada de los colaboradores que cumplen años en el mes actual. Solo muestra tabla, sin exportación.</p>
-        </div>
+        </a>
 
-        <div class="module-card">
+        <a href="diaFamilia.jsp" class="module-card">
             <i class="fas fa-users-line"></i>
             <h3>Día de la Familia</h3>
             <p>Visualiza días acumulados por colaborador. Exportable a Excel y Word.</p>
-        </div>
+        </a>
 
-        <div class="module-card">
+        <a href="vacaciones.jsp" class="module-card">
             <i class="fas fa-umbrella-beach"></i>
             <h3>Vacaciones</h3>
             <p>Muestra en tabla los días de vacaciones acumulados. Soporta exportación a Word y Excel.</p>
-        </div>
+        </a>
     </div>
 
     <div class="footer">
