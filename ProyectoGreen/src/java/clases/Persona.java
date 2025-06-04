@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.*;
 
 /**
  *
@@ -709,5 +710,20 @@ public class Persona {
         }
         return lista;
     }
+
+public static String getNombrePorId(String idPersona) {
+    String nombreCompleto = "No encontrado";
+    String sql = "SELECT nombres, apellidos FROM persona WHERE identificacion = '" + idPersona + "'";
+    try {
+        ResultSet rs = ConectorBD.consultar(sql);
+        if (rs != null && rs.next()) {
+            nombreCompleto = rs.getString("nombres") + " " + rs.getString("apellidos");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener el nombre: " + ex.getMessage());
+    }
+    return nombreCompleto;
+}
+
 
 }

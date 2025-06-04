@@ -3,6 +3,8 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="clases.DetalleEntrega" %>
 <%@ page import="clases.EntregaDotacion" %>
+<%@ page import="clases.Persona" %>
+
 
 <%
     boolean isDownloadMode = request.getParameter("formato") != null;
@@ -152,9 +154,11 @@
     <table class="table">
         <thead>
             <tr>
-                <th>ID Persona</th>
+                <th>Identificacion</th>
+                <th>Colaborador</th>
                 <th>Fecha Entrega</th>
                 <th>Tipo Entrega</th>
+     
                 <th>Estado</th>
                 <th>Unidad de Negocio</th>
             </tr>
@@ -173,17 +177,17 @@
 %>
 <tr>
     <td><%= ed.getIdPersona() %></td>
+    <td><%= Persona.getNombrePorId(ed.getIdPersona()) %></td>
     <td><%= ed.getFechaEntrega() %></td>
     <td><%= ed.getTipoEntrega() %></td>
-
     <td><%= de.getEstado() %></td>
     <td><%= de.getUnidadNegocio() %></td>
 </tr>
+
 <%
     }
 %>
         </tbody>
-        
     </table>
         <%
 Map<String, Integer> entregasGrafico = new TreeMap<>(); // Clave: mes o año
@@ -223,57 +227,110 @@ if (anio != null && !anio.isEmpty()) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('graficoEntregas').getContext('2d');
 
-        const data = {
-            labels: [<%
-                boolean first = true;
+    <script>
+    const ctx = document.getElementById('graficoEntregas').getContext('2d');
+
+    const data = {
+        labels: [<%
+            boolean first = true;
+            for (String key : entregasGrafico.keySet()) {
+                if (!first) out.print(", ");
+                out.print("\"" + key + "\"");
+                first = false;
+            }
+        %>],
+        datasets: [{
+            label: '<%= (anio != null && !anio.isEmpty()) ? "Entregas por Mes en " + anio : "Entregas por Año" %>',
+            data: [<%
+                first = true;
                 for (String key : entregasGrafico.keySet()) {
                     if (!first) out.print(", ");
-                    out.print("\"" + key + "\"");
+                    out.print(entregasGrafico.get(key));
                     first = false;
                 }
             %>],
-            datasets: [{
-                label: '<%= (anio != null && !anio.isEmpty()) ? "Entregas por Mes en " + anio : "Entregas por Año" %>',
-                data: [<%
-                    first = true;
-                    for (String key : entregasGrafico.keySet()) {
-                        if (!first) out.print(", ");
-                        out.print(entregasGrafico.get(key));
-                        first = false;
-                    }
-                %>],
-                backgroundColor: 'rgba(44, 110, 73, 0.6)',
-                borderColor: 'rgba(44, 110, 73, 1)',
-                borderWidth: 1
-            }]
-        };
+            backgroundColor: 'rgba(44, 110, 73, 0.7)',
+            borderColor: '#2c6e49',
+            borderWidth: 2,
+            borderRadius: 6,
+            barPercentage: 0.6,
+            categoryPercentage: 0.8
+        }]
+    };
 
-        new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Cantidad de Entregas'
+    new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: '#2c6e49',
+                        font: {
+                            family: 'Arial',
+                            size: 14,
+                            weight: 'bold'
                         }
                     }
                 },
-                plugins: {
-                    legend: {
+                tooltip: {
+                    backgroundColor: '#daf2da',
+                    titleColor: '#2c6e49',
+                    bodyColor: '#2c6e49',
+                    titleFont: {
+                        family: 'Arial',
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        family: 'Arial'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#2c6e49',
+                        font: {
+                            family: 'Arial',
+                            size: 13
+                        }
+                    },
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#2c6e49',
+                        font: {
+                            family: 'Arial',
+                            size: 13
+                        },
+                        stepSize: 1
+                    },
+                    title: {
                         display: true,
-                        position: 'top'
+                        text: 'Cantidad de Entregas',
+                        color: '#2c6e49',
+                        font: {
+                            family: 'Arial',
+                            size: 14,
+                            weight: 'bold'
+                        }
+                    },
+                    grid: {
+                        color: '#e0e0e0'
                     }
                 }
             }
-        });
-    </script>
+        }
+    });
+</script>
+
 <% } %>
 
 </div>
