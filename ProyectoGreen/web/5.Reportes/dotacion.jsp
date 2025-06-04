@@ -1,3 +1,4 @@
+<%@page import="java.text.DateFormatSymbols"%>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="clases.DetalleEntrega" %>
@@ -182,5 +183,97 @@
     }
 %>
         </tbody>
+        
     </table>
+        <%
+Map<String, Integer> entregasGrafico = new TreeMap<>(); // Clave: mes o año
+
+if (anio != null && !anio.isEmpty()) {
+    // Mostrar por MES del año seleccionado
+    for (DetalleEntrega de : lista) {
+        EntregaDotacion ed = de.getEntrega();
+        String fecha = ed.getFechaEntrega(); // Formato esperado: yyyy-MM-dd
+        if (fecha != null && fecha.startsWith(anio)) {
+            try {
+                String[] partes = fecha.split("-");
+                int mes = Integer.parseInt(partes[1]);
+                String nombreMes = new DateFormatSymbols().getMonths()[mes - 1]; // Mes en texto
+                entregasGrafico.put(nombreMes, entregasGrafico.getOrDefault(nombreMes, 0) + 1);
+            } catch (Exception e) {
+                // Ignorar errores de formato
+            }
+        }
+    }
+} else {
+    // Mostrar por AÑO
+    for (DetalleEntrega de : lista) {
+        EntregaDotacion ed = de.getEntrega();
+        String fecha = ed.getFechaEntrega(); // Formato esperado: yyyy-MM-dd
+        if (fecha != null && fecha.length() >= 4) {
+            String year = fecha.substring(0, 4);
+            entregasGrafico.put(year, entregasGrafico.getOrDefault(year, 0) + 1);
+        }
+    }
+}
+%>
+
+<% if (!isDownloadMode && !entregasGrafico.isEmpty()) { %>
+    <div style="width: 80%; margin: 40px auto;">
+        <canvas id="graficoEntregas"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('graficoEntregas').getContext('2d');
+
+        const data = {
+            labels: [<%
+                boolean first = true;
+                for (String key : entregasGrafico.keySet()) {
+                    if (!first) out.print(", ");
+                    out.print("\"" + key + "\"");
+                    first = false;
+                }
+            %>],
+            datasets: [{
+                label: '<%= (anio != null && !anio.isEmpty()) ? "Entregas por Mes en " + anio : "Entregas por Año" %>',
+                data: [<%
+                    first = true;
+                    for (String key : entregasGrafico.keySet()) {
+                        if (!first) out.print(", ");
+                        out.print(entregasGrafico.get(key));
+                        first = false;
+                    }
+                %>],
+                backgroundColor: 'rgba(44, 110, 73, 0.6)',
+                borderColor: 'rgba(44, 110, 73, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cantidad de Entregas'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    </script>
+<% } %>
+
 </div>
