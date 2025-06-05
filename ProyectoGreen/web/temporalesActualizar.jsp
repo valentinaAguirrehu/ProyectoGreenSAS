@@ -28,7 +28,6 @@
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("T");
-//  persona.setIdCargo(request.getParameter("idCargo"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
@@ -82,8 +81,7 @@
             break;
         case "Modificar":
             personaGuardada = persona.modificar(identificacionAnterior);
-            response.sendRedirect("seguridadSocialTFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
-            return;
+            break;
         case "Eliminar":
             personaGuardada = persona.eliminar();
             break;
@@ -125,6 +123,10 @@
         response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + identificacionParaRedirigir);
         return; // Detiene el JSP después de redirigir
     }
+    if (personaGuardada && "Modificar".equals(accion)) {
+    response.sendRedirect("seguridadSocialFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
+    return;
+}
 //    if (personaGuardada && "Modificar".equals(accion)) {
 //        response.sendRedirect("seguridadSocialTFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
 //        return;

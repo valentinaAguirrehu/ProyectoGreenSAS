@@ -57,7 +57,7 @@
                 <option value="nombre">Nombres</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
-                <option value="establecimiento">Establecimiento</option>
+                <!--<option value="establecimiento">Establecimiento</option>-->
                 <option value="unidadNegocio">Unidad de negocio</option>
                 <option value="fechaIngreso">Fecha de Ingreso</option>
             </select>

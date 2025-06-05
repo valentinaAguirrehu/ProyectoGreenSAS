@@ -125,15 +125,15 @@ public class Retirados {
     }
 
     public static ResultSet getLista(String filtro, String orden) {
-        if (filtro != null && !filtro.equals(filtro)) {
+        if (filtro != null && !filtro.trim().isEmpty()) {
             filtro = " WHERE " + filtro;
         } else {
-            filtro = " ";
+            filtro = "";
         }
-        if (orden != null && !orden.equals(orden)) {
+        if (orden != null && !orden.trim().isEmpty()) {
             orden = " ORDER BY " + orden;
         } else {
-            orden = " ";
+            orden = "";
         }
 
         String cadenaSQL = "SELECT "

@@ -39,7 +39,7 @@
     if (variables.get("identificacion") == null || variables.get("identificacion").trim().isEmpty()) {
         return;
     }
-   
+
     InformacionLaboral informacionLaboral = new InformacionLaboral();
     informacionLaboral.setFechaRetiro(variables.get("fechaRetiro"));
 
@@ -59,19 +59,23 @@
             retirado.grabar(); // Insertar en la tabla 'retirados'
             break;
         case "Modificar":
-             if (variables.get("id") != null && variables.get("fechaRetiro") != null) {
+            if (variables.get("id") != null && variables.get("fechaRetiro") != null) {
                 String nuevaFechaRetiro = variables.get("fechaRetiro");
                 String numCaja = variables.get("numCaja");
                 String numCarpeta = variables.get("numCarpeta");
                 String observaciones = variables.get("observaciones");
-                String cadenaSQL = "UPDATE persona SET fechaRetiro = '" + nuevaFechaRetiro + "' WHERE identificacion = '" + variables.get("identificacion") + "'";
-                boolean actualizado = ConectorBD.ejecutarQuery(cadenaSQL);        
-             if (actualizado) {
-                String cadenaSQLRetirados = "UPDATE retirados SET numCaja = '" + numCaja + "', numCarpeta = '" + numCarpeta + "', observaciones = '" + observaciones + "' WHERE id = '" + variables.get("id") + "'";
-                ConectorBD.ejecutarQuery(cadenaSQLRetirados);
-                    }
+
+                // CORREGIDO: actualiza en informacionlaboral
+                String cadenaSQL = "UPDATE informacionlaboral SET fechaRetiro = '" + nuevaFechaRetiro + "' WHERE identificacion = '" + variables.get("identificacion") + "'";
+                boolean actualizado = ConectorBD.ejecutarQuery(cadenaSQL);
+
+                if (actualizado) {
+                    String cadenaSQLRetirados = "UPDATE retirados SET numCaja = '" + numCaja + "', numCarpeta = '" + numCarpeta + "', observaciones = '" + observaciones + "' WHERE id = '" + variables.get("id") + "'";
+                    ConectorBD.ejecutarQuery(cadenaSQLRetirados);
                 }
+            }
             break;
+
         case "Eliminar":
             if (variables.get("id") != null) {
                 retirado.eliminar(variables.get("id"));

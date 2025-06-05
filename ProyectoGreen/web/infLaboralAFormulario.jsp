@@ -20,7 +20,7 @@
 String identificacion = request.getParameter("identificacion");
 
 // Instancia vacía con la identificación por si no se encuentra en BD
-System.out.println("Entrando a personaFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
+System.out.println("Entrando a infLaboralAFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
 
 // Información Laboral
 InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
@@ -80,17 +80,17 @@ if ("Modificar".equals(accion)) {
                         <input type="hidden" name="accion" id="accionHidden" value="<%=accion%>">
 
                     </td>
-<!--                <tr>
-                    <th>Fecha de ingreso empresa<span style="color: red;">*</span></th>
-                    <td>
-                        <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
-                    </td>
-                </tr>-->
-                <!--                <tr>
-                                    <th>Fecha de ingreso temporal</th>
-                                    <td>
-                                        <input type="date" name="fechaIngresoTemporal" value="<%= informacionLaboral.getFechaIngresoTemporal()%>"></td>
-                                </tr>-->
+                    <!--                <tr>
+                                        <th>Fecha de ingreso empresa<span style="color: red;">*</span></th>
+                                        <td>
+                                            <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
+                                        </td>
+                                    </tr>-->
+                    <!--                <tr>
+                                        <th>Fecha de ingreso temporal</th>
+                                        <td>
+                                            <input type="date" name="fechaIngresoTemporal" value="<%= informacionLaboral.getFechaIngresoTemporal()%>"></td>
+                                    </tr>-->
                 <tr>
                     <th>Fecha etapa lectiva <span style="color: red;">*</span></th>
                     <td>
@@ -115,24 +115,24 @@ if ("Modificar".equals(accion)) {
                         <input type="date" name="fechaFinalizacionEtapaProductiva" value="<%= (educacion != null && educacion.getFechaFinalizacionEtapaProductiva() != null) ? educacion.getFechaFinalizacionEtapaProductiva() : ""%>" required >
                     </td>
                 </tr>
-<!--                <tr>
-                    <th>Fecha de retiro</th>
-                    <td>
-                        <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" >
-                    </td>
-                </tr>-->
+                <!--                <tr>
+                                    <th>Fecha de retiro</th>
+                                    <td>
+                                        <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" >
+                                    </td>
+                                </tr>-->
                 <tr>
                     <th>Fecha de retiro anticipado</th>
                     <td>
                         <input type="date" name="fechaRetiroAnticipado" value="<%= (educacion != null && educacion.getFechaRetiroAnticipado() != null) ? educacion.getFechaRetiroAnticipado() : ""%>" >
                     </td>
                 </tr>
-<!--                <tr>
-                    <th>Duración del primer contrato<span style="color: red;">*</span></th>
-                    <td>
-                        <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
-                    </td>
-                <tr>-->
+                <!--                <tr>
+                                    <th>Duración del primer contrato<span style="color: red;">*</span></th>
+                                    <td>
+                                        <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
+                                    </td>
+                                <tr>-->
                 <tr>
                     <th>Titulo aprendiz<span style="color: red;">*</span></th>
                     <td>
@@ -174,12 +174,13 @@ if ("Modificar".equals(accion)) {
                 <tr>
                     <th>Cargos<span style="color: red;">*</span></th>
                     <td>
-                        <input type="text" name="idCargo" id="idCargo" list="cargosList" value="<%= informacionLaboral.getIdCargo()%>" required />
+                        <input type="text" name="idCargo" id="cargoNombre" list="cargosList" value="<%= new Cargo(informacionLaboral.getIdCargo()).getNombre() %>" required />
                         <datalist id="cargosList">
                             <%= opcionesCargos%> <!-- Aquí se insertan las opciones dinámicamente -->
                         </datalist>
                     </td>
                 </tr>
+
                 <tr>
                     <th>Salario<span style="color: red;">*</span></th>
                     <td><input type="text" name="salario" id="salario" value="<%= informacionLaboral.getSalario()%>" /></td>

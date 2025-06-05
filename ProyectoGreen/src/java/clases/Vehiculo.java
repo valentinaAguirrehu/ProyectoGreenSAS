@@ -170,7 +170,7 @@ public class Vehiculo {
     public String getFechaExpLicenciaTransito() {
         String resultado = fechaExpLicenciaTransito;
         if (fechaExpLicenciaTransito == null) {
-            resultado = null;
+            resultado = "";
         }
         return resultado;
     }
@@ -206,7 +206,7 @@ public class Vehiculo {
     public String getNumLicenciaConduccion() {
         String resultado = numLicenciaConduccion;
         if (numLicenciaConduccion == null) {
-            resultado = null;
+            resultado = "";
         }
         return resultado;
     }
@@ -218,7 +218,7 @@ public class Vehiculo {
     public String getFechaExpConduccion() {
         String resultado = fechaExpConduccion;
         if (fechaExpConduccion == null) {
-            resultado = null;
+            resultado = "";
         }
         return resultado;
     }
@@ -230,7 +230,7 @@ public class Vehiculo {
     public String getFechaVencimiento() {
         String resultado = fechaVencimiento;
         if (fechaVencimiento == null) {
-            resultado = null;
+            resultado = "";
         }
         return resultado;
     }

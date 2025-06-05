@@ -1,8 +1,3 @@
-<%-- 
-    Document   : infLaboralActualizar
-    Created on : 8/03/2025, 02:18:59 PM
-    Author     : Mary
---%>
 <%@page import="clases.Educacion"%>
 <%@page import="clases.Talla"%>
 <%@page import="clases.InformacionLaboral"%>
@@ -11,19 +6,17 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
-    // Capturar acción y valores del formulario
     String accion = request.getParameter("accion");
     String identificacionAnterior = request.getParameter("identificacionAnterior");
-    System.out.println("ID CARGO JSP: " + request.getParameter("idCargo"));
 
     Talla talla = (Talla) request.getAttribute("talla");
     request.setAttribute("talla", talla);
-    // Crear objeto InformacionLaboral y asignar valores del formulario
+
     InformacionLaboral informacionLaboral = new InformacionLaboral();
     informacionLaboral.setIdentificacion(request.getParameter("identificacion"));
     informacionLaboral.setIdCargo(request.getParameter("idCargo"));
     informacionLaboral.setFechaIngreso(request.getParameter("NA"));
-    informacionLaboral.setFechaIngresoTemporal(request.getParameter("fechaIngresoTemporal"));
+    informacionLaboral.setFechaIngresoTemporal(request.getParameter("NA"));
     informacionLaboral.setFechaRetiro(request.getParameter("NA"));
     informacionLaboral.setUnidadNegocio(request.getParameter("unidadNegocio"));
     informacionLaboral.setCentroCostos(request.getParameter("centroCostos"));
@@ -31,8 +24,9 @@
     informacionLaboral.setArea(request.getParameter("area"));
     informacionLaboral.setSalario(request.getParameter("salario"));
     informacionLaboral.setFechaTerPriContrato(request.getParameter("NA"));
+
     Educacion educacion = new Educacion();
-    educacion.setIdentificacion(request.getParameter("identificacion"));  // clave foránea o pk
+    educacion.setIdentificacion(request.getParameter("identificacion"));
     educacion.setFechaEtapaLectiva(request.getParameter("fechaEtapaLectiva"));
     educacion.setFechaFinalizacionEtapaLectiva(request.getParameter("fechaFinalizacionEtapaLectiva"));
     educacion.setFechaEtapaProductiva(request.getParameter("fechaEtapaProductiva"));
@@ -40,37 +34,30 @@
     educacion.setFechaRetiroAnticipado(request.getParameter("fechaRetiroAnticipado"));
     educacion.setTituloAprendiz(request.getParameter("tituloAprendiz"));
 
-    // Acción según el botón presionado
     switch (accion) {
         case "Adicionar":
-            // Verificar si la identificación ya existe en la base de datos
             if (InformacionLaboral.getInformacionPorIdentificacion(informacionLaboral.getIdentificacion()) == null) {
-                informacionLaboral.grabar(); // Llama al método de grabar si es una persona nueva
-                // Redirige inmediatamente después de guardar
-                String id = informacionLaboral.getIdentificacion();
-                response.sendRedirect("tallaAFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
+                informacionLaboral.grabar();
+                educacion.grabar();
+                response.sendRedirect("tallaAFormulario.jsp?identificacion=" + informacionLaboral.getIdentificacion() + "&accion=Adicionar");
                 return;
             } else {
-                // Si ya existe, muestra un mensaje de error o realiza alguna acción (opcional)
                 out.println("<p>Error: La identificación ya existe en la base de datos.</p>");
             }
             break;
 
         case "Modificar":
-            // Si la persona ya existe, proceder con la modificación
-            informacionLaboral.modificar(identificacionAnterior); // Llama al método de modificar
-            // Redirige al formulario manteniéndose en la vista
+            // Aquí aseguramos que el WHERE utilice la identificación anterior
+            informacionLaboral.modificar(identificacionAnterior);
+            educacion.modificar(identificacionAnterior);
             response.sendRedirect("tallaAFormulario.jsp?identificacion=" + informacionLaboral.getIdentificacion() + "&accion=Modificar");
-            return; // Esto termina la ejecución del JSP aquí
-        // break eliminado porque ya no es necesario (ni válido)
+            return;
 
         case "Eliminar":
-            // Llama al método de eliminar
             informacionLaboral.eliminar();
+            educacion.eliminar();
             break;
     }
-
-// 
 %>
 
 <script type="text/javascript">

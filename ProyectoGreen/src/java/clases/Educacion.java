@@ -56,7 +56,6 @@ public class Educacion {
     }
 
     // Getters y Setters
-
     public String getIdentificacion() {
         return identificacion != null ? identificacion : "";
     }
@@ -80,7 +79,6 @@ public class Educacion {
 //    public void setFechaIngresoEmpresa(String fechaIngresoEmpresa) {
 //        this.fechaIngresoEmpresa = fechaIngresoEmpresa;
 //    }
-
     public String getFechaEtapaLectiva() {
         return fechaEtapaLectiva != null ? fechaEtapaLectiva : "";
     }
@@ -122,7 +120,11 @@ public class Educacion {
     }
 
     public String getTituloAprendiz() {
-        return tituloAprendiz != null ? tituloAprendiz : "";
+        String resultado = tituloAprendiz;
+        if (tituloAprendiz == null) {
+            resultado = "";
+        }
+        return resultado;
     }
 
     public void setTituloAprendiz(String tituloAprendiz) {
@@ -135,22 +137,19 @@ public class Educacion {
     }
 
     public boolean grabar() {
-        String cadenaSQL = "INSERT INTO educacion ("
-                + "identificacion, fechaEtapaLectiva, fechaFinalizacionEtapaLectiva, "
+        String cadenaSQL = "INSERT INTO educacion (identificacion, fechaEtapaLectiva, fechaFinalizacionEtapaLectiva, "
                 + "fechaEtapaProductiva, fechaFinalizacionEtapaProductiva, fechaRetiroAnticipado, TituloAprendiz) VALUES ('"
-                + identificacion + "', '"
-//                + nivelEducativo + "', "
-//                + (fechaIngresoEmpresa != null && !fechaIngresoEmpresa.isEmpty() ? "'" + fechaIngresoEmpresa + "'" : "NULL") + ", "
+                + identificacion + "', "
                 + (fechaEtapaLectiva != null && !fechaEtapaLectiva.isEmpty() ? "'" + fechaEtapaLectiva + "'" : "NULL") + ", "
                 + (fechaFinalizacionEtapaLectiva != null && !fechaFinalizacionEtapaLectiva.isEmpty() ? "'" + fechaFinalizacionEtapaLectiva + "'" : "NULL") + ", "
                 + (fechaEtapaProductiva != null && !fechaEtapaProductiva.isEmpty() ? "'" + fechaEtapaProductiva + "'" : "NULL") + ", "
                 + (fechaFinalizacionEtapaProductiva != null && !fechaFinalizacionEtapaProductiva.isEmpty() ? "'" + fechaFinalizacionEtapaProductiva + "'" : "NULL") + ", "
                 + (fechaRetiroAnticipado != null && !fechaRetiroAnticipado.isEmpty() ? "'" + fechaRetiroAnticipado + "'" : "NULL") + ", "
-                + (tituloAprendiz != null && !tituloAprendiz.isEmpty() ? "'" + tituloAprendiz + "'" : "NULL")
+                + (tituloAprendiz != null && !tituloAprendiz.isEmpty() ? "'" + tituloAprendiz.replace("'", "''") + "'" : "NULL")
                 + ");";
 
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
-        System.out.println(cadenaSQL);
+        System.out.println("Consulta SQL: " + cadenaSQL);
 
         if (!resultado) {
             System.out.println("Error: No se pudo insertar la educacion en la BD");
@@ -160,21 +159,19 @@ public class Educacion {
     }
 
     public boolean modificar(String identificacionAnterior) {
-        if (identificacion == null || identificacionAnterior == null) {
-            System.out.println("Error: identificacion o identificacionAnterior es null.");
+        if (identificacion == null || identificacionAnterior == null || identificacionAnterior.trim().isEmpty()) {
+            System.out.println("Error: identificacion o identificacionAnterior es null o vacío.");
             return false;
         }
 
         String cadenaSQL = "UPDATE educacion SET "
                 + "identificacion='" + identificacion + "', "
-//                + "nivelEducativo=" + (nivelEducativo != null ? "'" + nivelEducativo + "'" : "NULL") + ", "
-//                + "fechaIngresoEmpresa=" + (fechaIngresoEmpresa != null && !fechaIngresoEmpresa.isEmpty() ? "'" + fechaIngresoEmpresa + "'" : "NULL") + ", "
                 + "fechaEtapaLectiva=" + (fechaEtapaLectiva != null && !fechaEtapaLectiva.isEmpty() ? "'" + fechaEtapaLectiva + "'" : "NULL") + ", "
                 + "fechaFinalizacionEtapaLectiva=" + (fechaFinalizacionEtapaLectiva != null && !fechaFinalizacionEtapaLectiva.isEmpty() ? "'" + fechaFinalizacionEtapaLectiva + "'" : "NULL") + ", "
                 + "fechaEtapaProductiva=" + (fechaEtapaProductiva != null && !fechaEtapaProductiva.isEmpty() ? "'" + fechaEtapaProductiva + "'" : "NULL") + ", "
                 + "fechaFinalizacionEtapaProductiva=" + (fechaFinalizacionEtapaProductiva != null && !fechaFinalizacionEtapaProductiva.isEmpty() ? "'" + fechaFinalizacionEtapaProductiva + "'" : "NULL") + ", "
                 + "fechaRetiroAnticipado=" + (fechaRetiroAnticipado != null && !fechaRetiroAnticipado.isEmpty() ? "'" + fechaRetiroAnticipado + "'" : "NULL") + ", "
-                + "TituloAprendiz=" + (tituloAprendiz != null && !tituloAprendiz.isEmpty() ? "'" + tituloAprendiz + "'" : "NULL") + " "
+                + "TituloAprendiz=" + (tituloAprendiz != null && !tituloAprendiz.isEmpty() ? "'" + tituloAprendiz.replace("'", "''") + "'" : "NULL") + " "
                 + "WHERE identificacion='" + identificacionAnterior + "'";
 
         System.out.println("Consulta SQL de modificación: " + cadenaSQL);
@@ -238,8 +235,8 @@ public class Educacion {
                 while (datos.next()) {
                     String[] educacion = new String[]{
                         datos.getString("identificacion"),
-//                        datos.getString("nivelEducativo"),
-//                        datos.getString("fechaIngresoEmpresa"),
+                        //                        datos.getString("nivelEducativo"),
+                        //                        datos.getString("fechaIngresoEmpresa"),
                         datos.getString("fechaEtapaLectiva"),
                         datos.getString("fechaFinalizacionEtapaLectiva"),
                         datos.getString("fechaEtapaProductiva"),
@@ -261,29 +258,29 @@ public class Educacion {
 //                || nivel.equals("Tecnico") || nivel.equals("Tecnologico")
 //                || nivel.equals("Universitario") || nivel.equals("Postgrado"));
 //    }
-public static Educacion getInformacionPorIdentificacion(String identificacion) {
-    Educacion educacion = null;
-    String sql = "SELECT identificacion, fechaEtapaLectiva, fechaFinalizacionEtapaLectiva, fechaEtapaProductiva, fechaFinalizacionEtapaProductiva, fechaRetiroAnticipado, TituloAprendiz FROM educacion WHERE identificacion = '" + identificacion + "'";
+    public static Educacion getInformacionPorIdentificacion(String identificacion) {
+        Educacion educacion = null;
+        String sql = "SELECT identificacion, fechaEtapaLectiva, fechaFinalizacionEtapaLectiva, fechaEtapaProductiva, fechaFinalizacionEtapaProductiva, fechaRetiroAnticipado, TituloAprendiz FROM educacion WHERE identificacion = '" + identificacion + "'";
 
-    try {
-        ResultSet rs = ConectorBD.consultar(sql);
-        if (rs != null && rs.next()) {
-            educacion = new Educacion();
-            educacion.setIdentificacion(rs.getString("identificacion"));
+        try {
+            ResultSet rs = ConectorBD.consultar(sql);
+            if (rs != null && rs.next()) {
+                educacion = new Educacion();
+                educacion.setIdentificacion(rs.getString("identificacion"));
 //            educacion.setNivelEducativo(rs.getString("nivelEducativo"));
 //            educacion.setFechaIngresoEmpresa(rs.getString("fechaIngresoEmpresa"));
-            educacion.setFechaEtapaLectiva(rs.getString("fechaEtapaLectiva"));
-            educacion.setFechaFinalizacionEtapaLectiva(rs.getString("fechaFinalizacionEtapaLectiva"));
-            educacion.setFechaEtapaProductiva(rs.getString("fechaEtapaProductiva"));
-            educacion.setFechaFinalizacionEtapaProductiva(rs.getString("fechaFinalizacionEtapaProductiva"));
-            educacion.setFechaRetiroAnticipado(rs.getString("fechaRetiroAnticipado"));
-            educacion.setTituloAprendiz(rs.getString("TituloAprendiz"));
+                educacion.setFechaEtapaLectiva(rs.getString("fechaEtapaLectiva"));
+                educacion.setFechaFinalizacionEtapaLectiva(rs.getString("fechaFinalizacionEtapaLectiva"));
+                educacion.setFechaEtapaProductiva(rs.getString("fechaEtapaProductiva"));
+                educacion.setFechaFinalizacionEtapaProductiva(rs.getString("fechaFinalizacionEtapaProductiva"));
+                educacion.setFechaRetiroAnticipado(rs.getString("fechaRetiroAnticipado"));
+                educacion.setTituloAprendiz(rs.getString("TituloAprendiz"));
+            }
+        } catch (Exception e) {
+            System.out.println("❌ Error al consultar educación: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("❌ Error al consultar educación: " + e.getMessage());
-    }
 
-    return educacion;
-}
+        return educacion;
+    }
 
 }

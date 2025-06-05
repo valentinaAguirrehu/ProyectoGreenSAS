@@ -135,6 +135,7 @@
                     <th>Fecha de nacimiento<span style="color: red;">*</span></th>
                     <td><input type="date" name="fechaNacimiento" value="<%= persona.getFechaNacimiento()%>" required></td>
                 </tr>
+                
                 <tr>
                     <th colspan="2">Lugar de nacimiento</th>
                 </tr>
@@ -296,7 +297,7 @@
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
                 <input type="button" value="Regresar" onClick="window.history.back()" />
-                <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
+                <input type="button" value="Cancelar" onclick="window.location.href = 'aprendiz.jsp'" />
                 <!-- Nuevo botón de cambio de estado -->
                 <!--<input type="button" value="Cambiar a Temporal" onclick="cambiarAEstadoTemporal()">-->
             </div>

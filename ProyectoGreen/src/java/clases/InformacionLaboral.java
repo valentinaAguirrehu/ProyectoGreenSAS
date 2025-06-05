@@ -259,18 +259,19 @@ public class InformacionLaboral {
         String cadenaSQL = "UPDATE informacionLaboral SET "
                 + "identificacion='" + identificacion + "', "
                 + "idCargo=" + idCargo + ", "
-                + "fechaIngreso='" + fechaIngreso + "', "
-                + "fechaIngresoTemporal='" + fechaIngresoTemporal + "', "
-                + "fechaRetiro='" + fechaRetiro + "', "
+                + "fechaIngreso=" + (fechaIngreso != null && !fechaIngreso.isEmpty() ? "'" + fechaIngreso + "'" : "NULL") + ", "
+                + "fechaIngresoTemporal=" + (fechaIngresoTemporal != null && !fechaIngresoTemporal.isEmpty() ? "'" + fechaIngresoTemporal + "'" : "NULL") + ", "
+                + "fechaRetiro=" + (fechaRetiro != null && !fechaRetiro.isEmpty() ? "'" + fechaRetiro + "'" : "NULL") + ", "
                 + "unidadNegocio='" + unidadNegocio + "', "
                 + "centroCostos='" + centroCostos + "', "
                 + "establecimiento='" + establecimiento + "', "
                 + "area='" + area + "', "
                 + "salario=" + salario + ", "
-                + "estado='" + estado + "', "
-                + "fechaTerPriContrato='" + fechaTerPriContrato + "' "
+                + "estado=" + (estado != null && !estado.isEmpty() ? "'" + estado + "'" : "NULL") + ", "
+                + "fechaTerPriContrato=" + (fechaTerPriContrato != null && !fechaTerPriContrato.isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL") + " "
                 + "WHERE identificacion='" + identificacionAnterior + "'";
-        System.out.println(cadenaSQL);
+
+        System.out.println("Consulta SQL de modificación: " + cadenaSQL);
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
@@ -340,7 +341,8 @@ public class InformacionLaboral {
 
         return ""; // Si no tiene fecha, devuelve cadena vacía
     }
-      public static String getFechaRetiroPersona(String identificacionPersona) {
+
+    public static String getFechaRetiroPersona(String identificacionPersona) {
         String sql = "SELECT fechaRetiro FROM informacionLaboral WHERE identificacion = '" + identificacionPersona + "'";
 
         try {

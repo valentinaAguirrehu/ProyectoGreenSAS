@@ -11,10 +11,11 @@
 <%@page import="clases.Administrador"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%
     Administrador administrador = (Administrador) session.getAttribute("administrador");
     if (administrador == null) {
-        administrador = new Administrador();
+        administrador = new Administrador(); // Si no hay sesión, se instancia para evitar errores
     }
 
     String lista = "";
@@ -29,38 +30,29 @@
                     nombreCargo = cargo.getNombre();
                 }
 
+                String fechaIngreso = InformacionLaboral.getFechaIngresoPersona(persona.getIdentificacion()); // ✅ Se añadió esta línea
+                String fechaRetiro = InformacionLaboral.getFechaRetiroPersona(persona.getIdentificacion());
+
                 lista += "<tr>";
                 lista += "<td>" + persona.getTipoDocumento() + "</td>";
                 lista += "<td>" + persona.getIdentificacion() + "</td>";
                 lista += "<td>" + persona.getNombres() + " " + persona.getApellidos() + "</td>";
-//                lista += "<td>" + persona.getEstablecimiento() + "</td>";
-//                lista += "<td>" + persona.getUnidadNegocio() + "</td>";
                 lista += "<td>" + nombreCargo + "</td>";
-                String fechaIngreso = InformacionLaboral.getFechaIngresoPersona(persona.getIdentificacion());
-                String fechaRetiro = InformacionLaboral.getFechaRetiroPersona(persona.getIdentificacion());
-//                lista += "<td>" + persona.getFechaRetiro() + "</td>";
+                lista += "<td>" + fechaIngreso + "</td>"; // ✅ Nueva columna para coincidir con el <th>
+                lista += "<td>" + fechaRetiro + "</td>";
                 lista += "<td>" + retirado.getNumCaja() + "</td>";
                 lista += "<td>" + retirado.getNumCarpeta() + "</td>";
                 lista += "<td>" + retirado.getObservaciones() + "</td>";
-                lista += "<td>";
 
+                lista += "<td>";
                 lista += "<img class='ver' src='presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
-                lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + persona.getIdentificacion() + "' title='Modificar'>";
+                lista += "<a href='retiradosFormulario.jsp?accion=Modificar&identificacion=" + persona.getIdentificacion() + "' title='Modificar'>";
                 lista += "<img class='editar' src='presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
                 lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")'> ";
                 lista += "<img class='eliminar' src='presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
-                lista += "<img class='subir' src='presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
                 lista += "<img class='subir' src='presentacion/iconos/cambiarTipo.png' title='Pasar a temporal' onClick='cambiarATemporal(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
                 lista += "</td>";
-
-//                lista += "<img class='ver' src='presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
-//                lista += "<img class='ver' src='presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboralRetirados(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";
-//                lista += "<a href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
-//                        + "' title='Modificar' class='editar'><img src='presentacion/iconos/modificar.png'></a>";
-//                lista += "<img src='presentacion/iconos/eliminar.png' class='eliminar' title='Eliminar' onClick='eliminar("
-//                        + persona.getIdentificacion() + ")'>";
-//                lista += "</td>";
-//                lista += "</tr>";
+                lista += "</tr>";
             }
         }
     }
@@ -70,7 +62,6 @@
 <%@ include file="menu.jsp" %>
 
 <div class="content">  
-
     <h3 class="titulo">COLABORADORES RETIRADOS</h3>
     <link rel="stylesheet" href="presentacion/style-Retirados.css">
 
@@ -78,10 +69,8 @@
         <div class="search-box">
             <select id="searchType" class="recuadro">
                 <option value="identificacion">Identificación</option>
-                <option value="nombre">Nombre</option>
+                <option value="nombre">Nombres</option>
                 <option value="cargo">Cargo</option>
-                <!--<option value="unidadNegocio">Unidad de negocio</option>-->
-                <!--<option value="establecimiento">Establecimiento</option>-->                 
                 <option value="caja">Número de caja</option>
                 <option value="carpeta">Número de carpeta</option>
                 <option value="fechaRetiro">Fecha de retiro</option>
@@ -96,8 +85,6 @@
             <th>Tipo del documento</th>
             <th>Documento</th>
             <th>Nombre</th>
-            <!--<th>Establecimiento</th>-->                   
-            <!--<th>Unidad de negocio</th>-->
             <th>Cargo</th>
             <th>Fecha de ingreso</th>
             <th>Fecha de retiro</th>
@@ -106,14 +93,13 @@
             <th>Observaciones</th>
             <th>Acciones</th>
         </tr>
-        <%= lista%>
+        <%= lista %>
     </table>
 </div>
 
 <script type="text/javascript">
     function eliminar(identificacion) {
-        resultado = confirm("Realmente desea eliminar el registro con identificación " + identificacion + "?");
-        if (resultado) {
+        if (confirm("Realmente desea eliminar el registro con identificación " + identificacion + "?")) {
             document.location = "retiradosActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
     }
@@ -122,8 +108,14 @@
         document.location = "personaDetalles.jsp?identificacion=" + identificacion;
     }
 
-    function verHistoriaLaboralRetirados(identificacion) {
+    function historiaLaboralGreen(identificacion) {
         window.location.href = "historiaLaboralRetirado.jsp?identificacion=" + identificacion;
+    }
+
+    function cambiarATemporal(identificacion) {
+        if (confirm("¿Desea cambiar el estado de esta persona a temporal?")) {
+            window.location.href = "retiradosActualizar.jsp?accion=CambiarATemporal&identificacion=" + identificacion;
+        }
     }
 
     function filterResults() {
@@ -134,30 +126,12 @@
 
         let columnIndex;
         switch (searchType) {
-            case "identificacion":
-                columnIndex = 1;
-                break;
-            case "nombre":
-                columnIndex = 2;
-                break;
-            case "establecimiento":
-                columnIndex = 3;
-                break;
-            case "unidadNegocio":
-                columnIndex = 4;
-                break;
-            case "cargo":
-                columnIndex = 5;
-                break;
-            case "caja":
-                columnIndex = 8;
-                break;
-            case "carpeta":
-                columnIndex = 9;
-                break;
-            case "fechaRetiro":
-                columnIndex = 7;
-                break;
+            case "identificacion": columnIndex = 1; break;
+            case "nombre": columnIndex = 2; break;
+            case "cargo": columnIndex = 3; break;
+            case "fechaRetiro": columnIndex = 5; break;
+            case "caja": columnIndex = 6; break;
+            case "carpeta": columnIndex = 7; break;
         }
 
         for (let i = 1; i < rows.length; i++) {
@@ -168,15 +142,13 @@
             }
         }
     }
-    // PERMISOS
 
     document.addEventListener("DOMContentLoaded", function () {
         controlarPermisos(
-    <%= administrador.getpEliminar()%>,
-    <%= administrador.getpEditar()%>,
-    <%= administrador.getpAgregar()%>,
-    <%= administrador.getpLeer()%>
+            <%= administrador.getpEliminar() %>,
+            <%= administrador.getpEditar() %>,
+            <%= administrador.getpAgregar() %>,
+            <%= administrador.getpLeer() %>
         );
     });
-
 </script>

@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +30,6 @@ public class Persona {
 
     private String identificacion;
     private String tipo;
-    private String idCargo;
     private String tipoDocumento;
     private String fechaExpedicion;
     private String lugarExpedicion;
@@ -66,7 +66,6 @@ public class Persona {
                 this.hijos = new ArrayList<>();
 
                 tipo = resultado.getString("tipo");
-                idCargo = resultado.getString("idCargo");
                 tipoDocumento = resultado.getString("tipoDocumento");
                 fechaExpedicion = resultado.getString("fechaExpedicion");
                 lugarExpedicion = resultado.getString("lugarExpedicion");
@@ -129,18 +128,7 @@ public class Persona {
         this.tipo = tipo;
     }
 
-    public String getIdCargo() {
-        String resultado = idCargo;
-        if (idCargo == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setIdCargo(String idCargo) {
-        this.idCargo = idCargo;
-    }
-
+   
 //    public String getTipoDocumento() {
 //        String resultado = tipoDocumento;
 //        if (tipoDocumento == null) {
@@ -494,13 +482,12 @@ public class Persona {
 
     public boolean grabar() {
         String cadenaSQL = "INSERT INTO persona ("
-                + "identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
+                + "identificacion, tipo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
                 + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
                 + "tipoVivienda, direccion, barrio, celular, email, estadoCivil, tieneHijos, "
                 + "cuentaBancaria, nivelEdu, profesion, numeroCuenta) VALUES ('"
                 + identificacion + "', '"
-                + tipo + "', "
-                + (idCargo != null ? "'" + idCargo + "'" : "NULL") + ", '"
+                + tipo + "', '"
                 + tipoDocumento + "', "
                 + (fechaExpedicion != null && !fechaExpedicion.isEmpty() ? "'" + fechaExpedicion + "'" : "NULL") + ", '"
                 + lugarExpedicion + "', '"
@@ -560,7 +547,6 @@ public class Persona {
         String cadenaSQL = "UPDATE persona SET "
                 + "identificacion='" + identificacion + "', "
                 + "tipo=" + (tipo != null ? "'" + tipo + "'" : "NULL") + ", "
-                + "idCargo=" + (idCargo != null ? "'" + idCargo + "'" : "NULL") + ", "
                 + "tipoDocumento=" + (tipoDocumento != null ? "'" + tipoDocumento + "'" : "NULL") + ", "
                 + "fechaExpedicion=" + (fechaExpedicion != null ? "'" + fechaExpedicion + "'" : "NULL") + ", "
                 + "lugarExpedicion=" + (lugarExpedicion != null ? "'" + lugarExpedicion + "'" : "NULL") + ", "
@@ -646,7 +632,7 @@ public class Persona {
             orden = " ";
         }
 
-        String cadenaSQL = "SELECT identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, "
+        String cadenaSQL = "SELECT identificacion, tipo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, "
                 + "lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, celular, email, estadoCivil, tieneHijos, "
                 + " cuentaBancaria, nivelEdu, profesion, numeroCuenta FROM persona " + filtro + orden;
 
@@ -662,7 +648,6 @@ public class Persona {
                     Persona persona = new Persona();
                     persona.setIdentificacion(datos.getString("identificacion"));
                     persona.setTipo(datos.getString("tipo"));
-                    persona.setIdCargo(datos.getString("idCargo"));
                     persona.setTipoDocumento(datos.getString("tipoDocumento"));
                     persona.setFechaExpedicion(datos.getString("fechaExpedicion"));
                     persona.setLugarExpedicion(datos.getString("lugarExpedicion"));
@@ -720,7 +705,6 @@ public class Persona {
                     String[] persona = new String[]{
                         datos.getString("identificacion"),
                         datos.getString("tipo"),
-                        datos.getString("idCargo"),
                         datos.getString("tipoDocumento"),
                         datos.getString("fechaExpedicion"),
                         datos.getString("lugarExpedicion"),
@@ -752,4 +736,14 @@ public class Persona {
         return lista;
     }
 
+    public String calcularEdad() {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate fechaNac = LocalDate.parse(this.fechaNacimiento, formatter);
+            int edad = Period.between(fechaNac, LocalDate.now()).getYears();
+            return edad >= 0 ? edad + " años" : "Fecha inválida";
+        } catch (Exception e) {
+            return "Fecha inválida";
+        }
+    }
 }

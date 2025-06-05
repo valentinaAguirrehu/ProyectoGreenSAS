@@ -133,7 +133,8 @@
                 <tr>
                     <th>Cargos<span style="color: red;">*</span></th>
                     <td>
-                        <input type="text" name="idCargo" id="idCargo" list="cargosList" value="<%= informacionLaboral.getIdCargo() %>" required />
+                        <input type="text" name="idCargo" id="cargoNombre" list="cargosList" value="<%= new Cargo(informacionLaboral.getIdCargo()).getNombre() %>" required />
+                        <!--<input type="text" name="idCargo" id="idCargo" list="cargosList" value="<%=// informacionLaboral.getIdCargo() %>" required />-->
                         <datalist id="cargosList">
                             <%= opcionesCargos%> <!-- Aquí se insertan las opciones dinámicamente -->
                         </datalist>
@@ -158,8 +159,8 @@
 
         </form>
 </body>
-    </div>
-    </html>
+</div>
+</html>
 
 
 <script>

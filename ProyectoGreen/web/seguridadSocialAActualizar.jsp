@@ -1,86 +1,60 @@
 <%-- 
-    Document   : referenciaAFormulario
+    Document   : seguridadSocialTActualizar
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
---%><%@page import="clases.Vehiculo"%>
-<%@page import="clases.SeguridadSocial"%>
+--%>
 <%@page import="clases.Referencia"%>
+<%@page import="clases.SeguridadSocial"%>
 <%@page import="clasesGenericas.ConectorBD"%>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
-    // Capturar acción y valores del formulario
     String accion = request.getParameter("accion");
     String identificacionAnterior = request.getParameter("identificacionAnterior");
 
-    Vehiculo vehiculo = (Vehiculo) request.getAttribute("vehiculo");
-    request.setAttribute("vehiculo", vehiculo);
-    // Obtener los datos de la referencia desde el request
-    Referencia referencia = new Referencia();
-    referencia.setIdentificacion(request.getParameter("identificacion"));
-    referencia.setPrimerRefNombre(request.getParameter("primerRefNombre"));
-    referencia.setPrimerRefParentezco(request.getParameter("primerRefParentezco"));
-    referencia.setPrimerRefCelular(request.getParameter("primerRefCelular"));
-    referencia.setSegundaRefNombre(request.getParameter("segundaRefNombre"));
-    referencia.setSegundaRefParentezco(request.getParameter("segundaRefParentezco"));
-    referencia.setSegundaRefCelular(request.getParameter("segundaRefCelular"));
-    referencia.setTerceraRefNombre(request.getParameter("terceraRefNombre"));
-    referencia.setTerceraRefParentezco(request.getParameter("terceraRefParentezco"));
-    referencia.setTerceraRefCelular(request.getParameter("terceraRefCelular"));
-    referencia.setCuartaRefNombre(request.getParameter("cuartaRefNombre"));
-    referencia.setCuartaRefParentezco(request.getParameter("cuartaRefParentezco"));
-    referencia.setCuartaRefCelular(request.getParameter("cuartaRefCelular"));
+    Referencia referencia = (Referencia) request.getAttribute("referencia");
+    request.setAttribute("referencia", referencia);
 
-    // Variable para saber si la referencia fue guardada con éxito
-    boolean referenciaGuardada = false;
+    SeguridadSocial seguridadSocial = new SeguridadSocial();
+    seguridadSocial.setIdentificacion(request.getParameter("identificacion"));
+    seguridadSocial.setEps(request.getParameter("epsFinal"));
+    seguridadSocial.setArl(request.getParameter("NA"));
+    seguridadSocial.setFondoPensiones(request.getParameter("NA"));
+    seguridadSocial.setFondoCesantias(request.getParameter("NA"));
 
-    // Acción según el botón presionado
-    try {
-        switch (accion) {
-            case "Adicionar":
-                // Verificar si la identificación ya existe en la base de datos
-                if (Referencia.getReferenciaPorIdentificacion(referencia.getIdentificacion()) == null) {
-                    referencia.grabar(); // Llama al método de grabar si es una persona nueva
-                    // Redirige inmediatamente después de guardar
-                    String id = referencia.getIdentificacion();
-                    response.sendRedirect("vehiculoFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
-                    return;
-                } else {
-                    out.println("<p>Error: La identificación ya existe en la base de datos.</p>");
-                }
-                break;
+    switch (accion) {
+        case "Adicionar":
+            // Solo si no existe, lo graba y redirige al formulario para continuar llenando
+            if (seguridadSocial.getSeguridadSocialPorIdentificacion(seguridadSocial.getIdentificacion()) == null) {
+                seguridadSocial.grabar();
 
-            case "Modificar":
-                // Si la persona ya existe, proceder con la modificación
-                referencia.modificar(identificacionAnterior); // Llama al método de modificar
-                // Redirige al formulario manteniéndose en la vista
-                response.sendRedirect("vehiculoFormulario.jsp?identificacion=" + referencia.getIdentificacion() + "&accion=Modificar");
-                return; // Esto termina la ejecución del JSP aquí
-            // break eliminado porque ya no es necesario (ni válido)
+                // Redirige al formulario después de guardar
+                String id = seguridadSocial.getIdentificacion();
+                response.sendRedirect("referenciaAFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
+                return; // Importante para evitar que siga ejecutando el resto del JSP
+            } else {
+                out.println("<p>Error: La identificación ya existe en la base de datos.</p>");
+            }
+            break;
 
-            case "Eliminar":
-                // Llama al método de eliminar
-                referencia.eliminar();
-                break;
+        case "Modificar":
+            seguridadSocial.modificar(identificacionAnterior);
 
-            default:
-                out.println("<p>Acción desconocida.</p>");
-                break;
-        }
+            // Redirige al formulario manteniéndose en la vista
+            response.sendRedirect("referenciaAFormulario.jsp?identificacion=" + seguridadSocial.getIdentificacion() + "&accion=Modificar");
+            return; // Esto termina la ejecución del JSP aquí
+        // break eliminado porque ya no es necesario (ni válido)
 
-        // Redirigir automáticamente si la acción es "Adicionar"
-        if ("Adicionar".equals(accion) && referenciaGuardada) {
-            String identificacionParaRedirigir = referencia.getIdentificacion();
-            response.sendRedirect("vehiculoFormulario.jsp?identificacion=" + identificacionParaRedirigir);
-            return; // Detiene el JSP después de redirigir
-        }
-    } catch (Exception e) {
-        out.println("<p>Error en el proceso: " + e.getMessage() + "</p>");
+      case "Cancelar":
+        response.sendRedirect("aprendiz.jsp");
+        return;
     }
+
 %>
 
 
-
 <script type="text/javascript">
-    document.location = "persona.jsp";
+    // Esto se ejecuta solo si no hubo redirección
+    document.location = "aprendiz.jsp";
+//    aqui cambiar para que siga el modificar
 </script>
