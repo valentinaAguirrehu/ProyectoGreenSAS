@@ -5,7 +5,6 @@
 <%@ page import="clases.EntregaDotacion" %>
 <%@ page import="clases.Persona" %>
 
-
 <%
     boolean isDownloadMode = request.getParameter("formato") != null;
     if (isDownloadMode) {
@@ -20,7 +19,7 @@
                 extensionArchivo = ".xls";
                 break;
             case "word":
-                tipoContenido = "application/vnd.msword";
+                tipoContenido = "application/msword";
                 extensionArchivo = ".doc";
                 break;
         }
@@ -29,7 +28,6 @@
         response.setHeader("Content-Disposition", "inline; filename=\"" + nombreArchivo + "\"");
     }
 
-    // Preparar listas únicas para los filtros
     Set<String> anios = new TreeSet<>(Collections.reverseOrder());
     Set<String> unidades = new TreeSet<>();
     Set<String> tiposEntrega = new TreeSet<>();
@@ -51,30 +49,8 @@
 
 <% if (!isDownloadMode) { %>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-    }
-    .titulo {
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        margin-top: 20px;
-        color: #2c6e49;
-    }
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px auto;
-    }
     .table th, .table td {
-        border: 1px solid #ccc;
-        padding: 8px;
         text-align: center;
-    }
-    .table th {
-        background-color: #2c6e49;
-        color: white;
     }
     .export-icons {
         text-align: center;
@@ -98,121 +74,121 @@
         font-size: 14px;
     }
 </style>
+
+<%@ include file="../menu.jsp" %>
 <% } %>
+
+<link rel="stylesheet" href="../presentacion/style-Cargos.css">
 
 <div class="content">
     <h3 class="titulo">REPORTE DE DOTACIÓN</h3>
 
-    <% if (!isDownloadMode) { %>
+    <% if (!isDownloadMode) { 
+        String anio = request.getParameter("anio");
+        String unidad = request.getParameter("unidad");
+        String estado = request.getParameter("estado");
+        String tipo = request.getParameter("tipo");
+    %>
+
     <div class="export-icons">
-        <a href="dotacion.jsp?formato=excel<%= request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : "" %>" target="_blank">
-            <img src="../presentacion/iconos/excel.png" alt="Exportar a Excel">
-        </a>
-        <a href="dotacion.jsp?formato=word<%= request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : "" %>" target="_blank">
-            <img src="../presentacion/iconos/word.png" alt="Exportar a Word">
-        </a>
+        <a href="dotacion.jsp?formato=excel<%= (request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : "") %>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
+        <a href="dotacion.jsp?formato=word<%= (request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : "") %>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
     </div>
 
-    <form method="get" class="filtro-form">
+    <form method="get" class="filtro-form" id="filtroForm">
         <select name="anio">
             <option value="">-- Año --</option>
-            <%
-                for (String a : anios) {
-            %>
-            <option value="<%= a %>" <%= a.equals(request.getParameter("anio")) ? "selected" : "" %>><%= a %></option>
+            <% for (String a : anios) { %>
+            <option value="<%= a %>" <%= a.equals(anio) ? "selected" : "" %>><%= a %></option>
             <% } %>
         </select>
 
         <select name="unidad">
             <option value="">-- Unidad de Negocio --</option>
-            <%
-                for (String u : unidades) {
-            %>
-            <option value="<%= u %>" <%= u.equals(request.getParameter("unidad")) ? "selected" : "" %>><%= u %></option>
+            <% for (String u : unidades) { %>
+            <option value="<%= u %>" <%= u.equals(unidad) ? "selected" : "" %>><%= u %></option>
             <% } %>
         </select>
 
         <select name="estado">
             <option value="">-- Estado --</option>
-            <option value="Nueva" <%= "Nueva".equals(request.getParameter("estado")) ? "selected" : "" %>>Nueva</option>
-            <option value="Usada" <%= "Usada".equals(request.getParameter("estado")) ? "selected" : "" %>>Usada</option>
+            <option value="Nueva" <%= "Nueva".equals(estado) ? "selected" : "" %>>Nueva</option>
+            <option value="Usada" <%= "Usada".equals(estado) ? "selected" : "" %>>Usada</option>
         </select>
 
         <select name="tipo">
             <option value="">-- Tipo de Entrega --</option>
-            <%
-                for (String t : tiposEntrega) {
-            %>
-            <option value="<%= t %>" <%= t.equals(request.getParameter("tipo")) ? "selected" : "" %>><%= t %></option>
+            <% for (String t : tiposEntrega) { %>
+            <option value="<%= t %>" <%= t.equals(tipo) ? "selected" : "" %>><%= t %></option>
             <% } %>
         </select>
-
-        <button type="submit">Filtrar</button>
     </form>
+
+    <script>
+        document.querySelectorAll('#filtroForm select').forEach(select => {
+            select.addEventListener('change', () => {
+                document.getElementById('filtroForm').submit();
+            });
+        });
+    </script>
+
     <% } %>
+
+    <%
+        String anio = request.getParameter("anio");
+        String unidad = request.getParameter("unidad");
+        String estado = request.getParameter("estado");
+        String tipo = request.getParameter("tipo");
+
+        List<DetalleEntrega> lista = DetalleEntrega.getDetallesFiltrados(anio, unidad, estado, tipo);
+    %>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Identificacion</th>
+                <th>Identificación</th>
                 <th>Colaborador</th>
                 <th>Fecha Entrega</th>
                 <th>Tipo Entrega</th>
-     
                 <th>Estado</th>
                 <th>Unidad de Negocio</th>
             </tr>
         </thead>
         <tbody>
-<%
-    // Obtener filtros
-    String anio = request.getParameter("anio");
-    String unidad = request.getParameter("unidad");
-    String estado = request.getParameter("estado");
-    String tipo = request.getParameter("tipo");
-
-    List<DetalleEntrega> lista = DetalleEntrega.getDetallesFiltrados(anio, unidad, estado, tipo);
-    for (DetalleEntrega de : lista) {
-        EntregaDotacion ed = de.getEntrega();
-%>
-<tr>
-    <td><%= ed.getIdPersona() %></td>
-    <td><%= Persona.getNombrePorId(ed.getIdPersona()) %></td>
-    <td><%= ed.getFechaEntrega() %></td>
-    <td><%= ed.getTipoEntrega() %></td>
-    <td><%= de.getEstado() %></td>
-    <td><%= de.getUnidadNegocio() %></td>
-</tr>
-
-<%
-    }
-%>
+        <% for (DetalleEntrega de : lista) {
+            EntregaDotacion ed = de.getEntrega();
+        %>
+        <tr>
+            <td><%= ed.getIdPersona() %></td>
+            <td><%= Persona.getNombrePorId(ed.getIdPersona()) %></td>
+            <td><%= ed.getFechaEntrega() %></td>
+            <td><%= ed.getTipoEntrega() %></td>
+            <td><%= de.getEstado() %></td>
+            <td><%= de.getUnidadNegocio() %></td>
+        </tr>
+        <% } %>
         </tbody>
     </table>
-        <%
-Map<String, Integer> entregasGrafico = new TreeMap<>(); // Clave: mes o año
+
+<%
+Map<String, Integer> entregasGrafico = new TreeMap<>();
 
 if (anio != null && !anio.isEmpty()) {
-    // Mostrar por MES del año seleccionado
     for (DetalleEntrega de : lista) {
         EntregaDotacion ed = de.getEntrega();
-        String fecha = ed.getFechaEntrega(); // Formato esperado: yyyy-MM-dd
+        String fecha = ed.getFechaEntrega();
         if (fecha != null && fecha.startsWith(anio)) {
             try {
-                String[] partes = fecha.split("-");
-                int mes = Integer.parseInt(partes[1]);
-                String nombreMes = new DateFormatSymbols().getMonths()[mes - 1]; // Mes en texto
+                int mes = Integer.parseInt(fecha.split("-")[1]);
+                String nombreMes = new DateFormatSymbols().getMonths()[mes - 1];
                 entregasGrafico.put(nombreMes, entregasGrafico.getOrDefault(nombreMes, 0) + 1);
-            } catch (Exception e) {
-                // Ignorar errores de formato
-            }
+            } catch (Exception e) {}
         }
     }
 } else {
-    // Mostrar por AÑO
     for (DetalleEntrega de : lista) {
         EntregaDotacion ed = de.getEntrega();
-        String fecha = ed.getFechaEntrega(); // Formato esperado: yyyy-MM-dd
+        String fecha = ed.getFechaEntrega();
         if (fecha != null && fecha.length() >= 4) {
             String year = fecha.substring(0, 4);
             entregasGrafico.put(year, entregasGrafico.getOrDefault(year, 0) + 1);
@@ -222,15 +198,86 @@ if (anio != null && !anio.isEmpty()) {
 %>
 
 <% if (!isDownloadMode && !entregasGrafico.isEmpty()) { %>
-    <div style="width: 80%; margin: 40px auto;">
-        <canvas id="graficoEntregas"></canvas>
-    </div>
+<style>
+    .contenedor-flex {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 40px;
+    }
+    .tabla-resumen-pequena {
+        border-collapse: collapse;
+        width: 300px;
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .tabla-resumen-pequena th, .tabla-resumen-pequena td {
+        padding: 8px;
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+    .tabla-resumen-pequena th {
+        background-color: #2c6e49;
+        color: white;
+        font-weight: bold;
+    }
+    .tabla-resumen-pequena tfoot td {
+        font-weight: bold;
+        background-color: #daf2da;
+        color: #2c6e49;
+    }
+    #graficoEntregas {
+        width: 700px !important;
+        height: 400px !important;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        padding: 10px;
+    }
+</style>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<h3 class="titulo">Indicador por <%= (anio != null && !anio.isEmpty()) ? "meses en " + anio : "años" %></h3>
 
-    <script>
+<div class="contenedor-flex">
+    <table class="tabla-resumen-pequena">
+        <thead>
+            <tr>
+                <th><%= (anio != null && !anio.isEmpty()) ? "Mes" : "Año" %></th>
+                <th>Entregas</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%
+                int totalEntregas = 0;
+                for (Map.Entry<String, Integer> entry : entregasGrafico.entrySet()) {
+                    totalEntregas += entry.getValue();
+            %>
+            <tr>
+                <td><%= entry.getKey() %></td>
+                <td><%= entry.getValue() %></td>
+            </tr>
+            <% } %>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total</td>
+                <td><%= totalEntregas %></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <canvas id="graficoEntregas"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
     const ctx = document.getElementById('graficoEntregas').getContext('2d');
-
     const data = {
         labels: [<%
             boolean first = true;
@@ -263,7 +310,7 @@ if (anio != null && !anio.isEmpty()) {
         type: 'bar',
         data: data,
         options: {
-            responsive: true,
+            responsive: false,
             plugins: {
                 legend: {
                     display: true,
@@ -279,58 +326,31 @@ if (anio != null && !anio.isEmpty()) {
                 tooltip: {
                     backgroundColor: '#daf2da',
                     titleColor: '#2c6e49',
-                    bodyColor: '#2c6e49',
-                    titleFont: {
-                        family: 'Arial',
-                        weight: 'bold'
-                    },
-                    bodyFont: {
-                        family: 'Arial'
-                    }
+                    bodyColor: '#2c6e49'
                 }
             },
             scales: {
                 x: {
-                    ticks: {
-                        color: '#2c6e49',
-                        font: {
-                            family: 'Arial',
-                            size: 13
-                        }
-                    },
-                    grid: {
-                        display: false
-                    }
+                    ticks: { color: '#2c6e49', font: { family: 'Arial', size: 13 } },
+                    grid: { display: false }
                 },
                 y: {
                     beginAtZero: true,
                     ticks: {
                         color: '#2c6e49',
-                        font: {
-                            family: 'Arial',
-                            size: 13
-                        },
+                        font: { family: 'Arial', size: 13 },
                         stepSize: 1
                     },
                     title: {
                         display: true,
                         text: 'Cantidad de Entregas',
                         color: '#2c6e49',
-                        font: {
-                            family: 'Arial',
-                            size: 14,
-                            weight: 'bold'
-                        }
+                        font: { family: 'Arial', size: 14, weight: 'bold' }
                     },
-                    grid: {
-                        color: '#e0e0e0'
-                    }
+                    grid: { color: '#e0e0e0' }
                 }
             }
         }
     });
 </script>
-
 <% } %>
-
-</div>
