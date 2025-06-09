@@ -5,6 +5,7 @@
 --%>
 
 <%@page import="java.util.List"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@page import="clases.Persona"%>
 <%@page import="clases.Administrador"%>
@@ -31,120 +32,179 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Historia Laboral Retirados</title>
             <link rel="stylesheet" href="../presentacion/style-historiaLRetirado.css">
         </head>
         <body>
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>DOCUMENTOS SST-SGA</h2>
+                    <h2>DOCUMENTOS SG-SST Y SGA</h2>
                     <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
-                <table class="documentos-tabla">
-                    <thead>
-                        <tr>
-                            <th>DOCUMENTOS</th>
-                            <th>ARCHIVO</th>
+         <table class="documentos-tabla">
+  <thead>
+    <tr>
+      <th>DOCUMENTOS</th>
+      <th>ARCHIVO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- SG鈥慡ST y SGA -->
+    <tr>
+      <td>Inducci贸n y reinducci贸n SG-SST - acta de compromiso de pausas activas y actores viales</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=IRSGSSTotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Inducci贸n y reinducci贸n SGA</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=IRSGAotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <!-- EMO -->
+    <tr>
+      <td>EMO ingreso</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=EMOIotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>EMO seguimiento a recomendaciones</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=EMOSRotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>EMO post-incapacidad</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=EMOINotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>EMO peri贸dico</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=EMOPotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>EMO egreso(si aplica)</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=EMOEotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <!-- Otros documentos -->
+    <tr>
+      <td>Entrega de recomendaciones m茅dicas</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=EntregaRecomendacionesMedicas'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Encuesta condiciones de salud (se aplica de manera digital)</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=ECSdigital'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Encuesta condiciones de salud</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=ECSotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Certificados y permisos</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=CPotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Registro de incidentes de trabajo</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=RegistroIncidentes'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Investigaciones de accidente de trabajo (si aplica)</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=InvestigacionesAccidente'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Reportes de AT a ARL, EPS y AFP (si aplica)</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=ReportesAT'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Actas de reubicaci贸n de cargo (si aplica)</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=ActasReubicacion'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Inducci髇 y reinducci髇 SG-SST</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=IRSGSSTotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Inducci髇 y reinducci髇 SGA</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=IRSGAotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>EMO ingreso</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOIotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>EMO peri骴ico</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOPotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>EMO post-incapacidad</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOINotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>EMO egreso</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOEotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>EMO seguimiento a recomendaciones</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EMOSRotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Encuesta condiciones de salud</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ECSotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Certificados y permisos (trabajo en alturas, manipulaci髇 de alimentos, etc)
-</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CPotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-
-
-                </table>
                 <div class="buttons">
                     <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
                 </div>
@@ -186,7 +246,7 @@
                     let fileURL = URL.createObjectURL(fileData);
                     window.open(fileURL, "_blank");
                 } else {
-                    alert("No hay ning鷑 archivo cargado");
+                    alert("No hay ning煤n archivo cargado");
                 }
             });
 
@@ -200,22 +260,22 @@
                     a.click();
                     document.body.removeChild(a);
                 } else {
-                    alert("No hay ning鷑 archivo cargado");
+                    alert("No hay ning煤n archivo cargado");
                 }
             });
 
-            // Eliminar Archivo con Confirmaci髇
+            // Eliminar Archivo con Confirmaci贸n
             deleteBtn.addEventListener("click", function () {
                 if (fileData) {
-                    let confirmacion = confirm("縀st醩 seguro de eliminar este archivo?");
+                    let confirmacion = confirm("驴Est谩s seguro de eliminar este archivo?");
                     if (confirmacion) {
                         fileData = null;
                         fileMessage.style.color = "red";
-                        fileMessage.textContent = "NO HAY NING贜 ARCHIVO CARGADO";
+                        fileMessage.textContent = "NO HAY NING脷N ARCHIVO CARGADO";
                         fileInput.value = ""; // Limpiar input
                     }
                 } else {
-                    alert("No hay ning鷑 archivo para eliminar");
+                    alert("No hay ning煤n archivo para eliminar");
                 }
             });
         });

@@ -36,7 +36,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Historia Laboral Retirados</title>
+           
             <link rel="stylesheet" href="../presentacion/style-historiaLRetirado.css">
         </head>
         <body>
@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Incapacidad por enfermedad</td>
+                            <td>Incapacidad por enfermedad general</td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=INCENFotros'"
@@ -75,7 +75,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Licencia maternidad / paternidad</td>
+                            <td>Licencia maternidad y/o paternidad</td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=MATPATotros'"

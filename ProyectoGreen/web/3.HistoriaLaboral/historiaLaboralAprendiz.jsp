@@ -74,6 +74,10 @@
                         <span>DOCUMENTO DE IDENTIDAD</span>
                         <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=documentoIdentidad'">VER</button>
                     </div>
+                      <div class="data-item">
+                        <span>PROCESO SELECCIÓN</span>
+                        <button class="ver-btn" onclick="window.location.href = 'verProcesoSeleccion.jsp?identificacion=<%= identificacion %>'">VER</button>
+                    </div>
 
                     <div class="data-item">
                         <span>HOJA DE VIDA</span>
