@@ -99,15 +99,16 @@ public class EntregaDotacion {
         }
 
         try {
-            String sql = "CALL modificar_entrega_dotacion(?, ?, ?, ?, ?, ?)";
+            String sql = "CALL modificar_entrega_dotacion(?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement stmt = conector.conexion.prepareStatement(sql);
-            stmt.setString(1, this.idEntrega);
-            stmt.setDate(2, java.sql.Date.valueOf(this.fechaEntrega));
-            stmt.setString(3, this.responsable);
-            stmt.setString(4, this.tipoEntrega);
-            stmt.setString(5, this.observacion != null ? this.observacion : "");
-            stmt.setString(6, this.jsonPrendas);
+            stmt.setString(1, this.idEntrega); 
+            stmt.setString(2, this.idPersona); 
+            stmt.setDate(3, java.sql.Date.valueOf(this.fechaEntrega)); 
+            stmt.setString(4, this.tipoEntrega); 
+            stmt.setString(5, this.responsable); 
+            stmt.setString(6, this.observacion != null ? this.observacion : ""); 
+            stmt.setString(7, this.jsonPrendas); 
 
             stmt.execute();
             stmt.close();

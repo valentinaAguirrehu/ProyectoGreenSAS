@@ -1,18 +1,61 @@
+<%@page import="clases.Prenda"%>
+<%@page import="clases.DetalleEntregaDAO"%>
+<%@page import="clases.DetalleEntrega"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="clases.EntregaDotacion"%>
+<%@page import="clases.EntregaDotacionDAO"%>
 <%@page import="clases.Persona"%>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="clasesGenericas.ConectorBD" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
+    request.setCharacterEncoding("UTF-8");
+    String accion = request.getParameter("accion") != null ? request.getParameter("accion") : "Registrar";
+    String idEntrega = request.getParameter("id") != null ? request.getParameter("id") : "";
+    String tituloFormulario = accion.equals("Modificar") ? "Modificar entrega de dotación" : "Registrar entrega de dotación";
+
+    String fechaEntrega = "";
+    String responsable = "";
+    String tipoEntrega = "";
+    String observacion = "";
+    String estadoSeleccionado = "";
+    String unidadSeleccionada = "";
+    String idPersona = request.getParameter("idPersona") != null ? request.getParameter("idPersona") : "";
+    String identificacion = request.getParameter("identificacion") != null ? request.getParameter("identificacion") : "";
+    String numeroEntrega = request.getParameter("numeroEntrega") != null ? request.getParameter("numeroEntrega") : "";
+    List<Prenda> listaPrendas = Prenda.getListaEnObjetos(null, null);
+
+    // DECLARAR UNA SOLA VEZ AQUÍ
+    List<DetalleEntrega> detallesEntrega = new ArrayList<>();
+
+    if ("Modificar".equals(accion) && idEntrega != null && !idEntrega.isEmpty()) {
+        EntregaDotacionDAO dao = new EntregaDotacionDAO();
+        EntregaDotacion entrega = dao.obtenerEntregaPorId(Integer.parseInt(idEntrega));
+        if (entrega != null) {
+            fechaEntrega = entrega.getFechaEntrega();
+            responsable = entrega.getResponsable();
+            tipoEntrega = entrega.getTipoEntrega();
+            observacion = entrega.getObservacion();
+            idPersona = String.valueOf(entrega.getIdPersona());
+        }
+
+        DetalleEntregaDAO detalleDAO = new DetalleEntregaDAO();
+        detallesEntrega = detalleDAO.obtenerDetallesPorIdEntrega(idEntrega);
+
+        if (detallesEntrega != null && !detallesEntrega.isEmpty()) {
+            estadoSeleccionado = detallesEntrega.get(0).getEstado();
+            unidadSeleccionada = detallesEntrega.get(0).getUnidadNegocio();
+        }
+    }
+%> 
+
+<%
     Persona persona = (Persona) session.getAttribute("persona");
-    String identificacion = "";
     if (persona != null) {
         identificacion = persona.getIdentificacion();
-    } else if (request.getParameter("idPersona") != null) {
-        identificacion = request.getParameter("idPersona");
     }
-
-    String idPersona = request.getParameter("idPersona");
 
     // -------------------- CARGAR TIPOS DE PRENDA --------------------
     String tiposPorEstado = request.getParameter("ajax_tipos_por_estado");
@@ -129,27 +172,34 @@
     </head>
     <body>
         <div class="content">
-            <h3 class="titulo">Registrar entrega de dotación</h3>
+            <h3 class="titulo"><%= tituloFormulario%></h3>
             <form action="entregaDotacionActualizar.jsp" method="post">
-                <input type="hidden" name="accion" value="Registrar">
+                <input type="hidden" name="accion" value="<%= accion%>">
+                <input type="hidden" name="idPersona" value="<%= idPersona%>">
+
+                <% if ("Modificar".equals(accion)) {%>
+                <input type="hidden" name="id" value="<%= idEntrega%>">
+                <input type="hidden" name="numeroEntrega" value="<%= numeroEntrega%>">
+                <% }%>
+
 
                 <table class="table2">
                     <tbody>
                         <tr>
                             <td><label for="fechaEntrega">Fecha de entrega:</label></td>
-                            <td><input type="date" name="fechaEntrega" required></td>
+                            <td><input type="date" name="fechaEntrega" required value="<%= fechaEntrega%>"></td>
                         </tr>
                         <tr>
                             <td><label for="responsable">Responsable:</label></td>
-                            <td><input type="text" name="responsable" required></td>
+                            <td><input type="text" name="responsable" required value="<%= responsable%>"></td>
                         </tr>
                         <tr>
                             <td><label for="tipoEntrega">Tipo de entrega:</label></td>
                             <td>
                                 <select name="tipoEntrega" required>
                                     <option value="">Seleccione tipo</option>
-                                    <option value="Completa">Completa</option>
-                                    <option value="Parcial">Parcial</option>
+                                    <option value="Completa" <%= "Completa".equals(tipoEntrega) ? "selected" : ""%>>Completa</option>
+                                    <option value="Parcial" <%= "Parcial".equals(tipoEntrega) ? "selected" : ""%>>Parcial</option>
                                 </select>
                             </td>
                         </tr>
@@ -158,25 +208,24 @@
                             <td>
                                 <select name="estado" class="select-estado" id="estadoGeneral" required>
                                     <option value="">Seleccionar un estado</option>
-                                    <% while (estados.next()) {%>
-                                    <option value="<%=estados.getString("estado")%>">
-                                        <%=estados.getString("estado")%>
-                                    </option>
+                                    <% while (estados.next()) {
+                                            String estado = estados.getString("estado");
+                                    %>
+                                    <option value="<%= estado%>" <%= estado.equals(estadoSeleccionado) ? "selected" : ""%>><%= estado%></option>
                                     <% }
                                         estados.close(); %>
                                 </select>
                             </td>
                         </tr>
-
                         <tr>
                             <td><label for="unidad_negocio">Unidad de negocio:</label></td>
                             <td>
                                 <select name="unidad_negocio" class="select-unidad" id="unidadGeneral" required>
                                     <option value="">Seleccione una unidad</option>
-                                    <% while (unidades.next()) {%>
-                                    <option value="<%=unidades.getString("unidad_negocio")%>">
-                                        <%=unidades.getString("unidad_negocio")%>
-                                    </option>
+                                    <% while (unidades.next()) {
+                                            String unidad = unidades.getString("unidad_negocio");
+                                    %>
+                                    <option value="<%= unidad%>" <%= unidad.equals(unidadSeleccionada) ? "selected" : ""%>><%= unidad%></option>
                                     <% }
                                         unidades.close();%>
                                 </select>
@@ -184,7 +233,7 @@
                         </tr>
                         <tr>
                             <td><label for="observacion">Observación:</label></td>
-                            <td><input type="text" name="observacion"></td>
+                            <td><input type="text" name="observacion" value="<%= observacion%>"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -203,6 +252,56 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <%
+                            if ("Modificar".equals(accion) && detallesEntrega != null && !detallesEntrega.isEmpty()) {
+                                for (DetalleEntrega d : detallesEntrega) {
+                                    String tipoPrendaSeleccionado = "";
+                                    for (Prenda p : listaPrendas) {
+                                        if (p.getIdPrenda().equals(d.getIdPrenda())) {
+                                            tipoPrendaSeleccionado = p.getIdTipoPrenda();
+                                            break;
+                                        }
+                                    }
+                        %>
+                        <tr class="fila-dotacion">
+                            <td>
+                                <select class="select-tipo" name="id_tipo_prenda[]" required onchange="cargarPrendas(this)">
+                                    <option value="">Seleccione</option>
+                                    <% for (Prenda prenda : listaPrendas) {
+                                            String tipo = prenda.getIdTipoPrenda();
+                                            String nombreTipo = prenda.getNombreTipoPrenda();
+                                            boolean seleccionado = tipo.equals(tipoPrendaSeleccionado);
+                                    %>
+                                    <option value="<%= tipo%>" <%= seleccionado ? "selected" : ""%>><%= nombreTipo%></option>
+                                    <% } %>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="id_prenda[]" class="select-prenda" required onchange="cargarTallas(this)">
+                                    <option value="">Seleccionar</option>
+                                    <% for (Prenda prenda : listaPrendas) {
+                                            boolean seleccionado = prenda.getIdPrenda().equals(d.getIdPrenda());
+                                    %>
+                                    <option value="<%= prenda.getIdPrenda()%>" <%= seleccionado ? "selected" : ""%>><%= prenda.getNombre()%></option>
+                                    <% }%>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="talla[]" class="input-talla" required>
+                                    <option value="<%= d.getTalla()%>" selected><%= d.getTalla()%></option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="button" class="fila-icono" onclick="eliminarFila(this)">
+                                    <img src="../presentacion/iconos/eliminar.png" alt="Eliminar" width="24" height="24">
+                                </button>
+                            </td>
+                        </tr>
+                        <%
+                            }
+                        } else {
+                        %>
+                        <!-- Fila vacía si es nueva entrega -->
                         <tr class="fila-dotacion">
                             <td>
                                 <select class="select-tipo" name="id_tipo_prenda[]" required onchange="cargarPrendas(this)">
@@ -225,10 +324,11 @@
                                 </button>
                             </td>
                         </tr>
+                        <% }%>
                     </tbody>
-                    <input type="hidden" name="idPersona" value="<%= idPersona != null ? idPersona : ""%>">
                 </table>
 
+                <input type="hidden" name="idPersona" value="<%= idPersona%>">
                 <div class="botones-form">
                     <button type="submit" class="btn-verde">Guardar</button>
                     <a href="historialDotacion.jsp?identificacion=<%= identificacion%>" class="btn-rojo">Cancelar</a>
@@ -393,7 +493,6 @@
                 window.cargarPrendas = cargarPrendas;
                 window.cargarTallas = cargarTallas;
             });
-
 
         </script>
     </body>
