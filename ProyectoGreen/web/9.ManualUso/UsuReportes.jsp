@@ -126,7 +126,6 @@
             <h3>Dotaciones Entregadas</h3>
             <p>Reporte mensual y anual con gráficas que muestra la cantidad de dotaciones entregadas al personal.</p>
         </a>
-
         <a href="reporteCumple.jsp" class="module-card">
             <i class="fas fa-birthday-cake"></i>
             <h3>Cumpleaños del Mes</h3>

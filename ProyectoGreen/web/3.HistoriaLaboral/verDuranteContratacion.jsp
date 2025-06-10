@@ -30,7 +30,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Historia Laboral Retirados</title>
+       
             <link rel="stylesheet" href="../presentacion/style-historiaLRetirado.css">
         </head>
         <body>
@@ -91,7 +91,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Descuento de nómina</td>
+                            <td>ADD</td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=DNOMotros'"
@@ -131,7 +131,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Actas (por cambio de cargo u otros)</td>
+                            <td>Actas </td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ACTASotros'"
@@ -161,7 +161,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Reinducción de gestión humana</td>
+                            <td>Reinducción de Gestión Humana</td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=RGHotros'"

@@ -49,7 +49,7 @@
             <ul class="dropdown-content">                           
                 <li><a href="../5.Reportes/ingresoColaboradores.jsp">Ingresos de colaboradores</a></li>
                 <li><a href="../5.Reportes/retiroColaboradores.jsp">Retiros de colaboradores</a></li>
-                <li><a href="#">Dotaciones entregadas</a></li>
+                <li><a href="../5.Reportes/dotacion.jsp">Dotaciones entregadas</a></li>
                 <li><a href="../5.Reportes/cumpleanos.jsp">Cumpleañeros del mes</a></li>
                 <li><a href="../5.Reportes/diaFamilia.jsp">Dia de la familia </a></li>
                 <li><a href="../5.Reportes/vacaciones.jsp">Vacaciones</a></li>

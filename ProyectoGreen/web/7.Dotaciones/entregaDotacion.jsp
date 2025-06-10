@@ -174,13 +174,17 @@
         <div class="content">
             <h3 class="titulo"><%= tituloFormulario%></h3>
             <form action="entregaDotacionActualizar.jsp" method="post">
-                <input type="hidden" name="accion" value="<%= accion%>">
+                <%
+                    String accionFormulario = "Adicionar".equals(accion) ? "Registrar" : accion;
+                %>
+                <input type="hidden" name="accion" value="<%= accionFormulario%>">
                 <input type="hidden" name="idPersona" value="<%= idPersona%>">
 
                 <% if ("Modificar".equals(accion)) {%>
                 <input type="hidden" name="id" value="<%= idEntrega%>">
                 <input type="hidden" name="numeroEntrega" value="<%= numeroEntrega%>">
                 <% }%>
+
 
 
                 <table class="table2">
@@ -327,11 +331,10 @@
                         <% }%>
                     </tbody>
                 </table>
-
                 <input type="hidden" name="idPersona" value="<%= idPersona%>">
                 <div class="botones-form">
                     <button type="submit" class="btn-verde">Guardar</button>
-                    <a href="historialDotacion.jsp?identificacion=<%= identificacion%>" class="btn-rojo">Cancelar</a>
+                    <a href="historialDotacion.jsp?identificacion=<%= request.getParameter("identificacion")%>" class="btn-rojo">Cancelar</a>
                 </div>
             </form>
         </div>

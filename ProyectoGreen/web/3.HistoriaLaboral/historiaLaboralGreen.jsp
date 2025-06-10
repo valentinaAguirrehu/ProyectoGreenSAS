@@ -89,7 +89,7 @@
                         <button class="ver-btn" onclick="window.location.href = 'verAfiliaciones.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
-                        <span>DOCUMENTOS SST-SGA</span>
+                        <span> SG-SST Y SGA</span>
                         <button class="ver-btn" onclick="window.location.href = 'verDocumentosSSTSGA.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">

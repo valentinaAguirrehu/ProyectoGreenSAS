@@ -86,16 +86,31 @@
                     if (json.length() > 1) {
                         json.append(",");
                     }
-                    json.append("{")
-                            .append("\"id_prenda\":").append(id_prenda[i]).append(",")
-                            .append("\"talla\":\"").append(talla[i]).append("\",")
-                            .append("\"estado\":\"").append(estado).append("\",")
-                            .append("\"unidad_negocio\":\"").append(unidadNegocio).append("\"")
-                            .append("}");
+
+                    json.append("{");
+
+                    // Agregar campos generales solo en el primer objeto
+                    if (i == 0) {
+                        json.append("\"id_persona\":").append(idPersonaNum).append(",");
+                        json.append("\"fecha_entrega\":\"").append(fechaEntrega).append("\",");
+                        json.append("\"tipo_entrega\":\"").append(tipoEntrega).append("\",");
+                        json.append("\"responsable\":\"").append(responsable).append("\",");
+                        json.append("\"observacion\":\"").append(observacion).append("\",");
+                    }
+
+                    json.append("\"id_prenda\":").append(id_prenda[i]).append(",");
+                    json.append("\"talla\":\"").append(talla[i]).append("\",");
+                    json.append("\"estado\":\"").append(estado).append("\",");
+                    json.append("\"unidad_negocio\":\"").append(unidadNegocio).append("\"");
+
+                    json.append("}");
                 }
             }
         }
         json.append("]");
+
+        // DEBUG opcional:
+        System.out.println("JSON generado: " + json.toString());
 
         // Crear objeto y asignar datos
         EntregaDotacion entrega = new EntregaDotacion();

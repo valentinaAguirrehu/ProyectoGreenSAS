@@ -120,7 +120,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Certificado de banco (si aplica)</td>
+                            <td>Certificación bancaria</td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Banco'"
