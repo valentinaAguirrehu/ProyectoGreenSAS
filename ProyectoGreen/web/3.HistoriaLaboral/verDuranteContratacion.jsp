@@ -141,7 +141,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Disciplinarios (requerimiento de explicaciones y explicaciones)</td>
+                            <td>Procesos disciplinarios </td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=DISCotros'"

@@ -246,7 +246,7 @@
 
         //TEMPORALES
         case "TemporalesContra":
-            titulo = "INDUCCIÓN GESTION HUMANA E INDUCCIÓN A EL CARGO";
+            titulo = "INDUCCIÓN GESTION HUMANA E INDUCCIÓN AL CARGO";
             break;
 
         case "incidentesTemporales":
@@ -265,6 +265,10 @@
         case "reubicacionTemporal":
             titulo = "ACTA DE REUBICACIÓN DE CARGO";
             break;
+            case "  ProcesoTemporal":
+            titulo = "PROCESOS DISCIPLINARIOS";
+            break;
+          
 
         //APRENDIZ
         //AFILIACIONES APRENDIZ
@@ -286,7 +290,7 @@
             break;
 
         case "SGHAprendiz":
-            titulo = "INDUCCIÓN GESTIOHN HUMANA";
+            titulo = "INDUCCIÓN GESTIÓN HUMANA";
             break;
         case "CartaAprendiz":
             titulo = "CARTA PRESENTACIÓN";

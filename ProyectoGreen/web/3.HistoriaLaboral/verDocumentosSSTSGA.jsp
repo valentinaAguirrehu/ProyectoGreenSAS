@@ -132,16 +132,7 @@
         </button>
       </td>
     </tr>
-    <tr>
-      <td>Encuesta condiciones de salud (se aplica de manera digital)</td>
-      <td>
-        <button class="ver-btn"
-                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=ECSdigital'"
-                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
-          VER
-        </button>
-      </td>
-    </tr>
+  
     <tr>
       <td>Encuesta condiciones de salud</td>
       <td>

@@ -80,7 +80,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Certificado FDP</td>
+                            <td>Certificado AFP</td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CFDPotros'"

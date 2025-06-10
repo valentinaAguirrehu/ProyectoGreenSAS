@@ -90,6 +90,16 @@
                                 </button>
                             </td>
                         </tr>
+                               <tr>
+                            <td>Procesos disciplinarios</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ProcesoTemporal'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
       
                     </tbody>
 
