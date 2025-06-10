@@ -1,16 +1,12 @@
 <%-- 
-    Document   : verIncapacidades
-    Created on : 10/04/2025, 03:10:55 PM
-    Author     : VALEN
---%>
-
-<%-- 
-    Document   : verAusentismos
-    Created on : 26/03/2025, 04:27:25 PM
+    Document   : verDocumentosSSTSGA
+    Created on : 26/03/2025, 04:37:17 PM
     Author     : VALEN
 --%>
 
 <%@page import="java.util.List"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@page import="clases.Persona"%>
 <%@page import="clases.Administrador"%>
 
@@ -36,57 +32,89 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-           
             <link rel="stylesheet" href="../presentacion/style-historiaLRetirado.css">
         </head>
         <body>
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>INCAPACIDADES</h2>
+                    <h2>DOCUMENTOS SG-SST Y SGA</h2>
                     <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
-                <table class="documentos-tabla">
-                    <thead>
-                        <tr>
-                            <th>DOCUMENTOS</th>
-                            <th>ARCHIVO</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Incapacidad por enfermedad general</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=INCENFotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Accidentes de trabajo</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ATotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Licencia maternidad y/o paternidad</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=MATPATotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
+         <table class="documentos-tabla">
+  <thead>
+    <tr>
+      <th>DOCUMENTOS</th>
+      <th>ARCHIVO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- SG鈥慡ST y SGA -->
+    <tr>
+      <td>Inducci贸n y reinducci贸n SG-SST</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=IRSGSSTotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Inducci贸n y reinducci贸n SGA</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=IRSGAotros'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
 
-                </table>
+    <tr>
+      <td>Registro de incidentes de trabajo (si aplica)</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=incidentesTemporales'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Investigacion AT (si aplica)</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=atTemporal'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Reporte AT(si aplica)</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=reporteTemporal'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+ 
+    <tr>
+      <td>Acta de reubicaci贸n de cargo (si aplica)</td>
+      <td>
+        <button class="ver-btn"
+                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=reubicacionTemporal'"
+                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
+          VER
+        </button>
+      </td>
+    </tr>
+ 
+  </tbody>
+</table>
                 <div class="buttons">
                     <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
                 </div>
@@ -128,7 +156,7 @@
                     let fileURL = URL.createObjectURL(fileData);
                     window.open(fileURL, "_blank");
                 } else {
-                    alert("No hay ning鷑 archivo cargado");
+                    alert("No hay ning煤n archivo cargado");
                 }
             });
 
@@ -142,22 +170,22 @@
                     a.click();
                     document.body.removeChild(a);
                 } else {
-                    alert("No hay ning鷑 archivo cargado");
+                    alert("No hay ning煤n archivo cargado");
                 }
             });
 
-            // Eliminar Archivo con Confirmaci髇
+            // Eliminar Archivo con Confirmaci贸n
             deleteBtn.addEventListener("click", function () {
                 if (fileData) {
-                    let confirmacion = confirm("縀st醩 seguro de eliminar este archivo?");
+                    let confirmacion = confirm("驴Est谩s seguro de eliminar este archivo?");
                     if (confirmacion) {
                         fileData = null;
                         fileMessage.style.color = "red";
-                        fileMessage.textContent = "NO HAY NING贜 ARCHIVO CARGADO";
+                        fileMessage.textContent = "NO HAY NING脷N ARCHIVO CARGADO";
                         fileInput.value = ""; // Limpiar input
                     }
                 } else {
-                    alert("No hay ning鷑 archivo para eliminar");
+                    alert("No hay ning煤n archivo para eliminar");
                 }
             });
         });

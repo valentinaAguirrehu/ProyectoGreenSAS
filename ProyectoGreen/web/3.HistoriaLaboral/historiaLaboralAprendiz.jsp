@@ -86,13 +86,29 @@
 
                     <div class="data-item">
                         <span>DOCUMENTOS CONTRATACIÓN</span>
-                        <button class="ver-btn" onclick="window.location.href = 'verDocumentosContratacion.jsp?identificacion=<%= identificacion %>'">VER</button>
+                        <button class="ver-btn" onclick="window.location.href = 'verDocumentosContratacionAprendiz.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
 
                     <div class="data-item">
                         <span>AFILIACIONES</span>
                         <button class="ver-btn" onclick="window.location.href = 'verAfiliacionesAprendiz.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
+                    <div class="data-item">
+                        <span>SG-SST Y SGA</span>
+                        <button class="ver-btn" onclick="window.location.href = 'verDocumentosSSTSGAprendiz.jsp?identificacion=<%= identificacion %>'">VER</button>
+                    </div>
+                    <div class="data-item">
+                        <span>DOCUMENTOS DURANTE LA CONTRATACIÓN</span>
+                        <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=documentoContratacionA'">VER</button>
+                    </div>
+                      <div class="data-item">
+                        <span>AUSENTISMOS</span>
+                        <button class="ver-btn" onclick="window.location.href = 'verAusentismosAprendiz.jsp?identificacion=<%= identificacion %>'">VER</button>
+                      </div>
+                         <div class="data-item">
+                        <span>INCAPACIDADES</span>
+                        <button class="ver-btn" onclick="window.location.href = 'verIncapacidades.jsp?identificacion=<%= identificacion %>'">VER</button>
+                      </div>
                 </div>
 
                 <div class="buttons">

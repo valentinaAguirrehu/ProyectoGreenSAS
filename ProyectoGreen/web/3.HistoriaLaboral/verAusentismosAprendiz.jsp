@@ -1,10 +1,4 @@
 <%-- 
-    Document   : verIncapacidades
-    Created on : 10/04/2025, 03:10:55 PM
-    Author     : VALEN
---%>
-
-<%-- 
     Document   : verAusentismos
     Created on : 26/03/2025, 04:27:25 PM
     Author     : VALEN
@@ -36,14 +30,13 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-           
             <link rel="stylesheet" href="../presentacion/style-historiaLRetirado.css">
         </head>
         <body>
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>INCAPACIDADES</h2>
+                    <h2>AUSENTISMOS</h2>
                     <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
@@ -54,35 +47,48 @@
                         </tr>
                     </thead>
                     <tbody>
+                      
                         <tr>
-                            <td>Incapacidad por enfermedad general</td>
+                            <td>Licencia de luto</td>
                             <td>
                                 <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=INCENFotros'"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=LLotros'"
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Accidentes de trabajo</td>
+                            <td>Licencia remunerada</td>
                             <td>
                                 <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ATotros'"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=LRotros'"
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
                         <tr>
-                            <td>Licencia maternidad y/o paternidad</td>
+                            <td>Licencia no remunerada</td>
                             <td>
                                 <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=MATPATotros'"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=LNotros'"
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
+                        </tr>
+                        <tr>
+                            <td>Permisos</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=PERMotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                        
                         </tr>
                     </tbody>
 

@@ -49,8 +49,18 @@
                         </tr>
                     </thead>
                     <tbody> 
+                                 <tr>
+                            <td> Formulario único de afiliación y registro de novedades EPS</td>
+                            <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=Formularionove'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
                         <tr>
-                            <td>EPS</td>
+                            <td>Certificado de afiliación EPS</td>
                             <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EPSotrosAp'" 
@@ -60,7 +70,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>ARL</td>
+                            <td>Certificado de afiliación ARL</td>
                                  <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ARLotrosAp'" 
