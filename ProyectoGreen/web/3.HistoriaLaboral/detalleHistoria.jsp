@@ -108,7 +108,7 @@
             break;
 
         //SG-SST Y SGA
-               case "IRSGSSTotros":
+        case "IRSGSSTotros":
             titulo = "INDUCCIÓN Y REINDUCCIÓN SG‑SST";
             break;
         case "IRSGAotros":
@@ -153,7 +153,6 @@
         case "ActasReubicacion":
             titulo = "ACTAS DE REUBICACIÓN DE CARGO";
             break;
-        
 
         //DOCUMENTOS DURANTE LA CONTRATACION
         case "PPROGGASotros":
@@ -237,7 +236,7 @@
             break;
 
         case "MATPATotros":
-            titulo = "LICENCIA MATERNIDAD / PATERNIDAD";
+            titulo = "LICENCIA MATERNIDAD Y/O PATERNIDAD";
             break;
 
         //DOCUMENTOS AL FINALIZAR LA CONTRATACIÓN
@@ -245,28 +244,62 @@
             titulo = "DOCUMENTOS DE TERMINACIÓN DE CONTRATO";
             break;
 
-        //temporales
-        case "induccionSST":
-            titulo = "INDUCCIÓN SST";
-            break;
-        case "induccionSGA":
-            titulo = "INDUCCIÓN SGA";
-            break;
-        case "induccionSGeH":
-            titulo = "INDUCCIÓN GESTIÓN HUMANA";
+        //TEMPORALES
+        case "TemporalesContra":
+            titulo = "INDUCCIÓN GESTION HUMANA E INDUCCIÓN A EL CARGO";
             break;
 
-        case "otrosDocumentosT":
-            titulo = "OTROS DOCUMENTOS";
+        case "incidentesTemporales":
+            titulo = "REGISTRO DE INCIDENTES DE TRABAJO";
+            break;
+        case "FinalizarTemporal":
+            titulo = "DOCUMENTO TERMINACIÓN DE CONTRATO(CARTA)";
             break;
 
-        //Aprendiz 
+        case "atTemporal":
+            titulo = "INVESTIGACION AT";
+            break;
+        case "reporteTemporal":
+            titulo = "REPORTE AT";
+            break;
+        case "reubicacionTemporal":
+            titulo = "ACTA DE REUBICACIÓN DE CARGO";
+            break;
+
+        //APRENDIZ
+        //AFILIACIONES APRENDIZ
+        case "Formularionove":
+            titulo = "FORMULARIO ÚNICO DE AFILIACION Y REGISTRO DE NOVEDADES EPS";
+            break;
+
         case "EPSotrosAp":
             titulo = "EPS APRENDIZ";
             break;
 
         case "ARLotrosAp":
             titulo = "ARL APRENDIZ";
+            break;
+
+        //DOCUMENTOS CONTRATACION APRENDIZ
+        case "CTAprendizajep":
+            titulo = "CONTRATO DE APRENDIZAJE";
+            break;
+
+        case "SGHAprendiz":
+            titulo = "INDUCCIÓN GESTIOHN HUMANA";
+            break;
+        case "CartaAprendiz":
+            titulo = "CARTA PRESENTACIÓN";
+            break;
+
+        //SG-SST YSGA
+        case "EncuentaSalud":
+            titulo = "ENCUESTA CONDICIONES DE SALUD ";
+            break;
+        //DOCUMENTOS DURANTE LA CONTRATACIÓN
+
+        case "documentoContratacionA":
+            titulo = "OTRO SI ";
             break;
 
         case "OtraOpcion":

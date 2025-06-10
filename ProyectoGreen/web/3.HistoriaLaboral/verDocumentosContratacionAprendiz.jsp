@@ -50,10 +50,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Contrato de trabajo</td>
+                            <td>Contrato de aprendizaje</td>
                             <td>
                                 <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CTotros'" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CTAprendizaje'" 
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
@@ -70,16 +70,7 @@
                             </td>
                         </tr>
 
-                        <tr>
-                            <td>Profesiograma</td>
-                            <td>
-                                <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=PRotros'" 
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
+              
                         <tr>
                             <td>Documentos SAGRILAFT</td>
                             <td>
@@ -91,10 +82,20 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Inducción Gestión Humana e induccion al cargo</td>
+                            <td>Inducción Gestión Humana </td>
                             <td>
                                 <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SGHotros'" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SGHAprendiz'" 
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                          <tr>
+                            <td>Carta presentación </td>
+                            <td>
+                                <button class="ver-btn" 
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CartaAprendiz'" 
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>

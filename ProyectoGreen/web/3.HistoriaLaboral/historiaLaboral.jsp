@@ -74,20 +74,28 @@
                         <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=documentoIdentidad'">VER</button>
                     </div>
                     <div class="data-item">
-                        <span>INDUCCION SST</span>
-                        <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=induccionSST'">VER</button>
+                        <span>DOCUMENTO DE CONTRATACIÓN</span>
+                        <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=TemporalesContra'">VER</button>
                     </div>
                     <div class="data-item">
-                        <span>INDUCCION SGA</span>
-                        <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=induccionSGA'">VER</button>
+                        <span>SG-SST-SGA</span>
+                        <button class="ver-btn" onclick="window.location.href = 'verDocumentosSSTSGTemporal.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
-                        <span>INDUCCIÓN GESTIÓN HUMANA</span>
-                        <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=induccionSGeH'">VER</button>
+                        <span>DOCUMENTOS DURANTE LA CONTRATACIÓN</span>
+                        <button class="ver-btn" onclick="window.location.href = 'verDuranteContratacionTemporal.jsp?identificacion=<%= identificacion %>'">VER</button>
                     </div>
                     <div class="data-item">
-                        <span>OTROS DOCUMENTOS</span>
-                        <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=otrosDocumentosT'">VER</button>
+                        <span>AUSENTISMOS</span>
+                        <button class="ver-btn" onclick="window.location.href = 'verAusentismosTemporal.jsp?identificacion=<%= identificacion %>'">VER</button>
+                    </div>
+                    <div class="data-item">
+                        <span>INCAPACIDADES</span>
+                        <button class="ver-btn" onclick="window.location.href = 'verIncapacidades.jsp?identificacion=<%= identificacion %>'">VER</button>
+                    </div>
+                    <div class="data-item">
+                        <span>DOCUMENTOS AL FINALIZAR CONTRATACION</span>
+                        <button class="ver-btn" onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion %>&tipo=FinalizarTemporal'">VER</button>
                     </div>
                 </div>
 
