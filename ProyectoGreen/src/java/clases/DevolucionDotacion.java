@@ -95,66 +95,40 @@ public class DevolucionDotacion {
     }
 
     public boolean modificarDevolucionDotacion() {
-        if (this.idDevolucion == null || this.idDevolucion.trim().isEmpty()) {
-            System.out.println("Error: idDevolucion no definido para modificar.");
+        if (this.idDevolucion == null || this.jsonPrendas == null || this.jsonPrendas.trim().isEmpty()) {
+            System.out.println("Error: Faltan datos obligatorios para modificar la devolución.");
             return false;
         }
 
-        // Primero, actualizar la tabla principal
-        String sqlPrincipal = "UPDATE devolucionDotacion SET "
-                + "id_persona='" + idPersona.replace("'", "''") + "', "
-                + "fecha_devolucion='" + fechaDevolucion.replace("'", "''") + "', "
-                + "tipo_entrega='" + tipoEntrega.replace("'", "''") + "', "
-                + "numero_devolucion='" + numeroDevolucion.replace("'", "''") + "', "
-                + "responsable='" + responsable.replace("'", "''") + "', "
-                + "observacion='" + observacion.replace("'", "''") + "' "
-                + "WHERE id_devolucion=" + idDevolucion;
-
-        boolean actualizado = ConectorBD.ejecutarQuery(sqlPrincipal);
-        if (!actualizado) {
-            System.out.println("Error al actualizar la devolución.");
+        ConectorBD conector = new ConectorBD();
+        if (!conector.conectar()) {
+            System.out.println("No se pudo conectar a la BD.");
             return false;
         }
 
-        // Eliminar detalles anteriores
-        String eliminarDetalles = "DELETE FROM detalleDevolucion WHERE id_devolucion=" + idDevolucion;
-        boolean eliminados = ConectorBD.ejecutarQuery(eliminarDetalles);
-        if (!eliminados) {
-            System.out.println("Error al eliminar detalles anteriores.");
-            return false;
-        }
-
-        // Insertar los nuevos detalles desde el JSON
         try {
-            org.json.JSONArray detalles = new org.json.JSONArray(this.jsonPrendas);
-            for (int i = 0; i < detalles.length(); i++) {
-                org.json.JSONObject d = detalles.getJSONObject(i);
+            String sql = "CALL modificar_devolucion_dotacion(?, ?, ?, ?, ?, ?, ?, ?)";
 
-                String idPrenda = d.get("id_prenda").toString();
-                String talla = d.getString("talla").replace("'", "''");
-                String estado = d.getString("estado").replace("'", "''");
-                String unidadNegocio = d.getString("unidad_negocio").replace("'", "''");
+            PreparedStatement stmt = conector.conexion.prepareStatement(sql);
+            stmt.setString(1, this.idDevolucion);
+            stmt.setString(2, this.idPersona);
+            stmt.setDate(3, java.sql.Date.valueOf(this.fechaDevolucion));
+            stmt.setString(4, this.tipoEntrega);
+            stmt.setString(5, this.numeroDevolucion);
+            stmt.setString(6, this.responsable);
+            stmt.setString(7, this.observacion != null ? this.observacion : "");
+            stmt.setString(8, this.jsonPrendas);
 
-                String sqlDetalle = "INSERT INTO detalleDevolucion "
-                        + "(id_devolucion, id_prenda, talla, estado, unidad_negocio) VALUES ("
-                        + idDevolucion + ", "
-                        + idPrenda + ", "
-                        + "'" + talla + "', "
-                        + "'" + estado + "', "
-                        + "'" + unidadNegocio + "')";
+            stmt.execute();
+            stmt.close();
+            return true;
 
-                boolean insertado = ConectorBD.ejecutarQuery(sqlDetalle);
-                if (!insertado) {
-                    System.out.println("Error al insertar detalle #" + (i + 1));
-                    return false;
-                }
-            }
         } catch (Exception e) {
-            System.out.println("Error al procesar el JSON de prendas: " + e.getMessage());
+            System.out.println("Error al modificar la devolución con procedimiento: " + e.getMessage());
             return false;
+        } finally {
+            conector.desconectar();
         }
-
-        return true;
     }
 
     public boolean eliminarDevolucionDotacion() {

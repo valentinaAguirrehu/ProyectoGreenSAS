@@ -113,7 +113,7 @@
             response.sendRedirect("historialDotacion.jsp?identificacion=" + idPersona);
         }
     } else if ("Modificar".equals(accion)) {
-        devolucion.setIdDevolucion(request.getParameter("id")); // necesario para saber qué modificar
+        devolucion.setIdDevolucion(request.getParameter("id")); 
         boolean modificado = devolucion.modificarDevolucionDotacion();
         if (!modificado) {
             out.println("Error al modificar la devolución.");
