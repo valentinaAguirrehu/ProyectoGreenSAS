@@ -1,3 +1,5 @@
+<%@page import="java.util.Set"%>
+<%@page import="java.util.HashSet"%>
 <%@page import="clases.Prenda"%>
 <%@page import="clases.DetalleEntregaDAO"%>
 <%@page import="clases.DetalleEntrega"%>
@@ -271,23 +273,36 @@
                             <td>
                                 <select class="select-tipo" name="id_tipo_prenda[]" required onchange="cargarPrendas(this)">
                                     <option value="">Seleccione</option>
-                                    <% for (Prenda prenda : listaPrendas) {
+                                    <%
+                                        Set<String> tiposAgregados = new HashSet<>();
+                                        for (Prenda prenda : listaPrendas) {
                                             String tipo = prenda.getIdTipoPrenda();
                                             String nombreTipo = prenda.getNombreTipoPrenda();
-                                            boolean seleccionado = tipo.equals(tipoPrendaSeleccionado);
+
+                                            if (tiposAgregados.add(tipo)) {
+                                                boolean seleccionado = tipo.equals(tipoPrendaSeleccionado);
                                     %>
                                     <option value="<%= tipo%>" <%= seleccionado ? "selected" : ""%>><%= nombreTipo%></option>
-                                    <% } %>
+                                    <%
+                                            }
+                                        }
+                                    %>
+
                                 </select>
                             </td>
                             <td>
                                 <select name="id_prenda[]" class="select-prenda" required onchange="cargarTallas(this)">
                                     <option value="">Seleccionar</option>
                                     <% for (Prenda prenda : listaPrendas) {
-                                            boolean seleccionado = prenda.getIdPrenda().equals(d.getIdPrenda());
+                                            // Filtra por el tipo de prenda actualmente seleccionado
+                                            if (prenda.getIdTipoPrenda().equals(tipoPrendaSeleccionado)) {
+                                                boolean seleccionado = prenda.getIdPrenda().equals(d.getIdPrenda());
                                     %>
                                     <option value="<%= prenda.getIdPrenda()%>" <%= seleccionado ? "selected" : ""%>><%= prenda.getNombre()%></option>
-                                    <% }%>
+                                    <%
+                                            }
+                                        }
+                                    %>
                                 </select>
                             </td>
                             <td>
@@ -432,34 +447,39 @@
                 }
 
                 // Función para cargar prendas según tipo de prenda
-                function cargarPrendas(selectTipo) {
-                    const fila = selectTipo.closest("tr");
-                    const prendaSelect = fila.querySelector(".select-prenda");
-                    const estado = document.getElementById("estadoGeneral").value;
-                    const unidad = document.getElementById("unidadGeneral").value;
-                    const tipo = selectTipo.value;
+               function cargarPrendas(selectTipo) {
+    const fila = selectTipo.closest("tr");
+    const prendaSelect = fila.querySelector(".select-prenda");
+    const estado = document.getElementById("estadoGeneral").value;
+    const unidad = document.getElementById("unidadGeneral").value;
+    const tipo = selectTipo.value;
 
-                    prendaSelect.innerHTML = '<option value="">Cargando...</option>';
+    prendaSelect.innerHTML = '<option value="">Cargando...</option>';
 
-                    if (tipo && estado && unidad) {
-                        fetch("entregaDotacion.jsp?ajax_tipo_prenda=" + tipo + "&ajax_estado=" + encodeURIComponent(estado) + "&ajax_unidad=" + encodeURIComponent(unidad))
-                                .then(res => res.json())
-                                .then(data => {
-                                    prendaSelect.innerHTML = '<option value="">Seleccionar prenda</option>';
-                                    data.forEach(p => {
-                                        const opt = document.createElement("option");
-                                        opt.value = p.id_prenda;
-                                        opt.textContent = p.nombre;
-                                        prendaSelect.appendChild(opt);
-                                    });
-                                })
-                                .catch(() => {
-                                    prendaSelect.innerHTML = '<option value="">Error al cargar prendas</option>';
-                                });
-                    } else {
-                        prendaSelect.innerHTML = '<option value="">Seleccionar</option>';
-                    }
+    if (tipo && estado && unidad) {
+        fetch("entregaDotacion.jsp?ajax_tipo_prenda=" + tipo + "&ajax_estado=" + encodeURIComponent(estado) + "&ajax_unidad=" + encodeURIComponent(unidad))
+            .then(res => res.json())
+            .then(data => {
+                if (data.length === 0) {
+                    alert("⚠️ No hay prendas disponibles para este tipo, estado y unidad de negocio.");
+                    prendaSelect.innerHTML = '<option value="">No disponibles</option>';
+                } else {
+                    prendaSelect.innerHTML = '<option value="">Seleccionar prenda</option>';
+                    data.forEach(p => {
+                        const opt = document.createElement("option");
+                        opt.value = p.id_prenda;
+                        opt.textContent = p.nombre;
+                        prendaSelect.appendChild(opt);
+                    });
                 }
+            })
+            .catch(() => {
+                prendaSelect.innerHTML = '<option value="">Error al cargar prendas</option>';
+            });
+    } else {
+        prendaSelect.innerHTML = '<option value="">Seleccione</option>';
+    }
+}
 
                 // Función para cargar tallas según prenda seleccionada
                 function cargarTallas(selectPrenda) {
