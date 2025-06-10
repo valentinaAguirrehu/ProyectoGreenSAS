@@ -14,7 +14,7 @@ import java.util.List;
  * @author Angie
  */
 public class DetalleEntrega {
-    
+
     private String idDetalleEntrega;
     private String idEntrega;
     private EntregaDotacion entrega;  // ✅ Objeto completo, adicional al ID
@@ -83,16 +83,16 @@ public class DetalleEntrega {
 
     // Método para insertar un nuevo detalle
     public boolean grabar() {
-        String sql = "INSERT INTO detalleEntrega (id_entrega, id_prenda, talla, estado, unidad_negocio) " +
-                     "VALUES ('" + idEntrega + "', '" + idPrenda + "', '" + talla + "', '" + estado + "', '" + unidadNegocio + "')";
+        String sql = "INSERT INTO detalleEntrega (id_entrega, id_prenda, talla, estado, unidad_negocio) "
+                + "VALUES ('" + idEntrega + "', '" + idPrenda + "', '" + talla + "', '" + estado + "', '" + unidadNegocio + "')";
         return ConectorBD.ejecutarQuery(sql);
     }
 
     // Método para modificar un detalle existente
     public boolean modificar(String idAnterior) {
-        String sql = "UPDATE detalleEntrega SET id_entrega='" + idEntrega + "', id_prenda='" + idPrenda +
-                     "', talla='" + talla + "', estado='" + estado + "', unidad_negocio='" + unidadNegocio +
-                     "' WHERE id_detalle_entrega=" + idAnterior;
+        String sql = "UPDATE detalleEntrega SET id_entrega='" + idEntrega + "', id_prenda='" + idPrenda
+                + "', talla='" + talla + "', estado='" + estado + "', unidad_negocio='" + unidadNegocio
+                + "' WHERE id_detalle_entrega=" + idAnterior;
         return ConectorBD.ejecutarQuery(sql);
     }
 

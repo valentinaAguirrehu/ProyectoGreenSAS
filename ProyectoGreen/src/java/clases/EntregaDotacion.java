@@ -1,6 +1,8 @@
 package clases;
 
 import clasesGenericas.ConectorBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,18 +87,39 @@ public class EntregaDotacion {
     }
 
     public boolean modificarEntregaDotacion() {
-        if (this.idEntrega == null || this.idEntrega.trim().isEmpty()) {
-            System.out.println("Error: idEntrega no definido para modificar.");
+        if (this.idEntrega == null || this.jsonPrendas == null || this.jsonPrendas.trim().isEmpty()) {
+            System.out.println("Error: Faltan datos obligatorios para modificar la entrega.");
             return false;
         }
-        String sql = "UPDATE entregaDotacion SET id_persona='" + idPersona
-                + "', fechaEntrega='" + fechaEntrega
-                + "', tipoEntrega='" + tipoEntrega
-                + "', numero_entrega='" + numeroEntrega
-                + "', responsable='" + responsable
-                + "', observacion='" + observacion
-                + "' WHERE id_entrega=" + idEntrega;
-        return ConectorBD.ejecutarQuery(sql);
+
+        ConectorBD conector = new ConectorBD();
+        if (!conector.conectar()) {
+            System.out.println("No se pudo conectar a la BD.");
+            return false;
+        }
+
+        try {
+            String sql = "CALL modificar_entrega_dotacion(?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement stmt = conector.conexion.prepareStatement(sql);
+            stmt.setString(1, this.idEntrega);
+            stmt.setString(2, this.idPersona);
+            stmt.setDate(3, java.sql.Date.valueOf(this.fechaEntrega));
+            stmt.setString(4, this.tipoEntrega);
+            stmt.setString(5, this.responsable);
+            stmt.setString(6, this.observacion != null ? this.observacion : "");
+            stmt.setString(7, this.jsonPrendas);
+
+            stmt.execute();
+            stmt.close();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error al modificar la entrega con procedimiento: " + e.getMessage());
+            return false;
+        } finally {
+            conector.desconectar();
+        }
     }
 
     public boolean eliminarEntregaDotacion() {
@@ -160,101 +183,101 @@ public class EntregaDotacion {
             return false;
         }
     }
+
     public static List<DetalleEntrega> getDetallesConEstadoNueva() {
-    List<DetalleEntrega> lista = new ArrayList<>();
+        List<DetalleEntrega> lista = new ArrayList<>();
 
-String sql = "SELECT ed.id_entrega, ed.id_persona, ed.fechaEntrega, ed.tipoEntrega, ed.numero_entrega, " +
-             "ed.responsable, ed.observacion, " +
-             "de.id_detalle_entrega, de.id_prenda, de.talla, de.estado, de.unidad_negocio " +
-             "FROM entregaDotacion ed " +
-             "INNER JOIN detalleEntrega de ON ed.id_entrega = de.id_entrega " +
-             "WHERE de.estado IN ('Nueva', 'Usada')";
+        String sql = "SELECT ed.id_entrega, ed.id_persona, ed.fechaEntrega, ed.tipoEntrega, ed.numero_entrega, "
+                + "ed.responsable, ed.observacion, "
+                + "de.id_detalle_entrega, de.id_prenda, de.talla, de.estado, de.unidad_negocio "
+                + "FROM entregaDotacion ed "
+                + "INNER JOIN detalleEntrega de ON ed.id_entrega = de.id_entrega "
+                + "WHERE de.estado IN ('Nueva', 'Usada')";
 
+        ResultSet rs = ConectorBD.consultar(sql);
 
-    ResultSet rs = ConectorBD.consultar(sql);
+        try {
+            while (rs.next()) {
+                EntregaDotacion entrega = new EntregaDotacion();
+                entrega.setIdEntrega(rs.getString("id_entrega"));
+                entrega.setIdPersona(rs.getString("id_persona"));
+                entrega.setFechaEntrega(rs.getString("fechaEntrega"));
+                entrega.setTipoEntrega(rs.getString("tipoEntrega"));
+                entrega.setNumeroEntrega(rs.getString("numero_entrega"));
+                entrega.setResponsable(rs.getString("responsable"));
+                entrega.setObservacion(rs.getString("observacion"));
 
-    try {
-        while (rs.next()) {
-            EntregaDotacion entrega = new EntregaDotacion();
-            entrega.setIdEntrega(rs.getString("id_entrega"));
-            entrega.setIdPersona(rs.getString("id_persona"));
-            entrega.setFechaEntrega(rs.getString("fechaEntrega"));
-            entrega.setTipoEntrega(rs.getString("tipoEntrega"));
-            entrega.setNumeroEntrega(rs.getString("numero_entrega"));
-            entrega.setResponsable(rs.getString("responsable"));
-            entrega.setObservacion(rs.getString("observacion"));
+                DetalleEntrega detalle = new DetalleEntrega();
+                detalle.setIdDetalleEntrega(rs.getString("id_detalle_entrega"));
+                detalle.setIdEntrega(rs.getString("id_entrega"));
+                detalle.setIdPrenda(rs.getString("id_prenda"));
+                detalle.setTalla(rs.getString("talla"));
+                detalle.setEstado(rs.getString("estado"));
+                detalle.setUnidadNegocio(rs.getString("unidad_negocio"));
 
-            DetalleEntrega detalle = new DetalleEntrega();
-            detalle.setIdDetalleEntrega(rs.getString("id_detalle_entrega"));
-            detalle.setIdEntrega(rs.getString("id_entrega"));
-            detalle.setIdPrenda(rs.getString("id_prenda"));
-            detalle.setTalla(rs.getString("talla"));
-            detalle.setEstado(rs.getString("estado"));
-            detalle.setUnidadNegocio(rs.getString("unidad_negocio"));
+                detalle.setEntrega(entrega); // ✅ Estás vinculando el objeto EntregaDotacion aquí
 
-            detalle.setEntrega(entrega); // ✅ Estás vinculando el objeto EntregaDotacion aquí
-
-            lista.add(detalle);
+                lista.add(detalle);
+            }
+            rs.close();
+        } catch (Exception ex) {
+            System.out.println("Error en getDetallesConEstadoNueva(): " + ex.getMessage());
         }
-        rs.close();
-    } catch (Exception ex) {
-        System.out.println("Error en getDetallesConEstadoNueva(): " + ex.getMessage());
+
+        return lista;
     }
 
-    return lista;
-}
+    public static List<DetalleEntrega> getDetallesFiltrados(String anio, String unidad, String estado, String tipoEntrega) {
+        List<DetalleEntrega> lista = new ArrayList<>();
+        String sql = "SELECT ed.id_entrega, ed.id_persona, ed.fechaEntrega, ed.tipoEntrega, ed.numero_entrega, "
+                + "ed.responsable, ed.observacion, "
+                + "de.id_detalle_entrega, de.id_prenda, de.talla, de.estado, de.unidad_negocio "
+                + "FROM entregaDotacion ed "
+                + "INNER JOIN detalleEntrega de ON ed.id_entrega = de.id_entrega WHERE 1=1 ";
 
-  public static List<DetalleEntrega> getDetallesFiltrados(String anio, String unidad, String estado, String tipoEntrega) {
-    List<DetalleEntrega> lista = new ArrayList<>();
-    String sql = "SELECT ed.id_entrega, ed.id_persona, ed.fechaEntrega, ed.tipoEntrega, ed.numero_entrega, " +
-                 "ed.responsable, ed.observacion, " +
-                 "de.id_detalle_entrega, de.id_prenda, de.talla, de.estado, de.unidad_negocio " +
-                 "FROM entregaDotacion ed " +
-                 "INNER JOIN detalleEntrega de ON ed.id_entrega = de.id_entrega WHERE 1=1 ";
-
-    if (anio != null && !anio.isEmpty()) {
-        sql += "AND ed.fechaEntrega LIKE '" + anio + "%' ";
-    }
-    if (unidad != null && !unidad.isEmpty()) {
-        sql += "AND de.unidad_negocio LIKE '%" + unidad + "%' ";
-    }
-    if (estado != null && !estado.isEmpty()) {
-        sql += "AND de.estado = '" + estado + "' ";
-    }
-    if (tipoEntrega != null && !tipoEntrega.isEmpty()) {
-        sql += "AND ed.tipoEntrega LIKE '%" + tipoEntrega + "%' ";
-    }
-
-    ResultSet rs = ConectorBD.consultar(sql);
-
-    try {
-        while (rs.next()) {
-            EntregaDotacion entrega = new EntregaDotacion();
-            entrega.setIdEntrega(rs.getString("id_entrega"));
-            entrega.setIdPersona(rs.getString("id_persona"));
-            entrega.setFechaEntrega(rs.getString("fechaEntrega"));
-            entrega.setTipoEntrega(rs.getString("tipoEntrega"));
-            entrega.setNumeroEntrega(rs.getString("numero_entrega"));
-            entrega.setResponsable(rs.getString("responsable"));
-            entrega.setObservacion(rs.getString("observacion"));
-
-            DetalleEntrega detalle = new DetalleEntrega();
-            detalle.setIdDetalleEntrega(rs.getString("id_detalle_entrega"));
-            detalle.setIdEntrega(rs.getString("id_entrega"));
-            detalle.setIdPrenda(rs.getString("id_prenda"));
-            detalle.setTalla(rs.getString("talla"));
-            detalle.setEstado(rs.getString("estado"));
-            detalle.setUnidadNegocio(rs.getString("unidad_negocio"));
-
-            detalle.setEntrega(entrega);
-            lista.add(detalle);
+        if (anio != null && !anio.isEmpty()) {
+            sql += "AND ed.fechaEntrega LIKE '" + anio + "%' ";
         }
-        rs.close();
-    } catch (Exception ex) {
-        System.out.println("Error en getDetallesFiltrados(): " + ex.getMessage());
-    }
+        if (unidad != null && !unidad.isEmpty()) {
+            sql += "AND de.unidad_negocio LIKE '%" + unidad + "%' ";
+        }
+        if (estado != null && !estado.isEmpty()) {
+            sql += "AND de.estado = '" + estado + "' ";
+        }
+        if (tipoEntrega != null && !tipoEntrega.isEmpty()) {
+            sql += "AND ed.tipoEntrega LIKE '%" + tipoEntrega + "%' ";
+        }
 
-    return lista;
-}
+        ResultSet rs = ConectorBD.consultar(sql);
+
+        try {
+            while (rs.next()) {
+                EntregaDotacion entrega = new EntregaDotacion();
+                entrega.setIdEntrega(rs.getString("id_entrega"));
+                entrega.setIdPersona(rs.getString("id_persona"));
+                entrega.setFechaEntrega(rs.getString("fechaEntrega"));
+                entrega.setTipoEntrega(rs.getString("tipoEntrega"));
+                entrega.setNumeroEntrega(rs.getString("numero_entrega"));
+                entrega.setResponsable(rs.getString("responsable"));
+                entrega.setObservacion(rs.getString("observacion"));
+
+                DetalleEntrega detalle = new DetalleEntrega();
+                detalle.setIdDetalleEntrega(rs.getString("id_detalle_entrega"));
+                detalle.setIdEntrega(rs.getString("id_entrega"));
+                detalle.setIdPrenda(rs.getString("id_prenda"));
+                detalle.setTalla(rs.getString("talla"));
+                detalle.setEstado(rs.getString("estado"));
+                detalle.setUnidadNegocio(rs.getString("unidad_negocio"));
+
+                detalle.setEntrega(entrega);
+                lista.add(detalle);
+            }
+            rs.close();
+        } catch (Exception ex) {
+            System.out.println("Error en getDetallesFiltrados(): " + ex.getMessage());
+        }
+
+        return lista;
+    }
 
 }
