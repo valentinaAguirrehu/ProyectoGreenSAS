@@ -81,7 +81,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Documentos SAGRILAFT</td>
+                            <td>SAGRILAFT</td>
                             <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SGRILAFTotros'" 
