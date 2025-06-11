@@ -10,8 +10,6 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.util.List"%>
 
-
-
 <%
 
     String accion = request.getParameter("accion");
