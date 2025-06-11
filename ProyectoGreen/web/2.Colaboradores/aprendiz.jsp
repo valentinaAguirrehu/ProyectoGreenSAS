@@ -102,7 +102,7 @@
         document.location = "aprendizDetalles.jsp?identificacion=" + identificacion;
     }
     function verHistoriaLaboral(identificacion) {
-        window.location.href = "historiaLaboralAprendiz.jsp?identificacion=" + identificacion;
+        window.location.href = "../3.HistoriaLaboral/historiaLaboralAprendiz.jsp?identificacion=" + identificacion;
     }
     function verRetirados(identificacion) {
         window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;

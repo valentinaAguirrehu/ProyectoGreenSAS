@@ -101,7 +101,7 @@
         document.location = "temporalesDetalle.jsp?identificacion=" + identificacion;
     }
     function verHistoriaLaboral(identificacion) {
-        window.location.href = "historiaLaboral.jsp?identificacion=" + identificacion;
+        window.location.href = "../3.HistoriaLaboral/historiaLaboral.jsp?identificacion=" + identificacion;
     }
 
     function verRetirados(identificacion) {

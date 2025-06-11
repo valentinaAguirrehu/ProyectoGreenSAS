@@ -109,7 +109,7 @@
     }
 
     function historiaLaboralGreen(identificacion) {
-        window.location.href = "historiaLaboralRetirado.jsp?identificacion=" + identificacion;
+        window.location.href = "../3.HistoriaLaboral/historiaLaboralRetirado.jsp?identificacion=" + identificacion;
     }
 
     function cambiarATemporal(identificacion) {

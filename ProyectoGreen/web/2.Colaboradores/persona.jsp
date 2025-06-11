@@ -107,7 +107,7 @@
         document.location = "personaDetalles.jsp?identificacion=" + identificacion;
     }
     function historiaLaboralGreen(identificacion) {
-        window.location.href = "historiaLaboralGreen.jsp?identificacion=" + identificacion;
+        window.location.href = "../3.HistoriaLaboral/historiaLaboralGreen.jsp?identificacion=" + identificacion;
     }
 
     function verRetirados(identificacion) {
