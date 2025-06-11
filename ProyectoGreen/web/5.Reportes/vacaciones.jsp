@@ -132,13 +132,13 @@
 
     <table border="1" class="table" style="margin-top:20px; width:100%; font-size: 14px;">
         <tr style="background-color: #e0e0e0;">
-            <th>Identificación</th>
+            <th>Identificaci n</th>
             <th>Nombre completo</th>
             <th>Cargo</th>
             <th>Establecimiento</th>
             <th>Unidad de negocio</th>
             <th>Fecha ingreso</th>
-            <th>Días acumulados restantes</th>
+            <th>D as acumulados restantes</th>
         </tr>
 
         <%
@@ -181,7 +181,7 @@
             <td><%= info.getUnidadNegocio() != null ? info.getUnidadNegocio() : "-" %></td>
             <td><%= info.getEstablecimiento() != null ? info.getEstablecimiento() : "-" %></td>
             <td><%= info.getFechaIngreso() %></td>
-            <td><%= diasRestantes >= 0 ? diasRestantes : "Error cálculo" %></td>
+            <td><%= diasRestantes >= 0 ? diasRestantes : "Error c lculo" %></td>
         </tr>
         <%
             }

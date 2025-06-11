@@ -32,9 +32,9 @@
                 <a href="../9.ManualUso/manualUso.jsp" style="text-decoration: none;">
                     <div class="quad">Manual de Uso</div>
                 </a>
-                <a href="../soporteTecnico.jsp" style="text-decoration: none;">
+<!--                <a href="../soporteTecnico.jsp" style="text-decoration: none;">
                     <div class="quad">Soporte Técnico</div>
-                </a>
+                </a>-->
             </div>
         </main>
 
