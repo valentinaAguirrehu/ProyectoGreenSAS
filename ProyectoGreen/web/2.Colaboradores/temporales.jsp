@@ -21,7 +21,7 @@
         String nombres = persona.getNombres();
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
-        String fechaIngreso = InformacionLaboral.getFechaIngresoPersona(persona.getIdentificacion());
+        String fechaIngresoTemporal = InformacionLaboral.getFechaIngresoTemporal(persona.getIdentificacion());
 
         lista += "<tr>";
         lista += "<td>" + tipoDocumento + "</td>";
@@ -31,7 +31,7 @@
         lista += "<td>" + cargo + "</td>";
 //        lista += "<td>" + establecimiento + "</td>";
 //        lista += "<td>" + unidadNegocio + "</td>";
-        lista += "<td>" + fechaIngreso + "</td>";
+        lista += "<td>" + fechaIngresoTemporal + "</td>";
         lista += "<td>";
         lista += "<img src='../presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboral(" + persona.getIdentificacion() + ")'>";
         lista += "<a href='temporalesFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
@@ -62,7 +62,7 @@
                 <option value="cargo">Cargo</option>
                 <option value="establecimiento">Establecimiento</option>
                 <option value="unidadNegocio">Unidad de negocio</option>
-                <option value="fechaIngreso">Fecha de Ingreso</option>
+                <option value="fechaIngresoTemporal">Fecha de Ingreso Temporal</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
             <img src="../presentacion/iconos/lupa.png" alt="Buscar">
@@ -78,7 +78,7 @@
             <!--<th>Cargo</th>-->
             <!--<th>Establecimiento</th>-->
             <th>Unidad de negocio</th>
-            <th>Fecha de ingreso</th>
+            <th>Fecha de ingreso temporal</th>
             <th>
                 <a href="temporalesFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
                     <img src="../presentacion/iconos/agregar.png" width='30' height='30'>
@@ -135,7 +135,7 @@
             case "unidadNegocio":
                 columnIndex = 6;
                 break;
-            case "fechaIngreso":
+            case "fechaIngresoTemporal":
                 columnIndex = 7;
                 break;
             default:

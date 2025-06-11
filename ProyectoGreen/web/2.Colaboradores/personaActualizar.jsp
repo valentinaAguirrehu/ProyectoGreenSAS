@@ -27,7 +27,7 @@
     // Crear objeto persona y asignar valores del formulario
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
-//     if (persona.existeIdentificacion(persona.getIdentificacion())) {
+//    if (persona.existeIdentificacion(persona.getIdentificacion())) {
 //    request.setAttribute("errorIdentificacion", "Ya existe una persona con esa identificación.");
 //    request.getRequestDispatcher("personaFormulario.jsp").forward(request, response);
 //    return;
