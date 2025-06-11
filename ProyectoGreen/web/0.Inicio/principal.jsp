@@ -37,6 +37,11 @@
                 </a>
             </div>
         </main>
+<!--
+<a href="../soporteTecnico.jsp" style="text-decoration: none;">
+    <div class="quad">Soporte Técnico</div>
+</a>
+-->
 
     </body>
 </html>

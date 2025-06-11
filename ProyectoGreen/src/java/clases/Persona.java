@@ -499,10 +499,10 @@ public class Persona {
 
     public boolean grabar() {
         // 1. Validar si ya existe la identificación
-        /* if (Persona.existeIdentificacion(identificacion)) {
+        if (Persona.existeIdentificacion(identificacion)) {
             System.out.println("Error: Ya existe una persona con la identificación " + identificacion);
             return false;
-        }*/
+        }
         String cadenaSQL = "INSERT INTO persona ("
                 + "identificacion, tipo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
                 + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
@@ -664,7 +664,7 @@ public class Persona {
 
     public static List<Persona> getListaEnObjetos(String filtro, String orden) throws SQLException {
         List<Persona> lista = new ArrayList<>();
-        try ( ResultSet datos = Persona.getLista(filtro, orden)) {
+        try (ResultSet datos = Persona.getLista(filtro, orden)) {
             if (datos != null) {
                 while (datos.next()) {
                     Persona persona = new Persona();
@@ -696,7 +696,7 @@ public class Persona {
                             + "WHERE ph.identificacionPersona = '" + persona.getIdentificacion() + "'";
 
                     List<Hijo> listaHijos = new ArrayList<>();
-                    try ( ResultSet datosHijos = ConectorBD.consultar(sqlHijos)) {
+                    try (ResultSet datosHijos = ConectorBD.consultar(sqlHijos)) {
                         if (datosHijos != null) {
                             while (datosHijos.next()) {
                                 Hijo hijo = new Hijo();
@@ -721,7 +721,7 @@ public class Persona {
 
     public static List<String[]> getListaEnArreglosJS(String filtro, String orden) throws SQLException {
         List<String[]> lista = new ArrayList<>();
-        try ( ResultSet datos = Persona.getLista(filtro, orden)) {
+        try (ResultSet datos = Persona.getLista(filtro, orden)) {
             if (datos != null) {
                 while (datos.next()) {
                     String[] persona = new String[]{
@@ -768,18 +768,18 @@ public class Persona {
             return "Fecha inválida";
         }
     }
-
     public static String getNombrePorId(String idPersona) {
-        String nombreCompleto = "No encontrado";
-        String sql = "SELECT nombres, apellidos FROM persona WHERE identificacion = '" + idPersona + "'";
-        try {
-            ResultSet rs = ConectorBD.consultar(sql);
-            if (rs != null && rs.next()) {
-                nombreCompleto = rs.getString("nombres") + " " + rs.getString("apellidos");
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al obtener el nombre: " + ex.getMessage());
+    String nombreCompleto = "No encontrado";
+    String sql = "SELECT nombres, apellidos FROM persona WHERE identificacion = '" + idPersona + "'";
+    try {
+        ResultSet rs = ConectorBD.consultar(sql);
+        if (rs != null && rs.next()) {
+            nombreCompleto = rs.getString("nombres") + " " + rs.getString("apellidos");
         }
-        return nombreCompleto;
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener el nombre: " + ex.getMessage());
     }
+    return nombreCompleto;
+}
+    
 }
