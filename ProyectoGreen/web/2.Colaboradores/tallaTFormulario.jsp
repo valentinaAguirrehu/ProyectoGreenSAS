@@ -10,8 +10,8 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<link rel="stylesheet" href="presentacion/style-PersonaFormulario.css">
-<link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
+<link rel="stylesheet" href="../presentacion/style-PersonaFormulario.css">
+<link rel="stylesheet" href="../presentacion/style-FormularioColaboradores.css">
 
 <%
     String accion = request.getParameter("accion");

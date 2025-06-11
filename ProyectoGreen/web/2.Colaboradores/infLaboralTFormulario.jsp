@@ -57,7 +57,7 @@
 <%@ include file="../menu.jsp" %>
 
 <head>
-    <link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
+    <link rel="stylesheet" href="../presentacion/style-FormularioColaboradores.css">
 </head>
 <body>
 

@@ -11,7 +11,6 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="presentacion/style-PersonaFormulario.css">
 
 <%
 
@@ -48,9 +47,10 @@
 
 %>
 
-<%@ include file="menu.jsp" %>
+<%@ include file="../menu.jsp" %>
 
-<link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
+<link rel="stylesheet" href="../presentacion/style-FormularioColaboradores.css">
+<link rel="stylesheet" href="../presentacion/style-PersonaFormulario.css">
 </head>
 <body>
     <div class="content">

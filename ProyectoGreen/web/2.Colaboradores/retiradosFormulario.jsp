@@ -52,10 +52,10 @@
     String textoBoton = accion.equals("Modificar") ? "Modificar" : "Aceptar";
 %>
 
-<%@ include file="menu.jsp" %>
+<%@ include file="../menu.jsp" %>
 
 <head>
-    <link rel="stylesheet" href="presentacion/style-RetiradosFormulario.css">
+    <link rel="stylesheet" href="../presentacion/style-RetiradosFormulario.css">
 </head>
 <body>
     <div class="content">

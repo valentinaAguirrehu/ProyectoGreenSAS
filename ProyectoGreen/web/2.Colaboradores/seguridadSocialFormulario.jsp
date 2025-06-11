@@ -15,8 +15,8 @@
     <head>
         <meta charset="UTF-8" />
         <title>Formulario Seguridad Social</title>
-        <link rel="stylesheet" href="presentacion/style-PersonaFormulario.css" />
-        <link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css" />
+        <link rel="stylesheet" href="../presentacion/style-PersonaFormulario.css" />
+        <link rel="stylesheet" href="../presentacion/style-FormularioColaboradores.css" />
     </head>
     <body>
         <%
@@ -42,7 +42,7 @@
             }
         %>
 
-        <%@ include file="menu.jsp" %>
+        <%@ include file="../menu.jsp" %>
 
         <div class="content"> 
             <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
