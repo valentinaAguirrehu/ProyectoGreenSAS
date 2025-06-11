@@ -245,8 +245,8 @@
             break;
 
         //TEMPORALES
-        case "TemporalesContra":
-            titulo = "INDUCCIÓN GESTION HUMANA E INDUCCIÓN A EL CARGO";
+      case "TemporalesContra":
+            titulo = "INDUCCIÓN GESTION HUMANA E INDUCCIÓN AL CARGO";
             break;
 
         case "incidentesTemporales":
@@ -264,6 +264,9 @@
             break;
         case "reubicacionTemporal":
             titulo = "ACTA DE REUBICACIÓN DE CARGO";
+            break;
+            case "  ProcesoTemporal":
+            titulo = "PROCESOS DISCIPLINARIOS";
             break;
 
         //APRENDIZ
