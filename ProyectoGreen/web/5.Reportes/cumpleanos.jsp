@@ -176,7 +176,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%= cumpleaneros.isEmpty() ? "<tr><td colspan='7' align='center'><b>No hay cumpleañeros este mes</b></td></tr>" : lista.toString()%>
+                    <%= cumpleaneros.isEmpty() ? "<tr><td colspan='8' align='center'><b>No hay cumpleañeros este mes</b></td></tr>" : lista.toString()%>
                 </tbody>
             </table>
 
