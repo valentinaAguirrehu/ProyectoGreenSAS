@@ -1,9 +1,3 @@
-<%-- 
-    Document   : temporales
-    Created on : 8/03/2025, 02:18:59 PM
-    Author     : Mary
---%>
-
 <%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
@@ -21,8 +15,9 @@
     List<Persona> datos = Persona.getListaEnObjetos("tipo = 'T'", null);
 
     for (Persona persona : datos) {
-        String tipoDocumento = persona.getTipoDocumento();
+
         String identificacion = persona.getIdentificacion();
+        String tipoDocumento = persona.getTipoDocumento().toString();
         String nombres = persona.getNombres();
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
@@ -38,10 +33,10 @@
 //        lista += "<td>" + unidadNegocio + "</td>";
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
-         lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
         lista += "<img src='../presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboral(" + persona.getIdentificacion() + ")'>";
         lista += "<a href='temporalesFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
         lista += "<img class='editar' src='../presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
+        lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
         lista += "<img  class='eliminar' src='../presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
         lista += "<img class='subir' src='../presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         lista += "<img class='subir' src='../presentacion/iconos/cambiarTipo.png' title='Pasar a colaborador' onClick='cambiarAColaborador(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
@@ -67,7 +62,7 @@
                 <option value="cargo">Cargo</option>
                 <option value="establecimiento">Establecimiento</option>
                 <option value="unidadNegocio">Unidad de negocio</option>
-                <option value="fechaIngreso">Fecha de ingreso</option>
+                <option value="fechaIngreso">Fecha de Ingreso</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
             <img src="../presentacion/iconos/lupa.png" alt="Buscar">
@@ -106,7 +101,7 @@
         document.location = "temporalesDetalle.jsp?identificacion=" + identificacion;
     }
     function verHistoriaLaboral(identificacion) {
-        window.location.href = "../3.HistoriaLaboral/historiaLaboral.jsp?identificacion=" + identificacion;
+        window.location.href = "historiaLaboral.jsp?identificacion=" + identificacion;
     }
 
     function verRetirados(identificacion) {
@@ -169,7 +164,7 @@
 
 
     function cambiarAColaborador(identificacion) {
-        var confirmar = confirm("¿Desea cambiar a esta persona como colaborador de GREEN S.A.S?");
+        var confirmar = confirm("¿Desea cambiar el tipo de esta persona a 'C' (Colaborador)?");
         if (confirmar) {
             window.location.href = "temporalesActualizar.jsp?accion=CambiarTipo&identificacionAnterior=" + identificacion;
         }

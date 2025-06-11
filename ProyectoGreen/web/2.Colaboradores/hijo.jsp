@@ -29,7 +29,7 @@
         <th>Identificación</th>
         <th>Nombres</th>
         <th>Apellidos</th>
-        <th>Fecha de nacimiento</th>
+        <th>Fecha de Nacimiento</th>
         <th>Acciones</th>
     </tr>
     <%= lista %>
@@ -51,5 +51,5 @@
 </script>
 
 <p>
-    <input type="button" value="Cancelar" onClick="window.history.back()">
+    <input type="button" value="Cancelar" onClick="window.history.back()">s
 </p>

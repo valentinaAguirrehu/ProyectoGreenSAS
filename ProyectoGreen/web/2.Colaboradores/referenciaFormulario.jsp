@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="presentacion/style-PersonaFormulario.css">
 
 <%
-String accion = request.getParameter("accion");
+    String accion = request.getParameter("accion");
     // Recuperar la identificación desde la URL o el formulario anterior
     String identificacion = request.getParameter("identificacion");
     // Instancia vacía con la identificación por si no se encuentra en BD
@@ -40,17 +40,25 @@ String accion = request.getParameter("accion");
     }
 
 %>
+<%    int referenciasConDatos = 0;
+    if (referencia.getTerceraRefNombre() != null && !referencia.getTerceraRefNombre().trim().isEmpty()) {
+        referenciasConDatos++;
+    }
+    if (referencia.getCuartaRefNombre() != null && !referencia.getCuartaRefNombre().trim().isEmpty()) {
+        referenciasConDatos++;
+    }
+%>
+
 
 <%@ include file="menu.jsp" %>
 
-<head>
-    <link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
+<link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
 </head>
 <body>
     <div class="content"> 
         <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
         <form name="formulario" method="post" action="referenciaActualizar.jsp" onsubmit="obtenerDatosHijos()">
-            <h1>Seguridad Social</h1>
+            <h1>Referencias familiares</h1>
             <table border="1">
 
                 <tr>
@@ -144,17 +152,15 @@ String accion = request.getParameter("accion");
             <div class="botones-container">
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
-                <input type="button" value="Cancelar" onClick="window.history.back()">
+                <input type="button" value="Regresar" onClick="window.history.back()" />
+                <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
             </div>
 
             <input type="hidden" id="identificacionHidden" name="identificacionHidden">
             <button type="button" onclick="irASiguiente()">Siguiente: Información Vehiculo</button>
         </form>
-    </div>
 </body>
 </html>
-
-
 </div>
 <script>
     function irASiguiente() {
@@ -166,35 +172,65 @@ String accion = request.getParameter("accion");
         window.location.href = "vehiculoFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible) + "&accion=" + encodeURIComponent(accion);
     }
 
-    let referenciaCount = 0;  // Inicializamos la variable fuera de cualquier función para que conserve su valor.
+    let referenciaCount = <%= referenciasConDatos%>;
+
+    // Mostrar las referencias con datos al cargar la página
+    window.onload = function () {
+        for (let i = 1; i <= referenciaCount; i++) {
+            document.querySelectorAll(".referencia" + i).forEach(el => el.style.display = "table-row");
+        }
+        // Si ya hay 4 referencias, deshabilita el botón de añadir
+        if (referenciaCount >= 4) {
+            document.querySelector('.submit').disabled = true;
+        }
+    };
 
     function agregarReferencia() {
-        if (referenciaCount < 4) {  // Limitar el número de contactos a 4
+        // Obtener los valores del primer y segundo contacto
+        const p1Nombre = document.querySelector("input[name='primerRefNombre']").value.trim();
+        const p1Parentesco = document.querySelector("input[name='primerRefParentezco']").value.trim();
+        const p1Celular = document.querySelector("input[name='primerRefCelular']").value.trim();
+
+        const p2Nombre = document.querySelector("input[name='segundaRefNombre']").value.trim();
+        const p2Parentesco = document.querySelector("input[name='segundaRefParentezco']").value.trim();
+        const p2Celular = document.querySelector("input[name='segundaRefCelular']").value.trim();
+
+        // Validar que el primer y segundo contacto estén llenos
+        const primerCompleto = p1Nombre !== "" && p1Parentesco !== "" && p1Celular.length === 10;
+        const segundoCompleto = p2Nombre !== "" && p2Parentesco !== "" && p2Celular.length === 10;
+
+        if (!primerCompleto || !segundoCompleto) {
+            alert("Por favor diligencia completamente el primer y segundo contacto antes de añadir más.");
+            return;
+        }
+
+        // Mostrar progresivamente el tercer y cuarto contacto
+        if (referenciaCount < 2) {
             referenciaCount++;
             document.querySelectorAll(".referencia" + referenciaCount).forEach(el => el.style.display = "table-row");
+        }
 
-            // Deshabilitar el botón si se alcanzan 4 referencias
-            if (referenciaCount >= 4) {
-                document.querySelector('.submit').disabled = true;
-            }
-        } else {
-            alert("Se ha alcanzado el límite máximo de contactos.");
+        // Ocultar el botón si ya se añadieron ambos adicionales
+        if (referenciaCount >= 2) {
+            document.querySelector("button[onclick='agregarReferencia()']").style.display = "none";
         }
     }
 
     function eliminarReferencia(ref) {
-        document.querySelectorAll(".referencia" + ref).forEach(el => el.style.display = "none");
-        if (referenciaCount === ref) {
-            referenciaCount--;
-        }
+        document.querySelectorAll(".referencia" + ref).forEach(el => {
+            el.style.display = "none";
+            el.querySelectorAll("input").forEach(input => input.value = ""); // Limpia los campos
+        });
 
-        // Rehabilitar el botón si se eliminan contactos
-        if (referenciaCount < 4) {
-            document.querySelector('.submit').disabled = false;
+        if (referenciaCount === ref)
+            referenciaCount--;
+
+        if (referenciaCount < 2) {
+            document.querySelector("button[onclick='agregarReferencia()']").style.display = "inline-block";
         }
     }
 
 
-</script>
 
+</script>
 

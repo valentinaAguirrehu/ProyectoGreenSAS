@@ -17,21 +17,21 @@
 
     SeguridadSocial seguridadSocial = new SeguridadSocial();
     seguridadSocial.setIdentificacion(request.getParameter("identificacion"));
-    seguridadSocial.setEps(request.getParameter("eps"));
-    seguridadSocial.setArl(request.getParameter("arl"));
-    seguridadSocial.setFondoPensiones(request.getParameter("fondoPensiones"));
-    seguridadSocial.setFondoCesantias(request.getParameter("fondoCesantias"));
+    seguridadSocial.setEps(request.getParameter("epsFinal"));
+    seguridadSocial.setArl(request.getParameter("arlFinal"));
+    seguridadSocial.setFondoPensiones(request.getParameter("fondoPensionesFinal"));
+    seguridadSocial.setFondoCesantias(request.getParameter("fondoCesantiasFinal"));
 
     switch (accion) {
         case "Adicionar":
-            // Solo si no existe, lo graba y redirige
+            // Solo si no existe, lo graba y redirige al formulario para continuar llenando
             if (seguridadSocial.getSeguridadSocialPorIdentificacion(seguridadSocial.getIdentificacion()) == null) {
                 seguridadSocial.grabar();
 
-                // Redirige inmediatamente después de guardar
+                // Redirige al formulario después de guardar
                 String id = seguridadSocial.getIdentificacion();
                 response.sendRedirect("referenciaFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
-                return;
+                return; // Importante para evitar que siga ejecutando el resto del JSP
             } else {
                 out.println("<p>Error: La identificación ya existe en la base de datos.</p>");
             }
@@ -39,16 +39,22 @@
 
         case "Modificar":
             seguridadSocial.modificar(identificacionAnterior);
-            break;
 
-        case "Eliminar":
-            seguridadSocial.eliminar();
-            break;
+            // Redirige al formulario manteniéndose en la vista
+            response.sendRedirect("referenciaFormulario.jsp?identificacion=" + seguridadSocial.getIdentificacion() + "&accion=Modificar");
+            return; // Esto termina la ejecución del JSP aquí
+        // break eliminado porque ya no es necesario (ni válido)
+
+      case "Cancelar":
+        response.sendRedirect("persona.jsp");
+        return;
     }
+
 %>
+
 
 <script type="text/javascript">
     // Esto se ejecuta solo si no hubo redirección
-    document.location = "persona.jsp"; 
+    document.location = "persona.jsp";
 //    aqui cambiar para que siga el modificar
 </script>

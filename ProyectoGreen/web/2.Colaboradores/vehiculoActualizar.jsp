@@ -24,7 +24,7 @@
     
     vehiculo.setTieneVehiculo(request.getParameter("tieneVehiculo"));
     vehiculo.setNumeroPlacaVehiculo(request.getParameter("numeroPlacaVehiculo"));
-    vehiculo.setTipoVehiculo(request.getParameter("tipoVehiculo"));
+    vehiculo.setTipoVehiculo(request.getParameter("tipoVehiculoFinal"));
     vehiculo.setModeloVehiculo(request.getParameter("modeloVehiculo"));
     vehiculo.setLinea(request.getParameter("linea"));
     vehiculo.setMarca(request.getParameter("marca"));
@@ -55,7 +55,11 @@
         case "Modificar":
             // Si la persona ya existe, proceder con la modificación
             vehiculo.modificar(identificacionAnterior); // Llama al método de modificar
-            break;
+       // Redirige al formulario manteniéndose en la vista
+            response.sendRedirect("infLaboralFormulario.jsp?identificacion=" + vehiculo.getIdentificacion() + "&accion=Modificar");
+            return; // Esto termina la ejecución del JSP aquí
+        // break eliminado porque ya no es necesario (ni válido)
+
 
         case "Eliminar":
             // Llama al método de eliminar

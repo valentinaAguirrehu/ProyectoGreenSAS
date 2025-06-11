@@ -28,12 +28,12 @@
         <br>
 <!-- Seccion de familiares -->
 <div id="familiaresSection" style="<%= hijos.isEmpty() ? "display: none;" : "display: block;" %>">
-    <h4>Información de Hijos</h4>
+    <h4>Información de los hijos</h4>
     <table border="0" id="tablaHijos">
         <tr>
             <th>Nombre del hijo</th>
             <th>Fecha de nacimiento</th>
-            <th>Acción</th>
+            <th>Acción</th> 
         </tr>
         <% for (Hijo hijo : hijos) { %>
             <tr>

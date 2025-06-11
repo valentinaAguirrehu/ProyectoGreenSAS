@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.*;
 
 /**
  *
@@ -30,7 +30,6 @@ public class Persona {
 
     private String identificacion;
     private String tipo;
-    private String idCargo;
     private String tipoDocumento;
     private String fechaExpedicion;
     private String lugarExpedicion;
@@ -50,6 +49,8 @@ public class Persona {
     private List<Hijo> hijos = new ArrayList<>();
     private String idDepartamento;  // Campo virtual
     private String idMunicipio;    // Campo virtual
+    private String nivelEdu;
+    private String profesion;
     private String cuentaBancaria;
     private String numeroCuenta;
 
@@ -65,7 +66,6 @@ public class Persona {
                 this.hijos = new ArrayList<>();
 
                 tipo = resultado.getString("tipo");
-                idCargo = resultado.getString("idCargo");
                 tipoDocumento = resultado.getString("tipoDocumento");
                 fechaExpedicion = resultado.getString("fechaExpedicion");
                 lugarExpedicion = resultado.getString("lugarExpedicion");
@@ -81,6 +81,8 @@ public class Persona {
                 celular = resultado.getString("celular");
                 email = resultado.getString("email");
                 estadoCivil = resultado.getString("estadoCivil");
+                nivelEdu = resultado.getString("nivelEdu");
+                profesion = resultado.getString("profesion");
                 cuentaBancaria = resultado.getString("cuentaBancaria");
                 numeroCuenta = resultado.getString("numeroCuenta");
                 tieneHijos = resultado.getString("tieneHijos");
@@ -126,24 +128,15 @@ public class Persona {
         this.tipo = tipo;
     }
 
-    public String getIdCargo() {
-        String resultado = idCargo;
-        if (idCargo == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setIdCargo(String idCargo) {
-        this.idCargo = idCargo;
-    }
-
-    public String getTipoDocumento() {
-        String resultado = tipoDocumento;
-        if (tipoDocumento == null) {
-            resultado = "";
-        }
-        return resultado;
+//    public String getTipoDocumento() {
+//        String resultado = tipoDocumento;
+//        if (tipoDocumento == null) {
+//            resultado = "";
+//        }
+//        return resultado;
+//    }
+    public TipoDocumento getTipoDocumento() {
+        return new TipoDocumento(tipoDocumento);
     }
 
     public void setTipoDocumento(String tipoDocumento) {
@@ -322,9 +315,36 @@ public class Persona {
         this.estadoCivil = estadoCivil;
     }
 
-    public String getCuentaBancaria() {
+    public String getNivelEdu() {
+        String resultado = nivelEdu;
+        if (nivelEdu == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
 
-        return cuentaBancaria;
+    public void setNivelEdu(String nivelEdu) {
+        this.nivelEdu = nivelEdu;
+    }
+
+    public String getProfesion() {
+        String resultado = profesion;
+        if (profesion == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
+    }
+
+    public String getCuentaBancaria() {
+        String resultado = cuentaBancaria;
+        if (cuentaBancaria == null) {
+            resultado = "";
+        }
+        return resultado;
     }
 
     public void setCuentaBancaria(String cuentaBancaria) {
@@ -459,15 +479,38 @@ public class Persona {
         this.idMunicipio = idMunicipioNacimiento;
     }
 
+    public static boolean existeIdentificacion(String identificacion) {
+        String sql = "SELECT 1 FROM persona WHERE identificacion = '" + identificacion + "' LIMIT 1";
+        ResultSet rs = ConectorBD.consultar(sql);
+        try {
+            return rs != null && rs.next(); // Devuelve true si existe
+        } catch (SQLException e) {
+            System.out.println("Error al verificar existencia de identificación: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar ResultSet: " + e.getMessage());
+            }
+        }
+        return false;
+    }
+
     public boolean grabar() {
+        // 1. Validar si ya existe la identificación
+        if (Persona.existeIdentificacion(identificacion)) {
+            System.out.println("Error: Ya existe una persona con la identificación " + identificacion);
+            return false;
+        }
         String cadenaSQL = "INSERT INTO persona ("
-                + "identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
+                + "identificacion, tipo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
                 + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
                 + "tipoVivienda, direccion, barrio, celular, email, estadoCivil, tieneHijos, "
-                + "cuentaBancaria, numeroCuenta) VALUES ('"
+                + "cuentaBancaria, nivelEdu, profesion, numeroCuenta) VALUES ('"
                 + identificacion + "', '"
-                + tipo + "', "
-                + (idCargo != null ? "'" + idCargo + "'" : "NULL") + ", '"
+                + tipo + "', '"
                 + tipoDocumento + "', "
                 + (fechaExpedicion != null && !fechaExpedicion.isEmpty() ? "'" + fechaExpedicion + "'" : "NULL") + ", '"
                 + lugarExpedicion + "', '"
@@ -483,9 +526,11 @@ public class Persona {
                 + celular + "', '"
                 + email + "', "
                 + (estadoCivil != null && !estadoCivil.isEmpty() ? "'" + estadoCivil + "'" : "NULL") + ", "
-                + (tieneHijos != null && !tieneHijos.isEmpty() ? "'" + tieneHijos + "'" : "NULL") + ", '"
-                + (cuentaBancaria != null && !cuentaBancaria.isEmpty() ? cuentaBancaria : "NULL") + "', "
-                + (numeroCuenta != null && !numeroCuenta.isEmpty() ? numeroCuenta : "NULL")
+                + (tieneHijos != null && !tieneHijos.isEmpty() ? "'" + tieneHijos + "'" : "NULL") + ", "
+                + (cuentaBancaria != null && !cuentaBancaria.isEmpty() ? "'" + cuentaBancaria + "'" : "NULL") + ", "
+                + (nivelEdu != null && !nivelEdu.isEmpty() ? "'" + nivelEdu + "'" : "NULL") + ", "
+                + (profesion != null && !profesion.isEmpty() ? "'" + profesion + "'" : "NULL") + ", "
+                + (numeroCuenta != null && !numeroCuenta.isEmpty() ? "'" + numeroCuenta + "'" : "NULL")
                 + ");";
 
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
@@ -525,7 +570,6 @@ public class Persona {
         String cadenaSQL = "UPDATE persona SET "
                 + "identificacion='" + identificacion + "', "
                 + "tipo=" + (tipo != null ? "'" + tipo + "'" : "NULL") + ", "
-                + "idCargo=" + (idCargo != null ? "'" + idCargo + "'" : "NULL") + ", "
                 + "tipoDocumento=" + (tipoDocumento != null ? "'" + tipoDocumento + "'" : "NULL") + ", "
                 + "fechaExpedicion=" + (fechaExpedicion != null ? "'" + fechaExpedicion + "'" : "NULL") + ", "
                 + "lugarExpedicion=" + (lugarExpedicion != null ? "'" + lugarExpedicion + "'" : "NULL") + ", "
@@ -541,6 +585,8 @@ public class Persona {
                 + "celular=" + (celular != null ? "'" + celular + "'" : "NULL") + ", "
                 + "email=" + (email != null ? "'" + email + "'" : "NULL") + ", "
                 + "estadoCivil=" + (estadoCivil != null ? "'" + estadoCivil + "'" : "NULL") + ", "
+                + "nivelEdu=" + (nivelEdu != null ? "'" + nivelEdu + "'" : "NULL") + ", "
+                + "profesion=" + (profesion != null ? "'" + profesion + "'" : "NULL") + ", "
                 + "cuentaBancaria=" + (cuentaBancaria != null ? "'" + cuentaBancaria + "'" : "NULL") + ", "
                 + "numeroCuenta=" + (numeroCuenta != null ? "'" + numeroCuenta + "'" : "NULL") + ", "
                 + "tieneHijos=" + (tieneHijos != null ? "'" + tieneHijos + "'" : "NULL") + " "
@@ -609,9 +655,9 @@ public class Persona {
             orden = " ";
         }
 
-        String cadenaSQL = "SELECT identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, "
+        String cadenaSQL = "SELECT identificacion, tipo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, "
                 + "lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, celular, email, estadoCivil, tieneHijos, "
-                + " cuentaBancaria, numeroCuenta FROM persona " + filtro + orden;
+                + " cuentaBancaria, nivelEdu, profesion, numeroCuenta FROM persona " + filtro + orden;
 
         System.out.println("Ejecutando consultaPersona: " + cadenaSQL);
         return ConectorBD.consultar(cadenaSQL);
@@ -619,13 +665,12 @@ public class Persona {
 
     public static List<Persona> getListaEnObjetos(String filtro, String orden) throws SQLException {
         List<Persona> lista = new ArrayList<>();
-        try ( ResultSet datos = Persona.getLista(filtro, orden)) {
+        try (ResultSet datos = Persona.getLista(filtro, orden)) {
             if (datos != null) {
                 while (datos.next()) {
                     Persona persona = new Persona();
                     persona.setIdentificacion(datos.getString("identificacion"));
                     persona.setTipo(datos.getString("tipo"));
-                    persona.setIdCargo(datos.getString("idCargo"));
                     persona.setTipoDocumento(datos.getString("tipoDocumento"));
                     persona.setFechaExpedicion(datos.getString("fechaExpedicion"));
                     persona.setLugarExpedicion(datos.getString("lugarExpedicion"));
@@ -641,6 +686,8 @@ public class Persona {
                     persona.setCelular(datos.getString("celular"));
                     persona.setEmail(datos.getString("email"));
                     persona.setEstadoCivil(datos.getString("estadoCivil"));
+                    persona.setNivelEdu(datos.getString("nivelEdu"));
+                    persona.setProfesion(datos.getString("profesion"));
                     persona.setCuentaBancaria(datos.getString("cuentaBancaria"));
                     persona.setNumeroCuenta(datos.getString("numeroCuenta"));
                     persona.setTieneHijos(datos.getString("tieneHijos"));
@@ -650,7 +697,7 @@ public class Persona {
                             + "WHERE ph.identificacionPersona = '" + persona.getIdentificacion() + "'";
 
                     List<Hijo> listaHijos = new ArrayList<>();
-                    try ( ResultSet datosHijos = ConectorBD.consultar(sqlHijos)) {
+                    try (ResultSet datosHijos = ConectorBD.consultar(sqlHijos)) {
                         if (datosHijos != null) {
                             while (datosHijos.next()) {
                                 Hijo hijo = new Hijo();
@@ -675,13 +722,12 @@ public class Persona {
 
     public static List<String[]> getListaEnArreglosJS(String filtro, String orden) throws SQLException {
         List<String[]> lista = new ArrayList<>();
-        try ( ResultSet datos = Persona.getLista(filtro, orden)) {
+        try (ResultSet datos = Persona.getLista(filtro, orden)) {
             if (datos != null) {
                 while (datos.next()) {
                     String[] persona = new String[]{
                         datos.getString("identificacion"),
                         datos.getString("tipo"),
-                        datos.getString("idCargo"),
                         datos.getString("tipoDocumento"),
                         datos.getString("fechaExpedicion"),
                         datos.getString("lugarExpedicion"),
@@ -698,6 +744,8 @@ public class Persona {
                         datos.getString("email"),
                         datos.getString("estadoCivil"),
                         datos.getString("tieneHijos"),
+                        datos.getString("nivelEdu"),
+                        datos.getString("profesion"),
                         datos.getString("cuentaBancaria"),
                         datos.getString("numeroCuenta")
 
@@ -711,19 +759,14 @@ public class Persona {
         return lista;
     }
 
-public static String getNombrePorId(String idPersona) {
-    String nombreCompleto = "No encontrado";
-    String sql = "SELECT nombres, apellidos FROM persona WHERE identificacion = '" + idPersona + "'";
-    try {
-        ResultSet rs = ConectorBD.consultar(sql);
-        if (rs != null && rs.next()) {
-            nombreCompleto = rs.getString("nombres") + " " + rs.getString("apellidos");
+    public String calcularEdad() {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate fechaNac = LocalDate.parse(this.fechaNacimiento, formatter);
+            int edad = Period.between(fechaNac, LocalDate.now()).getYears();
+            return edad >= 0 ? edad + " años" : "Fecha inválida";
+        } catch (Exception e) {
+            return "Fecha inválida";
         }
-    } catch (SQLException ex) {
-        System.out.println("Error al obtener el nombre: " + ex.getMessage());
     }
-    return nombreCompleto;
-}
-
-
 }

@@ -1,5 +1,5 @@
 <%-- 
-    Document   : vehiculos
+    Document   : persona
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
@@ -32,15 +32,15 @@
 <h3>LISTA DE VEHÍCULOS</h3>
 <table border="1">
     <tr>
-        <th>Número de Placa</th>
-        <th>Tipo de vehículo</th>
-        <th>Modelo del Vehículo</th>
+        <th>Numero Placa</th>
+        <th>Tipo Vehiculo</th>
+        <th>Modelo Vehiculo</th>
         <th>Linea</th>
         <th>Año</th>
         <th>Color</th>
         <th>Cilindraje</th>
-        <th>Numero de la licencia de tránsito</th>
-        <th>Fecha de expedición de la licencia</th>
+        <th>Numero Licencia de Tránsito</th>
+        <th>Fecha Exp. Licencia</th>
         <th>Acciones</th>
     </tr>
     <%= lista %>

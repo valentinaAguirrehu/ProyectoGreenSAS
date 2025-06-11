@@ -5,6 +5,7 @@
 package clases;
 
 import clasesGenericas.ConectorBD;
+import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -198,12 +199,13 @@ public class Talla {
                 + identificacion + ", '"
                 + tallaCamisa + "', '"
                 + tallaChaqueta + "', '"
-                + tallaO + "', "
-                + tallaPantalon + ", "
-                + tallaCalzado + ", '"
+                + tallaO + "', '"
+                + tallaPantalon + "', '"
+                + tallaCalzado + "', '"
                 + tallaGuantes + "', '"
                 + tallaBuzo + "');";
 
+        out.println(cadenaSQL);
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
 
         if (!resultado) {
@@ -225,6 +227,7 @@ public class Talla {
                 + "tallaCamisa=" + (tallaCamisa != null ? "'" + tallaCamisa + "'" : "NULL") + ", "
                 + "tallaChaqueta=" + (tallaChaqueta != null ? "'" + tallaChaqueta + "'" : "NULL") + ", "
                 + "tallaO=" + (tallaO != null ? "'" + tallaO + "'" : "NULL") + ", "
+                // aquí quitamos las comillas para enteros
                 + "tallaPantalon=" + (tallaPantalon != null ? "'" + tallaPantalon + "'" : "NULL") + ", "
                 + "tallaCalzado=" + (tallaCalzado != null ? "'" + tallaCalzado + "'" : "NULL") + ", "
                 + "tallaGuantes=" + (tallaGuantes != null ? "'" + tallaGuantes + "'" : "NULL") + ", "
@@ -293,7 +296,7 @@ public class Talla {
         try {
             ResultSet rs = ConectorBD.consultar(sql);
             if (rs != null && rs.next()) {
-                talla = new Talla();               
+                talla = new Talla();
                 talla.setIdentificacion(rs.getString("identificacion"));
                 talla.setTallaCamisa(rs.getString("tallaCamisa"));
                 talla.setTallaChaqueta(rs.getString("tallaChaqueta"));

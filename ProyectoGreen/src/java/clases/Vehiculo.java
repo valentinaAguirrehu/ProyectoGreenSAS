@@ -48,18 +48,19 @@ public class Vehiculo {
     public Vehiculo() {
     }
 
-    public Vehiculo(String identificacion) {
+     public Vehiculo(String identificacion) {
+        this.identificacion = identificacion;
 
         String cadenaSQL = "SELECT identificacion, tieneVehiculo, "
                 + "numeroPlacaVehiculo, tipoVehiculo, modeloVehiculo, linea, marca, color, cilindraje, "
                 + "numLicenciaTransito, fechaExpLicenciaTransito, numLicenciaConduccion, "
                 + "fechaExpConduccion, fechaVencimiento, restricciones, titularTrjPro, estado "
                 + "FROM vehiculo WHERE identificacion = '" + identificacion + "'";
+
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
 
         try {
             if (resultado.next()) {
-                this.identificacion = identificacion;
                 this.tieneVehiculo = resultado.getString("tieneVehiculo");
                 this.numeroPlacaVehiculo = resultado.getString("numeroPlacaVehiculo");
                 this.tipoVehiculo = resultado.getString("tipoVehiculo");
@@ -76,8 +77,6 @@ public class Vehiculo {
                 this.restricciones = resultado.getString("restricciones");
                 this.titularTrjPro = resultado.getString("titularTrjPro");
                 this.estado = resultado.getString("estado");
-
-                // No estamos manejando hijos aquí, ya que son parte de la clase Persona, no Vehiculo
             }
         } catch (SQLException ex) {
             out.println("Ejecutando la consulta vehículo: " + cadenaSQL);
@@ -92,13 +91,6 @@ public class Vehiculo {
         }
     }
 
-//    public String getTipoVehiculo() {
-//        String resultado = tipoVehiculo;
-//        if (tipoVehiculo == null) {
-//            resultado = "";
-//        }
-//        return resultado;
-//    }
     public TipoVehiculo getTipoVehiculo() {
         return new TipoVehiculo(tipoVehiculo);
     }
@@ -178,7 +170,7 @@ public class Vehiculo {
     public String getFechaExpLicenciaTransito() {
         String resultado = fechaExpLicenciaTransito;
         if (fechaExpLicenciaTransito == null) {
-            resultado = null;
+            resultado = "";
         }
         return resultado;
     }
@@ -214,7 +206,7 @@ public class Vehiculo {
     public String getNumLicenciaConduccion() {
         String resultado = numLicenciaConduccion;
         if (numLicenciaConduccion == null) {
-            resultado = null;
+            resultado = "";
         }
         return resultado;
     }
@@ -226,7 +218,7 @@ public class Vehiculo {
     public String getFechaExpConduccion() {
         String resultado = fechaExpConduccion;
         if (fechaExpConduccion == null) {
-            resultado = null;
+            resultado = "";
         }
         return resultado;
     }
@@ -238,7 +230,7 @@ public class Vehiculo {
     public String getFechaVencimiento() {
         String resultado = fechaVencimiento;
         if (fechaVencimiento == null) {
-            resultado = null;
+            resultado = "";
         }
         return resultado;
     }
@@ -267,9 +259,6 @@ public class Vehiculo {
         return resultado;
     }
 
-//    public String getEstado() {
-//        return estado;
-//    }
     public EstadoV getEstadoV() {
         return new EstadoV(estado);
     }
@@ -296,7 +285,6 @@ public class Vehiculo {
 
     @Override
     public String toString() {
-
         String datos = "";
         if (identificacion != null) {
             datos = identificacion;
@@ -305,76 +293,68 @@ public class Vehiculo {
     }
 
     public boolean grabar() {
-        String cadenaSQL = "INSERT INTO vehiculo ("
-                + "identificacion, numeroPlacaVehiculo, tipoVehiculo, modeloVehiculo, linea, marca, color, cilindraje, "
-                + "numLicenciaTransito, fechaExpLicenciaTransito, numLicenciaConduccion, fechaExpConduccion, "
-                + "fechaVencimiento, restricciones, titularTrjPro, estado) VALUES ('"
-                + identificacion + "', '"
-                + (numeroPlacaVehiculo != null && !numeroPlacaVehiculo.isEmpty() ? numeroPlacaVehiculo : "NULL") + "', '"
-                + (tipoVehiculo != null && !tipoVehiculo.isEmpty() ? tipoVehiculo : "NULL") + "', '"
-                + (modeloVehiculo != null && !modeloVehiculo.isEmpty() ? modeloVehiculo : "NULL") + "', '"
-                + (linea != null && !linea.isEmpty() ? linea : "NULL") + "', '"
-                + (marca != null && !marca.isEmpty() ? marca : "NULL") + "', '"
-                + (color != null && !color.isEmpty() ? color : "NULL") + "', "
-                + (cilindraje != null && !cilindraje.isEmpty() ? cilindraje : "NULL") + ", '"
-                + (numLicenciaTransito != null && !numLicenciaTransito.isEmpty() ? numLicenciaTransito : "NULL") + "', '"
-                + (fechaExpLicenciaTransito != null && !fechaExpLicenciaTransito.isEmpty() ? fechaExpLicenciaTransito : "NULL") + "', '"
-                + (numLicenciaConduccion != null && !numLicenciaConduccion.isEmpty() ? numLicenciaConduccion : "NULL") + "', '"
-                + (fechaExpConduccion != null && !fechaExpConduccion.isEmpty() ? fechaExpConduccion : "NULL") + "', '"
-                + (fechaVencimiento != null && !fechaVencimiento.isEmpty() ? fechaVencimiento : "NULL") + "', '"
-                + (restricciones != null && !restricciones.isEmpty() ? restricciones : "NULL") + "', '"
-                + (titularTrjPro != null && !titularTrjPro.isEmpty() ? titularTrjPro : "NULL") + "', '"
-                + (estado != null && !estado.isEmpty() ? estado : "NULL") + "');";
+    String cadenaSQL = "INSERT INTO vehiculo ("
+            + "identificacion, numeroPlacaVehiculo, tipoVehiculo, modeloVehiculo, linea, marca, color, cilindraje, "
+            + "numLicenciaTransito, fechaExpLicenciaTransito, numLicenciaConduccion, fechaExpConduccion, "
+            + "fechaVencimiento, restricciones, titularTrjPro, estado) VALUES ("
+            + identificacion + ", "
+            + (numeroPlacaVehiculo != null && !numeroPlacaVehiculo.isEmpty() ? "'" + numeroPlacaVehiculo + "'" : "NULL") + ", "
+            + (tipoVehiculo != null && !tipoVehiculo.isEmpty() ? "'" + tipoVehiculo + "'" : "NULL") + ", "
+            + (modeloVehiculo != null && !modeloVehiculo.isEmpty() ? "'" + modeloVehiculo + "'" : "NULL") + ", "
+            + (linea != null && !linea.isEmpty() ? "'" + linea + "'" : "NULL") + ", "
+            + (marca != null && !marca.isEmpty() ? "'" + marca + "'" : "NULL") + ", "
+            + (color != null && !color.isEmpty() ? "'" + color + "'" : "NULL") + ", "
+            + (cilindraje != null && !cilindraje.isEmpty() ? "'" + cilindraje + "'" : "NULL") + ", "
+            + (numLicenciaTransito != null && !numLicenciaTransito.isEmpty() ? "'" + numLicenciaTransito + "'" : "NULL") + ", "
+            + (fechaExpLicenciaTransito != null && !fechaExpLicenciaTransito.isEmpty() ? "'" + fechaExpLicenciaTransito + "'" : "NULL") + ", "
+            + (numLicenciaConduccion != null && !numLicenciaConduccion.isEmpty() ? "'" + numLicenciaConduccion + "'" : "NULL") + ", "
+            + (fechaExpConduccion != null && !fechaExpConduccion.isEmpty() ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
+            + (fechaVencimiento != null && !fechaVencimiento.isEmpty() ? "'" + fechaVencimiento + "'" : "NULL") + ", "
+            + (restricciones != null && !restricciones.isEmpty() ? "'" + restricciones + "'" : "NULL") + ", "
+            + (titularTrjPro != null && !titularTrjPro.isEmpty() ? "'" + titularTrjPro + "'" : "NULL") + ", "
+            + (estado != null && !estado.isEmpty() ? "'" + estado + "'" : "NULL")
+            + ")";
+    return ConectorBD.ejecutarQuery(cadenaSQL);
+}
 
-        boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
-        System.out.println(cadenaSQL);
 
-        if (!resultado) {
-            System.out.println("Error: No se pudo insertar el vehículo en la BD");
-            return false;
-        }
-
-        return true;
+    public boolean modificar(String identificacionAnterior) {
+    if (identificacionAnterior == null) {
+        System.out.println("Error: identificacionAnterior es null.");
+        return false;
     }
+    // Asumiendo que identificacion (int) no cambia, no se actualiza.
+    // Actualizamos los demás campos, incluyendo tieneVehiculo y numeroPlacaVehiculo.
 
-    public boolean modificar(String numeroPlacaVehiculoAnterior) {
-        if (numeroPlacaVehiculo == null || numeroPlacaVehiculoAnterior == null) {
-            System.out.println("Error: numeroPlacaVehiculo o numeroPlacaVehiculoAnterior es null.");
-            return false;
-        }
+    String cadenaSQL = "UPDATE vehiculo SET "
+            + "tieneVehiculo = " + (tieneVehiculo != null ? "'" + tieneVehiculo + "'" : "NULL") + ", "
+            + "numeroPlacaVehiculo = " + (numeroPlacaVehiculo != null ? "'" + numeroPlacaVehiculo + "'" : "NULL") + ", "
+            + "tipoVehiculo = " + (tipoVehiculo != null ? "'" + tipoVehiculo + "'" : "NULL") + ", "
+            + "modeloVehiculo = " + (modeloVehiculo != null ? "'" + modeloVehiculo + "'" : "NULL") + ", "
+            + "linea = " + (linea != null ? "'" + linea + "'" : "NULL") + ", "
+            + "marca = " + (marca != null ? "'" + marca + "'" : "NULL") + ", "
+            + "color = " + (color != null ? "'" + color + "'" : "NULL") + ", "
+            + "cilindraje = " + (cilindraje != null ? "'" + cilindraje + "'" : "NULL") + ", "
+            + "numLicenciaTransito = " + (numLicenciaTransito != null ? "'" + numLicenciaTransito + "'" : "NULL") + ", "
+            + "fechaExpLicenciaTransito = " + (fechaExpLicenciaTransito != null && !fechaExpLicenciaTransito.trim().isEmpty() ? "'" + fechaExpLicenciaTransito + "'" : "NULL") + ", "
+            + "numLicenciaConduccion = " + (numLicenciaConduccion != null ? "'" + numLicenciaConduccion + "'" : "NULL") + ", "
+            + "fechaExpConduccion = " + (fechaExpConduccion != null && !fechaExpConduccion.trim().isEmpty() ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
+            + "fechaVencimiento = " + (fechaVencimiento != null && !fechaVencimiento.trim().isEmpty() ? "'" + fechaVencimiento + "'" : "NULL") + ", "
+            + "restricciones = " + (restricciones != null ? "'" + restricciones + "'" : "NULL") + ", "
+            + "titularTrjPro = " + (titularTrjPro != null ? "'" + titularTrjPro + "'" : "NULL") + ", "
+            + "estado = " + (estado != null ? "'" + estado + "'" : "NULL") + " "
+            + "WHERE identificacion = " + identificacionAnterior;
 
-        String cadenaSQL = "UPDATE vehiculo SET "
-                + "numeroPlacaVehiculo='" + numeroPlacaVehiculo + "', "
-                + "tipoVehiculo=" + (tipoVehiculo != null ? "'" + tipoVehiculo + "'" : "NULL") + ", "
-                + "modeloVehiculo=" + (modeloVehiculo != null ? "'" + modeloVehiculo + "'" : "NULL") + ", "
-                + "linea=" + (linea != null ? "'" + linea + "'" : "NULL") + ", "
-                + "marca=" + (marca != null ? "'" + marca + "'" : "NULL") + ", "
-                + "color=" + (color != null ? "'" + color + "'" : "NULL") + ", "
-                + "cilindraje=" + (cilindraje != null ? "'" + cilindraje + "'" : "NULL") + ", "
-                + "numLicenciaTransito=" + (numLicenciaTransito != null ? "'" + numLicenciaTransito + "'" : "NULL") + ", "
-                + "fechaExpLicenciaTransito=" + (fechaExpLicenciaTransito != null && !fechaExpLicenciaTransito.trim().isEmpty() ? "'" + fechaExpLicenciaTransito + "'" : "NULL") + ", "
-                + "numLicenciaConduccion=" + (numLicenciaConduccion != null ? "'" + numLicenciaConduccion + "'" : "NULL") + ", "
-                + "fechaExpConduccion=" + (fechaExpConduccion != null && !fechaExpConduccion.trim().isEmpty() ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
-                + "fechaVencimiento=" + (fechaVencimiento != null && !fechaVencimiento.trim().isEmpty() ? "'" + fechaVencimiento + "'" : "NULL") + ", "
-                + "restricciones=" + (restricciones != null ? "'" + restricciones + "'" : "NULL") + ", "
-                + "titularTrjPro=" + (titularTrjPro != null ? "'" + titularTrjPro + "'" : "NULL") + ", "
-                + "estado=" + (estado != null ? "'" + estado + "'" : "NULL") + " "
-                + "WHERE numeroPlacaVehiculo='" + numeroPlacaVehiculoAnterior + "'";
+    System.out.println("SQL Modificar Vehiculo: " + cadenaSQL);
 
-        System.out.println("Consulta SQL de modificación: " + cadenaSQL);
-        boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
+    return ConectorBD.ejecutarQuery(cadenaSQL);
+}
 
-        return resultado;
-    }
 
     public boolean eliminar() {
-        // Eliminar relaciones adicionales (si las hubiera, como en persona_hijos, aunque no aplica para vehiculo)
-        // ConectorBD.ejecutarQuery("DELETE FROM vehiculo_relacion WHERE numeroPlacaVehiculo = '" + numeroPlacaVehiculo + "'");
-
-        String cadenaSQL = "DELETE FROM vehiculo WHERE numeroPlacaVehiculo = '" + numeroPlacaVehiculo + "'";
+        String cadenaSQL = "DELETE FROM vehiculo WHERE identificacion = '" + identificacion + "'";
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
-
     public static ResultSet getLista(String filtro, String orden) {
         if (filtro != null && !"".equals(filtro)) {
             filtro = " WHERE " + filtro;

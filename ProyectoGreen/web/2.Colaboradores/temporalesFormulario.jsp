@@ -1,9 +1,8 @@
 <%-- 
-    Document   : temporalesFormulario
+    Document   : personaFormulario
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
-
 
 <%@page import="clases.Departamento"%>
 <%@page import="clases.Municipio"%>
@@ -40,26 +39,30 @@
     String lugarExpedicion = idDepartamento + "-" + idMunicipio;
 
 
+    // Supongamos que persona.getHijos() devuelve List<Hijo> o similar
+    boolean tieneHijos = persona.getHijos() != null && !persona.getHijos().isEmpty();
+
+
 %>
 
 <%@ include file="../menu.jsp" %>
 
 <head>
-    <link rel="stylesheet" href="../presentacion/style-FormularioColaboradores.css">
+    <link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
 </head>
 <body>
     <div class="content"> 
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
+        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> TEMPORAL</h3>
         <form name="formulario" method="post" action="temporalesActualizar.jsp" onsubmit="obtenerDatosHijos(); pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
             <h1>Datos personales</h1>
             <table border="1">
                 <tr>
                     <th>Nombres<span style="color: red;">*</span></th>
-                    <td><input type="text" name="nombres" value="<%= persona.getNombres()%>" size="50" maxlength="50" required></td>
+                    <td><input type="text" name="nombres" value="<%= persona.getNombres()%>" size="50" maxlength="50"required></td>
                 </tr>
                 <tr>
                     <th>Apellidos<span style="color: red;">*</span></th>
-                    <td><input type="text" name="apellidos" value="<%= persona.getApellidos()%>" size="50" maxlength="50" required></td>
+                    <td><input type="text" name="apellidos" value="<%= persona.getApellidos()%>" size="50" maxlength="50"required></td>
                 </tr>
                 <tr>
                     <th colspan="2">Sexo<span style="color: red;">*</span></th>
@@ -74,21 +77,8 @@
 
                 <tr>
                     <th>Documento de identidad<span style="color: red;">*</span></th>
-                    <td>
-                        <select name="tipoDocumentoSelect" id="tipoDocumento" onchange="manejarOtro('tipoDocumento', 'otroTipoDocumento', 'tipoDocumentoHidden')" required>
-                            <option value="Cedula de Ciudadania" <%= (persona.getTipoDocumento() == null || persona.getTipoDocumento().isEmpty() || "CC".equals(persona.getTipoDocumento())) ? "selected" : ""%>>Cédula de Ciudadanía</option>
-                            <option value="Tarjeta de Identidad" <%= "TI".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Tarjeta de Identidad</option>
-                            <option value="Cedula de Extranjeria" <%= "CE".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Cédula de Extranjería</option>
-                            <option value="Permiso Temporal" <%= "EXT".equals(persona.getTipoDocumento()) ? "selected" : ""%>>Permiso Temporal</option>
-                            <option value="Otro">Otro</option>
-                        </select>
-                        <!-- Campo de entrada oculto para "Otro" -->
-                        <input type="text" id="otroTipoDocumento" name="otroTipoDocumento"
-                               style="display: none;" placeholder="Especifique otro"
-                               value="">
-                        <!-- Campo oculto para almacenar el valor final -->
-                        <input type="hidden" id="tipoDocumentoHidden" name="tipoDocumento"
-                               value="<%= persona.getTipoDocumento() != null ? persona.getTipoDocumento() : ""%>"required>
+                    <td colspan="2">
+                        <%= persona.getTipoDocumento().getSelectTipoDocumento("tipoDocumento") %>
                     </td>
                 </tr>
                 <tr>
@@ -227,6 +217,15 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>Nivel educativo<span style="color: red;">*</span></th>
+                    <td><input type="text" name="nivelEdu" value="<%= persona.getNivelEdu()%>" size="50" maxlength="50" required></td>
+                </tr>
+                <tr>
+                    <th>Profesion</th>
+                    <td><input type="text" name="profesion" value="<%= persona.getProfesion()%>" size="50" maxlength="50"></td>
+                </tr>
+
+                <tr>
                     <th>Cuenta bancaria<span style="color: red;">*</span></th>
                     <td><input type="text" name="cuentaBancaria" value="<%= persona.getCuentaBancaria()%>" size="50" maxlength="50"required></td>
                 </tr>
@@ -240,28 +239,33 @@
                 <tr>
                     <th colspan="2">¿El colaborador tiene hijos?<span style="color: red;">*</span></th>
                 </tr>
-                <tr> 
+                <tr>  
                     <td colspan="2">
                         <div class="radio-container">
                             <label>
                                 <input type="radio" name="tieneHijos" value="S" onclick="mostrarHijos()" 
-                                       <%= "S".equals(persona.getTieneHijos()) ? "checked" : ""%>> Sí
+                                       <%= tieneHijos ? "checked" : "" %>> Sí
                             </label>
                             <label>
                                 <input type="radio" name="tieneHijos" value="N" onclick="mostrarHijos()" 
-                                       <%= "N".equals(persona.getTieneHijos()) ? "checked" : ""%>> No
+                                       <%= !tieneHijos ? "checked" : "" %>> No
                             </label>
                         </div>
                     </td>
+
                 </tr>
+
+
             </table>
-            <div id="familiaresSection" style="display: <%= persona.getTieneHijos().equals("S") ? "block" : "none"%>;">
+            <div id="familiaresSection" style="display: <%= "S".equals(persona.getTieneHijos()) ? "block" : "none" %>;">
                 <h1>Información de Hijos</h1>
                 <table border="0" id="tablaHijos">
                     <tr>
-                        <th>Numero de documento</th>
+                        <th>Número de documento</th>
+                        <th>Tipo de documento</th>
                         <th>Nombres completos</th>
                         <th>Fecha de Nacimiento</th>
+                        <th>Nivel educativo</th>
                         <th>Acción</th>
                     </tr>
                     <%
@@ -269,9 +273,11 @@
                             for (Hijo hijo : persona.obtenerHijos()) {
                     %>
                     <tr>
-                        <td><input type="text" name="identificacionHijo[]" value="<%= hijo.getIdentificacion()%>" size="10" maxlength="10"></td>
-                        <td><input type="text" name="nombreHijo[]" value="<%= hijo.getNombres()%>" size="50" maxlength="50"></td>
-                        <td><input type="date" name="fechaNacimientoHijo[]" value="<%= hijo.getFechaNacimiento()%>"></td>
+                        <td><input type="text" name="identificacionHijo[]" value="<%= hijo.getIdentificacion() %>" size="10" maxlength="10" required></td>
+                        <td><input type="text" name="tipoIdenHijo[]" value="<%= hijo.getTipoIden() %>" size="10" maxlength="10" required></td>
+                        <td><input type="text" name="nombreHijo[]" value="<%= hijo.getNombres() %>" size="50" maxlength="50" required></td>
+                        <td><input type="date" name="fechaNacimientoHijo[]" value="<%= hijo.getFechaNacimiento() %>" required></td>
+                        <td><input type="text" name="nivelEscolarHijo[]" value="<%= hijo.getNivelEscolar() %>" size="20" maxlength="20" required></td>
                         <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <%
@@ -279,16 +285,22 @@
                         }
                     %>
                     <tr>
-                        <td colspan="4"><button class ="submit" type="submit" onclick="agregarHijo()">Agregar Hijo</button></td>
+                        <td colspan="6">
+                            <button type="button" onclick="agregarHijo()">Agregar Hijo</button>
+                        </td>
                     </tr>
                 </table>
-            </div>      
+            </div>
+
 
 
             <div class="botones-container">
                 <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
                 <input type="submit" name="accion" value="<%=accion%>">
+                <input type="button" value="Regresar" onClick="window.history.back()" />
                 <input type="button" value="Cancelar" onClick="window.history.back()">
+                <!-- Nuevo botón de cambio de estado -->
+                <!--<input type="button" value="Cambiar a Temporal" onclick="cambiarAEstadoTemporal()">-->
             </div>
 
             <% if ("Modificar".equals(accion)) { %>
@@ -306,7 +318,7 @@
             var identificacionVisible = document.getElementById("identificacion").value;
             var accion = document.getElementById("accion").value;
 
-            var url = 'seguridadSocialFormulario.jsp?irASiguiente=true'
+            var url = 'seguridadSocialTFormulario.jsp?irASiguiente=true'
                     + '&identificacion=' + encodeURIComponent(identificacionVisible)
                     + '&accion=' + encodeURIComponent(accion);
 
@@ -316,28 +328,41 @@
 
         // Función para mostrar/ocultar la sección de hijos
         function mostrarHijos() {
-            var tieneHijos = document.querySelector('input[name="tieneHijos"]:checked').value;
-            document.getElementById("familiaresSection").style.display = (tieneHijos === "S") ? "block" : "none";
+            var tieneHijosRadio = document.querySelector('input[name="tieneHijos"]:checked');
+            var familiaresSection = document.getElementById("familiaresSection");
+            if (tieneHijosRadio && tieneHijosRadio.value === "S") {
+                familiaresSection.style.display = "block";
+            } else {
+                familiaresSection.style.display = "none";
+            }
         }
-        // Asignar evento a los radio buttons de "Tiene Hijos"
-        document.querySelectorAll('input[name="tieneHijos"]').forEach(function (radio) {
-            radio.addEventListener("change", mostrarHijos);
-        });
+
         // Función para agregar un nuevo hijo a la tabla
         function agregarHijo() {
             var tabla = document.getElementById("tablaHijos");
             var fila = tabla.insertRow(tabla.rows.length - 1);
             fila.innerHTML = `<td><input type="text" name="identificacionHijo[]" size="10" maxlength="10" required></td>
+                              <td><input type="text" name="tipoIdenHijo[]" size="50" maxlength="50" required></td>
                               <td><input type="text" name="nombreHijo[]" size="50" maxlength="50" required></td>
                               <td><input type="date" name="fechaNacimientoHijo[]" required></td>
+                              <td><input type="text" name="nivelEscolarHijo[]" size="50" maxlength="50" required></td>
                               <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
                               `;
         }
+
         // Función para eliminar una fila de la tabla de hijos
         function eliminarFila(boton) {
             var fila = boton.parentNode.parentNode;
             fila.parentNode.removeChild(fila);
         }
+        document.addEventListener("DOMContentLoaded", function () {
+            mostrarHijos();
+
+            // Además, asignar evento a los radio buttons para que cambien visibilidad al clic
+            document.querySelectorAll('input[name="tieneHijos"]').forEach(function (radio) {
+                radio.addEventListener("change", mostrarHijos);
+            });
+        });
 
 
         //FUNCION MUNICIPIOS
@@ -385,16 +410,33 @@
             manejarOtro('tipoSangre', 'tipoSangreOtro', 'tipoSangreFinal');
             manejarOtro('tipoVivienda', 'tipoViviendaOtro', 'tipoViviendaFinal');
         });
-        
-    document.addEventListener("DOMContentLoaded", function () {
-        var accionSubmit = document.querySelector('input[name="accion"]');
-        if (accionSubmit && accionSubmit.value === "Modificar") {
-            // Interceptar el submit para redirigir como "Siguiente"
-            accionSubmit.closest("form").addEventListener("submit", function (e) {
-                e.preventDefault(); // Evita el envío normal
-                irASiguiente();     // Llama a tu función existente
-            });
-        }
-    });
 
+
+        // Función que se ejecuta al hacer clic en el botón para cambiar el estado a "Temporal"
+        function cambiarAEstadoTemporal() {
+            var identificacion = document.getElementById("identificacion").value;
+            var accion = 'Temporal'; // Este es el nuevo estado
+
+            // Creación de un formulario dinámico que envíe los datos al servidor
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = ""; // Esto enviará los datos a la misma página
+
+            // Crear los campos para el identificador y la acción
+            var inputIdentificacion = document.createElement("input");
+            inputIdentificacion.type = "hidden";
+            inputIdentificacion.name = "identificacion";
+            inputIdentificacion.value = identificacion;
+            form.appendChild(inputIdentificacion);
+
+            var inputAccion = document.createElement("input");
+            inputAccion.type = "hidden";
+            inputAccion.name = "accion";
+            inputAccion.value = accion;
+            form.appendChild(inputAccion);
+
+            // Enviar el formulario de forma automática
+            document.body.appendChild(form);
+            form.submit();
+        }
     </script>

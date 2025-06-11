@@ -1,10 +1,5 @@
-<%-- 
-    Document   : aprendiz
-    Created on : 8/03/2025, 02:18:59 PM
-    Author     : Mary
---%>
-
-<%@page import="clases.InformacionLaboral"%>          
+<%@page import="clases.Educacion"%>
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
@@ -20,12 +15,13 @@
     List<Persona> datos = Persona.getListaEnObjetos("tipo = 'A'", null);
 
     for (Persona persona : datos) {
-        String tipoDocumento = persona.getTipoDocumento();
+        String tipoDocumento = persona.getTipoDocumento().toString();
         String identificacion = persona.getIdentificacion();
         String nombres = persona.getNombres();
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
-        String fechaIngreso = InformacionLaboral.getFechaIngresoPersona(persona.getIdentificacion());
+        String fechaEtapaLectiva = Educacion.getFechaEtapaLectiva(persona.getIdentificacion());
+        String fechaEtapaProductiva = Educacion.getFechaEtapaProductiva(persona.getIdentificacion());
 
         lista += "<tr>";
         lista += "<td>" + tipoDocumento + "</td>";
@@ -35,7 +31,8 @@
         lista += "<td>" + cargo + "</td>";
 //        lista += "<td>" + establecimiento + "</td>";
 //        lista += "<td>" + unidadNegocio + "</td>";
-        lista += "<td>" + fechaIngreso + "</td>";
+        lista += "<td>" + fechaEtapaLectiva + "</td>";
+        lista += "<td>" + fechaEtapaProductiva + "</td>";
         lista += "<td>";
         lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")' style='cursor:pointer;'/>";
         lista += "<img class='ver' src='../presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboral(" + identificacion + ")' style='cursor:pointer;'/>";
@@ -63,9 +60,10 @@
                 <option value="nombre">Nombres</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
-                <option value="establecimiento">Establecimiento</option>
+                <!--<option value="establecimiento">Establecimiento</option>-->
                 <option value="unidadNegocio">Unidad de negocio</option>
-                <option value="fechaIngreso">Fecha de ingreso</option>
+                <option value="fechaIngreso">Fecha estapa lectiva</option>
+                <option value="fechaIngreso">Fecha estapa productiva</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
             <img src='../presentacion/iconos/lupa.png' alt='Buscar'>
@@ -74,14 +72,15 @@
 
     <table class="table" id="aprendicesTable" border="1">
         <tr>
-            <th>Documento de identificaci?n</th>
+            <th>Documento de identificación</th>
             <th>Número de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
             <!--<th>Cargo</th>-->
             <!--<th>Establecimiento</th>-->
             <th>Unidad de negocio</th>
-            <th>Fecha de ingreso</th>
+            <th>Fecha estapa lectiva</th>
+            <th>Fecha estapa productiva</th>
             <th>
                 <a href="aprendizFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
                     <img src='../presentacion/iconos/agregar.png' width='30' height='30'>
@@ -103,7 +102,7 @@
         document.location = "aprendizDetalles.jsp?identificacion=" + identificacion;
     }
     function verHistoriaLaboral(identificacion) {
-        window.location.href = "../3.HistoriaLaboral/historiaLaboralAprendiz.jsp?identificacion=" + identificacion;
+        window.location.href = "historiaLaboralAprendiz.jsp?identificacion=" + identificacion;
     }
     function verRetirados(identificacion) {
         window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
@@ -159,7 +158,7 @@
         );
     });
     function cambiarATemporal(identificacion) {
-        var confirmar = confirm("¿Desea cambiar a esta persona como Temporal?");
+        var confirmar = confirm("¿Desea cambiar el tipo de esta persona a 'T' (Temporal)?");
         if (confirmar) {
             window.location.href = "aprendizActualizar.jsp?accion=CambiarTipo&identificacionAnterior=" + identificacion;
         }

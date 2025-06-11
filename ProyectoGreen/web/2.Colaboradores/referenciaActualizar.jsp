@@ -1,3 +1,8 @@
+<%-- 
+    Document   : referenciaActualizar
+    Created on : 8/03/2025, 02:18:59 PM
+    Author     : Mary
+--%>
 <%@page import="clases.Vehiculo"%>
 <%@page import="clases.SeguridadSocial"%>
 <%@page import="clases.Referencia"%>
@@ -8,7 +13,7 @@
     // Capturar acción y valores del formulario
     String accion = request.getParameter("accion");
     String identificacionAnterior = request.getParameter("identificacionAnterior");
- 
+
     Vehiculo vehiculo = (Vehiculo) request.getAttribute("vehiculo");
     request.setAttribute("vehiculo", vehiculo);
     // Obtener los datos de la referencia desde el request
@@ -26,7 +31,7 @@
     referencia.setCuartaRefNombre(request.getParameter("cuartaRefNombre"));
     referencia.setCuartaRefParentezco(request.getParameter("cuartaRefParentezco"));
     referencia.setCuartaRefCelular(request.getParameter("cuartaRefCelular"));
-    
+
     // Variable para saber si la referencia fue guardada con éxito
     boolean referenciaGuardada = false;
 
@@ -38,18 +43,21 @@
                 if (Referencia.getReferenciaPorIdentificacion(referencia.getIdentificacion()) == null) {
                     referencia.grabar(); // Llama al método de grabar si es una persona nueva
                     // Redirige inmediatamente después de guardar
-                String id = referencia.getIdentificacion();
-                response.sendRedirect("vehiculoFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
-                return;
-            } else {
-                out.println("<p>Error: La identificación ya existe en la base de datos.</p>");
-            }
-            break;
+                    String id = referencia.getIdentificacion();
+                    response.sendRedirect("vehiculoFormulario.jsp?identificacion=" + id + "&accion=Adicionar");
+                    return;
+                } else {
+                    out.println("<p>Error: La identificación ya existe en la base de datos.</p>");
+                }
+                break;
 
             case "Modificar":
                 // Si la persona ya existe, proceder con la modificación
                 referencia.modificar(identificacionAnterior); // Llama al método de modificar
-                break;
+                // Redirige al formulario manteniéndose en la vista
+                response.sendRedirect("vehiculoFormulario.jsp?identificacion=" + referencia.getIdentificacion() + "&accion=Modificar");
+                return; // Esto termina la ejecución del JSP aquí
+            // break eliminado porque ya no es necesario (ni válido)
 
             case "Eliminar":
                 // Llama al método de eliminar

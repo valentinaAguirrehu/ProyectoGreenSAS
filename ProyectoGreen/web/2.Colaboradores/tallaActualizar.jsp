@@ -13,16 +13,15 @@
     String identificacionAnterior = request.getParameter("identificacionAnterior");
 
     // Crear objeto InformacionLaboral y asignar valores del formulario
-    Talla talla = new Talla();
+   Talla talla = new Talla();
     talla.setIdentificacion(request.getParameter("identificacion"));
-    talla.setTallaCamisa(request.getParameter("tallaCamisa"));
-    talla.setTallaChaqueta(request.getParameter("tallaChaqueta"));
-    talla.setTallaO(request.getParameter("tallaO"));
-    talla.setTallaPantalon(request.getParameter("tallaPantalon"));
-    talla.setTallaCalzado(request.getParameter("tallaCalzado"));
-    talla.setTallaGuantes(request.getParameter("tallaGuantes"));
-    talla.setTallaBuzo(request.getParameter("tallaBuzo"));
-   
+    talla.setTallaCamisa(request.getParameter("tallaCamisaFinal"));
+    talla.setTallaChaqueta(request.getParameter("tallaChaquetaFinal"));
+    talla.setTallaO(request.getParameter("tallaOFinal"));
+    talla.setTallaPantalon(request.getParameter("tallaPantalonFinal"));
+    talla.setTallaCalzado(request.getParameter("tallaCalzadoFinal"));
+    talla.setTallaGuantes(request.getParameter("tallaGuantesFinal"));
+    talla.setTallaBuzo(request.getParameter("tallaBuzoFinal"));
 
     // Acción según el botón presionado
     switch (accion) {

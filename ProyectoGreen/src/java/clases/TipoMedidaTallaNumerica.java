@@ -48,7 +48,7 @@ public class TipoMedidaTallaNumerica {
 
         boolean esOtro = !(codigo != null && codigo.matches("^(6|8|10|12|14|16|18|20|22|24|26|28|30|32|34|36|38|40)$"));
         String valorSeleccionado = esOtro ? "O" : codigo;
-        String valorTextoOtro = esOtro ? codigo : "";
+String valorTextoOtro = esOtro ? (codigo == null ? "" : codigo) : "";
 
         html.append("<select name='").append(nombreCampo).append("' id='").append(nombreCampo)
             .append("' onchange='manejarOtro(\"").append(nombreCampo)

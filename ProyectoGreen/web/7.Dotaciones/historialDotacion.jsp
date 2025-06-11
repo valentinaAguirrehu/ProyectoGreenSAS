@@ -240,7 +240,7 @@
                 <td rowspan="<%= grupo.size()%>"><%= detalle.getUnidadNegocio()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= devolucion.getObservacion()%></td>
                 <td rowspan="<%= grupo.size()%>">
-                    <a class='editar' href='devolucionDotacion.jsp?accion=Modificar&id=<%= devolucion.getIdDevolucion()%>&idPersona=<%= devolucion.getIdPersona()%>&numeroEntrega=<%= devolucion.getNumeroDevolucion()%>'title='Modificar'><img src='../presentacion/iconos/modificar.png' width='25' height='25'></a>
+                    <!-- <a class='editar' href='devolucionDotacion.jsp?accion=Modificar&id=<%= devolucion.getIdDevolucion()%>&idPersona=<%= devolucion.getIdPersona()%>&numeroEntrega=<%= devolucion.getNumeroDevolucion()%>'title='Modificar'><img src='../presentacion/iconos/modificar.png' width='25' height='25'></a> -->
                     <img src='../presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar'onclick='eliminarDevolucion("<%= devolucion.getIdDevolucion()%>", "<%= devolucion.getIdPersona()%>")'> 
                 </td>
                 <% } %>

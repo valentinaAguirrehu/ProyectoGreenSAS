@@ -9,178 +9,179 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <link rel="stylesheet" href="presentacion/style-PersonaFormulario.css">
+<link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
 
 <%
-
     String accion = request.getParameter("accion");
-    // Recuperar la identificación desde la URL o el formulario anterior
     String identificacion = request.getParameter("identificacion");
-    // Instancia vacía con la identificación por si no se encuentra en BD
-    System.out.println(" Entrando a tallaFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
-    Talla talla = new Talla(identificacion);
+    System.out.println("Entrando a tallaFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
 
     if (accion == null) {
-        accion = "Adicionar"; // Cambiar a Adicionar si aún no se ha guardado o el boton da null
+        accion = "Adicionar";
     }
 
-    // Validar que la identificación no sea nula o vacía
     if (identificacion != null && !identificacion.isEmpty()) {
-        session.setAttribute("identificacion", identificacion);  // Almacenar en sesión
+        session.setAttribute("identificacion", identificacion);
     }
-    // Solo intenta obtener de la BD si la acción es "Modificar"
-    // Verifica si la acción a realizar es "Modificar"
+
+    Talla talla = new Talla(identificacion);
 
     if ("Modificar".equals(accion)) {
-        // Llama al método estático getInformacionPorIdentificacion de la clase InformacionLaboral
-        // para obtener los datos laborales de la persona identificada por 'identificacion'
         Talla tmp = Talla.getTallaPorIdentificacion(identificacion);
-        // Si la información laboral se encontró (es decir, 'tmp' no es null)
         if (tmp != null) {
-            // Asigna los datos obtenidos a la variable 'informacionLaboral'
-            // Esto permite trabajar con la información laboral de la persona para modificarla
             talla = tmp;
         }
     }
-
 %>
-
 
 <%@ include file="../menu.jsp" %>
 
-<link rel="stylesheet" href="presentacion/style-FormularioColaboradores.css">
-</head>
 <body>
-
     <div class="content">
-        <h3><%= (accion != null ? accion.toUpperCase() : "ACCION DESCONOCIDA")%> COLABORADOR</h3>
-        <form name="tallaFormulario" method="post" action="tallaActualizar.jsp" onsubmit=" pasarIdentificacion(); enviarDatos(); return false; redirigirDespuesGuardar();">
+        <h3><%= accion.toUpperCase() %> COLABORADOR</h3>
 
-            <h1>Información de tallas</h1>
+        <form name="tallaFormulario" method="post" action="tallaActualizar.jsp" onsubmit="actualizarOcultos();">
+            <h1>Información de Tallas</h1>
             <table border="1">
                 <tr>
                     <td><label for="identificacion">Identificación:</label></td>
                     <td>
-                        <!-- Mostrar identificación recibida en readonly -->
-                        <input type="text" name="identificacion" id="identificacion" value="<%= identificacion%>" readonly />
-
-                        <!-- También enviarla como campo oculto para el UPDATE -->
-                        <input type="hidden" name="identificacionAnterior" value="<%= talla.getIdentificacion()%>">
-                        <!-- Campo oculto para la acción -->-->
-                        <input type="hidden" name="accion" id="accionHidden" value="<%=accion%>">
-                    </td>                
+                        <input type="text" name="identificacion" id="identificacion" value="<%= identificacion %>" readonly />
+                        <input type="hidden" name="identificacionAnterior" value="<%= talla.getIdentificacion() %>">
+                        <input type="hidden" name="accion" id="accionHidden" value="<%= accion %>">
+                    </td>
                 </tr>
-
             </table>
 
-            <table><!-- Formulario para Dotaciones -->           
+            <table>
                 <tr>
                     <th>Talla de camisa</th>
-                    <td colspan="2">
-                        <%= talla.getTallaCamisa().getSelectTipoMedidaTalla("tallaCamisa")%>
+                    <td>
+                        <%= talla.getTallaCamisa().getSelectTipoMedidaTalla("tallaCamisa") %>
+                        <input type="text" id="tallaCamisaOtro" style="display:none;" placeholder="Especifique otra talla">
+                        <input type="hidden" name="tallaCamisaFinal" id="tallaCamisaFinal">
                     </td>
                 </tr>
                 <tr>
                     <th>Talla de chaqueta</th>
-                    <td colspan="2">
-                        <%= talla.getTallaChaqueta().getSelectTipoMedidaTalla("tallaChaqueta")%>
+                    <td>
+                        <%= talla.getTallaChaqueta().getSelectTipoMedidaTalla("tallaChaqueta") %>
+                        <input type="text" id="tallaChaquetaOtro" style="display:none;" placeholder="Especifique otra talla">
+                        <input type="hidden" name="tallaChaquetaFinal" id="tallaChaquetaFinal">
                     </td>
                 </tr>
                 <tr>
                     <th>Talla de pantalón</th>
-                    <td colspan="2">
-                        <%= talla.getTallaPantalon().getSelectTipoMedidaTalla("tallaPantalon")%>
+                    <td>
+                        <%= talla.getTallaPantalon().getSelectTipoMedidaTalla("tallaPantalon") %>
+                        <input type="text" id="tallaPantalonOtro" style="display:none;" placeholder="Especifique otra talla">
+                        <input type="hidden" name="tallaPantalonFinal" id="tallaPantalonFinal">
                     </td>
                 </tr>
                 <tr>
                     <th>Talla de calzado</th>
-                    <td colspan="2">
-                        <%= talla.getTallaCalzado().getSelectTipoMedidaTalla("tallaZapatos")%>
+                    <td>
+                        <%= talla.getTallaCalzado().getSelectTipoMedidaTalla("tallaCalzado") %>
+                        <input type="text" id="tallaCalzadoOtro" style="display:none;" placeholder="Especifique otra talla">
+                        <input type="hidden" name="tallaCalzadoFinal" id="tallaCalzadoFinal">
                     </td>
                 </tr>
                 <tr>
                     <th>Talla de buzo</th>
-                    <td colspan="2">
-                        <%= talla.getTallaBuzo().getSelectTipoMedidaTalla("tallaBuzo")%>
+                    <td>
+                        <%= talla.getTallaBuzo().getSelectTipoMedidaTalla("tallaBuzo") %>
+                        <input type="text" id="tallaBuzoOtro" style="display:none;" placeholder="Especifique otra talla">
+                        <input type="hidden" name="tallaBuzoFinal" id="tallaBuzoFinal">
                     </td>
                 </tr>
                 <tr>
                     <th>Talla de overol</th>
-                    <td colspan="2">
-                        <%= talla.getTallaO().getSelectTipoMedidaTalla("tallaO")%>
+                    <td>
+                        <%= talla.getTallaO().getSelectTipoMedidaTalla("tallaO") %>
+                        <input type="text" id="tallaOOtro" style="display:none;" placeholder="Especifique otra talla">
+                        <input type="hidden" name="tallaOFinal" id="tallaOFinal">
                     </td>
                 </tr>
                 <tr>
                     <th>Talla de guantes</th>
-                    <td colspan="2">
-                        <%= talla.getTallaGuantes().getSelectTipoMedidaTalla("tallaGuantes")%>
+                    <td>
+                        <%= talla.getTallaGuantes().getSelectTipoMedidaTalla("tallaGuantes") %>
+                        <input type="text" id="tallaGuantesOtro" style="display:none;" placeholder="Especifique otra talla">
+                        <input type="hidden" name="tallaGuantesFinal" id="tallaGuantesFinal">
                     </td>
                 </tr>
             </table>
 
-
             <div class="botones-container">
-                <input type="hidden" name="identificacionAnterior" value="<%=identificacion%>">
-                <input type="submit" name="accion" value="<%=accion%>">
-                <input type="button" value="Cancelar" onClick="window.history.back()">
+                <input type="submit" name="accion" value="<%= accion %>">
+                <input type="button" value="Regresar" onClick="window.history.back()" />
+                <input type="button" value="Cancelar" onclick="window.location.href = 'persona.jsp'" />
             </div>
 
             <% if ("Modificar".equals(accion)) { %>
             <input type="hidden" id="identificacionHidden" name="identificacionHidden">
-            <button type="button" onclick="irASiguiente()">Siguiente: Seguridad social</button>
-            <% }%>
-
+            <!--<button type="button" onclick="irASiguiente()">Siguiente: Seguridad social</button>-->
+            <% } %>
+        </form>
     </div>
 
-
     <script>
-
-
-        function irASiguiente() {
-            var identificacionVisible = document.getElementById("identificacion").value;
-            document.getElementById("identificacionHidden").value = identificacionVisible;
-            window.location.href = "seguridadSocialFormulario.jsp?identificacion=" + encodeURIComponent(identificacionVisible);
-        }
-
         function manejarOtro(selectId, inputId, hiddenId) {
             var select = document.getElementById(selectId);
             var input = document.getElementById(inputId);
-            var hiddenInput = document.getElementById(hiddenId);
+            var hidden = document.getElementById(hiddenId);
 
-            function actualizarHidden() {
+            function actualizar() {
                 if (select.value === "O") {
-                    hiddenInput.value = input.value;
+                    input.style.display = "inline-block";
+                    hidden.value = input.value;
+                    input.required = true;
                 } else {
-                    hiddenInput.value = select.value;
+                    input.style.display = "none";
+                    hidden.value = select.value;
+                    input.required = false;
+                    input.value = "";
                 }
             }
 
-            if (select.value === "O") {
-                input.style.display = "inline-block";
-                input.required = true;
-                actualizarHidden(); // Actualiza el hidden al momento
+            select.addEventListener("change", actualizar);
+            input.addEventListener("input", function () {
+                if (select.value === "O")
+                    hidden.value = input.value;
+            });
 
-                // Asegúrate de no duplicar el listener
-                input.removeEventListener("input", actualizarHidden);
-                input.addEventListener("input", actualizarHidden);
-            } else {
-                input.style.display = "none";
-                input.required = false;
-                input.value = "";
-                actualizarHidden();
-            }
+            actualizar(); // Ejecutar al cargar la página
         }
 
-        window.addEventListener('DOMContentLoaded', function () {
-            manejarOtro('tallaCamisa', 'tallaCamisaOtro', 'tallaCamisaFinal');
-            manejarOtro('tallaChaqueta', 'tallaChaquetaOtro', 'tallaChaquetaFinal');
-            manejarOtro('tallaPantalon', 'tallaPantalonOtro', 'tallaPantalonFinal');
-            manejarOtro('tallaZapatos', 'tallaZapatosOtro', 'tallaZapatosFinal');
-            manejarOtro('tallaBuzo', 'tallaBuzoOtro', 'tallaBuzoFinal');
-            manejarOtro('tallaO', 'tallaOOtro', 'tallaOFinal');
-            manejarOtro('tallaGuantes', 'tallaGuantesOtro', 'tallaGuantesFinal');
+        function actualizarOcultos() {
+            const tallas = ["tallaCamisa", "tallaChaqueta", "tallaPantalon", "tallaCalzado", "tallaBuzo", "tallaO", "tallaGuantes"];
+            tallas.forEach(function (nombre) {
+                var select = document.getElementById(nombre);
+                var input = document.getElementById(nombre + "Otro");
+                var hidden = document.getElementById(nombre + "Final");
+                if (select.value === "O") {
+                    hidden.value = input.value;
+                } else {
+                    hidden.value = select.value;
+                }
+            });
+        }
+
+        function irASiguiente() {
+            var id = document.getElementById("identificacion").value;
+            window.location.href = "seguridadSocialFormulario.jsp?identificacion=" + encodeURIComponent(id);
+        }
+
+        window.addEventListener("DOMContentLoaded", function () {
+            manejarOtro("tallaCamisa", "tallaCamisaOtro", "tallaCamisaFinal");
+            manejarOtro("tallaChaqueta", "tallaChaquetaOtro", "tallaChaquetaFinal");
+            manejarOtro("tallaPantalon", "tallaPantalonOtro", "tallaPantalonFinal");
+            manejarOtro("tallaCalzado", "tallaCalzadoOtro", "tallaCalzadoFinal");
+            manejarOtro("tallaBuzo", "tallaBuzoOtro", "tallaBuzoFinal");
+            manejarOtro("tallaO", "tallaOOtro", "tallaOFinal");
+            manejarOtro("tallaGuantes", "tallaGuantesOtro", "tallaGuantesFinal");
         });
-
-
-
     </script>
+</body>

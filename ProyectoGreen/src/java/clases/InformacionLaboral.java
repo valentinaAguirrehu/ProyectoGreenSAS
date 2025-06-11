@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 public class InformacionLaboral {
 
     private String identificacion;
+    private String idCargo;
     private String fechaIngreso;
     private String fechaIngresoTemporal;
     private String fechaRetiro;
@@ -38,44 +39,43 @@ public class InformacionLaboral {
     private String salario;
     private String estado;
     private String fechaTerPriContrato;
-    private String establecimientoSeleccionado;
 
     public InformacionLaboral() {
     }
 
-   public InformacionLaboral(String identificacion) {
-    String cadenaSQL = "SELECT identificacion, fechaIngreso, fechaIngresoTemporal, fechaRetiro, unidadNegocio, centroCostos, establecimiento, area, salario, estado, fechaTerPriContrato, establecimientoSeleccionado FROM informacionLaboral WHERE identificacion = " + identificacion;
-    ResultSet resultado = ConectorBD.consultar(cadenaSQL);
-    try {
-        if (resultado != null && resultado.next()) {
-            this.identificacion = identificacion;
-            fechaIngreso = resultado.getString("fechaIngreso");
-            fechaIngresoTemporal = resultado.getString("fechaIngresoTemporal");
-            fechaRetiro = resultado.getString("fechaRetiro");
-            unidadNegocio = resultado.getString("unidadNegocio");
-            centroCostos = resultado.getString("centroCostos");
-            establecimiento = resultado.getString("establecimiento");
-            area = resultado.getString("area");
-            salario = resultado.getString("salario");
-            estado = resultado.getString("estado");
-            fechaTerPriContrato = resultado.getString("fechaTerPriContrato");
-            establecimientoSeleccionado = resultado.getString("establecimientoSeleccionado");
-        } else {
-            System.out.println("⚠️ No se encontró información laboral para identificación: " + identificacion);
-        }
-        System.out.println("Consulta ejecutada: " + cadenaSQL);
-    } catch (SQLException ex) {
-        System.out.println("❌ Error al consultar informacionLaboral: " + ex.getMessage());
-    } finally {
+    public InformacionLaboral(String identificacion) {
+        String cadenaSQL = "SELECT identificacion, idCargo, fechaIngreso, fechaIngresoTemporal, fechaRetiro, unidadNegocio, centroCostos, establecimiento, area, salario, estado, fechaTerPriContrato FROM informacionLaboral WHERE identificacion = " + identificacion;
+        ResultSet resultado = ConectorBD.consultar(cadenaSQL);
         try {
-            if (resultado != null) {
-                resultado.close();
+            if (resultado != null && resultado.next()) {
+                this.identificacion = identificacion;
+                idCargo = resultado.getString("idCargo");
+                fechaIngreso = resultado.getString("fechaIngreso");
+                fechaIngresoTemporal = resultado.getString("fechaIngresoTemporal");
+                fechaRetiro = resultado.getString("fechaRetiro");
+                unidadNegocio = resultado.getString("unidadNegocio");
+                centroCostos = resultado.getString("centroCostos");
+                establecimiento = resultado.getString("establecimiento");
+                area = resultado.getString("area");
+                salario = resultado.getString("salario");
+                estado = resultado.getString("estado");
+                fechaTerPriContrato = resultado.getString("fechaTerPriContrato");
+            } else {
+                System.out.println("⚠️ No se encontró información laboral para identificación: " + identificacion);
             }
+            System.out.println("Consulta ejecutada: " + cadenaSQL);
         } catch (SQLException ex) {
-            System.out.println("Error al cerrar ResultSet de informacionLaboral: " + ex.getMessage());
+            System.out.println("❌ Error al consultar informacionLaboral: " + ex.getMessage());
+        } finally {
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error al cerrar ResultSet de informacionLaboral: " + ex.getMessage());
+            }
         }
     }
-}
 
     public String getIdentificacion() {
         String resultado = identificacion;
@@ -87,6 +87,18 @@ public class InformacionLaboral {
 
     public void setIdentificacion(String identificacion) {
         this.identificacion = identificacion;
+    }
+
+    public String getIdCargo() {
+        String resultado = idCargo;
+        if (idCargo == null) {
+            resultado = "";
+        }
+        return resultado;
+    }
+
+    public void setIdCargo(String idCargo) {
+        this.idCargo = idCargo;
     }
 
     public String getFechaIngreso() {
@@ -149,28 +161,34 @@ public class InformacionLaboral {
         this.centroCostos = centroCostos;
     }
 
-    public String getEstablecimiento() {
-        String resultado = establecimiento;
-        if (establecimiento == null) {
-            resultado = "";
-        }
-        return resultado;
+//    public String getEstablecimiento() {
+//        String resultado = establecimiento;
+//        if (establecimiento == null) {
+//            resultado = "";
+//        }
+//        return resultado;
+//    }
+    public LugarTrabajo getEstablecimiento() {
+    return new LugarTrabajo(establecimiento == null ? "" : establecimiento);
     }
 
     public void setEstablecimiento(String establecimiento) {
         this.establecimiento = establecimiento;
     }
 
-    public String getArea() {
-        String resultado = area;
-        if (area == null) {
-            resultado = "";
-        }
-        return resultado;
-
-        // Imprimir el valor de area para depuración
-        //System.out.println("Valor de 'area' en getArea(): " + resultado);
-        //return resultado;
+//    public String getArea() {
+//        String resultado = area;
+//        if (area == null) {
+//            resultado = "";
+//        }
+//        return resultado;
+//
+//        // Imprimir el valor de area para depuración
+//        //System.out.println("Valor de 'area' en getArea(): " + resultado);
+//        //return resultado;
+//    }
+    public Area getArea() {
+        return new Area(area);
     }
 
     public void setArea(String area) {
@@ -219,77 +237,43 @@ public class InformacionLaboral {
         return getIdentificacion();
     }
 
-    public String getListaDesplegableEstablecimientos(String establecimientoSeleccionado) {
-        StringBuilder lista = new StringBuilder();
-
-        // Lista de establecimientos
-        String[] establecimientos = {
-            "Avenida", "Principal", "Centro", "Unicentro",
-            "Centro de Procesos", "Teleoperaciones", "Juanambu", "Terminal Americano",
-            "Puente", "Cano Bajo", "GreenField"
-        };
-
-        lista.append("<select name='establecimiento' id='establecimiento' required>");
-        lista.append("<option value=''>Seleccione...</option>");
-
-        // Recorrer la lista de establecimientos y marcar el seleccionado
-        for (String est : establecimientos) {
-            // Si el establecimiento coincide con el valor seleccionado, lo marcamos como 'selected'
-            String selected = (establecimientoSeleccionado != null && establecimientoSeleccionado.equals(est)) ? "selected" : "";
-            lista.append("<option value='").append(est).append("' ").append(selected).append(">").append(est).append("</option>");
-        }
-
-        lista.append("</select>");
-
-        return lista.toString();
-    }
-
     public boolean grabar() {
-    boolean exito = false;
-    String cadenaSQL = "INSERT INTO informacionLaboral (identificacion, fechaIngreso, fechaIngresoTemporal, fechaRetiro, unidadNegocio, centroCostos, establecimiento, area, salario, estado, fechaTerPriContrato) VALUES ("
-        + (identificacion != null && !identificacion.isEmpty() ? "'" + identificacion + "'" : "NULL") + ", "
-        + (fechaIngreso != null && !fechaIngreso.isEmpty() ? "'" + fechaIngreso + "'" : "NULL") + ", "
-        + (fechaIngresoTemporal != null && !fechaIngresoTemporal.isEmpty() ? "'" + fechaIngresoTemporal + "'" : "NULL") + ", "
-        + (fechaRetiro != null && !fechaRetiro.isEmpty() ? "'" + fechaRetiro + "'" : "NULL") + ", "
-        + (unidadNegocio != null && !unidadNegocio.isEmpty() ? "'" + unidadNegocio + "'" : "NULL") + ", "
-        + (centroCostos != null && !centroCostos.isEmpty() ? "'" + centroCostos + "'" : "NULL") + ", "
-        + (establecimiento != null && !establecimiento.isEmpty() ? "'" + establecimiento + "'" : "NULL") + ", "
-        + (area != null && !area.isEmpty() ? "'" + area + "'" : "NULL") + ", "
-        + salario + ", "
-        + (estado != null && !estado.isEmpty() ? "'" + estado + "'" : "NULL") + ", "
-        + (fechaTerPriContrato != null && !fechaTerPriContrato.isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL") + ")";
-    exito = ConectorBD.ejecutarQuery(cadenaSQL);
-    return exito;
-
-}
-
-
- public boolean modificar(String identificacionAnterior) {
-    if (identificacion == null || identificacionAnterior == null) {
-        System.out.println("Error: claseInfoLaboral identificacion o identificacionAnterior es null.");
-        return false;
+        String cadenaSQL = "INSERT INTO informacionLaboral (identificacion, idCargo, fechaIngreso, fechaIngresoTemporal, fechaRetiro, unidadNegocio, centroCostos, establecimiento, area, salario, estado, fechaTerPriContrato) VALUES ("
+                + identificacion + ", "
+                + idCargo + ", "
+                + (fechaIngreso != null && !fechaIngreso.isEmpty() ? "'" + fechaIngreso + "'" : "NULL") + ", "
+                + (fechaIngresoTemporal != null && !fechaIngresoTemporal.isEmpty() ? "'" + fechaIngresoTemporal + "'" : "NULL") + ", "
+                + (fechaRetiro != null && !fechaRetiro.isEmpty() ? "'" + fechaRetiro + "'" : "NULL") + ", "
+                + (unidadNegocio != null && !unidadNegocio.isEmpty() ? "'" + unidadNegocio + "'" : "NULL") + ", "
+                + (centroCostos != null && !centroCostos.isEmpty() ? "'" + centroCostos + "'" : "NULL") + ", "
+                + (establecimiento != null && !establecimiento.isEmpty() ? "'" + establecimiento + "'" : "NULL") + ", "
+                + (area != null && !area.isEmpty() ? "'" + area + "'" : "NULL") + ", "
+                + salario + ", "
+                + (estado != null && !estado.isEmpty() ? "'" + estado + "'" : "NULL") + ", "
+                + (fechaTerPriContrato != null && !fechaTerPriContrato.isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL")
+                + ")";
+        return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
-    // Construir la consulta SQL de modificación
-    String cadenaSQL = "UPDATE informacionLaboral SET "
-            + "identificacion='" + identificacion + "', "
-            + "fechaIngreso=" + (fechaIngreso != null && !fechaIngreso.isEmpty() ? "'" + fechaIngreso + "'" : "NULL") + ", "
-            + "fechaIngresoTemporal=" + (fechaIngresoTemporal != null && !fechaIngresoTemporal.isEmpty() ? "'" + fechaIngresoTemporal + "'" : "NULL") + ", "
-            + "fechaRetiro=" + (fechaRetiro != null && !fechaRetiro.isEmpty() ? "'" + fechaRetiro + "'" : "NULL") + ", "
-            + "unidadNegocio=" + (unidadNegocio != null && !unidadNegocio.isEmpty() ? "'" + unidadNegocio + "'" : "NULL") + ", "
-            + "centroCostos=" + (centroCostos != null && !centroCostos.isEmpty() ? "'" + centroCostos + "'" : "NULL") + ", "
-            + "establecimiento=" + (establecimiento != null && !establecimiento.isEmpty() ? "'" + establecimiento + "'" : "NULL") + ", "
-            + "area=" + (area != null && !area.isEmpty() ? "'" + area + "'" : "NULL") + ", "
-            + "salario=" + (salario != null && !salario.isEmpty() ? "'" + salario + "'" : "NULL") + ", "
-            + "estado=" + (estado != null && !estado.isEmpty() ? "'" + estado + "'" : "NULL") + ", "
-            + "fechaTerPriContrato=" + (fechaTerPriContrato != null && !fechaTerPriContrato.isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL") + " "
-            + "WHERE identificacion='" + identificacionAnterior + "'";
+    public boolean modificar(String identificacionAnterior) {
+        String cadenaSQL = "UPDATE informacionLaboral SET "
+                + "identificacion='" + identificacion + "', "
+                + "idCargo=" + idCargo + ", "
+                + "fechaIngreso=" + (fechaIngreso != null && !fechaIngreso.isEmpty() ? "'" + fechaIngreso + "'" : "NULL") + ", "
+                + "fechaIngresoTemporal=" + (fechaIngresoTemporal != null && !fechaIngresoTemporal.isEmpty() ? "'" + fechaIngresoTemporal + "'" : "NULL") + ", "
+                + "fechaRetiro=" + (fechaRetiro != null && !fechaRetiro.isEmpty() ? "'" + fechaRetiro + "'" : "NULL") + ", "
+                + "unidadNegocio='" + unidadNegocio + "', "
+                + "centroCostos='" + centroCostos + "', "
+                + "establecimiento='" + establecimiento + "', "
+                + "area='" + area + "', "
+                + "salario=" + salario + ", "
+                + "estado=" + (estado != null && !estado.isEmpty() ? "'" + estado + "'" : "NULL") + ", "
+                + "fechaTerPriContrato=" + (fechaTerPriContrato != null && !fechaTerPriContrato.isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL") + " "
+                + "WHERE identificacion='" + identificacionAnterior + "'";
 
-    System.out.println("Consulta SQL de modificación: " + cadenaSQL);
-    return ConectorBD.ejecutarQuery(cadenaSQL);
-}
-
-
+        System.out.println("Consulta SQL de modificación: " + cadenaSQL);
+        return ConectorBD.ejecutarQuery(cadenaSQL);
+    }
 
     public boolean eliminar() {
         String cadenaSQL = "DELETE FROM informacionLaboral WHERE identificacion = '" + identificacion + "'";
@@ -308,78 +292,69 @@ public class InformacionLaboral {
             orden = " ";
         }
 
-        String cadenaSQL = "SELECT identificacion, fechaIngreso, fechaIngresoTemporal, fechaRetiro, unidadNegocio, centroCostos, establecimiento, area, salario, estado, fechaTerPriContrato"
+        String cadenaSQL = "SELECT identificacion, idCargo, fechaIngreso, fechaIngresoTemporal, fechaRetiro, unidadNegocio, centroCostos, establecimiento, area, salario, estado, fechaTerPriContrato "
                 + "FROM informacionLaboral " + filtro + orden;
 
         System.out.println("Ejecutando consulta: " + cadenaSQL);
         return ConectorBD.consultar(cadenaSQL);
     }
 
-   public static InformacionLaboral getInformacionPorIdentificacion(String identificacion) {
-    InformacionLaboral info = null;
-    String sql = "SELECT identificacion, fechaIngreso, fechaIngresoTemporal, fechaRetiro, unidadNegocio, centroCostos, establecimiento, area, salario, estado, fechaTerPriContrato FROM informacionLaboral WHERE identificacion = " + identificacion;
-    
-    try {
-        ResultSet rs = ConectorBD.consultar(sql);
-        if (rs != null && rs.next()) {
-            info = new InformacionLaboral();
-            info.setIdentificacion(rs.getString("identificacion"));
-            info.setFechaIngreso(rs.getString("fechaIngreso"));
-            info.setFechaIngresoTemporal(rs.getString("fechaIngresoTemporal"));
-            info.setFechaRetiro(rs.getString("fechaRetiro"));
-            info.setUnidadNegocio(rs.getString("unidadNegocio"));
-            info.setCentroCostos(rs.getString("centroCostos"));
-            info.setEstablecimiento(rs.getString("establecimiento"));
-            info.setArea(rs.getString("area"));
-            info.setSalario(rs.getString("salario"));
-            info.setEstado(rs.getString("estado"));
-            info.setFechaTerPriContrato(rs.getString("fechaTerPriContrato"));
-        }
-    } catch (Exception e) {
-        System.out.println("❌ Error al consultar informacion laboral: " + e.getMessage());
-    }
+    public static InformacionLaboral getInformacionPorIdentificacion(String identificacion) {
+        InformacionLaboral info = null;
+        String sql = "SELECT identificacion, idCargo, fechaIngreso, fechaIngresoTemporal, fechaRetiro, unidadNegocio, centroCostos, establecimiento, area, salario, estado, fechaTerPriContrato FROM informacionLaboral WHERE identificacion = " + identificacion;
 
-    return info;
-}
-
-public static String getFechaIngresoPersona(String identificacionPersona) {
-    String sql = "SELECT fechaIngreso FROM informacionLaboral WHERE identificacion = '" + identificacionPersona + "'";
-
-
-    try {
-        ResultSet rs = ConectorBD.consultar(sql);
-        if (rs.next()) {
-            return rs.getString("fechaIngreso"); // Devuelve la fecha directamente
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    return ""; // Si no tiene fecha, devuelve cadena vacía
-}
-
-
-    public String getSelectEstablecimientos() {
-        String[] establecimientos = {
-            "Avenida", "Principal", "Centro", "Unicentro",
-            "Centro de Procesos", "Teleoperaciones", "Juanambu",
-            "Terminal Americano", "Puente", "Cano Bajo", "GreenField"
-        };
-
-        StringBuilder html = new StringBuilder();
-        html.append("<select name=\"establecimiento\" id=\"establecimiento\" onchange=\"precargarUnidadNegocio()\" required>");
-        html.append("<option value=\"\">Seleccione...</option>");
-
-        for (String est : establecimientos) {
-            html.append("<option value=\"").append(est).append("\"");
-            if (est.equals(establecimientoSeleccionado)) {
-                html.append(" selected");
+        try {
+            ResultSet rs = ConectorBD.consultar(sql);
+            if (rs != null && rs.next()) {
+                info = new InformacionLaboral();
+                info.setIdentificacion(rs.getString("identificacion"));
+                info.setIdCargo(rs.getString("idCargo"));
+                info.setFechaIngreso(rs.getString("fechaIngreso"));
+                info.setFechaIngresoTemporal(rs.getString("fechaIngresoTemporal"));
+                info.setFechaRetiro(rs.getString("fechaRetiro"));
+                info.setUnidadNegocio(rs.getString("unidadNegocio"));
+                info.setCentroCostos(rs.getString("centroCostos"));
+                info.setEstablecimiento(rs.getString("establecimiento"));
+                info.setArea(rs.getString("area"));
+                info.setSalario(rs.getString("salario"));
+                info.setEstado(rs.getString("estado"));
+                info.setFechaTerPriContrato(rs.getString("fechaTerPriContrato"));
             }
-            html.append(">").append(est).append("</option>");
+        } catch (Exception e) {
+            System.out.println("❌ Error al consultar informacion laboral: " + e.getMessage());
         }
 
-        html.append("</select>");
-        return html.toString();
+        return info;
+    }
+
+    public static String getFechaIngresoPersona(String identificacionPersona) {
+        String sql = "SELECT fechaIngreso FROM informacionLaboral WHERE identificacion = '" + identificacionPersona + "'";
+
+        try {
+            ResultSet rs = ConectorBD.consultar(sql);
+            if (rs.next()) {
+                return rs.getString("fechaIngreso"); // Devuelve la fecha directamente
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ""; // Si no tiene fecha, devuelve cadena vacía
+    }
+
+    public static String getFechaRetiroPersona(String identificacionPersona) {
+        String sql = "SELECT fechaRetiro FROM informacionLaboral WHERE identificacion = '" + identificacionPersona + "'";
+
+        try {
+            ResultSet rs = ConectorBD.consultar(sql);
+            if (rs.next()) {
+                return rs.getString("fechaRetiro"); // Devuelve la fecha directamente
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ""; // Si no tiene fecha, devuelve cadena vacía
     }
 
     public String getSelectCentroCostos() {
@@ -409,6 +384,3 @@ public static String getFechaIngresoPersona(String identificacionPersona) {
     }
 
 }
-
-
-

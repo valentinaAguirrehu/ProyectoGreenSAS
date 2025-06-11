@@ -3,6 +3,12 @@
     Created on : 22/03/2025, 02:30:30 AM
     Author     : Mary
 --%>
+<%@page import="clases.GeneroPersona"%>
+<%@page import="clases.Talla"%>
+<%@page import="clases.InformacionLaboral"%>
+<%@page import="clases.Vehiculo"%>
+<%@page import="clases.Referencia"%>
+<%@page import="clases.SeguridadSocial"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.Period"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
@@ -16,24 +22,34 @@
 <%
     String identificacion = request.getParameter("identificacion");
     Persona persona = new Persona(identificacion);
+    SeguridadSocial seguridadSocial = new SeguridadSocial(identificacion);
+    Referencia referencia = new Referencia(identificacion);
+    Vehiculo vehiculo = new Vehiculo(identificacion);
+    InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
+    Talla talla = new Talla(identificacion);
+
     List<Hijo> hijos = persona.obtenerHijos();
 
-    // Cálculo de la edad
-    int edad = 0;
-    if (persona.getFechaNacimiento() != null && !persona.getFechaNacimiento().isEmpty()) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate fechaNacimiento = LocalDate.parse(persona.getFechaNacimiento(), formatter);
-            edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
-        } catch (Exception e) {
-            edad = -1; // Indica error en la fecha
-        }
-    }
-
+//    // Cálculo de la edad
+//    String fechaNacimiento = persona.getFechaNacimiento();
+//    int edad = -1;
+//
+//    if (fechaNacimiento != null && !fechaNacimiento.trim().isEmpty()) {
+//        try {
+//            LocalDate nacimiento = LocalDate.parse(fechaNacimiento); // yyyy-MM-dd
+//            LocalDate hoy = LocalDate.now();
+//
+//            if (!nacimiento.isAfter(hoy)) {
+//                edad = Period.between(nacimiento, hoy).getYears();
+//            }
+//        } catch (Exception e) {
+//            edad = -1;
+//        }
+//    }
     // Obtener el nombre del cargo
     String nombreCargo = "No asignado"; // Valor por defecto
-    if (persona != null && persona.getIdentificacion() != null && persona.getIdCargo() != null) {
-        Cargo cargo = new Cargo(persona.getIdCargo()); // Crear objeto Cargo
+    if (informacionLaboral != null && informacionLaboral.getIdentificacion() != null && informacionLaboral.getIdCargo() != null) {
+        Cargo cargo = new Cargo(informacionLaboral.getIdCargo()); // Crear objeto Cargo
         if (cargo.getNombre() != null && !cargo.getNombre().isEmpty()) {
             nombreCargo = cargo.getNombre(); // Obtener nombre si existe
         }
@@ -53,15 +69,16 @@
         <h1>Datos personales</h1>
         <table class="info-table" border="1">
             <tr><th>Nombre Completo</th><td><%= persona.getNombres()%> <%= persona.getApellidos()%></td></tr>
-            <tr><th>Sexo</th><td><%= persona.getSexo()%></td></tr>
-            <tr><th>Fecha de Ingreso</th><td><%= persona.getFechaIngreso()%></td></tr>
-            <tr><th>Fecha de retiro</th><td><%= persona.getFechaRetiro()%></td></tr>   
+            <tr><th>Sexo</th><td><%= new GeneroPersona(persona.getSexo())%></td></tr>
+            <tr><th>Fecha de Ingreso</th><td><%= informacionLaboral.getFechaIngreso()%></td></tr>
+            <tr><th>Fecha de retiro</th><td><%= informacionLaboral.getFechaRetiro()%></td></tr>   
             <tr><th>Documento de identidad</th><td><%= persona.getTipoDocumento()%></td></tr>
             <tr><th>Número del documento</th><td><%= persona.getIdentificacion()%></td></tr>
             <tr><th>Fecha de Expedición</th><td><%= persona.getFechaExpedicion()%></td></tr>
             <tr><th>Lugar de Expedición</th><td><%= persona.getLugarExpedicion()%></td></tr>
             <tr><th>Fecha de Nacimiento</th><td><%= persona.getFechaNacimiento()%></td></tr>
-            <tr><th>Edad</th><td><%= edad >= 0 ? edad + " años" : "Fecha inválida"%></td></tr>
+            <!--<tr> <th>Edad</th><td><%//= edad >= 0 ? edad + " años" : "Fecha inválida"%></td></tr>-->         
+            <tr><th>Edad</th><td><%= persona.calcularEdad()%></td></tr>
             <tr><th>Lugar de nacimiento</th><td><%= persona.getLugarNacimiento()%></td></tr>
             <tr><th>Tipo de sangre</th><td><%= persona.getTipoSangre()%></td></tr>
             <tr><th>Tipo de vivienda</th><td><%= persona.getTipoVivienda()%></td></tr>
@@ -69,23 +86,22 @@
             <tr><th>Barrio</th><td><%= persona.getBarrio()%></td></tr>
             <tr><th>Celular</th><td><%= persona.getCelular()%></td></tr>
             <tr><th>Correo electrónico</th><td><%= persona.getEmail()%></td></tr>
-            <tr><th>Nivel educativo</th><td><%= persona.getNivelEducativo()%> / <%=persona.getProfesion()%></td></tr>
+            <tr><th>Nivel educativo</th><td><%= persona.getNivelEdu()%> / <%=persona.getProfesion()%></td></tr>
             <tr><th>Estado civil</th><td><%= persona.getEstadoCivil()%></td></tr>
 
         </table>
 
         <h1>Información de hijos</h1>
         <table class="info-table">
-            <tr><th>Documento de identidad</th><th>Nombre</th><th>Edad</th></tr>
+            <tr><th>Tipo de documento<th>Numero de identificacion</th><th>Nombre</th><th>Edad</th><th>Nivel educativo</th></tr>
                     <% if (hijos != null && !hijos.isEmpty()) {
                             for (Hijo hijo : hijos) {%>
             <tr>
+                <td><%= hijo.getTipoIden()%></td>
                 <td><%= hijo.getIdentificacion()%></td>
                 <td><%= hijo.getNombres()%></td>
-                <td>
-                    <%= hijo.calcularEdad()%>
-                </td>
-
+                <td><%= hijo.calcularEdad()%></td>
+                <td><%= hijo.getNivelEscolar()%></td>
             </tr>
             <% }
             } else { %>
@@ -93,62 +109,63 @@
             <% } %>
         </table>
 
-        <% if (persona.getNumeroPlacaVehiculo() != null && !persona.getNumeroPlacaVehiculo().isEmpty()) {%>
+        <% if (vehiculo.getNumeroPlacaVehiculo() != null && !vehiculo.getNumeroPlacaVehiculo().isEmpty()) {%>
         <h1>Información del vehículo</h1>
         <table class="info-table">
-            <tr><th>Número de placa:</th><td><%= persona.getNumeroPlacaVehiculo()%></td></tr>
-            <tr><th>Tipo medio de transporte</th><td><%= persona.getTipoVehiculo()%></td></tr>
-            <tr><th>Modelo:</th><td><%= persona.getModeloVehiculo()%></td></tr>
-            <tr><th>Línea:</th><td><%= persona.getLinea()%></td></tr>
-            <tr><th>Marca:</th><td><%= persona.getMarca()%></td></tr>
-            <tr><th>Color:</th><td><%= persona.getColor()%></td></tr>
-            <tr><th>Cilindraje:</th><td><%= persona.getCilindraje()%></td></tr>
-            <tr><th>Restricciones del conductor</th><td><%= persona.getRestricciones()%></td></tr>
-            <tr><th>Titular Tarjeta de Propiedad</th><td><%= persona.getTitularTrjPro()%></td></tr>
-            <tr><th>Número de la tarjeta de propiedad</th><td><%= persona.getNumLicenciaTransito()%></td></tr>
-            <tr><th>Fecha de expedición tarjeta de propiedad</th><td><%= persona.getFechaExpLicenciaTransito()%></td></tr>
+            <tr><th>Número de placa:</th><td><%= vehiculo.getNumeroPlacaVehiculo()%></td></tr>
+            <tr><th>Tipo medio de transporte</th><td><%= vehiculo.getTipoVehiculo()%></td></tr>
+            <tr><th>Modelo:</th><td><%= vehiculo.getModeloVehiculo()%></td></tr>
+            <tr><th>Línea:</th><td><%= vehiculo.getLinea()%></td></tr>
+            <tr><th>Marca:</th><td><%= vehiculo.getMarca()%></td></tr>
+            <tr><th>Color:</th><td><%= vehiculo.getColor()%></td></tr>
+            <tr><th>Cilindraje:</th><td><%= vehiculo.getCilindraje()%></td></tr>
+            <tr><th>Restricciones del conductor</th><td><%= vehiculo.getRestricciones()%></td></tr>
+            <tr><th>Titular Tarjeta de Propiedad</th><td><%= vehiculo.getTitularTrjPro()%></td></tr>
+            <tr><th>Número de la tarjeta de propiedad</th><td><%= vehiculo.getNumLicenciaTransito()%></td></tr>
+            <tr><th>Fecha de expedición tarjeta de propiedad</th><td><%= vehiculo.getFechaExpLicenciaTransito()%></td></tr>
         </table>
         <h1>Licencia de conducción</h1>
         <table class="info-table">
-            <tr><th>Estado</th><td><%= persona.getEstado()%></td></tr>
-            <tr><th>Fecha de expedición de la licencia de conducción</th><td><%= persona.getFechaExpConduccion()%></td></tr>
-            <tr><th>Fecha de vencimiento de la licencia de conducción</th><td><%= persona.getFechaVencimiento()%></td></tr>
-            <tr><th>Número de la licencia de conducción</th><td><%= persona.getNumLicenciaConduccion()%></td></tr>
+            <tr><th>Estado</th><td><%= vehiculo.getEstadoV()%></td></tr>
+            <tr><th>Fecha de expedición de la licencia de conducción</th><td><%= vehiculo.getFechaExpConduccion()%></td></tr>
+            <tr><th>Fecha de vencimiento de la licencia de conducción</th><td><%= vehiculo.getFechaVencimiento()%></td></tr>
+            <tr><th>Número de la licencia de conducción</th><td><%= vehiculo.getNumLicenciaConduccion()%></td></tr>
         </table>
         <% }%>
 
         <h1>Contactos personales</h1>
         <table class="info-table">
-            <tr><th>Primer contacto</th><td><%= persona.getPrimerRefNombre()%> - <%= persona.getPrimerRefParentezco()%> - <%= persona.getPrimerRefCelular()%></td></tr>
-            <tr><th>Segundo contacto</th><td><%= persona.getSegundaRefNombre()%> - <%= persona.getSegundaRefParentezco()%> - <%= persona.getSegundaRefCelular()%></td></tr>
-            <tr><th>Tercer contacto</th><td><%= persona.getTerceraRefNombre()%> - <%= persona.getTerceraRefParentezco()%> - <%= persona.getTerceraRefCelular()%></td></tr>
-            <tr><th>Cuarto contacto</th><td><%= persona.getCuartaRefNombre()%> - <%= persona.getCuartaRefParentezco()%> - <%= persona.getCuartaRefCelular()%></td></tr>
+            <tr><th>Primer contacto</th><td><%= referencia.getPrimerRefNombre()%> - <%= referencia.getPrimerRefParentezco()%> - <%= referencia.getPrimerRefCelular()%></td></tr>
+            <tr><th>Segundo contacto</th><td><%= referencia.getSegundaRefNombre()%> - <%= referencia.getSegundaRefParentezco()%> - <%= referencia.getSegundaRefCelular()%></td></tr>
+            <tr><th>Tercer contacto</th><td><%= referencia.getTerceraRefNombre()%> - <%= referencia.getTerceraRefParentezco()%> - <%= referencia.getTerceraRefCelular()%></td></tr>
+            <tr><th>Cuarto contacto</th><td><%= referencia.getCuartaRefNombre()%> - <%= referencia.getCuartaRefParentezco()%> - <%= referencia.getCuartaRefCelular()%></td></tr>
         </table>
 
         <h1>Información laboral</h1>
         <table class="info-table">
-            <tr><th>Fecha de termino del primer contrato</th><td><%= persona.getFechaTerPriContrato()%></td></tr>
-            <tr><th>Establecimiento y unidad de negocio</th><td><%= persona.getEstablecimiento()%> - <%= persona.getUnidadNegocio()%></td></tr>
+            <tr><th>Fecha de ingreso temporal</th><td><%= informacionLaboral.getFechaIngresoTemporal()%></td></tr>
+            <tr><th>Duración del primer contrato</th><td><%= informacionLaboral.getFechaTerPriContrato()%></td></tr>
+            <tr><th>Unidad de negocio</th><td><%=informacionLaboral.getUnidadNegocio()%></td></tr>           
+            <tr><th>Centro de costos</th><td><%= informacionLaboral.getCentroCostos()%></td></tr>
+            <tr><th>Lugar de trabajo</th><td><%= informacionLaboral.getEstablecimiento()%> - <%= informacionLaboral.getUnidadNegocio()%></td></tr>
+            <tr><th>Area</th><td><%= informacionLaboral.getArea()%></td></tr>
             <tr><th>Cargo</th><td><%=nombreCargo%></td></tr>
-            <tr><th>Centro de costos</th><td><%= persona.getCentroCostos()%></td></tr>
-            <tr><th>Centro de trabajo</th><td><%=persona.getCctn()%></td></tr>
-            <tr><th>Area</th><td><%= persona.getArea()%></td></tr>
-            <tr><th>EPS</th><td><%= persona.getEps()%></td></tr>       
-            <tr><th>Salario</th><td><%= persona.getSalario()%></td></tr>
+            <tr><th>EPS</th><td><%= seguridadSocial.getEps()%></td></tr>
+            <tr><th>Salario</th><td><%= informacionLaboral.getSalario()%></td></tr>
         </table>
 
-         <h1>Información de tallas</h1>
+        <h1>Información de tallas</h1>
         <table class="info-table">
-            <tr><th>Talla de camisa</th><td><%= persona.getTallaCamisa()%></td></tr>
-            <tr><th>Talla de chaqueta</th><td><%= persona.getTallaChaqueta()%></td></tr>
-            <tr><th>Talla de pantalón</th><td><%= persona.getTallaPantalon()%></td></tr>  
-            <tr><th>Talla de calzado</th><td><%= persona.getTallaCalzado()%></td></tr>
-            <tr><th>Talla de buzo</th><td><%= persona.getTallaBuzo()%></td></tr>                       
-            <tr><th>Talla de overol</th><td><%= persona.getTallaO()%></td></tr>
-            <tr><th>Talla de guantes</th><td><%= persona.getTallaGuantes()%></td></tr>
+            <tr><th>Talla de camisa</th><td><%= talla.getTallaCamisa()%></td></tr>
+            <tr><th>Talla de chaqueta</th><td><%= talla.getTallaChaqueta()%></td></tr>
+            <tr><th>Talla de pantalón</th><td><%= talla.getTallaPantalon()%></td></tr>  
+            <tr><th>Talla de calzado</th><td><%= talla.getTallaCalzado()%></td></tr>
+            <tr><th>Talla de buzo</th><td><%= talla.getTallaBuzo()%></td></tr>                       
+            <tr><th>Talla de overol</th><td><%= talla.getTallaO()%></td></tr>
+            <tr><th>Talla de guantes</th><td><%= talla.getTallaGuantes()%></td></tr>
         </table>
         <div class="botones-container">          
             <button class="submit" id="regresar" onClick="window.history.back()">Regresar</button>           
         </div>
     </div>
-</body> 
+</body>

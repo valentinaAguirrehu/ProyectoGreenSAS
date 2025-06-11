@@ -21,7 +21,6 @@
         response.sendRedirect("temporales.jsp");
     }
 
-
     SeguridadSocial seguridadSocial = (SeguridadSocial) request.getAttribute("seguridadSocial");
     request.setAttribute("seguridadSocial", seguridadSocial);
 
@@ -29,7 +28,6 @@
     Persona persona = new Persona();
     persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("T");
-//    persona.setIdCargo(request.getParameter("idCargo"));
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));
     persona.setNombres(request.getParameter("nombres"));
@@ -44,6 +42,9 @@
     persona.setCelular(request.getParameter("celular"));
     persona.setEmail(request.getParameter("email"));
     persona.setEstadoCivil(request.getParameter("estadoCivilFinal"));
+    persona.setNivelEdu(request.getParameter("nivelEdu"));
+    persona.setProfesion(request.getParameter("profesion"));
+    persona.setCuentaBancaria(request.getParameter("cuentaBancaria"));
     persona.setNumeroCuenta(request.getParameter("numeroCuenta"));
     String datosHijos = request.getParameter("hijosRegistrados");
     persona.setIdDepartamentoExpedicion(request.getParameter("idDepartamento"));
@@ -67,10 +68,11 @@
 
     // Capturar datos de los hijos
     String[] identificacionesHijos = request.getParameterValues("identificacionHijo[]");
+    String[] tipoIdenHijo = request.getParameterValues("tipoIdenHijo[]");
     String[] nombresHijos = request.getParameterValues("nombreHijo[]");
-    String[] fechasNacimientoHijos = request.getParameterValues("fechaNacimientoHijo[]");
+    String[] fechaNacimientoHijo = request.getParameterValues("fechaNacimientoHijo[]");
+    String[] nivelEscolarHijo = request.getParameterValues("nivelEscolarHijo[]");
 
-    // Acción según el botón presionado
     // Acción según el botón presionado
     boolean personaGuardada = false;
     switch (accion) {
@@ -88,11 +90,23 @@
     // Solo proceder con los hijos si la persona se guardó correctamente
     if (personaGuardada && identificacionesHijos != null) {
         for (int i = 0; i < identificacionesHijos.length; i++) {
-            if (!identificacionesHijos[i].trim().isEmpty() && !nombresHijos[i].trim().isEmpty() && !fechasNacimientoHijos[i].trim().isEmpty()) {
+            if (!identificacionesHijos[i].trim().isEmpty()
+                    && !nombresHijos[i].trim().isEmpty()
+                    && !tipoIdenHijo[i].trim().isEmpty()
+                    && !fechaNacimientoHijo[i].trim().isEmpty()
+                    && !nivelEscolarHijo[i].trim().isEmpty()) {
                 // Insertar en la tabla hijos si no existe
-                String sqlHijo = "INSERT INTO hijos (identificacion, nombres, fechaNacimiento) VALUES ('"
-                        + identificacionesHijos[i] + "', '" + nombresHijos[i] + "', '" + fechasNacimientoHijos[i] + "') "
-                        + "ON DUPLICATE KEY UPDATE nombres = VALUES(nombres), fechaNacimiento = VALUES(fechaNacimiento)";
+                String sqlHijo = "INSERT INTO hijos (identificacion, tipoIden, nombres, fechaNacimiento, nivelEscolar) VALUES ('"
+                        + identificacionesHijos[i] + "', '"
+                        + tipoIdenHijo[i] + "', '"
+                        + nombresHijos[i] + "', '"
+                        + fechaNacimientoHijo[i] + "', '"
+                        + nivelEscolarHijo[i] + "') "
+                        + "ON DUPLICATE KEY UPDATE "
+                        + "tipoIden = VALUES(tipoIden), "
+                        + "nombres = VALUES(nombres), "
+                        + "fechaNacimiento = VALUES(fechaNacimiento), "
+                        + "nivelEscolar = VALUES(nivelEscolar)";
                 ConectorBD.ejecutarQuery(sqlHijo);
 
                 // Insertar en persona_hijos con autoincremental id
@@ -103,15 +117,22 @@
             }
         }
     }
-
     // 🔥 Solo redirigir automáticamente si se guardó (Adicionar), no si se elimina ni modifica
     if (personaGuardada && "Adicionar".equals(accion)) {
         String identificacionParaRedirigir = persona.getIdentificacion();
         response.sendRedirect("seguridadSocialTFormulario.jsp?identificacion=" + identificacionParaRedirigir);
         return; // Detiene el JSP después de redirigir
     }
+    if (personaGuardada && "Modificar".equals(accion)) {
+    response.sendRedirect("seguridadSocialTFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
+    return;
+}
+//    if (personaGuardada && "Modificar".equals(accion)) {
+//        response.sendRedirect("seguridadSocialTFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
+//        return;
+//    }
+//    // Si no se guardó, puedes mostrar un error o quedarte en la misma página
 
-    // Si no se guardó, puedes mostrar un error o quedarte en la misma página
 %>
 
 
@@ -119,6 +140,5 @@
 <!-- Verifica si la persona fue guardada con éxito y muestra el siguiente formulario -->
 
 <script type="text/javascript">
-    document.location = "seguridadSocialTFormulario.jsp";
+    document.location = "temporales.jsp";
 </script>
-

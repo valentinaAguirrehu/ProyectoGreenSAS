@@ -3,9 +3,8 @@
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
-
+<%@page import="java.util.Map"%>
 <%@page import="clases.InformacionLaboral"%>
-<%@page import="java.util.Map"%>  
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
@@ -21,7 +20,7 @@
     List<Persona> datos = Persona.getListaEnObjetos("tipo = 'C'", null);
 
     for (Persona persona : datos) {
-        String tipoDocumento = persona.getTipoDocumento();
+        String tipoDocumento = persona.getTipoDocumento().toString();
         String identificacion = persona.getIdentificacion();
         String nombres = persona.getNombres();
         String apellidos = persona.getApellidos();
@@ -34,15 +33,14 @@
         lista += "<td>" + nombres + "</td>";
         lista += "<td>" + apellidos + "</td>";
         lista += "<td>" + cargo + "</td>";
-//      lista += "<td>" + establecimiento + "</td>";
-//      lista += "<td>" + unidadNegocio + "</td>";
+//        lista += "<td>" + establecimiento + "</td>";
+//        lista += "<td>" + unidadNegocio + "</td>";
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
-        lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
         lista += "<img class='ver' src='../presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
         lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
         lista += "<img class='editar' src='../presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
-        lista += "<img class='ver' src='../presentacion/iconos/dotacion.png' title='Entregar dotación' onClick='entregarDotacion(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+        lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
         lista += "<img class='eliminar' src='../presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
         lista += "<img class='subir' src='../presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         lista += "<img class='subir' src='../presentacion/iconos/cambiarTipo.png' title='Pasar a temporal' onClick='cambiarATemporal(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
@@ -109,22 +107,11 @@
         document.location = "personaDetalles.jsp?identificacion=" + identificacion;
     }
     function historiaLaboralGreen(identificacion) {
-        window.location.href = "../3.HistoriaLaboral/historiaLaboralGreen.jsp?identificacion=" + identificacion;
+        window.location.href = "historiaLaboralGreen.jsp?identificacion=" + identificacion;
     }
 
     function verRetirados(identificacion) {
         window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
-    }
-
-    function entregarDotacion(identificacion) {
-        window.location.href = "../7.Dotaciones/historialDotacion.jsp?identificacion=" + identificacion;
-    }
-
-    function cambiarATemporal(identificacion) {
-        var confirmar = confirm("¿Desea cambiar a esta persona como Temporal?");
-        if (confirmar) {
-            window.location.href = "personaActualizar.jsp?accion=CambiarTipo&identificacionAnterior=" + identificacion;
-        }
     }
 
     // Buscador dinÃ¡mico con opciÃ³n de filtro por columna
@@ -180,5 +167,12 @@
     <%= administrador.getpLeer()%>
         );
     });
+
+    function cambiarATemporal(identificacion) {
+        var confirmar = confirm("¿Desea cambiar el tipo de esta persona a 'T' (Temporal)?");
+        if (confirmar) {
+            window.location.href = "personaActualizar.jsp?accion=CambiarTipo&identificacionAnterior=" + identificacion;
+        }
+    }
 
 </script>

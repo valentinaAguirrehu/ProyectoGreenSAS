@@ -4,6 +4,7 @@
     Author     : Mary
 --%>
 
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
@@ -15,6 +16,7 @@
     String accion = request.getParameter("accion");
     String id = request.getParameter("id");
     String identificacion = request.getParameter("identificacion");
+    InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
 
     Persona persona = null;
     Retirados retirado = new Retirados();
@@ -37,8 +39,9 @@
     }
 
     String nombreCargo = "";
-    if (persona != null && persona.getIdCargo() != null) {
-        Cargo cargo = new Cargo(persona.getIdCargo());
+    InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion());
+    if (info != null && info.getIdCargo() != null) {
+        Cargo cargo = new Cargo(info.getIdCargo());
         nombreCargo = cargo.getNombre();
     }
 
@@ -49,10 +52,10 @@
     String textoBoton = accion.equals("Modificar") ? "Modificar" : "Aceptar";
 %>
 
-<%@ include file="../menu.jsp" %>
+<%@ include file="menu.jsp" %>
 
 <head>
-    <link rel="stylesheet" href="../presentacion/style-RetiradosFormulario.css">
+    <link rel="stylesheet" href="presentacion/style-RetiradosFormulario.css">
 </head>
 <body>
     <div class="content">
@@ -76,18 +79,17 @@
                     <td><span id="cargo"><%= nombreCargo%></span></td>
                 </tr>
                 <tr>
-                    <th>Establecimiento</th>
-                    <td><span id="establecimiento"><%= (persona != null) ? persona.getEstablecimiento() : ""%></span></td>
+                    <th>Lugar de trabajo<span style="color: red;">*</span></th>
+                    <td colspan="2">
+                        <%= informacionLaboral.getEstablecimiento().getSelectLugarTrabajo("establecimiento")%>
+                    </td>               
                 </tr>
                 <tr>
                     <th>Fecha de ingreso</th>
-                    <td><span id="fechaIngreso"><%= (persona != null) ? persona.getFechaIngreso() : ""%></span></td>
-                </tr>
+                    <td><input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required >                   </td>               </tr>
                 <tr>
                     <th>Fecha de retiro</th>
-                    <td><input class="recuadro" type="date" name="fechaRetiro" 
-                               value="<%= (persona != null) ? persona.getFechaRetiro() : ""%>" required></td>
-                </tr>
+                    <td><input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" required >                  </td>                </tr>
                 <tr>
                     <th>Número de caja</th>
                     <td><input class="recuadro" type="text" name="numCaja" 
