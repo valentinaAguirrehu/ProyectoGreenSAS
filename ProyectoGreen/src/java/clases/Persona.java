@@ -768,18 +768,18 @@ public class Persona {
             return "Fecha inválida";
         }
     }
-
     public static String getNombrePorId(String idPersona) {
-        String nombreCompleto = "No encontrado";
-        String sql = "SELECT nombres, apellidos FROM persona WHERE identificacion = '" + idPersona + "'";
-        try {
-            ResultSet rs = ConectorBD.consultar(sql);
-            if (rs != null && rs.next()) {
-                nombreCompleto = rs.getString("nombres") + " " + rs.getString("apellidos");
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al obtener el nombre: " + ex.getMessage());
+    String nombreCompleto = "No encontrado";
+    String sql = "SELECT nombres, apellidos FROM persona WHERE identificacion = '" + idPersona + "'";
+    try {
+        ResultSet rs = ConectorBD.consultar(sql);
+        if (rs != null && rs.next()) {
+            nombreCompleto = rs.getString("nombres") + " " + rs.getString("apellidos");
         }
-        return nombreCompleto;
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener el nombre: " + ex.getMessage());
     }
+    return nombreCompleto;
+}
+    
 }

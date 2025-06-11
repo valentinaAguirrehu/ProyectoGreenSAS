@@ -1,147 +1,140 @@
-<%@page import="java.text.DateFormatSymbols"%>
-<%@ page import="java.util.*" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="clases.DetalleEntrega" %>
-<%@ page import="clases.EntregaDotacion" %>
-<%@ page import="clases.Persona" %>
+<%@ page import="java.util.*, java.text.DateFormatSymbols, java.text.SimpleDateFormat" %>
+<%@ page import="clases.DetalleEntrega, clases.EntregaDotacion, clases.Persona" %>
+<%@ page import="java.util.*, java.text.DateFormatSymbols, java.text.SimpleDateFormat" %>
+<%@ page import="clases.DetalleEntrega, clases.EntregaDotacion, clases.Persona" %>
+
+<%@ page import="java.util.*, java.text.DateFormatSymbols, java.text.SimpleDateFormat" %>
+<%@ page import="clases.DetalleEntrega, clases.EntregaDotacion, clases.Persona" %>
 
 <%
     boolean isDownloadMode = request.getParameter("formato") != null;
     if (isDownloadMode) {
-        String tipoContenido = "";
-        String extensionArchivo = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        String fechaActual = sdf.format(new java.util.Date());
-
-        switch (request.getParameter("formato")) {
-            case "excel":
-                tipoContenido = "application/vnd.ms-excel";
-                extensionArchivo = ".xls";
-                break;
-            case "word":
-                tipoContenido = "application/msword";
-                extensionArchivo = ".doc";
-                break;
+        String tipo = "application/vnd.ms-excel", ext = ".xls";
+        if ("word".equals(request.getParameter("formato"))) {
+            tipo = "application/msword";
+            ext = ".doc";
         }
-        response.setContentType(tipoContenido);
-        String nombreArchivo = "Reporte_Dotacion_" + fechaActual + extensionArchivo;
-        response.setHeader("Content-Disposition", "inline; filename=\"" + nombreArchivo + "\"");
+        String fecha = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        response.setContentType(tipo);
+        response.setHeader("Content-Disposition", "inline; filename=\"Reporte_Dotacion_" + fecha + ext + "\"");
     }
 
-    Set<String> anios = new TreeSet<>(Collections.reverseOrder());
-    Set<String> unidades = new TreeSet<>();
-    Set<String> tiposEntrega = new TreeSet<>();
+    // Filtros
+    String anio = request.getParameter("anio"),
+            unidad = request.getParameter("unidad"),
+            estado = request.getParameter("estado"),
+            tipoEnt = request.getParameter("tipo");
 
-    List<DetalleEntrega> todas = DetalleEntrega.getDetallesConEstadoNueva();
-    for (DetalleEntrega d : todas) {
-        EntregaDotacion e = d.getEntrega();
-        if (e.getFechaEntrega() != null && e.getFechaEntrega().length() >= 4) {
-            anios.add(e.getFechaEntrega().substring(0, 4));
+    List<DetalleEntrega> lista = DetalleEntrega.getDetallesFiltrados(anio, unidad, estado, tipoEnt);
+
+    // Construir set de años existentes
+    Set<String> aniosSet = new TreeSet<>(Collections.reverseOrder());
+    for (DetalleEntrega d : lista) {
+        String f = d.getEntrega().getFechaEntrega();
+        if (f != null && f.length() >= 4) {
+            aniosSet.add(f.substring(0, 4));
         }
-        if (d.getUnidadNegocio() != null) {
-            unidades.add(d.getUnidadNegocio());
+    }
+
+    // Agrupar DetalleEntrega por entrega
+    Map<String, List<DetalleEntrega>> agrupado = new LinkedHashMap<>();
+    for (DetalleEntrega de : lista) {
+        String idEnt = de.getEntrega().getIdEntrega();
+        List<DetalleEntrega> subset = agrupado.get(idEnt);
+        if (subset == null) {
+            subset = new ArrayList<>();
+            agrupado.put(idEnt, subset);
         }
-        if (e.getTipoEntrega() != null) {
-            tiposEntrega.add(e.getTipoEntrega());
+        subset.add(de);
+
+    }
+
+    // Preparar datos para gráfica
+    Map<String, Integer> entregasGrafico = new LinkedHashMap<>();
+    for (List<DetalleEntrega> dets : agrupado.values()) {
+        EntregaDotacion ed = dets.get(0).getEntrega();
+        String f = ed.getFechaEntrega();
+        String label;
+        if (anio != null && !anio.isEmpty()) {
+            int mes = Integer.parseInt(f.substring(5, 7)) - 1;
+            label = new DateFormatSymbols().getMonths()[mes];
+        } else {
+            label = f.substring(0, 4);
         }
+        entregasGrafico.put(label, entregasGrafico.getOrDefault(label, 0) + 1);
     }
 %>
 
 <% if (!isDownloadMode) {%>
 <style>
     .table th, .table td {
-        text-align: center;
+        text-align:center;
     }
     .export-icons {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .export-icons img {
-        width: 32px;
-        height: 32px;
-        margin: 0 10px;
-        cursor: pointer;
+        text-align:center;
+        margin-bottom:20px;
     }
     .filtro-form {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin: 20px;
-    }
-    .filtro-form select {
-        padding: 5px;
-        font-size: 14px;
+        display:flex;
+        justify-content:center;
+        gap:10px;
+        flex-wrap:wrap;
+        margin:20px;
     }
 </style>
-
 <%@ include file="../menu.jsp" %>
 <% } %>
 
 <link rel="stylesheet" href="../presentacion/style-Cargos.css">
-
 <div class="content">
     <h3 class="titulo">REPORTE DE DOTACIÓN</h3>
 
-    <% if (!isDownloadMode) {
-            String anio = request.getParameter("anio");
-            String unidad = request.getParameter("unidad");
-            String estado = request.getParameter("estado");
-            String tipo = request.getParameter("tipo");
-    %>
-
+    <% if (!isDownloadMode) {%>
     <div class="export-icons">
-        <a href="dotacion.jsp?formato=excel<%= (request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : "")%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
-        <a href="dotacion.jsp?formato=word<%= (request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : "")%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
+        <a href="dotacion.jsp?formato=excel<%= request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : ""%>" target="_blank">
+            <img src="../presentacion/iconos/excel.png" alt="Excel">
+        </a>
+        <a href="dotacion.jsp?formato=word<%= request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : ""%>" target="_blank">
+            <img src="../presentacion/iconos/word.png" alt="Word">
+        </a>
     </div>
-
     <form method="get" class="filtro-form" id="filtroForm">
         <select name="anio">
             <option value="">-- Año --</option>
-            <% for (String a : anios) {%>
-            <option value="<%= a%>" <%= a.equals(anio) ? "selected" : ""%>><%= a%></option>
+            <% for (String y : aniosSet) {%>
+            <option value="<%= y%>" <%= y.equals(anio) ? "selected" : ""%>><%= y%></option>
             <% } %>
         </select>
-
         <select name="unidad">
-            <option value="">-- Unidad de Negocio --</option>
-            <% for (String u : unidades) {%>
+            <option value="">-- Unidad --</option>
+            <% Set<String> unidadesSet = new TreeSet<>();
+                for (DetalleEntrega d : lista) {
+                    unidadesSet.add(d.getUnidadNegocio());
+                }
+                for (String u : unidadesSet) {%>
             <option value="<%= u%>" <%= u.equals(unidad) ? "selected" : ""%>><%= u%></option>
             <% }%>
         </select>
-
         <select name="estado">
             <option value="">-- Estado --</option>
             <option value="Nueva" <%= "Nueva".equals(estado) ? "selected" : ""%>>Nueva</option>
             <option value="Usada" <%= "Usada".equals(estado) ? "selected" : ""%>>Usada</option>
         </select>
-
         <select name="tipo">
-            <option value="">-- Tipo de Entrega --</option>
-            <% for (String t : tiposEntrega) {%>
-            <option value="<%= t%>" <%= t.equals(tipo) ? "selected" : ""%>><%= t%></option>
+            <option value="">-- Tipo Entrega --</option>
+            <% Set<String> tiposSet = new TreeSet<>();
+                for (DetalleEntrega d : lista) {
+                    tiposSet.add(d.getEntrega().getTipoEntrega());
+                }
+                for (String t : tiposSet) {%>
+            <option value="<%= t%>" <%= t.equals(tipoEnt) ? "selected" : ""%>><%= t%></option>
             <% } %>
         </select>
     </form>
-
     <script>
-        document.querySelectorAll('#filtroForm select').forEach(select => {
-            select.addEventListener('change', () => {
-                document.getElementById('filtroForm').submit();
-            });
-        });
+        document.querySelectorAll('#filtroForm select').forEach(s => s.onchange = () => document.getElementById('filtroForm').submit());
     </script>
-
     <% } %>
-
-    <%
-        String anio = request.getParameter("anio");
-        String unidad = request.getParameter("unidad");
-        String estado = request.getParameter("estado");
-        String tipo = request.getParameter("tipo");
-
-        List<DetalleEntrega> lista = DetalleEntrega.getDetallesFiltrados(anio, unidad, estado, tipo);
-    %>
 
     <table class="table">
         <thead>
@@ -155,50 +148,25 @@
             </tr>
         </thead>
         <tbody>
-            <% for (DetalleEntrega de : lista) {
-                    EntregaDotacion ed = de.getEntrega();
+            <% for (List<DetalleEntrega> dets : agrupado.values()) {
+                    EntregaDotacion ed = dets.get(0).getEntrega();
+                    String estadoVal = dets.get(0).getEstado();
+                    String unidadVal = dets.get(0).getUnidadNegocio();
             %>
             <tr>
                 <td><%= ed.getIdPersona()%></td>
                 <td><%= Persona.getNombrePorId(ed.getIdPersona())%></td>
                 <td><%= ed.getFechaEntrega()%></td>
                 <td><%= ed.getTipoEntrega()%></td>
-                <td><%= de.getEstado()%></td>
-                <td><%= de.getUnidadNegocio()%></td>
+                <td><%= estadoVal%></td>
+                <td><%= unidadVal%></td>
             </tr>
             <% } %>
         </tbody>
     </table>
 
-    <%
-        Map<String, Integer> entregasGrafico = new TreeMap<>();
-
-        if (anio != null && !anio.isEmpty()) {
-            for (DetalleEntrega de : lista) {
-                EntregaDotacion ed = de.getEntrega();
-                String fecha = ed.getFechaEntrega();
-                if (fecha != null && fecha.startsWith(anio)) {
-                    try {
-                        int mes = Integer.parseInt(fecha.split("-")[1]);
-                        String nombreMes = new DateFormatSymbols().getMonths()[mes - 1];
-                        entregasGrafico.put(nombreMes, entregasGrafico.getOrDefault(nombreMes, 0) + 1);
-                    } catch (Exception e) {
-                    }
-                }
-            }
-        } else {
-            for (DetalleEntrega de : lista) {
-                EntregaDotacion ed = de.getEntrega();
-                String fecha = ed.getFechaEntrega();
-                if (fecha != null && fecha.length() >= 4) {
-                    String year = fecha.substring(0, 4);
-                    entregasGrafico.put(year, entregasGrafico.getOrDefault(year, 0) + 1);
-                }
-            }
-        }
-    %>
-
     <% if (!isDownloadMode && !entregasGrafico.isEmpty()) {%>
+    <h3 class="titulo">Indicador por <%= (anio != null && !anio.isEmpty() ? "Meses" : "Años")%></h3>
     <style>
         .contenedor-flex {
             display: flex;
@@ -217,147 +185,94 @@
             overflow: hidden;
             box-shadow: 0 0 5px rgba(0,0,0,0.1);
         }
-        .tabla-resumen-pequena th, .tabla-resumen-pequena td {
+        .tabla-resumen-pequena th,
+        .tabla-resumen-pequena td {
             padding: 8px;
-            text-align: center;
             border: 1px solid #ccc;
+            text-align: center;
         }
         .tabla-resumen-pequena th {
             background-color: #2c6e49;
             color: white;
-            font-weight: bold;
         }
         .tabla-resumen-pequena tfoot td {
             font-weight: bold;
             background-color: #daf2da;
             color: #2c6e49;
         }
-        #graficoEntregas {
-            width: 700px !important;
-            height: 400px !important;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-            padding: 10px;
+        .chart-container {
+            position: relative;
+            width: 600px;  /* puedes usar % o fijo */
+            aspect-ratio: 3.5; /* ancho:alto */
         }
     </style>
-
-    <h3 class="titulo">Indicador por <%= (anio != null && !anio.isEmpty()) ? "meses en " + anio : "años"%></h3>
 
     <div class="contenedor-flex">
         <table class="tabla-resumen-pequena">
             <thead>
-                <tr>
-                    <th><%= (anio != null && !anio.isEmpty()) ? "Mes" : "Año"%></th>
-                    <th>Entregas</th>
-                </tr>
+                <tr><th><%= (anio != null && !anio.isEmpty() ? "Mes" : "Año")%></th><th>Entregas</th></tr>
             </thead>
             <tbody>
-                <%
-                    int totalEntregas = 0;
-                    for (Map.Entry<String, Integer> entry : entregasGrafico.entrySet()) {
-                        totalEntregas += entry.getValue();
-                %>
-                <tr>
-                    <td><%= entry.getKey()%></td>
-                    <td><%= entry.getValue()%></td>
-                </tr>
+                <% int total = 0;
+                    for (Map.Entry<String, Integer> e : entregasGrafico.entrySet()) {
+                        total += e.getValue();%>
+                <tr><td><%= e.getKey()%></td><td><%= e.getValue()%></td></tr>
                 <% }%>
             </tbody>
-            <tfoot>
-                <tr>
-                    <td>Total</td>
-                    <td><%= totalEntregas%></td>
-                </tr>
-            </tfoot>
+            <tfoot><tr><td>Total</td><td><%= total%></td></tr></tfoot>
         </table>
 
-        <canvas id="graficoEntregas"></canvas>
+        <!-- Gráfico dentro de un contenedor con aspect-ratio -->
+        <div class="chart-container">
+            <canvas id="graficoEntregas"></canvas>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script>
         const ctx = document.getElementById('graficoEntregas').getContext('2d');
-        const data = {
-            labels: [<%
-                boolean first = true;
-                for (String key : entregasGrafico.keySet()) {
-                    if (!first) {
-                        out.print(", ");
-                    }
-                    out.print("\"" + key + "\"");
-                    first = false;
-                }
-        %>],
-            datasets: [{
-                    label: '<%= (anio != null && !anio.isEmpty()) ? "Entregas por Mes en " + anio : "Entregas por Año"%>',
-                    data: [<%
-                    first = true;
-                    for (String key : entregasGrafico.keySet()) {
-                        if (!first) {
-                            out.print(", ");
-                        }
-                        out.print(entregasGrafico.get(key));
-                        first = false;
-                    }
-        %>],
-                    backgroundColor: 'rgba(100, 149, 237, 0.7)', // Azul claro (Cornflower Blue con opacidad)
-                    borderColor: '#6495ED', // Azul claro sólido
-                    borderWidth: 2,
-                    borderRadius: 6,
-                    barPercentage: 0.6,
-                    categoryPercentage: 0.8
-                }]
-        };
-
         new Chart(ctx, {
             type: 'bar',
-            data: data,
-            options: {
-                responsive: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        onClick: null, 
-                        labels: {
-                            color: '#2c6e49',
-                            font: {
-                                family: 'Arial',
-                                size: 14,
-                                weight: 'bold'
-                            }
+            data: {
+                labels: [<% boolean first = true;
+                    for (String lbl : entregasGrafico.keySet()) {
+                        if (!first) {
+                            out.print(",");
                         }
-                    },
-                    tooltip: {
-                        backgroundColor: '#daf2da',
-                        titleColor: '#2c6e49',
-                        bodyColor: '#2c6e49'
-                    }
-                }
-                ,
+                        out.print("\"" + lbl + "\"");
+                        first = false;
+                    }%>],
+                datasets: [{
+                        label: '<%= anio != null && !anio.isEmpty() ? "Entregas por Mes en " + anio : "Entregas por Año"%>',
+                        data: [<% boolean fb = true;
+                            for (Integer v : entregasGrafico.values()) {
+                                if (!fb) {
+                                    out.print(",");
+                                }
+                                out.print(v);
+                                fb = false;
+                            } %>],
+                        backgroundColor: 'rgba(100,149,237,0.7)',
+                        borderColor: '#6495ED',
+                        borderWidth: 2,
+                        borderRadius: 6,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8
+                    }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // 
                 scales: {
-                    x: {
-                        ticks: {color: '#2c6e49', font: {family: 'Arial', size: 13}},
-                        grid: {display: false}
-                    },
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            color: '#2c6e49',
-                            font: {family: 'Arial', size: 13},
-                            stepSize: 1
-                        },
-                        title: {
-                            display: true,
-                            text: 'Cantidad de Entregas',
-                            color: '#2c6e49',
-                            font: {family: 'Arial', size: 14, weight: 'bold'}
-                        },
-                        grid: {color: '#e0e0e0'}
-                    }
+                    y: {beginAtZero: true, ticks: {stepSize: 1}}
+                },
+                plugins: {
+                    legend: {labels: {font: {weight: 'bold', size: 14}}},
+                    tooltip: {backgroundColor: '#daf2da'}
                 }
             }
-        });                          
+        });
     </script>
+
     <% }%>
+</div>

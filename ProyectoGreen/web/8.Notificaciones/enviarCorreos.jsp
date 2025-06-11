@@ -23,8 +23,6 @@
 <jsp:include page="../menu.jsp" />
 
 <div class="content">
-
-    <!-- CONTRATOS A VENCER -->
     <h3 class="titulo" style="margin-top: 50px;">Contratos próximos a vencer (30 días)</h3>
 
     <%
@@ -35,15 +33,20 @@
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String url2 = "jdbc:mysql://localhost:3306/proyectogreen?characterEncoding=utf8";
-            conn2 = DriverManager.getConnection(url2, "adso", "utilizar");
+            conn2 = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proyectogreen?characterEncoding=utf8",
+                "adso", "utilizar"
+            );
 
-            String sql2 = "SELECT p.identificacion, p.nombres, p.apellidos, c.nombre AS cargoNombre, " +
-                          "il.unidadNegocio, il.establecimiento, p.email, il.fechaTerPriContrato " +
-                          "FROM persona p " +
-                          "INNER JOIN informacionlaboral il ON p.identificacion = il.identificacion " +
-                          "INNER JOIN cargo c ON p.idCargo = c.id " +
-                          "WHERE p.tipo = 'C' AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
+            String sql2 = 
+                "SELECT p.identificacion, p.nombres, p.apellidos, " +
+                "c.nombre AS cargoNombre, " +
+                "il.unidadNegocio, il.establecimiento, p.email, il.fechaTerPriContrato " +
+                "FROM persona p " +
+                "INNER JOIN informacionlaboral il ON p.identificacion = il.identificacion " +
+                "INNER JOIN cargo c ON il.idCargo = c.id " +  // ← CORREGIDO
+                "WHERE p.tipo = 'C' " +
+                "AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
 
             stmt2 = conn2.prepareStatement(sql2);
             rs2 = stmt2.executeQuery();
@@ -51,23 +54,19 @@
             hayRegistros = rs2.isBeforeFirst();
 
             if (hayRegistros) {
-                // Obtener solo la fecha actual (sin hora)
                 Date ahora = new Date();
-                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                String fechaActual = formato.format(ahora);
+                String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(ahora);
     %>
 
-    <!-- Mostrar la fecha actual -->
     <p style="text-align: center; font-weight: bold; margin-top: 20px;">
         Fecha actual: <%= fechaActual %>
     </p>
 
-    <!-- Botón de enviar correos -->
-    <form action="../8.Notificaciones/notificacionesContrato.jsp" method="post" style="text-align: center; margin: 20px 0;">
+    <form action="../8.Notificaciones/notificacionesContrato.jsp" method="post"
+          style="text-align: center; margin: 20px 0;">
         <button type="submit" class="boton">Enviar Correos</button>
     </form>
 
-    <!-- Tabla de contratos -->
     <table>
         <tr>
             <th>Identificación</th>
@@ -79,7 +78,6 @@
             <th>Email</th>
             <th>Fecha término contrato</th>
         </tr>
-
         <%
             while (rs2.next()) {
         %>
@@ -99,14 +97,14 @@
     </table>
 
     <%
-        } else {
+            } else {
     %>
     <p style="text-align:center;">No hay contratos que finalicen en los próximos 30 días.</p>
     <%
-        }
+            }
 
         } catch (Exception e) {
-            out.println("<tr><td colspan='8'>Error: " + e.getMessage() + "</td></tr>");
+            out.println("<p style='color:red;'>Error: " + e.getMessage() + "</p>");
             e.printStackTrace();
         } finally {
             if (rs2 != null) try { rs2.close(); } catch (SQLException ignore) {}
@@ -116,13 +114,11 @@
     %>
 </div>
 
-<!-- Scripts -->
 <script>
     function validarEliminacion(fechaUltimaEnvio) {
         var fechaLimite = new Date(fechaUltimaEnvio);
         fechaLimite.setHours(fechaLimite.getHours() + 48);
         var ahora = new Date();
-
         if (ahora < fechaLimite) {
             alert("No se puede eliminar el historial. Deben pasar al menos 48 horas desde el último envío.");
         } else {
@@ -138,5 +134,6 @@
         );
     });
 </script>
+
 </body>
 </html>
