@@ -70,11 +70,11 @@
             <table border="1">
                 <tr>
                     <th>Nombres<span style="color: red;">*</span></th>
-                    <td><input type="text" name="nombres" value="<%= persona.getNombres()%>" size="50" maxlength="50"required></td>
+                    <td><input type="text" name="nombres" value="<%= persona.getNombres()%>" size="50" maxlength="50" required></td>
                 </tr>
                 <tr>
                     <th>Apellidos<span style="color: red;">*</span></th>
-                    <td><input type="text" name="apellidos" value="<%= persona.getApellidos()%>" size="50" maxlength="50"required></td>
+                    <td><input type="text" name="apellidos" value="<%= persona.getApellidos()%>" size="50" maxlength="50" required></td>
                 </tr>
                 <tr>
                     <th colspan="2">Sexo<span style="color: red;">*</span></th>
@@ -213,7 +213,7 @@
                                title="Ingrese exactamente 10 números"
                                onkeypress="return soloNumeros(event)" 
                                onblur="validarNumerico('celular')
-                               "placeholder="Campo numérico"
+                               " placeholder="Campo numérico"
                                required>
                     </td>
                 </tr>

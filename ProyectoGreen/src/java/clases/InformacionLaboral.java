@@ -341,6 +341,20 @@ public class InformacionLaboral {
 
         return ""; // Si no tiene fecha, devuelve cadena vacía
     }
+    public static String getFechaIngresoTemporal(String identificacionPersona) {
+        String sql = "SELECT fechaIngresoTemporal FROM informacionLaboral WHERE identificacion = '" + identificacionPersona + "'";
+
+        try {
+            ResultSet rs = ConectorBD.consultar(sql);
+            if (rs.next()) {
+                return rs.getString("fechaIngresoTemporal"); // Devuelve la fecha directamente
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ""; // Si no tiene fecha, devuelve cadena vacía
+    }
 
     public static String getFechaRetiroPersona(String identificacionPersona) {
         String sql = "SELECT fechaRetiro FROM informacionLaboral WHERE identificacion = '" + identificacionPersona + "'";
