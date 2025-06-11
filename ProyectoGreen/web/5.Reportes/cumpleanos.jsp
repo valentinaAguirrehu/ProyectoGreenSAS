@@ -1,3 +1,4 @@
+<%@page import="clases.LugarTrabajo"%>
 <%@page import="clases.InformacionLaboral"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
@@ -57,22 +58,28 @@
                 if (fechaNacimiento.getMonthValue() == mesNumero) {
                     int edad = Period.between(fechaNacimiento, fechaActual).getYears();
 
+                    // Obtener el cargo desde la tabla InformacionLaboral
                     String nombreCargo = "Sin cargo";
-                    if (persona.getIdCargo() != null) {
-                        Cargo cargo = new Cargo(persona.getIdCargo());
+                    InformacionLaboral infoLaboral = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
+                    if (infoLaboral != null && infoLaboral.getIdCargo() != null) {
+                        Cargo cargo = new Cargo(infoLaboral.getIdCargo());  // Cargo asociado a la persona
                         nombreCargo = cargo.getNombre();
                     }
 
-                    InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
+                    // Obtener el establecimiento y unidad de negocio desde la tabla InformacionLaboral
+                    String establecimiento = "Sin establecimiento";
+                    if (infoLaboral != null) {
+                        LugarTrabajo lugar = infoLaboral.getEstablecimiento();
+                        if (lugar != null && lugar.getOpcion() != null && !lugar.getOpcion().isEmpty()) {
+                            establecimiento = lugar.getOpcion();
+                        }
+                    }
 
-                    String establecimiento = (info != null && info.getEstablecimiento() != null && !info.getEstablecimiento().isEmpty())
-                            ? info.getEstablecimiento()
-                            : "Sin establecimiento";
-
-                    String unidadNegocio = (info != null && info.getUnidadNegocio() != null && !info.getUnidadNegocio().isEmpty())
-                            ? info.getUnidadNegocio()
+                    String unidadNegocio = (infoLaboral != null && infoLaboral.getUnidadNegocio() != null && !infoLaboral.getUnidadNegocio().isEmpty())
+                            ? infoLaboral.getUnidadNegocio()
                             : "Sin unidad";
 
+                    // Obtener el documento PDF
                     String documentoPDF = null;
                     String filtro = "idPersona = '" + persona.getIdentificacion() + "' AND tipo = 'documentoIdentidad'";
                     List<DetallesHistoria> docs = DetallesHistoria.getListaEnObjetos(filtro, null);
@@ -134,7 +141,6 @@
         return; // Detener el procesamiento
     }
 %>
-
 
 <!DOCTYPE html>
 <html>
