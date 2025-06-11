@@ -1,12 +1,10 @@
 <%-- 
-    Document   : verDocumentosSSTSGA
-    Created on : 26/03/2025, 04:37:17 PM
+    Document   : verDuranteContratacion
+    Created on : 26/03/2025, 04:01:35 PM
     Author     : VALEN
 --%>
 
 <%@page import="java.util.List"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@page import="clases.Persona"%>
 <%@page import="clases.Administrador"%>
 
@@ -32,89 +30,80 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+       
             <link rel="stylesheet" href="../presentacion/style-historiaLRetirado.css">
         </head>
         <body>
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>DOCUMENTOS SG-SST Y SGA</h2>
+                    <h2>DOCUMENTOS DURANTE CONTRATACI N</h2>
                     <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
-                </div>
-         <table class="documentos-tabla">
-  <thead>
-    <tr>
-      <th>DOCUMENTOS</th>
-      <th>ARCHIVO</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- SG‑SST y SGA -->
-    <tr>
-      <td>Inducción y reinducción SG-SST</td>
-      <td>
-        <button class="ver-btn"
-                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=IRSGSSTotros'"
-                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
-          VER
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td>Inducción y reinducción SGA</td>
-      <td>
-        <button class="ver-btn"
-                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=IRSGAotros'"
-                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
-          VER
-        </button>
-      </td>
-    </tr>
 
-    <tr>
-      <td>Registro de incidentes de trabajo (si aplica)</td>
-      <td>
-        <button class="ver-btn"
-                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=incidentesTemporales'"
-                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
-          VER
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td>Investigacion AT (si aplica)</td>
-      <td>
-        <button class="ver-btn"
-                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=atTemporal'"
-                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
-          VER
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td>Reporte AT(si aplica)</td>
-      <td>
-        <button class="ver-btn"
-                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=reporteTemporal'"
-                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
-          VER
-        </button>
-      </td>
-    </tr>
- 
-    <tr>
-      <td>Acta de reubicación de cargo (si aplica)</td>
-      <td>
-        <button class="ver-btn"
-                onclick="window.location.href='detalleHistoria.jsp?identificacion=<%=identificacion%>&tipo=reubicacionTemporal'"
-                style="background-color:#2C6E49;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:4px;">
-          VER
-        </button>
-      </td>
-    </tr>
- 
-  </tbody>
-</table>
+                </div>
+                <table class="documentos-tabla">
+                    <thead>
+                        <tr>
+                            <th>DOCUMENTOS</th>
+                            <th>ARCHIVO</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                           <tr>
+                            <td>ADD</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=DNOMotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                            <tr>
+                            <td>Evaluaci n de desempe o</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EDESOtros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                            <tr>
+                            <td>Actas </td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ACTASotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                             <tr>
+                            <td>Reinducci n de Gesti n Humana</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=RGHotros'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+                               <tr>
+                            <td>Procesos disciplinarios</td>
+                            <td>
+                                <button class="ver-btn"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ProcesoTemporal'"
+                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
+                                    VER
+                                </button>
+                            </td>
+                        </tr>
+      
+                    </tbody>
+
+                </table>
                 <div class="buttons">
                     <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
                 </div>
@@ -156,7 +145,7 @@
                     let fileURL = URL.createObjectURL(fileData);
                     window.open(fileURL, "_blank");
                 } else {
-                    alert("No hay ningún archivo cargado");
+                    alert("No hay ning n archivo cargado");
                 }
             });
 
@@ -170,22 +159,22 @@
                     a.click();
                     document.body.removeChild(a);
                 } else {
-                    alert("No hay ningún archivo cargado");
+                    alert("No hay ning n archivo cargado");
                 }
             });
 
-            // Eliminar Archivo con Confirmación
+            // Eliminar Archivo con Confirmaci n
             deleteBtn.addEventListener("click", function () {
                 if (fileData) {
-                    let confirmacion = confirm("¿Estás seguro de eliminar este archivo?");
+                    let confirmacion = confirm(" Est s seguro de eliminar este archivo?");
                     if (confirmacion) {
                         fileData = null;
                         fileMessage.style.color = "red";
-                        fileMessage.textContent = "NO HAY NINGÚN ARCHIVO CARGADO";
+                        fileMessage.textContent = "NO HAY NING N ARCHIVO CARGADO";
                         fileInput.value = ""; // Limpiar input
                     }
                 } else {
-                    alert("No hay ningún archivo para eliminar");
+                    alert("No hay ning n archivo para eliminar");
                 }
             });
         });
@@ -203,4 +192,3 @@
     });
 
 </script>
-
