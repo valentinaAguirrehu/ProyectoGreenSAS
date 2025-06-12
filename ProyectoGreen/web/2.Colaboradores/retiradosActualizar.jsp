@@ -8,22 +8,23 @@
     String accion = request.getParameter("accion");
     String id = request.getParameter("id");
     String identificacion = request.getParameter("identificacion");
-    
-if ("CambiarTipo".equals(accion) && identificacion != null && !identificacion.trim().equals("")) {
-    String sql = "UPDATE persona SET tipo = 'C' WHERE identificacion = '" + identificacion + "'";
-    ConectorBD.ejecutarQuery(sql);
 
-    String sqlEliminar = "DELETE FROM retirados WHERE identificacionPersona = '" + identificacion + "'";
-    ConectorBD.ejecutarQuery(sqlEliminar);
+//    accion para el botonn------
+    if ("CambiarTipo".equals(accion) && identificacion != null && !identificacion.trim().equals("")) {
+        String sql = "UPDATE persona SET tipo = 'C' WHERE identificacion = '" + identificacion + "'";
+        ConectorBD.ejecutarQuery(sql);
 
-    response.sendRedirect("retirados.jsp");
-    return;
-}
+        String sqlEliminar = "DELETE FROM retirados WHERE identificacionPersona = '" + identificacion + "'";
+        ConectorBD.ejecutarQuery(sqlEliminar);
 
-
+        response.sendRedirect("retirados.jsp");
+        return;
+    }
+//    ------
 
     String fechaRetiro = request.getParameter("fechaRetiro");
     String fechaIngreso = request.getParameter("fechaIngreso");
+    String idCargo = request.getParameter("idCargo");
     String numCaja = request.getParameter("numCaja");
     String numCarpeta = request.getParameter("numCarpeta");
     String observaciones = request.getParameter("observaciones");
@@ -32,6 +33,7 @@ if ("CambiarTipo".equals(accion) && identificacion != null && !identificacion.tr
     informacionLaboral.setIdentificacion(identificacion);
     informacionLaboral.setFechaIngreso(fechaIngreso);
     informacionLaboral.setFechaRetiro(fechaRetiro);
+    informacionLaboral.setIdCargo(idCargo);
 
     Persona persona = new Persona(identificacion);
     persona.setTipo("R");
@@ -45,6 +47,8 @@ if ("CambiarTipo".equals(accion) && identificacion != null && !identificacion.tr
     switch (accion) {
         case "Adicionar":
             persona.modificar(identificacion); // Asigna tipo "R"
+            informacionLaboral.modificar(identificacion); // Modifica la info laboral
+            informacionLaboral.grabar(); // <--- Cambiado aquí
             retirado.grabar();
             break;
 

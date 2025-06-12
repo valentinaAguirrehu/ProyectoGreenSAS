@@ -138,15 +138,25 @@ public class Retirados {
             orden = "";
         }
 
-        String cadenaSQL = "SELECT "
-                + "r.id, r.identificacionPersona, r.observaciones, r.numCaja, r.numCarpeta, "
-                + "p.identificacion, p.nombres, p.apellidos, "
-                + "il.establecimiento, il.fechaIngreso, il.fechaRetiro "
-                + "FROM retirados r "
-                + "JOIN persona p ON r.identificacionPersona = p.identificacion "
-                + "LEFT JOIN informacionlaboral il ON p.identificacion = il.identificacion "
-                + "WHERE p.tipo = 'R' AND r.identificacionPersona IS NOT NULL "
-                + filtro + orden;
+       String cadenaSQL = "SELECT "
+        + "r.id, "
+        + "r.identificacionPersona, "
+        + "r.observaciones, "
+        + "r.numCaja, "
+        + "r.numCarpeta, "
+        + "p.identificacion, "
+        + "p.nombres, "
+        + "p.apellidos, "
+        + "il.establecimiento, "
+        + "il.fechaIngreso, "
+        + "il.fechaRetiro, "
+        + "il.idCargo "
+        + "FROM retirados r "
+        + "JOIN persona p ON r.identificacionPersona = p.identificacion "
+        + "LEFT JOIN informacionlaboral il ON p.identificacion = il.identificacion "
+        + "WHERE p.tipo = 'R' AND r.identificacionPersona IS NOT NULL "
+        + filtro + orden;
+
 
         return ConectorBD.consultar(cadenaSQL);
     }
@@ -188,4 +198,26 @@ public class Retirados {
         }
         return lista.toString();
     }
+    public static Retirados getRetiradoPorIdentificacion(String identificacion) {
+    Retirados retirado = null;
+    String sql = "SELECT id, identificacionPersona, observaciones, numCaja, numCarpeta " +
+                 "FROM retirados WHERE identificacionPersona = '" + identificacion + "'";
+
+    try {
+        ResultSet rs = ConectorBD.consultar(sql);
+        if (rs != null && rs.next()) {
+            retirado = new Retirados();
+            retirado.setId(rs.getString("id"));
+            retirado.setIdentificacionPersona(rs.getString("identificacionPersona"));
+            retirado.setObservaciones(rs.getString("observaciones"));
+            retirado.setNumCaja(rs.getString("numCaja"));
+            retirado.setNumCarpeta(rs.getString("numCarpeta"));
+        }
+    } catch (SQLException e) {
+        System.out.println("❌ Error al consultar retirado por identificación: " + e.getMessage());
+    }
+
+    return retirado;
+}
+
 }
