@@ -37,7 +37,7 @@
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>DOCUMENTOS DURANTE CONTRATACION</h2>
+                    <h2>DOCUMENTOS DURANTE CONTRATACIÓN</h2>
                     <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
 
                 </div>
@@ -61,7 +61,7 @@
                             </td>
                         </tr>
                             <tr>
-                            <td>Evaluacion de desempeño</td>
+                            <td>Evaluación de desempeño</td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=EDESOtros'"
@@ -81,7 +81,7 @@
                             </td>
                         </tr>
                              <tr>
-                            <td>Reinduccion de Gestion Humana</td>
+                            <td>Reinducción de Gestion Humana</td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=RGHotros'"

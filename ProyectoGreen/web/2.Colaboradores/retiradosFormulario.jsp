@@ -16,7 +16,7 @@
     String accion = request.getParameter("accion");
     String id = request.getParameter("id");
     String identificacion = request.getParameter("identificacion");
-    InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
+    InformacionLaboral informacionLaboral = new InformacionLaboral("identificacion");
 
     Persona persona = null;
     Retirados retirado = new Retirados();
@@ -38,18 +38,17 @@
         persona = new Persona(id);
     }
 
-    String nombreCargo = "";
-    InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion());
-    if (info != null && info.getIdCargo() != null) {
-        Cargo cargo = new Cargo(info.getIdCargo());
-        nombreCargo = cargo.getNombre();
-    }
+InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion());
+String idCargoSeleccionado = (info != null && info.getIdCargo() != null) ? info.getIdCargo() : "";
+List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null); // Asumiendo que tienes este método
 
     if (accion == null || accion.isEmpty()) {
         accion = "Adicionar"; // Valor por defecto
     }
 
     String textoBoton = accion.equals("Modificar") ? "Modificar" : "Aceptar";
+
+
 %>
 
 <%@ include file="../menu.jsp" %>
@@ -75,9 +74,19 @@
                     <td><span id="nombre"><%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() : ""%></span></td>
                 </tr>
                 <tr>
-                    <th>Cargo</th>
-                    <td><span id="cargo"><%= nombreCargo%></span></td>
-                </tr>
+    <th>Cargo<span style="color: red;">*</span></th>
+    <td>
+        <select name="idCargo" required>
+            <option value="">-- Selecciona un cargo --</option>
+            <% for (Cargo c : listaCargos) { %>
+                <option value="<%= c.getId() %>" <%= (c.getId().equals(idCargoSeleccionado)) ? "selected" : "" %>>
+                    <%= c.getNombre() %>
+                </option>
+            <% } %>
+        </select>
+    </td>
+</tr>
+
                 <tr>
                     <th>Lugar de trabajo<span style="color: red;">*</span></th>
                     <td colspan="2">
@@ -86,10 +95,16 @@
                 </tr>
                 <tr>
                     <th>Fecha de ingreso</th>
-                    <td><input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required >                   </td>               </tr>
+                    <td>
+                        <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
+                    </td>
+                </tr>
                 <tr>
                     <th>Fecha de retiro</th>
-                    <td><input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" required >                  </td>                </tr>
+                    <td>
+                        <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" required>
+                    </td>
+                </tr>
                 <tr>
                     <th>Número de caja</th>
                     <td><input class="recuadro" type="text" name="numCaja" 
