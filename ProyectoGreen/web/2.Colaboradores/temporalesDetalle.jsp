@@ -70,7 +70,6 @@
         <table class="info-table" border="1">
             <tr><th>Nombre Completo</th><td><%= persona.getNombres()%> <%= persona.getApellidos()%></td></tr>
             <tr><th>Sexo</th><td><%= new GeneroPersona(persona.getSexo())%></td></tr>
-            <tr><th>Fecha de Ingreso</th><td><%= informacionLaboral.getFechaIngreso()%></td></tr>
             <tr><th>Fecha de retiro</th><td><%= informacionLaboral.getFechaRetiro()%></td></tr>   
             <tr><th>Documento de identidad</th><td><%= persona.getTipoDocumento()%></td></tr>
             <tr><th>Número del documento</th><td><%= persona.getIdentificacion()%></td></tr>

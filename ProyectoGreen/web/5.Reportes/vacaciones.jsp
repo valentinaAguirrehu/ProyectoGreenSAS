@@ -132,13 +132,13 @@
 
     <table border="1" class="table" style="margin-top:20px; width:100%; font-size: 14px;">
         <tr style="background-color: #e0e0e0;">
-            <th>Identificaci n</th>
+            <th>Identificación</th>
             <th>Nombre completo</th>
             <th>Cargo</th>
             <th>Establecimiento</th>
             <th>Unidad de negocio</th>
             <th>Fecha ingreso</th>
-            <th>D as acumulados restantes</th>
+            <th>Días acumulados restantes</th>
         </tr>
 
         <%

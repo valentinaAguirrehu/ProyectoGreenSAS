@@ -38,16 +38,15 @@
         persona = new Persona(id);
     }
 
-InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion());
-String idCargoSeleccionado = (info != null && info.getIdCargo() != null) ? info.getIdCargo() : "";
-List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null); // Asumiendo que tienes este método
+    InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion());
+    String idCargoSeleccionado = (info != null && info.getIdCargo() != null) ? info.getIdCargo() : "";
+    List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null); // Asumiendo que tienes este método
 
     if (accion == null || accion.isEmpty()) {
         accion = "Adicionar"; // Valor por defecto
     }
 
     String textoBoton = accion.equals("Modificar") ? "Modificar" : "Aceptar";
-
 
 %>
 
@@ -74,25 +73,28 @@ List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null); // Asumiendo que 
                     <td><span id="nombre"><%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() : ""%></span></td>
                 </tr>
                 <tr>
-    <th>Cargo<span style="color: red;">*</span></th>
-    <td>
-        <select name="idCargo" required>
-            <option value="">-- Selecciona un cargo --</option>
-            <% for (Cargo c : listaCargos) { %>
-                <option value="<%= c.getId() %>" <%= (c.getId().equals(idCargoSeleccionado)) ? "selected" : "" %>>
-                    <%= c.getNombre() %>
-                </option>
-            <% } %>
-        </select>
-    </td>
-</tr>
+                    <th>Cargo<span style="color: red;">*</span></th>
+                    <td>
+                        <input type="hidden" name="idCargo" value="<%= idCargoSeleccionado%>">
+                        <%
+                            String nombreCargoSeleccionado = "";
+                            for (Cargo c : listaCargos) {
+                                if (c.getId().equals(idCargoSeleccionado)) {
+                                    nombreCargoSeleccionado = c.getNombre();
+                                    break;
+                                }
+                            }
+                        %>
+                        <span><%= nombreCargoSeleccionado%></span>
+                    </td>
+                </tr>
 
                 <tr>
                     <th>Lugar de trabajo<span style="color: red;">*</span></th>
                     <td colspan="2">
                         <%= informacionLaboral.getEstablecimiento().getSelectLugarTrabajo("establecimiento")%>
                     </td>               
-                </tr>
+                </tr>                
                 <tr>
                     <th>Fecha de ingreso</th>
                     <td>
