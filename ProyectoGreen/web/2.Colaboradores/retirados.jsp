@@ -33,7 +33,7 @@
 
                 String fechaIngreso = InformacionLaboral.getFechaIngresoPersona(persona.getIdentificacion()); // ✅ Se añadió esta línea
                 String fechaRetiro = InformacionLaboral.getFechaRetiroPersona(persona.getIdentificacion());
-
+ 
                 lista += "<tr>";
                 lista += "<td>" + persona.getTipoDocumento() + "</td>";
                 lista += "<td>" + persona.getIdentificacion() + "</td>";
