@@ -24,9 +24,22 @@
     SeguridadSocial seguridadSocial = (SeguridadSocial) request.getAttribute("seguridadSocial");
     request.setAttribute("seguridadSocial", seguridadSocial);
 
-    // Crear objeto persona y asignar valores del formulario
+      // Capturar identificación del formulario
+    String identificacion = request.getParameter("identificacion");
+
+    // Crear objeto persona y asignar identificación
     Persona persona = new Persona();
-    persona.setIdentificacion(request.getParameter("identificacion"));
+    persona.setIdentificacion(identificacion);
+
+    // Validar solo en modo "Agregar"
+    if ("Agregar".equals(accion) && Persona.existeIdentificacion(identificacion)) {
+        request.setAttribute("errorIdentificacion", "Ya existe una persona con esa identificación.");
+        request.getRequestDispatcher("personaFormulario.jsp").forward(request, response);
+        return;
+    }
+    
+    
+//    persona.setIdentificacion(request.getParameter("identificacion"));
     persona.setTipo("T");
     persona.setTipoDocumento(request.getParameter("tipoDocumento"));
     persona.setFechaExpedicion(request.getParameter("fechaExpedicion"));

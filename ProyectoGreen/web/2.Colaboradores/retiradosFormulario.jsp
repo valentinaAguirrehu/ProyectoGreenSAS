@@ -38,9 +38,9 @@
         persona = new Persona(id);
     }
 
-InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion());
-String idCargoSeleccionado = (info != null && info.getIdCargo() != null) ? info.getIdCargo() : "";
-List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null); // Asumiendo que tienes este método
+    InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion());
+    String idCargoSeleccionado = (info != null && info.getIdCargo() != null) ? info.getIdCargo() : "";
+    List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null); // Asumiendo que tienes este método
 
     if (accion == null || accion.isEmpty()) {
         accion = "Adicionar"; // Valor por defecto
@@ -74,18 +74,18 @@ List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null); // Asumiendo que 
                     <td><span id="nombre"><%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() : ""%></span></td>
                 </tr>
                 <tr>
-    <th>Cargo<span style="color: red;">*</span></th>
-    <td>
-        <select name="idCargo" required>
-            <option value="">-- Selecciona un cargo --</option>
-            <% for (Cargo c : listaCargos) { %>
-                <option value="<%= c.getId() %>" <%= (c.getId().equals(idCargoSeleccionado)) ? "selected" : "" %>>
-                    <%= c.getNombre() %>
-                </option>
-            <% } %>
-        </select>
-    </td>
-</tr>
+                    <th>Cargo<span style="color: red;">*</span></th>
+                    <td>
+                        <select name="idCargo" required>
+                            <option value="">-- Selecciona un cargo --</option>
+                            <% for (Cargo c : listaCargos) {%>
+                            <option value="<%= c.getId()%>" <%= (c.getId().equals(idCargoSeleccionado)) ? "selected" : ""%>>
+                                <%= c.getNombre()%>
+                            </option>
+                            <% }%>
+                        </select>
+                    </td>
+                </tr>
 
                 <tr>
                     <th>Lugar de trabajo<span style="color: red;">*</span></th>

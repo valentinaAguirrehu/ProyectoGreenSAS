@@ -66,7 +66,7 @@
                     <td>
                         <!-- Mostrar identificación recibida en readonly -->
                         <input type="text" name="identificacion" id="identificacion" value="<%= identificacion%>" readonly />
-                        <input type="hidden" name="identificacionAnterior" value="<%= informacionLaboral.getIdentificacion() %>">
+                        <input type="hidden" name="identificacionAnterior" value="<%= informacionLaboral.getIdentificacion()%>">
                         <input type="hidden" name="accion" id="accionHidden" value="<%=accion%>">
 
                     </td>
@@ -100,11 +100,11 @@
                         <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
                             <option value="">Seleccione...</option>
                             <%
-                                String[] unidades = { "EDS", "RPS" };
+                                String[] unidades = {"EDS", "RPS"};
                                 for (String u : unidades) {
                             %>
-                            <option value="<%= u %>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : "" %>><%= u %></option>
-                            <% } %>
+                            <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
+                            <% }%>
                         </select>
                     </td>
                 </tr>
@@ -119,21 +119,20 @@
                 <tr>
                     <th>Lugar de trabajo<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= informacionLaboral.getEstablecimiento().getSelectLugarTrabajo("establecimiento") %>
+                        <%= informacionLaboral.getEstablecimiento().getSelectLugarTrabajo("establecimiento")%>
                     </td>               
                 </tr>              
                 <tr>
                     <th>Area<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= informacionLaboral.getArea().getSelectArea("area") %>
+                        <%= informacionLaboral.getArea().getSelectArea("area")%>
                     </td>                                
-               <tr>
+                <tr>
                     <th>Cargos<span style="color: red;">*</span></th>
                     <td>
-                        <input type="text" name="idCargo" id="cargoNombre" list="cargosList" value="<%= new Cargo(informacionLaboral.getIdCargo()).getNombre() %>" required />
-                        <datalist id="cargosList">
-                            <%= opcionesCargos%> <!-- Aquí se insertan las opciones dinámicamente -->
-                        </datalist>
+                        <select name="idCargo" id="idCargo" required>
+                            <%= opcionesCargos%>
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -246,7 +245,7 @@
         precargarCentroCostos();
 
         const centroSelect = document.getElementById("centroCostos");
-        const centroGuardado = "<%= informacionLaboral.getCentroCostos() != null ? informacionLaboral.getCentroCostos() : "" %>";
+        const centroGuardado = "<%= informacionLaboral.getCentroCostos() != null ? informacionLaboral.getCentroCostos() : ""%>";
 
         for (let i = 0; i < centroSelect.options.length; i++) {
             if (centroSelect.options[i].value === centroGuardado) {

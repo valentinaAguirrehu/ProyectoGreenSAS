@@ -139,6 +139,7 @@ if ("Modificar".equals(accion)) {
                         <input type="text" name="tituloAprendiz" value="<%= (educacion != null && educacion.getFechaRetiroAnticipado() != null) ? educacion.getFechaRetiroAnticipado() : ""%>" required>
                     </td>
                 </tr>
+                <tr>
                 <th>Unidad de negocio<span style="color: red;">*</span></th>
                 <td>
                     <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
@@ -171,13 +172,12 @@ if ("Modificar".equals(accion)) {
                     <td colspan="2">
                         <%= informacionLaboral.getArea().getSelectArea("area")%>
                     </td>                                
-                <tr>
+                 <tr>
                     <th>Cargos<span style="color: red;">*</span></th>
                     <td>
-                        <input type="text" name="idCargo" id="cargoNombre" list="cargosList" value="<%= new Cargo(informacionLaboral.getIdCargo()).getNombre() %>" required />
-                        <datalist id="cargosList">
-                            <%= opcionesCargos%> <!-- Aquí se insertan las opciones dinámicamente -->
-                        </datalist>
+                        <select name="idCargo" id="idCargo" required>
+                            <%= opcionesCargos%>
+                        </select>
                     </td>
                 </tr>
 
