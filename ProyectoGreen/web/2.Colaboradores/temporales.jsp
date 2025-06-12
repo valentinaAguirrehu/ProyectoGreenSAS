@@ -75,9 +75,9 @@
             <th>Número de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
-            <!--<th>Cargo</th>-->
+            <th>Cargo</th>
             <!--<th>Establecimiento</th>-->
-            <th>Unidad de negocio</th>
+            <!--th>Unidad de negocio</th>-->
             <th>Fecha de ingreso temporal</th>
             <th>
                 <a href="temporalesFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">

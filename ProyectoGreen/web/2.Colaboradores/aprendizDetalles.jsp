@@ -56,11 +56,11 @@
         <table class="info-table" border="1">
             <tr><th>Nombre Completo</th><td><%= persona.getNombres()%> <%= persona.getApellidos()%></td></tr>
             <tr><th>Sexo</th><td><%= new GeneroPersona(persona.getSexo())%></td></tr>
-            <tr><th>Fecha de ingreso</th><td><%= informacionLaboral.getFechaIngreso()%></td></tr>
+            <!-- <tr><th>Fecha de ingreso</th><td><%= informacionLaboral.getFechaIngreso()%></td></tr>-->
             <tr><th>Fecha de inicio de etapa lectiva</th><td><%= educacion.getFechaEtapaLectiva()%></td></tr> 
-            <tr><th>Fecha de finalizacion de etapa lectiva</th><td><%= educacion.getFechaFinalizacionEtapaLectiva()%></td></tr> 
+            <tr><th>Fecha de finalización de etapa lectiva</th><td><%= educacion.getFechaFinalizacionEtapaLectiva()%></td></tr> 
             <tr><th>Fecha de inicio de etapa productiva</th><td><%= educacion.getFechaEtapaProductiva()%></td></tr> 
-            <tr><th>Fecha de finalizacion de etapa productiva</th><td><%= educacion.getFechaFinalizacionEtapaProductiva()%></td></tr> 
+            <tr><th>Fecha de finalización de etapa productiva</th><td><%= educacion.getFechaFinalizacionEtapaProductiva()%></td></tr> 
             <tr><th>Fecha retiro anticipado</th><td><%= educacion.getFechaRetiroAnticipado()%></td></tr> 
             <tr><th>Tipo de documento</th><td><%= persona.getTipoDocumento()%></td></tr>
             <tr><th>Número del documento</th><td><%= persona.getIdentificacion()%></td></tr>

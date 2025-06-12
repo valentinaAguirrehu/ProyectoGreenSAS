@@ -76,11 +76,11 @@
             <th>Número de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
-            <!--<th>Cargo</th>-->
+            <th>Cargo</th>
             <!--<th>Establecimiento</th>-->
-            <th>Unidad de negocio</th>
-            <th>Fecha estapa lectiva</th>
-            <th>Fecha estapa productiva</th>
+            <!--<th>Unidad de negocio</th>-->
+            <th>Inicio estapa lectiva</th>
+            <th>Inicio estapa productiva</th>
             <th>
                 <a href="aprendizFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
                     <img src='../presentacion/iconos/agregar.png' width='30' height='30'>

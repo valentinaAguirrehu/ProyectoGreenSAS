@@ -35,7 +35,7 @@
         lista += "<td>" + cargo + "</td>";
 //        lista += "<td>" + establecimiento + "</td>";
 //        lista += "<td>" + unidadNegocio + "</td>";
-           lista += "<td>" + fechaIngreso + "</td>";
+        lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
         lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
         lista += "<img class='ver' src='../presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
@@ -67,7 +67,7 @@
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
                 <!--<option value="establecimiento">Establecimiento</option>-->
-                <option value="unidadNegocio">Unidad de negocio</option>
+                <!--option value="unidadNegocio">Unidad de negocio</option>-->
                 <option value="fechaIngreso">Fecha de Ingreso</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
@@ -82,9 +82,9 @@
             <th>Número de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
-            <!--<th>Cargo</th>-->
+            <th>Cargo</th>
             <!--<th>Establecimiento</th>-->
-            <th>Unidad de negocio</th>
+            <!--<th>Unidad de negocio</th>-->
             <th>Fecha de ingreso</th>
             <th>
                 <a href="personaFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
