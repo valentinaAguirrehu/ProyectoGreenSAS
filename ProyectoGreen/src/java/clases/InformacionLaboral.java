@@ -169,7 +169,7 @@ public class InformacionLaboral {
 //        return resultado;
 //    }
     public LugarTrabajo getEstablecimiento() {
-    return new LugarTrabajo(establecimiento == null ? "" : establecimiento);
+        return new LugarTrabajo(establecimiento == null ? "" : establecimiento);
     }
 
     public void setEstablecimiento(String establecimiento) {
