@@ -481,7 +481,7 @@
     });
 
     function verRetirados(identificacion) {
-        window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
+        window.location.href = "../2.Colaboradores/retiradosFormulario.jsp?identificacion=" + identificacion;
     }
 
     // PERMISOS
