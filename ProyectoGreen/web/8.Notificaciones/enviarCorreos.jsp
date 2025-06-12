@@ -38,13 +38,13 @@
                 "adso", "utilizar"
             );
 
-            String sql2 = 
+            String sql2 =
                 "SELECT p.identificacion, p.nombres, p.apellidos, " +
                 "c.nombre AS cargoNombre, " +
-                "il.unidadNegocio, il.establecimiento, p.email, il.fechaTerPriContrato " +
+                "il.unidadNegocio, il.centroCostos, p.email, il.fechaTerPriContrato " +
                 "FROM persona p " +
                 "INNER JOIN informacionlaboral il ON p.identificacion = il.identificacion " +
-                "INNER JOIN cargo c ON il.idCargo = c.id " +  // ← CORREGIDO
+                "INNER JOIN cargo c ON il.idCargo = c.id " +
                 "WHERE p.tipo = 'C' " +
                 "AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
 
@@ -74,7 +74,7 @@
             <th>Apellidos</th>
             <th>Cargo</th>
             <th>Unidad de negocio</th>
-            <th>Establecimiento</th>
+            <th>Centro de costos</th>
             <th>Email</th>
             <th>Fecha término contrato</th>
         </tr>
@@ -87,7 +87,7 @@
             <td><%= rs2.getString("apellidos") %></td>
             <td><%= rs2.getString("cargoNombre") %></td>
             <td><%= rs2.getString("unidadNegocio") %></td>
-            <td><%= rs2.getString("establecimiento") %></td>
+            <td><%= rs2.getString("centroCostos") %></td>
             <td><%= rs2.getString("email") %></td>
             <td><%= rs2.getDate("fechaTerPriContrato") %></td>
         </tr>

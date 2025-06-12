@@ -24,10 +24,10 @@
         );
 
         String sql = "SELECT p.identificacion, p.nombres, p.apellidos, p.email, p.celular, "
-                   + "il.establecimiento, il.unidadNegocio, c.nombre AS cargo, il.fechaTerPriContrato "
+                   + "il.centroCostos, il.unidadNegocio, c.nombre AS cargo, il.fechaTerPriContrato "
                    + "FROM persona p "
                    + "JOIN informacionlaboral il ON p.identificacion = il.identificacion "
-                   + "JOIN cargo c ON il.idCargo = c.id "  // ← CORREGIDO
+                   + "JOIN cargo c ON il.idCargo = c.id "
                    + "WHERE p.tipo = 'C' "
                    + "AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
 
@@ -46,8 +46,6 @@
             }
         });
 
-   
-
         // Envío resumen a administradores
         PreparedStatement adminStmt = conn.prepareStatement(
             "SELECT email FROM administrador WHERE estado = 'Activo'"
@@ -57,6 +55,7 @@
         StringBuilder resumen = new StringBuilder(
             "Buen día,\n\nLe informamos que los siguientes contratos vencerán en los próximos 30 días:\n\n"
         );
+        // Re-ejecuta sentencia para construir el resumen
         stmt = conn.prepareStatement(sql);
         rs = stmt.executeQuery();
         while (rs.next()) {
@@ -64,13 +63,13 @@
                    .append("Nombre: ").append(rs.getString("nombres")).append(" ").append(rs.getString("apellidos")).append("\n")
                    .append("Email: ").append(rs.getString("email")).append("\n")
                    .append("Celular: ").append(rs.getString("celular")).append("\n")
-                   .append("Establecimiento: ").append(rs.getString("establecimiento")).append("\n")
+                   .append("Centro de Costos: ").append(rs.getString("centroCostos")).append("\n")
                    .append("Unidad de Negocio: ").append(rs.getString("unidadNegocio")).append("\n")
                    .append("Cargo: ").append(rs.getString("cargo")).append("\n")
                    .append("Fecha de Vencimiento: ").append(rs.getString("fechaTerPriContrato")).append("\n")
                    .append("--------------------------------------------------\n");
         }
-        resumen.append("\nTenga en cuenta que los colaboradores correspondientes ya han sido notificados por correo electrónico.\n\n")
+        resumen.append("\nGracias por leer este mensaje.\n\n")
                .append("Saludos cordiales.");
 
         while (adminRs.next()) {
