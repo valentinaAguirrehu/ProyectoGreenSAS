@@ -35,7 +35,7 @@ public class ConectorBD {
     public ConectorBD() {
         servidor="localhost";
         puerto="3306";
-        usuario="root";
+        usuario="adso";
         clave="utilizar";
         baseDatos="proyectogreen";
         
