@@ -4,7 +4,6 @@
     Author     : Angie
 --%>
 
-<%@page import="clases.FechaProxEntregaDotacion"%>
 <%@page import="java.util.LinkedHashMap"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="clases.Prenda"%>
@@ -40,11 +39,6 @@
             mapa.get(tipo).add(fila);
         }
     }
-
-    String idFecha = "1";
-    FechaProxEntregaDotacion fechas = new FechaProxEntregaDotacion(idFecha);
-    String fechaAdmin = fechas.getFecha_admin();
-    String fechaOperativo = fechas.getFecha_operativo();
 %>
 
 <jsp:include page="../permisos.jsp" />
