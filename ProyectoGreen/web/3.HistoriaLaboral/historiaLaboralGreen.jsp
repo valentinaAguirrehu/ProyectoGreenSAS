@@ -50,7 +50,7 @@
                         <input type="text" class="campo-mediano" value="<%= (info != null) ? info.getCentroCostos(): "" %>" readonly>
                     </div>
                     <div class="campo">
-                        <label>Establecimiento</label>
+                        <label>Lugar de trabajo </label>
                         <input type="text" class="campo-pequeno" value="<%= (info != null) ? info.getCentroCostos(): "" %>" readonly>
                     </div>
                     <div class="campo">

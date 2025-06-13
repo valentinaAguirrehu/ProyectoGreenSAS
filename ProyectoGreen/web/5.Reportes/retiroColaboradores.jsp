@@ -241,7 +241,7 @@
             <th>Identificación</th>
             <th>Nombre completo</th>
             <th>Cargo</th>
-            <th>Establecimiento</th>
+            <th>Lugar de trabajo</th>
             <th>Unidad de negocio</th>
             <th>Fecha de retiro</th>
         </tr>
