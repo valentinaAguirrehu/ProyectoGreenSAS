@@ -25,7 +25,6 @@
         accion = "Adicionar"; // Cambiar a Adicionar si aún no se ha guardado o el boton da null
     }
 
-    // Validar que la identificación no sea nula o vacía
     if (identificacion != null && !identificacion.isEmpty()) {
         session.setAttribute("identificacion", identificacion);  // Almacenar en sesión
     }
