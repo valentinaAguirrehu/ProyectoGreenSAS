@@ -27,15 +27,17 @@
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
         String fechaIngreso = InformacionLaboral.getFechaIngresoPersona(persona.getIdentificacion());
 
+        InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
+        String centroCostos = (info != null) ? info.getCentroCostos() : "";
+
         lista += "<tr>";
         lista += "<td>" + tipoDocumento + "</td>";
         lista += "<td align='right'>" + identificacion + "</td>";
         lista += "<td>" + nombres + "</td>";
         lista += "<td>" + apellidos + "</td>";
         lista += "<td>" + cargo + "</td>";
-//        lista += "<td>" + establecimiento + "</td>";
-//        lista += "<td>" + unidadNegocio + "</td>";
-           lista += "<td>" + fechaIngreso + "</td>";
+        lista += "<td>" + centroCostos + "</td>";  
+        lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
         lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
         lista += "<img class='ver' src='../presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
@@ -58,7 +60,6 @@
     <h3 class="titulo">COLABORADORES GREEN S.A.S</h3>
     <link rel="stylesheet" href="../presentacion/style-Retirados.css">
 
-    <!-- Nuevo buscador dinámico -->
     <div class="search-container">
         <div class="search-box">
             <select id="searchType" class="recuadro">
@@ -66,8 +67,7 @@
                 <option value="nombre">Nombres</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
-                <!--<option value="establecimiento">Establecimiento</option>-->
-                <option value="unidadNegocio">Unidad de negocio</option>
+                <option value="centroCostos">Lugar de trabajo</option>
                 <option value="fechaIngreso">Fecha de Ingreso</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
@@ -82,9 +82,8 @@
             <th>N�mero de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
-            <!--<th>Cargo</th>-->
-            <!--<th>Establecimiento</th>-->
-            <th>Unidad de negocio</th>
+            <th>Cargo</th>
+            <th>Lugar de trabajo</th>
             <th>Fecha de ingreso</th>
             <th>
                 <a href="personaFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
@@ -118,8 +117,7 @@
     function entregarDotacion(identificacion) {
         window.location.href = "../7.Dotaciones/historialDotacion.jsp?identificacion=" + identificacion;
     }
-    
-    // Buscador dinámico con opción de filtro por columna
+
     function filterResults() {
         const searchType = document.getElementById('searchType').value;
         const input = document.getElementById('searchInput').value.toLowerCase();
@@ -140,14 +138,11 @@
             case "cargo":
                 columnIndex = 4;
                 break;
-            case "establecimiento":
+            case "centroCostos":
                 columnIndex = 5;
                 break;
-            case "unidadNegocio":
-                columnIndex = 6;
-                break;
             case "fechaIngreso":
-                columnIndex = 7;
+                columnIndex = 6;
                 break;
             default:
                 columnIndex = -1;

@@ -23,14 +23,16 @@
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
         String fechaIngresoTemporal = InformacionLaboral.getFechaIngresoTemporal(persona.getIdentificacion());
 
+        InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
+        String centroCostos = (info != null) ? info.getCentroCostos() : "";
+        
         lista += "<tr>";
         lista += "<td>" + tipoDocumento + "</td>";
         lista += "<td align='right'>" + identificacion + "</td>";
         lista += "<td>" + nombres + "</td>";
         lista += "<td>" + apellidos + "</td>";
         lista += "<td>" + cargo + "</td>";
-//        lista += "<td>" + establecimiento + "</td>";
-//        lista += "<td>" + unidadNegocio + "</td>";
+        lista += "<td>" + centroCostos + "</td>";  
         lista += "<td>" + fechaIngresoTemporal + "</td>";
         lista += "<td>";
         lista += "<img src='../presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboral(" + persona.getIdentificacion() + ")'>";
@@ -60,8 +62,7 @@
                 <option value="nombre">Nombres</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
-                <option value="establecimiento">Establecimiento</option>
-                <option value="unidadNegocio">Unidad de negocio</option>
+                <option value="centroCostos">Lugar de trabajo</option>
                 <option value="fechaIngresoTemporal">Fecha de Ingreso Temporal</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
@@ -75,9 +76,8 @@
             <th>Número de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
-            <!--<th>Cargo</th>-->
-            <!--<th>Establecimiento</th>-->
-            <th>Unidad de negocio</th>
+            <th>Cargo</th>
+            <th>Lugar de trabajo</th>
             <th>Fecha de ingreso temporal</th>
             <th>
                 <a href="temporalesFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
@@ -129,14 +129,11 @@
             case "cargo":
                 columnIndex = 4;
                 break;
-            case "establecimiento":
+            case "centroCostos":
                 columnIndex = 5;
                 break;
-            case "unidadNegocio":
-                columnIndex = 6;
-                break;
             case "fechaIngresoTemporal":
-                columnIndex = 7;
+                columnIndex = 6;
                 break;
             default:
                 columnIndex = -1;

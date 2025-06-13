@@ -23,14 +23,15 @@
         String fechaEtapaLectiva = Educacion.getFechaEtapaLectiva(persona.getIdentificacion());
         String fechaEtapaProductiva = Educacion.getFechaEtapaProductiva(persona.getIdentificacion());
 
+        InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
+        String centroCostos = (info != null) ? info.getCentroCostos() : "";
+
         lista += "<tr>";
         lista += "<td>" + tipoDocumento + "</td>";
         lista += "<td align='right'>" + identificacion + "</td>";
         lista += "<td>" + nombres + "</td>";
         lista += "<td>" + apellidos + "</td>";
-        lista += "<td>" + cargo + "</td>";
-//        lista += "<td>" + establecimiento + "</td>";
-//        lista += "<td>" + unidadNegocio + "</td>";
+        lista += "<td>" + centroCostos + "</td>";
         lista += "<td>" + fechaEtapaLectiva + "</td>";
         lista += "<td>" + fechaEtapaProductiva + "</td>";
         lista += "<td>";
@@ -60,10 +61,9 @@
                 <option value="nombre">Nombres</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
-                <!--<option value="establecimiento">Establecimiento</option>-->
-                <option value="unidadNegocio">Unidad de negocio</option>
-                <option value="fechaIngreso">Fecha estapa lectiva</option>
-                <option value="fechaIngreso">Fecha estapa productiva</option>
+                <option value="centroCostos">Lugar de práctica</option>
+                <option value="fechaEtapaLectiva">Fecha etapa lectiva</option>
+                <option value="fechaEtapaProductiva">Fecha etapa productiva</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
             <img src='../presentacion/iconos/lupa.png' alt='Buscar'>
@@ -76,11 +76,9 @@
             <th>Número de documento</th>
             <th>Nombres</th>
             <th>Apellidos</th>
-            <!--<th>Cargo</th>-->
-            <!--<th>Establecimiento</th>-->
-            <th>Unidad de negocio</th>
-            <th>Fecha estapa lectiva</th>
-            <th>Fecha estapa productiva</th>
+            <th>Lugar de práctica</th>
+            <th>Inicio etapa lectiva</th>
+            <th>Inicio etapa productiva</th>
             <th>
                 <a href="aprendizFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
                     <img src='../presentacion/iconos/agregar.png' width='30' height='30'>
@@ -123,17 +121,14 @@
             case "apellido":
                 columnIndex = 3;
                 break;
-            case "cargo":
+            case "centroCostos":
                 columnIndex = 4;
                 break;
-            case "establecimiento":
+            case "fechaEtapaLectiva":
                 columnIndex = 5;
                 break;
-            case "unidadNegocio":
+            case "fechaEtapaProductiva":
                 columnIndex = 6;
-                break;
-            case "fechaIngreso":
-                columnIndex = 7;
                 break;
             default:
                 columnIndex = -1;
