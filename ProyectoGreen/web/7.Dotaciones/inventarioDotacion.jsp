@@ -52,11 +52,12 @@
 
 <body>
     <div class="content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0; position: relative;">
 
-            <h3 class="titulo">INVENTARIO DE DOTACIÓN NUEVA</h3>
+            <div style="width: 13%;"></div>
+            <h3 class="titulo" style="text-align: center; width: 34%; margin: 0;">INVENTARIO DE DOTACIÓN NUEVA</h3>
 
-            <div>
+            <div style="margin-top: 30px;">
                 <a href="inventarioFormulario.jsp?accion=Adicionar" class="subir" style="display: inline-flex; align-items: center; gap: 6px;">
                     <img src="../presentacion/iconos/agregar.png" width="16" height="16" alt="Agregar">
                     Agregar prendas
