@@ -31,7 +31,7 @@
                 <tr>
                     <th>Nombre</th>
                     <td>
-                        <textarea class="recuadro" type="text" name="nombre" value="<%=cargo.getNombre()%>" maxlength="50" size="40" required></textarea>
+                        <textarea class="recuadro" name="nombre" maxlength="50" size="40" required><%=cargo.getNombre()%></textarea>
                     </td>
                 </tr>
                 <tr>
