@@ -111,7 +111,7 @@ public class Cargo {
     }
 
     public static ResultSet getLista(String filtro, String orden) {
-        if (filtro != null && !filtro.equals(filtro)) {
+       if (filtro != null && !filtro.isEmpty()) {
             filtro = " where " + filtro;
         } else {
             filtro = " ";

@@ -6,7 +6,6 @@
 
 <%
     request.setCharacterEncoding("UTF-8");
-
     String accion = request.getParameter("accion");
     String metodo = request.getMethod();
     String idPersona = request.getParameter("idPersona");

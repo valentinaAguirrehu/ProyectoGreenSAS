@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="clases.DetallesHistoria"%>
 <%@page import="clases.Persona"%>
 <%@page import="clases.Administrador"%>
@@ -16,8 +17,24 @@
     String nombreDocumento = "";
     String documentoPDF = "";
 
+    // Verificación si ya existe el archivo
+    String nombreArchivoSubido = request.getParameter("nombreDocumento"); // Obtener nombre del archivo
+    String mensajeError = "";
+
+    // Si no estamos editando un documento (es un nuevo archivo), validamos si ya existe
+    if (codigoDocumento == null && nombreArchivoSubido != null && !nombreArchivoSubido.isEmpty()) {
+        // Verificar si ya existe un archivo con el mismo nombre para esta persona y tipo
+        String filtro = "nombreDocumento = '" + nombreArchivoSubido + "' AND idPersona = '" + identificacion + "'";
+        List<DetallesHistoria> archivoExistente = DetallesHistoria.getListaEnObjetos(filtro, null);
+
+        if (archivoExistente != null && !archivoExistente.isEmpty()) {
+            // Si existe, se muestra un mensaje para cambiar el nombre
+            mensajeError = "¡Advertencia! Ya existe un archivo con el mismo nombre. Por favor, cambia el nombre del archivo.";
+        }
+    }
+
+    // Cargar los datos del documento si se está editando
     if (codigoDocumento != null) {
-        // Cargar los datos del documento si se está editando
         DetallesHistoria documento = new DetallesHistoria(codigoDocumento);
         nombreDocumento = documento.getNombreDocumento();
         documentoPDF = documento.getDocumentoPDF();
@@ -29,6 +46,11 @@
         <head>
             <title><%= (codigoDocumento != null) ? "Modificar" : "Nuevo"%> Documento</title>
             <link rel="stylesheet" href="../presentacion/style-historiaLRetirado.css">
+            <% if (!mensajeError.isEmpty()) { %>
+                <script>
+                    alert("<%= mensajeError %>");
+                </script>
+            <% } %>
         </head>
         <body>
             <div class="container">

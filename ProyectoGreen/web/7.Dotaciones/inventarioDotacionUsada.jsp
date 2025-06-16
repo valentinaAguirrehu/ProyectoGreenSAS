@@ -53,14 +53,11 @@
     <div class="content">
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0; position: relative;">
 
-            <!-- Espacio izquierdo invisible para equilibrio visual -->
             <div style="width: 13%;"></div>
 
-            <!-- Título centrado -->
             <h3 class="titulo" style="text-align: center; width: 34%; margin: 0;">INVENTARIO DE DOTACIÓN UTILIZADA</h3>
 
-            <!-- Botón alineado a la derecha -->
-            <div style="margin-top: 30px;"> <!-- Aquí mueves el botón más abajo -->
+            <div style="margin-top: 30px;"> 
                 <a href="inventarioFormularioUsada.jsp?accion=Adicionar" class="subir" style="display: inline-flex; align-items: center; gap: 6px;">
                     <img src="../presentacion/iconos/agregar.png" width="16" height="16" alt="Agregar">
                     Agregar prendas

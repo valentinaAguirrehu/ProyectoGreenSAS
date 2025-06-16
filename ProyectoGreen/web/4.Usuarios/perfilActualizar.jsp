@@ -5,11 +5,13 @@
 --%>
 
 <%@page import="clases.Administrador"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+    request.setCharacterEncoding("UTF-8");
     String identificacionAnterior = request.getParameter("identificacionAnterior");
 
     if (identificacionAnterior == null || identificacionAnterior.trim().isEmpty()) {
-        out.print("<p>Error: La identificación anterior es inválida.</p>");
+        out.print("<p>Error: La identificaciÃ³n anterior es invÃ¡lida.</p>");
         return;
     }
 
@@ -38,11 +40,11 @@
     boolean actualizado = admin.modificar(identificacionAnterior);
 
     if (actualizado) {
-        // Invalidar la sesión actual
+        // Invalidar la sesiÃ³n actual
         session.invalidate();
 %>
         <script>
-            alert("Tu perfil se ha actualizado exitosamente. Por favor, vuelve a iniciar sesión.");
+            alert("Tu perfil se ha actualizado exitosamente. Por favor, vuelve a iniciar sesiÃ³n.");
             window.location.href = "../index.jsp";
         </script>
 <%

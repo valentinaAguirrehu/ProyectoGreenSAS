@@ -100,11 +100,11 @@
 <script>
 function validarEliminacion(fechaUltimaEnvio) {
     const fechaLimite = new Date(fechaUltimaEnvio);
-    fechaLimite.setMinutes(fechaLimite.getMinutes() + 5);
+    fechaLimite.setMonth(fechaLimite.getMonth() + 1); // Esperar 1 mes
     const ahora = new Date();
 
     if (ahora < fechaLimite) {
-        alert("No se puede eliminar el historial. Deben pasar al menos 5 minutos desde el último envío.");
+        alert("No se puede eliminar el historial. Debe pasar al menos 1 mes desde el último envío.");
         return;
     }
 
@@ -126,7 +126,7 @@ function validarEliminacion(fechaUltimaEnvio) {
                     </div>`;
                 document.querySelector(".content").appendChild(msg);
             } else if (data === "tiempo") {
-                alert("No se puede eliminar aún. Deben pasar al menos 5 minutos.");
+                alert("No se puede eliminar aún. Debe pasar al menos 1 mes.");
             } else {
                 alert("Error al eliminar: " + data);
             }
@@ -136,6 +136,7 @@ function validarEliminacion(fechaUltimaEnvio) {
             alert("Error de red al eliminar historial.");
         });
 }
+
 </script>
 
 </body>

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
 <%@ page import="java.sql.*, java.text.SimpleDateFormat, java.util.Date" %>
 <%@ page import="clases.Administrador" %>
 
@@ -41,7 +41,7 @@
             String sql2 =
                 "SELECT p.identificacion, p.nombres, p.apellidos, " +
                 "c.nombre AS cargoNombre, " +
-                "il.unidadNegocio, il.centroCostos, p.email, il.fechaTerPriContrato " +
+                "il.unidadNegocio, il.centroCostos, p.email, il.fechaIngreso, il.fechaTerPriContrato " +
                 "FROM persona p " +
                 "INNER JOIN informacionlaboral il ON p.identificacion = il.identificacion " +
                 "INNER JOIN cargo c ON il.idCargo = c.id " +
@@ -76,6 +76,7 @@
             <th>Unidad de negocio</th>
             <th>Centro de costos</th>
             <th>Email</th>
+            <th>Fecha ingreso</th> <!-- SE AGREGÓ ESTA COLUMNA -->
             <th>Fecha término contrato</th>
         </tr>
         <%
@@ -89,6 +90,7 @@
             <td><%= rs2.getString("unidadNegocio") %></td>
             <td><%= rs2.getString("centroCostos") %></td>
             <td><%= rs2.getString("email") %></td>
+            <td><%= rs2.getString("fechaIngreso") %></td> <!-- SE AGREGÓ ESTA CELDA -->
             <td><%= rs2.getDate("fechaTerPriContrato") %></td>
         </tr>
         <%
@@ -115,17 +117,6 @@
 </div>
 
 <script>
-    function validarEliminacion(fechaUltimaEnvio) {
-        var fechaLimite = new Date(fechaUltimaEnvio);
-        fechaLimite.setHours(fechaLimite.getHours() + 48);
-        var ahora = new Date();
-        if (ahora < fechaLimite) {
-            alert("No se puede eliminar el historial. Deben pasar al menos 48 horas desde el último envío.");
-        } else {
-            window.location.href = "eliminarHistorial.jsp";
-        }
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
         controlarPermisos(
             <%= administrador.getpEliminar() %>,

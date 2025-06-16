@@ -1,10 +1,5 @@
 <%@ page import="java.util.*, java.text.DateFormatSymbols, java.text.SimpleDateFormat" %>
 <%@ page import="clases.DetalleEntrega, clases.EntregaDotacion, clases.Persona" %>
-<%@ page import="java.util.*, java.text.DateFormatSymbols, java.text.SimpleDateFormat" %>
-<%@ page import="clases.DetalleEntrega, clases.EntregaDotacion, clases.Persona" %>
-
-<%@ page import="java.util.*, java.text.DateFormatSymbols, java.text.SimpleDateFormat" %>
-<%@ page import="clases.DetalleEntrega, clases.EntregaDotacion, clases.Persona" %>
 
 <%
     boolean isDownloadMode = request.getParameter("formato") != null;
@@ -69,6 +64,8 @@
 <style>
     .table th, .table td {
         text-align:center;
+        border: 1px solid #ccc;
+        padding: 8px;
     }
     .export-icons {
         text-align:center;
@@ -81,11 +78,16 @@
         flex-wrap:wrap;
         margin:20px;
     }
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
 </style>
 <%@ include file="../menu.jsp" %>
 <% } %>
 
 <link rel="stylesheet" href="../presentacion/style-Cargos.css">
+
 <div class="content">
     <h3 class="titulo">REPORTE DE DOTACIÓN</h3>
 
@@ -134,6 +136,25 @@
     <script>
         document.querySelectorAll('#filtroForm select').forEach(s => s.onchange = () => document.getElementById('filtroForm').submit());
     </script>
+    <% } %>
+
+    <% if (isDownloadMode) { %>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-family: Arial, sans-serif;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
     <% } %>
 
     <table class="table">
