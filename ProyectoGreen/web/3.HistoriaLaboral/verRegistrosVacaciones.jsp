@@ -3,7 +3,7 @@
 <%@page import="java.sql.Date" %>
 <%@page import="clases.Vacaciones" %>
 <%@page import="clases.Persona" %>
-<%@page import="clases.InformacionLaboral" %> <!-- ✅ NUEVA IMPORTACIÓN -->
+<%@page import="clases.InformacionLaboral" %> 
 <%@page import="java.util.List" %>
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.util.Calendar" %>

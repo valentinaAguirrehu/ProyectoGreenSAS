@@ -7,9 +7,10 @@
 <%@ page import="java.util.*" %>
 <%@ page import="clases.DevolucionDotacion" %>
 <%@ page import="clasesGenericas.ConectorBD" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
+    request.setCharacterEncoding("UTF-8");
     String accion = request.getParameter("accion");
     String idPersona = request.getParameter("idPersona");
 
