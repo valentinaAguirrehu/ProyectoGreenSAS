@@ -24,7 +24,7 @@
         );
 
         String sql = "SELECT p.identificacion, p.nombres, p.apellidos, p.email, p.celular, "
-                   + "il.centroCostos, il.unidadNegocio, c.nombre AS cargo, il.fechaTerPriContrato "
+                   + "il.centroCostos, il.unidadNegocio, il.fechaIngreso, c.nombre AS cargo, il.fechaTerPriContrato "
                    + "FROM persona p "
                    + "JOIN informacionlaboral il ON p.identificacion = il.identificacion "
                    + "JOIN cargo c ON il.idCargo = c.id "
@@ -66,6 +66,7 @@
                    .append("Centro de Costos: ").append(rs.getString("centroCostos")).append("\n")
                    .append("Unidad de Negocio: ").append(rs.getString("unidadNegocio")).append("\n")
                    .append("Cargo: ").append(rs.getString("cargo")).append("\n")
+                   .append("Fecha de Ingreso: ").append(rs.getString("fechaIngreso")).append("\n")
                    .append("Fecha de Vencimiento: ").append(rs.getString("fechaTerPriContrato")).append("\n")
                    .append("--------------------------------------------------\n");
         }
@@ -75,7 +76,7 @@
         while (adminRs.next()) {
             String emailAdmin = adminRs.getString("email");
             MimeMessage mensajeAdmin = new MimeMessage(sessionMail);
-            mensajeAdmin.setFrom(new InternetAddress(correoEnvia, "Gestión Humana"));
+            mensajeAdmin.setFrom(new InternetAddress(correoEnvia, " Software Gestión Humana"));
             mensajeAdmin.setRecipient(Message.RecipientType.TO, new InternetAddress(emailAdmin));
             mensajeAdmin.setSubject("Contratos próximos a vencer");
             mensajeAdmin.setText(resumen.toString());

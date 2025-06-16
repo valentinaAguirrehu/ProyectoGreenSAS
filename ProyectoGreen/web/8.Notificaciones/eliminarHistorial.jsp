@@ -24,13 +24,13 @@
 
         if (rs.next()) {
             Timestamp ultimaFechaEnvio = rs.getTimestamp("fechaEnvio");
-            long diffMin = (System.currentTimeMillis() - ultimaFechaEnvio.getTime()) / (1000 * 60);
-            if (diffMin >= 5) {
+            long diffDias = (System.currentTimeMillis() - ultimaFechaEnvio.getTime()) / (1000L * 60 * 60 * 24);
+            if (diffDias >= 30) {
                 stmt.close();
                 stmt = conn.prepareStatement("DELETE FROM historialCorreos WHERE tipoDestinatario = ?");
                 stmt.setString(1, tipo);
                 int borrados = stmt.executeUpdate();
-                out.print(borrados>0 ? "ok" : "vacio");
+                out.print(borrados > 0 ? "ok" : "vacio");
             } else {
                 out.print("tiempo");
             }
