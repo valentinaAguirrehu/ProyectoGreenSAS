@@ -1,10 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 package clases;
 
 /**
@@ -12,7 +5,7 @@ package clases;
  * @author Mary
  */
 public class TipoVehiculo {
-    
+
     private String codigo;
 
     public TipoVehiculo(String codigo) {
@@ -20,82 +13,83 @@ public class TipoVehiculo {
     }
 
     public String getCodigo() {
-        String resultado=codigo;
-        if(codigo==null) resultado="";
-        return resultado;
+        return (codigo == null) ? "" : codigo;
     }
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-    
-    public String getOpcion(){
-        String opcion=null;
-        switch(codigo){
-            case "M": opcion="Motocicleta"; break;
-            case "A": opcion="Automovil"; break;
-            case "O": opcion="Otro"; break;
-            default: opcion="No Especificado"; break;
-        }
-        return opcion;
+
+   public String getOpcion() {
+    if (codigo == null || codigo.trim().isEmpty()) {
+        return "No aplica";
     }
+
+    switch (codigo) {
+        case "S": return "Soltero(a)";
+        case "C": return "Casado(a)";
+        case "D": return "Divorciado(a)";
+        case "V": return "Viudo(a)";
+        case "U": return "Unión libre";
+        case "O": return "Otro"; // seleccionó explícitamente "Otro"
+        default: return codigo; // personalizado: mostrar tal como lo ingresó
+    }
+}
 
     @Override
     public String toString() {
         return getOpcion();
     }
-    
-   public String getSelectTipoVehiculo(String nombreCampo) {
-    // Iniciar el HTML 
+
+  public String getSelectTipoVehiculo(String nombreCampo) {
     StringBuilder html = new StringBuilder();
 
-    // Determina si el valor actual es "Otro" compara que no sea ningun valor definido
-    boolean esOtro = !(codigo == null || 
-        codigo.equals("A") || codigo.equals("M")); 
+    // Verifica si es otro tipo no estándar
+    boolean esOtro = (codigo != null && 
+                     !codigo.equals("A") && 
+                     !codigo.equals("M") && 
+                     !codigo.equals("O") && 
+                     !codigo.trim().isEmpty());
 
-    // Si es otro asigna "O" al valor seleccionado, de lo contrario, usa el valor almacenado en 'codigo'
-    String valorSeleccionado = esOtro ? "O" : codigo;
+    // Preselecciona "Seleccione" si no hay código
+    String valorSeleccionado;
+    if (codigo == null || codigo.trim().isEmpty()) {
+        valorSeleccionado = ""; // Selecciona "Seleccione"
+    } else if (esOtro) {
+        valorSeleccionado = "O"; // Marca como "Otro"
+    } else {
+        valorSeleccionado = codigo; // Usa el valor normal
+    }
 
-    // Si es "Otro", almacena el valor actual (el texto que el usuario ingresó) para mostrarlo en el campo de texto
+    // Valor para mostrar en el input si es otro
     String valorTextoOtro = esOtro ? codigo : "";
 
-    // construye el elemento <select> del formulario, configurando su nombre e id
     html.append("<select name='").append(nombreCampo).append("' id='").append(nombreCampo)
         .append("' onchange='manejarOtro(\"").append(nombreCampo)
         .append("\", \"").append(nombreCampo).append("Otro\", \"").append(nombreCampo).append("Final\")'>");
 
-    // Agrega las opciones del select: "Propia", "Arriendo", "Familiar", "Antricres" y "Otro"
+    // Opciones del select
+    html.append(getOption("", "Seleccione", valorSeleccionado));
     html.append(getOption("M", "Motocicleta", valorSeleccionado));
     html.append(getOption("A", "Automovil", valorSeleccionado));
     html.append(getOption("O", "Otro", valorSeleccionado));
 
-    // Cierra la etiqueta <select>
     html.append("</select>");
 
-    // Agrega un campo de texto, que se muestra solo si el valor seleccionado es "Otro"
     html.append("<input type='text' id='").append(nombreCampo).append("Otro' ")
-        // Si es "Otro", muestra el texto previamente ingresado; si no, deja el campo vacío
         .append("value='").append(valorTextoOtro).append("' ")
-        // Configura el estilo para que el campo de texto se muestre solo si es "Otro"
         .append("style='display:").append(esOtro ? "inline-block" : "none").append(";' ")
-        // Agrega un texto de sugerencia (placeholder) para el campo de texto
         .append("placeholder='Especifique...' />");
 
-    // Agrega un campo oculto para almacenar el valor final seleccionado (ya sea un valor predeterminado o el texto ingresado)
     html.append("<input type='hidden' name='").append(nombreCampo).append("Final' ")
         .append("id='").append(nombreCampo).append("Final' ")
-        // Si 'codigo' es nulo, se asigna un valor vacío
         .append("value='").append(codigo == null ? "" : codigo).append("' />");
 
-    // Devuelve el HTML completo generado como un String
     return html.toString();
 }
 
 private String getOption(String valor, String texto, String seleccionado) {
-    String selected = (valor != null && valor.equals(seleccionado)) ? " selected" : "";
+    String selected = valor.equals(seleccionado) ? " selected" : "";
     return "<option value='" + valor + "'" + selected + ">" + texto + "</option>";
 }
-
-
 }
-
