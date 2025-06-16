@@ -26,16 +26,14 @@
         int edad;
         String cargo;
         String establecimiento;
-        String unidadNegocio;
         String documentoPDF;
 
-        Cumpleanero(Persona p, LocalDate fn, int edad, String cargo, String establecimiento, String unidadNegocio, String doc) {
+        Cumpleanero(Persona p, LocalDate fn, int edad, String cargo, String establecimiento, String doc) {
             this.persona = p;
             this.fechaNacimiento = fn;
             this.edad = edad;
             this.cargo = cargo;
             this.establecimiento = establecimiento;
-            this.unidadNegocio = unidadNegocio;
             this.documentoPDF = doc;
         }
     }
@@ -74,7 +72,7 @@
                         documentoPDF = docs.get(0).getDocumentoPDF();
                     }
 
-                    cumpleaneros.add(new Cumpleanero(persona, fechaNacimiento, edad, nombreCargo, establecimiento, unidadNegocio, documentoPDF));
+                    cumpleaneros.add(new Cumpleanero(persona, fechaNacimiento, edad, nombreCargo, establecimiento,documentoPDF));
                 }
             }
         } catch (Exception e) {
@@ -97,7 +95,6 @@
         lista.append("<td align='center'>").append(c.persona.getFechaNacimiento()).append("</td>");
         lista.append("<td>").append(c.cargo).append("</td>");
         lista.append("<td>").append(c.establecimiento).append("</td>");
-        lista.append("<td>").append(c.unidadNegocio).append("</td>");
 
         if (c.documentoPDF != null && !c.documentoPDF.isEmpty()) {
             String url = "cumpleanos.jsp?mes=" + mesNumero + "&verDocumento=" + URLEncoder.encode(c.documentoPDF, "UTF-8");
@@ -152,8 +149,7 @@
                     <th>Edad</th>
                     <th>Fecha de nacimiento</th>
                     <th>Cargo</th>
-                    <th>Establecimiento</th>
-                    <th>Unidad de negocio</th>
+                    <th>Lugar de trabajo</th>
                     <th>Documento de identidad</th>
                 </tr>
             </thead>
