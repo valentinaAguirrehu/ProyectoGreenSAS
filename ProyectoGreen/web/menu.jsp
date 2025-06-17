@@ -41,7 +41,7 @@
             <ul class="dropdown-content">                           
                 <li><a href="../7.Dotaciones/prenda.jsp">Prendas</a></li>
                 <li><a href="../7.Dotaciones/inventarioDotacion.jsp">Inventario de dotación nueva</a></li>
-                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario de dotación utilizada</a></li>
+                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario de dotación usada</a></li>
             </ul>
         </li>
         <li class="dropdown">
