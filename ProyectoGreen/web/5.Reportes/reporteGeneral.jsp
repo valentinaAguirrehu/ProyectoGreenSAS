@@ -18,7 +18,7 @@
                 <th>Fecha Nacimiento</th>
                 <th>Dirección</th>
                 <th>Celular</th>
-                <th>Email</th>
+                <th>Correo electrónico</th>
                 <th>Estado Civil</th>
                 <th>Nivel Educación</th>
                 <th>Profesión</th>
@@ -53,7 +53,7 @@
                 <th>Fecha Ingreso Temporal</th>
                 <th>Talla Camisa</th>
                 <th>Talla Chaqueta</th>
-                <th>Talla O</th>
+                <th>Talla Overol</th>
                 <th>Talla Pantalón</th>
                 <th>Talla Calzado</th>
                 <th>Talla Guantes</th>
@@ -63,9 +63,8 @@
         <tbody>
 <%
     try {
-        Class.forName("com.mysql.jdbc.Driver"); // O "com.mysql.cj.jdbc.Driver" para MySQL 8+
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyectogreen?characterEncoding=utf8",
-            "adso", "utilizar");
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyectogreen?characterEncoding=utf8", "adso", "utilizar");
 
         String sql = "SELECT p.identificacion, p.nombres, p.apellidos, p.tipo, p.fechaNacimiento, p.direccion, " +
                      "p.celular, p.email, p.estadoCivil, p.nivelEdu, p.profesion, " +
@@ -90,12 +89,20 @@
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
+            String tipo = rs.getString("tipo");
+            String tipoNombre = "";
+            switch (tipo) {
+                case "C": tipoNombre = "Colaborador Green"; break;
+                case "T": tipoNombre = "Temporal"; break;
+                case "A": tipoNombre = "Aprendiz"; break;
+                default: tipoNombre = "Otro"; break;
+            }
 %>
             <tr>
                 <td><%= rs.getString("identificacion") %></td>
                 <td><%= rs.getString("nombres") %></td>
                 <td><%= rs.getString("apellidos") %></td>
-                <td><%= rs.getString("tipo") %></td>
+                <td><%= tipoNombre %></td>
                 <td><%= rs.getString("fechaNacimiento") %></td>
                 <td><%= rs.getString("direccion") %></td>
                 <td><%= rs.getString("celular") %></td>
@@ -147,9 +154,7 @@
             </tr>
 <%
         }
-        rs.close();
-        ps.close();
-        con.close();
+        rs.close(); ps.close(); con.close();
     } catch (Exception e) {
         out.println("<tr><td colspan='10'>Error: " + e.getMessage() + "</td></tr>");
     }
