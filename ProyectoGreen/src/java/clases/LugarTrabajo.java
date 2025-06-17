@@ -32,6 +32,7 @@ public class LugarTrabajo {
             case "E2": opcion = "EDS Terminal Americano"; break;
             case "E3": opcion = "EDS Puente"; break;
             case "E4": opcion = "EDS Cano Bajo"; break;
+            case "E5": opcion = "EDS Cano Bajo"; break;
 
             case "R1": opcion = "RPS Avenida"; break;
             case "R2": opcion = "RPS Principal"; break;
@@ -39,8 +40,12 @@ public class LugarTrabajo {
             case "R4": opcion = "RPS Unicentro"; break;
             case "R5": opcion = "RPS Centro de Procesos"; break;
             case "R6": opcion = "RPS Teleoperaciones"; break;
-
-            default: opcion = "No Especificado"; break;
+            
+            case "D1": opcion = "DP Avenida los estudiantes"; break;
+            case "D2": opcion = "DP Bolivar"; break;
+            case "D3": opcion = "DP Ipiales"; break;
+                     
+            default: opcion = "No aplica"; break;
         }
         return opcion;
     }
@@ -65,6 +70,10 @@ public class LugarTrabajo {
         html.append(getOption("R4", "RPS Unicentro", codigo));
         html.append(getOption("R5", "RPS Centro de Procesos", codigo));
         html.append(getOption("R6", "RPS Teleoperaciones", codigo));
+        
+        html.append(getOption("D1", "DP Avenida los estudiantes", codigo));
+        html.append(getOption("D2", "DP Bolivar", codigo));
+        html.append(getOption("D3", "DP Ipiales", codigo));
 
         html.append("</select>");
         return html.toString();

@@ -55,6 +55,14 @@
         }
     }
 %>
+<%!
+    public String mostrarCampo(Object valor) {
+        return (valor != null && !valor.toString().trim().isEmpty() && !"null".equals(valor.toString().trim()))
+                ? valor.toString()
+                : "No aplica";
+    }
+%>
+
 
 <%@ include file="../menu.jsp" %>
 
@@ -68,28 +76,45 @@
 
         <h1>Datos personales</h1>
         <table class="info-table" border="1">
-            <tr><th>Nombre Completo</th><td><%= persona.getNombres()%> <%= persona.getApellidos()%></td></tr>
-            <tr><th>Sexo</th><td><%= new GeneroPersona(persona.getSexo())%></td></tr>
-            <tr><th>Fecha de ingreso empresa</th><td><%= informacionLaboral.getFechaIngreso()%></td></tr>
-            <tr><th>Fecha de retiro</th><td><%= informacionLaboral.getFechaRetiro()%></td></tr>   
-            <tr><th>Documento de identidad</th><td><%= persona.getTipoDocumento()%></td></tr>
-            <tr><th>Número del documento</th><td><%= persona.getIdentificacion()%></td></tr>
-            <tr><th>Fecha de Expedición</th><td><%= persona.getFechaExpedicion()%></td></tr> 
-            <tr><th>Lugar de Expedición</th><td><%= persona.getLugarExpedicion()%></td></tr>
-            <tr><th>Fecha de Nacimiento</th><td><%= persona.getFechaNacimiento()%></td></tr>
-<!--            <tr> <th>Edad</th><td><%//= edad >= 0 ? edad + " años" : "Fecha inválida"%></td></tr>        -->
-            <tr><th>Edad</th><td><%= persona.calcularEdad()%></td></tr>
-            <tr><th>Lugar de nacimiento</th><td><%= persona.getLugarNacimiento()%></td></tr>
-            <tr><th>Tipo de sangre</th><td><%= persona.getTipoSangre()%></td></tr>
-            <tr><th>Tipo de vivienda</th><td><%= persona.getTipoVivienda()%></td></tr>
-            <tr><th>Dirección</th><td><%= persona.getDireccion()%></td></tr>
-            <tr><th>Barrio</th><td><%= persona.getBarrio()%></td></tr>
-            <tr><th>Celular</th><td><%= persona.getCelular()%></td></tr>
-            <tr><th>Correo electrónico</th><td><%= persona.getEmail()%></td></tr>
-            <tr><th>Nivel educativo</th><td><%= persona.getNivelEdu()%> / <%=persona.getProfesion()%></td></tr>
-            <tr><th>Estado civil</th><td><%= persona.getEstadoCivil()%></td></tr>
+            <tr><th>Nombre Completo</th><td><%= mostrarCampo(persona.getNombres())%> <%= mostrarCampo(persona.getApellidos())%></td></tr>
+            <tr><th>Sexo</th><td><%= mostrarCampo(new GeneroPersona(persona.getSexo()).toString())%></td></tr>
+            <tr><th>Fecha de ingreso empresa</th>
+                <td><%= mostrarCampo(informacionLaboral.getFechaIngreso())%></td>
+            </tr>
+            <tr><th>Fecha de retiro</th>
+                <td><%= mostrarCampo(informacionLaboral.getFechaRetiro())%></td>
+            </tr> <tr><th>Documento de identidad</th><td><%= mostrarCampo(persona.getTipoDocumento())%></td></tr>
+            <tr><th>Número del documento</th><td><%= mostrarCampo(persona.getIdentificacion())%></td></tr>
+            <tr><th>Fecha de Expedición</th><td><%= mostrarCampo(persona.getFechaExpedicion())%></td></tr> 
+            <tr><th>Lugar de Expedición</th><td><%= mostrarCampo(persona.getLugarExpedicion())%></td></tr>
+            <tr><th>Fecha de Nacimiento</th><td><%= mostrarCampo(persona.getFechaNacimiento())%></td></tr>
+            <tr><th>Edad</th><td><%= persona.calcularEdad() != null ? persona.calcularEdad() : "No aplica"%></td></tr>
+            <tr><th>Lugar de nacimiento</th><td><%= mostrarCampo(persona.getLugarNacimiento())%></td></tr>
+            <tr><th>Tipo de sangre</th>
+                <td><%= mostrarCampo(persona.getTipoSangre())%></td>
+            </tr>
+            <tr><th>Tipo de vivienda</th>
+                <td><%= mostrarCampo(persona.getTipoVivienda())%></td>
+            </tr>
+            <tr><th>Dirección</th>
+                <td><%= mostrarCampo(persona.getDireccion())%></td>
+            </tr>
+            <tr><th>Barrio</th>
+                <td><%= mostrarCampo(persona.getBarrio())%></td>
+            </tr>
+            <tr><th>Celular</th>
+                <td><%= mostrarCampo(persona.getCelular())%></td>
+            </tr>
+            <tr><th>Correo electrónico</th>
+                <td><%= mostrarCampo(persona.getEmail())%></td>
+            </tr>
+            <tr><th>Nivel educativo</th>
+                <td><%= mostrarCampo(persona.getNivelEdu())%> / <%= mostrarCampo(persona.getProfesion())%></td>
+            </tr>
+            <tr><th>Estado civil</th>
+                <td><%= mostrarCampo(persona.getEstadoCivil())%></td>
+            </tr> </table>
 
-        </table>
 
         <h1>Información de hijos</h1>
         <table class="info-table">
@@ -112,31 +137,36 @@
         <% if (vehiculo.getNumeroPlacaVehiculo() != null && !vehiculo.getNumeroPlacaVehiculo().isEmpty()) {%>
         <h1>Información del vehículo</h1>
         <table class="info-table">
-            <tr><th>Número de placa:</th><td><%= vehiculo.getNumeroPlacaVehiculo()%></td></tr>
-            <tr><th>Tipo medio de transporte</th><td><%= vehiculo.getTipoVehiculo()%></td></tr>
-            <tr><th>Modelo:</th><td><%= vehiculo.getModeloVehiculo()%></td></tr>
-            <tr><th>Línea:</th><td><%= vehiculo.getLinea()%></td></tr>
-            <tr><th>Marca:</th><td><%= vehiculo.getMarca()%></td></tr>
-            <tr><th>Color:</th><td><%= vehiculo.getColor()%></td></tr>
-            <tr><th>Cilindraje:</th><td><%= vehiculo.getCilindraje()%></td></tr>
-            <tr><th>Restricciones del conductor</th><td><%= vehiculo.getRestricciones()%></td></tr>
-            <tr><th>Titular de la tarjeta de propiedad</th><td><%= vehiculo.getTitularTrjPro()%></td></tr>
-            <tr><th>Número de la tarjeta de propiedad</th><td><%= vehiculo.getNumLicenciaTransito()%></td></tr>
-            <tr><th>Fecha de expedición tarjeta de propiedad</th><td><%= vehiculo.getFechaExpLicenciaTransito()%></td></tr>
+            <tr><th>Número de placa:</th><td><%= mostrarCampo(vehiculo.getNumeroPlacaVehiculo())%></td></tr>
+            <tr><th>Tipo medio de transporte</th><td><%= mostrarCampo(vehiculo.getTipoVehiculo())%></td></tr>
+            <tr><th>Modelo:</th><td><%= mostrarCampo(vehiculo.getModeloVehiculo())%></td></tr>
+            <tr><th>Línea:</th><td><%= mostrarCampo(vehiculo.getLinea())%></td></tr>
+            <tr><th>Marca:</th><td><%= mostrarCampo(vehiculo.getMarca())%></td></tr>
+            <tr><th>Color:</th><td><%= mostrarCampo(vehiculo.getColor())%></td></tr>
+            <tr><th>Cilindraje:</th><td><%= mostrarCampo(vehiculo.getCilindraje())%></td></tr>
+            <tr><th>Restricciones del conductor</th><td><%= mostrarCampo(vehiculo.getRestricciones())%></td></tr>
+            <tr><th>Titular de la tarjeta de propiedad</th><td><%= mostrarCampo(vehiculo.getTitularTrjPro())%></td></tr>
+            <tr><th>Número de la tarjeta de propiedad</th><td><%= mostrarCampo(vehiculo.getNumLicenciaTransito())%></td></tr>
+            <tr><th>Fecha de expedición tarjeta de propiedad</th><td><%= mostrarCampo(vehiculo.getFechaExpLicenciaTransito())%></td></tr>
         </table>
+
         <h1>Licencia de conducción</h1>
         <table class="info-table">
-            <tr><th>Estado</th><td><%= vehiculo.getEstadoV()%></td></tr>
-            <tr><th>Fecha de expedición de la licencia de conducción</th><td><%= vehiculo.getFechaExpConduccion()%></td></tr>
-            <tr><th>Fecha de vencimiento de la licencia de conducción</th><td><%= vehiculo.getFechaVencimiento()%></td></tr>
-            <tr><th>Número de la licencia de conducción</th><td><%= vehiculo.getNumLicenciaConduccion()%></td></tr>
+            <tr><th>Estado</th><td><%= mostrarCampo(vehiculo.getEstadoV())%></td></tr>
+            <tr><th>Fecha de expedición de la licencia de conducción</th><td><%= mostrarCampo(vehiculo.getFechaExpConduccion())%></td></tr>
+            <tr><th>Fecha de vencimiento de la licencia de conducción</th><td><%= mostrarCampo(vehiculo.getFechaVencimiento())%></td></tr>
+            <tr><th>Número de la licencia de conducción</th><td><%= mostrarCampo(vehiculo.getNumLicenciaConduccion())%></td></tr>
         </table>
+
         <% }%>
 
         <h1>Contactos personales</h1>
         <table class="info-table">
             <tr><th>Primer contacto</th><td><%= referencia.getPrimerRefNombre()%> - <%= referencia.getPrimerRefParentezco()%> - <%= referencia.getPrimerRefCelular()%></td></tr>
-            <tr><th>Segundo contacto</th><td><%= referencia.getSegundaRefNombre()%> - <%= referencia.getSegundaRefParentezco()%> - <%= referencia.getSegundaRefCelular()%></td></tr>
+
+            <tr><th>Segundo contacto</th><td><%=(referencia.getSegundaRefNombre() + " - " + referencia.getSegundaRefParentezco() + " - " + referencia.getSegundaRefCelular()).equals(" -  - ")
+                    ? "No aplica"
+                    : referencia.getSegundaRefNombre() + " - " + referencia.getSegundaRefParentezco() + " - " + referencia.getSegundaRefCelular()%></td></tr>
             <tr><th>Tercer contacto</th><td><%= referencia.getTerceraRefNombre()%> - <%= referencia.getTerceraRefParentezco()%> - <%= referencia.getTerceraRefCelular()%></td></tr>
             <tr><th>Cuarto contacto</th><td><%= referencia.getCuartaRefNombre()%> - <%= referencia.getCuartaRefParentezco()%> - <%= referencia.getCuartaRefCelular()%></td></tr>
         </table>
@@ -144,32 +174,34 @@
         <h1>Información laboral</h1>
         <table class="info-table">
             <!--<tr><th>Fecha de ingreso empresa</th><td><%= informacionLaboral.getFechaIngreso()%></td></tr>-->
-            <tr><th>Fecha de ingreso temporal</th><td><%= informacionLaboral.getFechaIngresoTemporal()%></td></tr>
-            <tr><th>Duración del primer contrato</th><td><%= informacionLaboral.getFechaTerPriContrato()%></td></tr>
-            <tr><th>Unidad de negocio</th><td><%=informacionLaboral.getUnidadNegocio()%></td></tr>           
-            <tr><th>Centro de costos</th><td><%= informacionLaboral.getCentroCostos()%></td></tr>
-            <tr><th>Lugar de trabajo</th><td><%= informacionLaboral.getEstablecimiento()%> - <%= informacionLaboral.getUnidadNegocio()%></td></tr>
-            <tr><th>Area</th><td><%= informacionLaboral.getArea()%></td></tr>
-            <tr><th>Cargo</th><td><%=nombreCargo%></td></tr>
-            <tr><th>EPS</th><td><%= seguridadSocial.getEps()%></td></tr>
-            <tr><th>Fondo de pensiones</th><td><%= seguridadSocial.getFondoPensiones()%></td></tr>
-            <tr><th>Fondo de cesantías</th><td><%= seguridadSocial.getFondoCesantias()%></td></tr>
-            <tr><th>Arl</th><td><%= seguridadSocial.getArl()%></td></tr>
-            <tr><th>Banco</th><td><%= persona.getCuentaBancaria()%></td></tr>
-            <tr><th>Número de cuenta bancaria</th><td><%= persona.getNumeroCuenta()%></td></tr>
-            <tr><th>Salario</th><td><%= informacionLaboral.getSalario()%></td></tr>
+            <tr><th>Fecha de ingreso temporal</th><td><%= mostrarCampo(informacionLaboral.getFechaIngresoTemporal())%></td></tr>
+            <tr><th>Duración del primer contrato</th><td><%= mostrarCampo(informacionLaboral.getFechaTerPriContrato())%></td></tr>
+            <tr><th>Unidad de negocio</th><td><%= mostrarCampo(informacionLaboral.getUnidadNegocio())%></td></tr>           
+            <tr><th>Centro de costos</th><td><%= mostrarCampo(informacionLaboral.getCentroCostos())%></td></tr>
+            <tr><th>Lugar de trabajo</th><td><%= mostrarCampo(informacionLaboral.getEstablecimiento())%> - <%= mostrarCampo(informacionLaboral.getUnidadNegocio())%></td></tr>
+            <tr><th>Área</th><td><%= mostrarCampo(informacionLaboral.getArea())%></td></tr>
+            <tr><th>Cargo</th><td><%= mostrarCampo(nombreCargo)%></td></tr>
+            <tr><th>EPS</th><td><%= mostrarCampo(seguridadSocial.getEps())%></td></tr>
+            <tr><th>Fondo de pensiones</th><td><%= mostrarCampo(seguridadSocial.getFondoPensiones())%></td></tr>
+            <tr><th>Fondo de cesantías</th><td><%= mostrarCampo(seguridadSocial.getFondoCesantias())%></td></tr>
+            <tr><th>ARL</th><td><%= mostrarCampo(seguridadSocial.getArl())%></td></tr>
+            <tr><th>Banco</th><td><%= mostrarCampo(persona.getCuentaBancaria())%></td></tr>
+            <tr><th>Número de cuenta bancaria</th><td><%= mostrarCampo(persona.getNumeroCuenta())%></td></tr>
+            <tr><th>Salario</th><td><%= mostrarCampo(informacionLaboral.getSalario())%></td></tr>
         </table>
+
 
         <h1>Información de tallas</h1>
         <table class="info-table">
-            <tr><th>Talla de camisa</th><td><%=  talla.getTallaCamisa()%></td></tr>
-            <tr><th>Talla de chaqueta</th><td><%= talla.getTallaChaqueta()%></td></tr>
-            <tr><th>Talla de pantalón</th><td><%= talla.getTallaPantalon()%></td></tr>  
-            <tr><th>Talla de calzado</th><td><%= talla.getTallaCalzado()%></td></tr>
-            <tr><th>Talla de buzo</th><td><%= talla.getTallaBuzo()%></td></tr>                       
-            <tr><th>Talla de overol</th><td><%= talla.getTallaO()%></td></tr>
-            <tr><th>Talla de guantes</th><td><%= talla.getTallaGuantes()%></td></tr>
+            <tr><th>Talla de camisa</th><td><%= mostrarCampo(talla.getTallaCamisa())%></td></tr>
+            <tr><th>Talla de chaqueta</th><td><%= mostrarCampo(talla.getTallaChaqueta())%></td></tr>
+            <tr><th>Talla de pantalón</th><td><%= mostrarCampo(talla.getTallaPantalon())%></td></tr>  
+            <tr><th>Talla de calzado</th><td><%= mostrarCampo(talla.getTallaCalzado())%></td></tr>
+            <tr><th>Talla de buzo</th><td><%= mostrarCampo(talla.getTallaBuzo())%></td></tr>                       
+            <tr><th>Talla de overol</th><td><%= mostrarCampo(talla.getTallaO())%></td></tr>
+            <tr><th>Talla de guantes</th><td><%= mostrarCampo(talla.getTallaGuantes())%></td></tr>
         </table>
+
         <div class="botones-container">          
             <button class="submit" id="regresar" onClick="window.history.back()">Regresar</button>           
         </div>

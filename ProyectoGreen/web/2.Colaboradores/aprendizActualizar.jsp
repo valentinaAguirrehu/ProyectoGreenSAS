@@ -20,11 +20,15 @@
         ConectorBD.ejecutarQuery(sql);
         response.sendRedirect("aprendiz.jsp");
     }
-
+    if ("CambiarTipoC".equals(accion) && identificacionAnterior != null && !identificacionAnterior.trim().equals("")) {
+        String sql = "UPDATE persona SET tipo = 'C' WHERE identificacion = '" + identificacionAnterior + "'";
+        ConectorBD.ejecutarQuery(sql);
+        response.sendRedirect("aprendiz.jsp");
+    }
     SeguridadSocial seguridadSocial = (SeguridadSocial) request.getAttribute("seguridadSocial");
     request.setAttribute("seguridadSocial", seguridadSocial);
 
-      // Aquí guardas el valor de la identificación en una variable local
+    // Aquí guardas el valor de la identificación en una variable local
     String identificacion = request.getParameter("identificacion");
 
     // Crear objeto persona y asignar valores
@@ -90,7 +94,7 @@
         case "Adicionar":
             personaGuardada = persona.grabar();
             break;
-       case "Modificar":
+        case "Modificar":
             personaGuardada = persona.modificar(identificacionAnterior);
             break;
         case "Eliminar":
@@ -135,9 +139,9 @@
         return; // Detiene el JSP después de redirigir
     }
     if (personaGuardada && "Modificar".equals(accion)) {
-    response.sendRedirect("seguridadSocialAFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
-    return;
-}
+        response.sendRedirect("seguridadSocialAFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
+        return;
+    }
 //if (personaGuardada && "Modificar".equals(accion)) {
 //        response.sendRedirect("seguridadSocialAFormulario.jsp?identificacion=" + persona.getIdentificacion() + "&accion=Modificar");
 //        return;

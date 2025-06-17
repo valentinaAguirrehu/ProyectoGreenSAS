@@ -42,6 +42,7 @@
         lista += "<img class='eliminar' src='../presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
         lista += "<img class='subir' src='../presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         lista += "<img class='subir' src='../presentacion/iconos/cambiarTipo.png' title='Pasar a temporal' onClick='cambiarATemporal(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+        lista += "<img class='subir' src='../presentacion/iconos/cambiarTipo.png' title='Pasar a colaborador' onClick='cambiarAColaborador(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         lista += "</td>";
         lista += "</tr>";
     }
@@ -153,9 +154,15 @@
         );
     });
     function cambiarATemporal(identificacion) {
-        var confirmar = confirm("¿Desea cambiar el tipo de esta persona a 'T' (Temporal)?");
+        var confirmar = confirm("¿Desea cambiar el tipo de esta persona a (Temporal)?");
         if (confirmar) {
             window.location.href = "aprendizActualizar.jsp?accion=CambiarTipo&identificacionAnterior=" + identificacion;
+        }
+    }
+    function cambiarAColaborador(identificacion) {
+        var confirmar = confirm("¿Desea cambiar el tipo de esta persona a 'C' (Colaborador)?");
+        if (confirmar) {
+            window.location.href = "aprendizActualizar.jsp?accion=CambiarTipoC&identificacionAnterior=" + identificacion;
         }
     }
 </script>
