@@ -53,6 +53,7 @@
                 <li><a href="../5.Reportes/cumpleanos.jsp">Cumpleañeros del mes</a></li>
                 <li><a href="../5.Reportes/diaFamilia.jsp">Dia de la familia </a></li>
                 <li><a href="../5.Reportes/vacaciones.jsp">Vacaciones</a></li>
+                <li><a href="../5.Reportes/reportesGeneral.jsp">Reporte general</a></li>
             </ul>
         </li>
         <li class="dropdown">
