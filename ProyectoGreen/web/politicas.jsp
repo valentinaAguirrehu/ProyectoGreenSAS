@@ -66,7 +66,7 @@
     </head>
     <body>
         <header>
-            Políticas de privacidad y protección de datos
+            Política de Privacidad y Protección de Datos
         </header>
 
         <div class="container">

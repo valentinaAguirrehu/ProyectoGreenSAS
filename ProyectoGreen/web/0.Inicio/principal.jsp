@@ -27,7 +27,7 @@
             </div>
             <div class="quad-container">
                 <a href="../politicas.jsp" style="text-decoration: none;">
-                    <div class="quad">Políticas y privacidad</div>
+                    <div class="quad">Políticas de Privacidad  </div>
                 </a>
                 <a href="../9.ManualUso/manualUso.jsp" style="text-decoration: none;">
                     <div class="quad">Manual de uso</div>
