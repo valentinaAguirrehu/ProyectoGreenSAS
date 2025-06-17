@@ -1,9 +1,3 @@
-<%-- 
-    Document   : usuarios
-    Created on : 10 mar 2025, 14:51:43
-    Author     : Angie
---%>
-
 <%@page import="clases.Administrador"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,36 +6,36 @@
     List<Administrador> datos = Administrador.getListaEnObjetos("tipo<>'S'", null);
 
     for (Administrador usuario : datos) {
-    boolean tieneTodos = usuario.getpLeer().equals("S") &&
-                         usuario.getpEditar().equals("S") &&
-                         usuario.getpAgregar().equals("S") &&
-                         usuario.getpEliminar().equals("S") &&
-                         usuario.getpDescargar().equals("S");
+        boolean tieneTodos = usuario.getpLeer().equals("S") &&
+                             usuario.getpEditar().equals("S") &&
+                             usuario.getpAgregar().equals("S") &&
+                             usuario.getpEliminar().equals("S") &&
+                             usuario.getpDescargar().equals("S");
 
-    String permisos = "";
-    if (tieneTodos) {
-        permisos = "Acceso completo";
-    } else {
-        if (usuario.getpLeer().equals("S")) {
-            permisos += "Lectura - ";
-        }
-        if (usuario.getpEditar().equals("S")) {
-            permisos += "Edición - ";
-        }
-        if (usuario.getpAgregar().equals("S")) {
-            permisos += "Agregar - ";
-        }
-        if (usuario.getpEliminar().equals("S")) {
-            permisos += "Eliminar - ";
-        }
-        if (usuario.getpDescargar().equals("S")) {
-            permisos += "Ver y descargar - ";
-        }
+        String permisos = "";
+        if (tieneTodos) {
+            permisos = "Acceso completo";
+        } else {
+            if (usuario.getpLeer().equals("S")) {
+                permisos += "Lectura - ";
+            }
+            if (usuario.getpEditar().equals("S")) {
+                permisos += "Edición - ";
+            }
+            if (usuario.getpAgregar().equals("S")) {
+                permisos += "Agregar - ";
+            }
+            if (usuario.getpEliminar().equals("S")) {
+                permisos += "Eliminar - ";
+            }
+            if (usuario.getpDescargar().equals("S")) {
+                permisos += "Ver y descargar - ";
+            }
 
-        if (!permisos.isEmpty()) {
-            permisos = permisos.substring(0, permisos.length() - 3);
+            if (!permisos.isEmpty()) {
+                permisos = permisos.substring(0, permisos.length() - 3);
+            }
         }
-    }
 
         lista += "<tr>";
         lista += "<td>" + usuario.getIdentificacion() + "</td>";
@@ -61,31 +55,63 @@
 
 <%@ include file="../menu.jsp" %>
 
-
 <div class="content">
-<h3 class="titulo">GESTIÓN DE USUARIOS</h3>
-<link rel="stylesheet" href="../presentacion/style-Usuarios.css">
-<div class="search-container">
-    <div class="search-box">
-        <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por nombre o identificación " class="recuadro">
-        <img src="../presentacion/iconos/lupa.png" alt="Buscar">
+
+    <!-- Contenedor para cuadro de texto + título -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <!-- CUADRO DE INFORMACIÓN -->
+        <div style="
+            background-color: #f0f8ff;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            display: inline-block;
+        ">
+            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                <span style="margin-right: 5px;">📩</span> Gmail: grennsas@gmail.com
+            </div>
+            <div style="display: flex; align-items: center;">
+                <span style="margin-right: 5px;">🔑</span> Contraseña: angieFeaBonita
+            </div>
+        </div>
+
+        <!-- TÍTULO CENTRADO -->
+        <h3 class="titulo" style="flex-grow: 1; text-align: center; margin: 0; font-size: 24px; color: #2c3e50; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+            GESTIÓN DE USUARIOS
+        </h3>
+
+        <!-- Espacio vacío para compensar el cuadro y centrar el título visualmente -->
+        <div style="width: 220px;"></div>
     </div>
-</div>
 
 
-<table class="table" border="1" id="usuariosTable">
-    <tr>
-        <th>Identificación</th>
-        <th>Nombre</th>
-        <th>Celular</th>
-        <th>Correo electrónico</th>
-        <th>Permisos</th>
-        <th>Estado</th>
-        <th><a href="usuariosFormulario.jsp?accion=Adicionar" title="Adicionar">
-                <img src="../presentacion/iconos/agregar.png" width='30' height='30'> </a></th>
-    </tr>
-    <%=lista%>
-</table>
+
+
+    <link rel="stylesheet" href="../presentacion/style-Usuarios.css">
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="filterNames()" placeholder="Buscar por nombre o identificación " class="recuadro">
+            <img src="../presentacion/iconos/lupa.png" alt="Buscar">
+        </div>
+    </div>
+
+    <table class="table" border="1" id="usuariosTable">
+        <tr>
+            <th>Identificación</th>
+            <th>Nombre</th>
+            <th>Celular</th>
+            <th>Correo electrónico</th>
+            <th>Permisos</th>
+            <th>Estado</th>
+            <th><a href="usuariosFormulario.jsp?accion=Adicionar" title="Adicionar">
+                    <img src="../presentacion/iconos/agregar.png" width='30' height='30'> </a></th>
+        </tr>
+        <%=lista%>
+    </table>
 </div>
 
 <script type="text/javascript">
@@ -109,9 +135,9 @@
                 const nombres = cells[1].textContent || cells[1].innerText;
 
                 if (
-                        identificacion.toLowerCase().indexOf(filter) > -1 ||
-                        nombres.toLowerCase().indexOf(filter) > -1
-                        ) {
+                    identificacion.toLowerCase().indexOf(filter) > -1 ||
+                    nombres.toLowerCase().indexOf(filter) > -1
+                ) {
                     rows[i].style.display = "";
                 } else {
                     rows[i].style.display = "none";
@@ -119,5 +145,4 @@
             }
         }
     }
-
 </script>

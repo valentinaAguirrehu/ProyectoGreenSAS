@@ -100,7 +100,7 @@
 <script>
 function validarEliminacion(fechaUltimaEnvio) {
     const fechaLimite = new Date(fechaUltimaEnvio);
-    fechaLimite.setMonth(fechaLimite.getMonth() + 1); // Esperar 1 mes
+    fechaLimite.setMonth(fechaLimite.getMonth() + 1); 
     const ahora = new Date();
 
     if (ahora < fechaLimite) {
