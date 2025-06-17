@@ -9,8 +9,8 @@
     }
 
     int enviados = 0;
-    final String correoEnvia = "huellitasweb5@gmail.com";
-    final String claveCorreo = "hkjf yjaa crui awbs";
+    final String correoEnvia = "softwaregestionhumana@gmail.com";
+    final String claveCorreo = "cyyu usqo rrss dzoy";
 
     Connection conn = null;
     PreparedStatement stmt = null;
