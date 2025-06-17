@@ -39,14 +39,19 @@
         lista += "<td>" + centroCostos + "</td>";  
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
+        // VER DETALLES
         lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
+        // VER HISTORIA LABORAL
         lista += "<img class='ver' src='../presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
+        // VER HISTORIA LABORAL
+        lista += "<img class='ver' src='../presentacion/iconos/dotacion.png' title='Entregar dotación' onClick='entregarDotacion(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+        // MODIFICAR
         lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
         lista += "<img class='editar' src='../presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
-        lista += "<img class='ver' src='../presentacion/iconos/dotacion.png' title='Entregar dotación' onClick='entregarDotacion(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+        // ELIMINAR PERSONA
         lista += "<img class='eliminar' src='../presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
+       // PASAR A RETIRADO
         lista += "<img class='subir' src='../presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
-        lista += "<img class='subir' src='../presentacion/iconos/cambiarTipo.png' title='Pasar a temporal' onClick='cambiarATemporal(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         lista += "</td>";
         lista += "</tr>";
     }
@@ -167,12 +172,5 @@
     <%= administrador.getpLeer()%>
         );
     });
-
-    function cambiarATemporal(identificacion) {
-        var confirmar = confirm("¿Desea cambiar el tipo de esta persona a 'T' (Temporal)?");
-        if (confirmar) {
-            window.location.href = "personaActualizar.jsp?accion=CambiarTipo&identificacionAnterior=" + identificacion;
-        }
-    }
 
 </script>

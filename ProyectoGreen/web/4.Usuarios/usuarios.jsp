@@ -102,7 +102,7 @@
         const table = document.getElementById('usuariosTable');
         const rows = table.getElementsByTagName('tr');
 
-        for (let i = 1; i < rows.length; i++) { // Saltamos el encabezado
+        for (let i = 1; i < rows.length; i++) { 
             const cells = rows[i].getElementsByTagName('td');
             if (cells.length > 0) {
                 const identificacion = cells[0].textContent || cells[0].innerText;

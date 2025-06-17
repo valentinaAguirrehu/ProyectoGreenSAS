@@ -224,7 +224,7 @@
 
                 <div class="botones-form">
                     <button type="submit" class="btn-verde">Guardar</button>
-                    <a href="historialDotacion.jsp?identificacion=<%= identificacion%>" class="btn-rojo">Cancelar</a>
+<!--                    <a href="historialDotacion.jsp?identificacion=<%= identificacion%>" class="btn-rojo">Cancelar</a>-->
                 </div>
             </form>
             <script>

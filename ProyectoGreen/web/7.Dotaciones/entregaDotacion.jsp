@@ -349,7 +349,7 @@
                 <input type="hidden" name="idPersona" value="<%= idPersona%>">
                 <div class="botones-form">
                     <button type="submit" class="btn-verde">Guardar</button>
-                    <a href="historialDotacion.jsp?identificacion=<%= request.getParameter("identificacion")%>" class="btn-rojo">Cancelar</a>
+<!--                    <a href="historialDotacion.jsp?identificacion=<%= request.getParameter("identificacion")%>" class="btn-rojo">Cancelar</a> -->
                 </div>
             </form>
         </div>
