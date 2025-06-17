@@ -71,8 +71,7 @@
 
         <div class="container">
             <h2>PROTECCIÓN DE DATOS</h2>
-            <p>DANDO CUMPLIMIENTO A LA LEY 1581 DE 2012 Y EL DECRETO 1377 DE 2013, GREEN S.A.S. GARANTIZA EL ADECUADO TRATAMIENTO DE SUS DATOS PERSONALES Y EL RESPETO A SUS DERECHOS COMO TITULARES
-            </p>
+            <p>Dando cumplimiento a la Ley 1581 de 2012 y el Decreto 1377 de 2013, GREEN S.A.S. garantiza el adecuado tratamiento de sus datos personales y el respeto a sus derechos como titulares.</p>
 
 
             <div style="text-align: center; margin-top: 30px;">
@@ -85,7 +84,7 @@
                         font-size: 16px;
                         cursor: pointer;
                         transition: background-color 0.3s;">
-                    Acepto
+                   He leído y acepto la Política de Privacidad y Protección de Datos
                 </button>
             </div>
 
