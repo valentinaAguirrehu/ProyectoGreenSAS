@@ -126,40 +126,46 @@ public class Retirados {
     }
 
 
-    public static ResultSet getLista(String filtro, String orden) {
-        if (filtro != null && !filtro.trim().isEmpty()) {
-            filtro = " WHERE " + filtro;
-        } else {
-            filtro = "";
-        }
-        if (orden != null && !orden.trim().isEmpty()) {
-            orden = " ORDER BY " + orden;
-        } else {
-            orden = "";
-        }
-
-       String cadenaSQL = "SELECT "
-        + "r.id, "
-        + "r.identificacionPersona, "
-        + "r.observaciones, "
-        + "r.numCaja, "
-        + "r.numCarpeta, "
-        + "p.identificacion, "
-        + "p.nombres, "
-        + "p.apellidos, "
-        + "il.establecimiento, "
-        + "il.fechaIngreso, "
-        + "il.fechaRetiro, "
-        + "il.idCargo "
-        + "FROM retirados r "
-        + "JOIN persona p ON r.identificacionPersona = p.identificacion "
-        + "LEFT JOIN informacionlaboral il ON p.identificacion = il.identificacion "
-        + "WHERE p.tipo = 'R' AND r.identificacionPersona IS NOT NULL "
-        + filtro + orden;
-
-
-        return ConectorBD.consultar(cadenaSQL);
+   public static ResultSet getLista(String filtro, String orden) {
+    if (filtro != null && !filtro.trim().isEmpty()) {
+        filtro = " AND " + filtro; // porque ya hay un WHERE base
+    } else {
+        filtro = "";
     }
+    if (orden != null && !orden.trim().isEmpty()) {
+        orden = " ORDER BY " + orden;
+    } else {
+        orden = "";
+    }
+
+    String cadenaSQL = "SELECT "
+            + "r.id, "
+            + "r.identificacionPersona, "
+            + "r.observaciones, "
+            + "r.numCaja, "
+            + "r.numCarpeta, "
+            + "p.identificacion, "
+            + "p.nombres, "
+            + "p.apellidos, "
+            + "il.idCargo, "
+            + "il.fechaIngreso, "
+            + "il.fechaRetiro, "
+            + "il.unidadNegocio, "
+            + "il.centroCostos, "
+            + "il.establecimiento, "
+            + "il.area, "
+            + "il.salario, "
+            + "il.estado, "
+            + "il.fechaTerPriContrato, "
+            + "il.fechaIngresoTemporal "
+            + "FROM retirados r "
+            + "JOIN persona p ON r.identificacionPersona = p.identificacion "
+            + "LEFT JOIN informacionlaboral il ON p.identificacion = il.identificacion "
+            + "WHERE p.tipo = 'R' AND r.identificacionPersona IS NOT NULL "
+            + filtro + orden;
+
+    return ConectorBD.consultar(cadenaSQL);
+}
 
     public static List<Retirados> getListaEnObjetos(String filtro, String orden) {
         List<Retirados> lista = new ArrayList<>();

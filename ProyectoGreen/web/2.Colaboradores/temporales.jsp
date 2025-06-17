@@ -22,17 +22,18 @@
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
         String fechaIngresoTemporal = InformacionLaboral.getFechaIngresoTemporal(persona.getIdentificacion());
+        fechaIngresoTemporal = (fechaIngresoTemporal != null && !fechaIngresoTemporal.trim().isEmpty()) ? fechaIngresoTemporal : "";
 
         InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
         String centroCostos = (info != null) ? info.getCentroCostos() : "";
-        
+
         lista += "<tr>";
         lista += "<td>" + tipoDocumento + "</td>";
         lista += "<td align='right'>" + identificacion + "</td>";
         lista += "<td>" + nombres + "</td>";
         lista += "<td>" + apellidos + "</td>";
         lista += "<td>" + cargo + "</td>";
-        lista += "<td>" + centroCostos + "</td>";  
+        lista += "<td>" + centroCostos + "</td>";
         lista += "<td>" + fechaIngresoTemporal + "</td>";
         lista += "<td>";
         lista += "<img src='../presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='verHistoriaLaboral(" + persona.getIdentificacion() + ")'>";
