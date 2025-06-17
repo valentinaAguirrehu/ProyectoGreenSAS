@@ -66,13 +66,12 @@
     </head>
     <body>
         <header>
-            Políticas de Privacidad y Protección de Datos
+            Políticas de privacidad y protección de datos
         </header>
 
         <div class="container">
             <h2>PROTECCIÓN DE DATOS</h2>
-            <p>GARANTIZO EL ADECUADO TRATAMIENTO DE LOS DATOS PERSONALES Y EL RESPETO A SUS DERECHOS COMO TITULARES
-                LEY 1581 DE 2012 Y EL DECRETO 1377 DE 2013 
+            <p>DANDO CUMPLIMIENTO A LA LEY 1581 DE 2012 Y EL DECRETO 1377 DE 2013, GREEN S.A.S. GARANTIZA EL ADECUADO TRATAMIENTO DE SUS DATOS PERSONALES Y EL RESPETO A SUS DERECHOS COMO TITULARES
             </p>
 
 
@@ -86,12 +85,12 @@
                         font-size: 16px;
                         cursor: pointer;
                         transition: background-color 0.3s;">
-                    ¡Está claro!
+                    Acepto
                 </button>
             </div>
 
             <footer>
-                © 2025 GREEN S.A.S - Todos los derechos reservados
+                © 2025 GREEN S.A.S. - Todos los derechos reservados
             </footer>
     </body>
 </html>

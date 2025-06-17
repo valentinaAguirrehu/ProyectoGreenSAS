@@ -27,10 +27,10 @@
             </div>
             <div class="quad-container">
                 <a href="../politicas.jsp" style="text-decoration: none;">
-                    <div class="quad">Políticas y Privacidad</div>
+                    <div class="quad">Políticas y privacidad</div>
                 </a>
                 <a href="../9.ManualUso/manualUso.jsp" style="text-decoration: none;">
-                    <div class="quad">Manual de Uso</div>
+                    <div class="quad">Manual de uso</div>
                 </a>
 <!--                <a href="../soporteTecnico.jsp" style="text-decoration: none;">
                     <div class="quad">Soporte Técnico</div>
