@@ -439,4 +439,30 @@
             document.body.appendChild(form);
             form.submit();
         }
+        function cambiarAEstadoTemporal() {
+            var identificacion = document.getElementById("identificacion").value;
+            var accion = 'colaborador'; // Este es el nuevo estado
+
+            // Creación de un formulario dinámico que envíe los datos al servidor
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = ""; // Esto enviará los datos a la misma página
+
+            // Crear los campos para el identificador y la acción
+            var inputIdentificacion = document.createElement("input");
+            inputIdentificacion.type = "hidden";
+            inputIdentificacion.name = "identificacion";
+            inputIdentificacion.value = identificacion;
+            form.appendChild(inputIdentificacion);
+
+            var inputAccion = document.createElement("input");
+            inputAccion.type = "hidden";
+            inputAccion.name = "accion";
+            inputAccion.value = accion;
+            form.appendChild(inputAccion);
+
+            // Enviar el formulario de forma automática
+            document.body.appendChild(form);
+            form.submit();
+        }
     </script>
