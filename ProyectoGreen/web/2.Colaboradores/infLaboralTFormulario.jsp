@@ -125,7 +125,7 @@
                         <%= informacionLaboral.getArea().getSelectArea("area")%>
                     </td>                                
                  <tr>
-                    <th>Cargos<span style="color: red;">*</span></th>
+                    <th>Cargo<span style="color: red;">*</span></th>
                     <td>
                         <select name="idCargo" id="idCargo" required>
                             <%= opcionesCargos%>

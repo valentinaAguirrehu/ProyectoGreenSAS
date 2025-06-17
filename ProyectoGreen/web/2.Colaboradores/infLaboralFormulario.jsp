@@ -88,12 +88,7 @@
                         <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" >
                     </td>
                 </tr>
-                <tr>
-                    <th>Duración del primer contrato<span style="color: red;">*</span></th>
-                    <td>
-                        <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
-                    </td>
-                <tr>
+                
                     <th>Unidad de negocio<span style="color: red;">*</span></th>
                     <td>
                         <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
@@ -127,7 +122,7 @@
                         <%= informacionLaboral.getArea().getSelectArea("area")%>
                     </td>                                
                 <tr>
-                    <th>Cargos<span style="color: red;">*</span></th>
+                    <th>Cargo<span style="color: red;">*</span></th>
                     <td>
                         <select name="idCargo" id="idCargo" required>
                             <%= opcionesCargos%>
