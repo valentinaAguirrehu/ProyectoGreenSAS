@@ -72,7 +72,7 @@
             display: inline-block;
         ">
             <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                <span style="margin-right: 5px;">📩</span> Gmail: softwaregestionhumana@gmail.com
+                <span style="margin-right: 5px;">📩</span> Correo electrónico: softwaregestionhumana@gmail.com
             </div>
             <div style="display: flex; align-items: center;">
                 <span style="margin-right: 5px;">🔑</span> Contraseña: Softwarearchivogh2025
