@@ -78,14 +78,14 @@ informacionLaboral.setFechaTerPriContrato(fechaTerPriContrato);
                 boolean actualizado = ConectorBD.ejecutarQuery(sqlInfoLaboral);
 
                 if (actualizado) {
-                    String sqlRetirados = "UPDATE retirados SET "
-                            + "numCaja = '" + numCaja + "', "
-                            + "numCarpeta = '" + numCarpeta + "', "
-                            + "observaciones = '" + observaciones + "' "
+                   if (id != null && fechaIngreso != null && !fechaIngreso.trim().isEmpty() && fechaRetiro != null) {
+    String sqlRetirados = "UPDATE informacionlaboral SET "
+        + "fechaIngreso = '" + fechaIngreso + "', "
+        + "fechaRetiro = '" + fechaRetiro + "' "
                             + "WHERE id = '" + id + "'";
                     ConectorBD.ejecutarQuery(sqlRetirados);
                 }
-            }
+                }}
             break;
 
         case "Eliminar":
