@@ -43,6 +43,23 @@
     retirado.setNumCaja(numCaja);
     retirado.setNumCarpeta(numCarpeta);
     retirado.setObservaciones(observaciones);
+// Capturar datos ocultos del formulario
+String unidadNegocio = request.getParameter("unidadNegocio");
+String centroCostos = request.getParameter("centroCostos");
+String area = request.getParameter("area");
+String salario = request.getParameter("salario");
+String estado = request.getParameter("estado");
+String fechaIngresoTemporal = request.getParameter("fechaIngresoTemporal");
+String fechaTerPriContrato = request.getParameter("fechaTerPriContrato");
+
+// Setear los campos faltantes
+informacionLaboral.setUnidadNegocio(unidadNegocio);
+informacionLaboral.setCentroCostos(centroCostos);
+informacionLaboral.setArea(area);
+informacionLaboral.setSalario(salario);
+informacionLaboral.setEstado(estado);
+informacionLaboral.setFechaIngresoTemporal(fechaIngresoTemporal);
+informacionLaboral.setFechaTerPriContrato(fechaTerPriContrato);
 
     switch (accion) {
         case "Adicionar":
@@ -61,14 +78,14 @@
                 boolean actualizado = ConectorBD.ejecutarQuery(sqlInfoLaboral);
 
                 if (actualizado) {
-                    String sqlRetirados = "UPDATE retirados SET "
-                            + "numCaja = '" + numCaja + "', "
-                            + "numCarpeta = '" + numCarpeta + "', "
-                            + "observaciones = '" + observaciones + "' "
+                   if (id != null && fechaIngreso != null && !fechaIngreso.trim().isEmpty() && fechaRetiro != null) {
+    String sqlRetirados = "UPDATE informacionlaboral SET "
+        + "fechaIngreso = '" + fechaIngreso + "', "
+        + "fechaRetiro = '" + fechaRetiro + "' "
                             + "WHERE id = '" + id + "'";
                     ConectorBD.ejecutarQuery(sqlRetirados);
                 }
-            }
+                }}
             break;
 
         case "Eliminar":

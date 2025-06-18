@@ -146,7 +146,6 @@
 
         <h1>Información laboral</h1>
         <table class="info-table">
-            <tr><th>Duración del primer contrato</th><td><%= mostrarCampo(informacionLaboral.getFechaTerPriContrato())%></td></tr>
             <tr><th>Unidad de negocio</th><td><%= mostrarCampo(informacionLaboral.getUnidadNegocio())%></td></tr>           
             <tr><th>Centro de costos</th><td><%= mostrarCampo(informacionLaboral.getCentroCostos())%></td></tr>
             <tr><th>Lugar de trabajo</th><td><%= mostrarCampo(informacionLaboral.getEstablecimiento())%> - <%= mostrarCampo(informacionLaboral.getUnidadNegocio())%></td></tr>

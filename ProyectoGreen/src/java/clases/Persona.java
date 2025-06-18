@@ -786,4 +786,5 @@ public class Persona {
     return nombreCompleto;
 }
     
+    
 }
