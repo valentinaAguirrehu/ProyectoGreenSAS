@@ -135,8 +135,12 @@ public class Persona {
 //        return resultado;
 //    }
     public TipoDocumento getTipoDocumento() {
-        return new TipoDocumento(tipoDocumento);
+    if (tipoDocumento == null) {
+        return null;
     }
+    return new TipoDocumento(tipoDocumento);
+}
+
 
     public void setTipoDocumento(String tipoDocumento) {
         this.tipoDocumento = tipoDocumento;

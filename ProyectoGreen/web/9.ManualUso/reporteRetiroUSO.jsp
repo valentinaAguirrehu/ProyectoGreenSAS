@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Manual de Uso - Reporte de Retiros</title>
+    <title>GREEN S.A.S.</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;

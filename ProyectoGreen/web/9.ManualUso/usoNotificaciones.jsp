@@ -3,8 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Manual de Uso - Módulo de Notificaciones</title>
-
+    <title>GREEN S.A.S.</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -131,20 +130,17 @@
 
         <p>
             Después de enviar los correos, el sistema redirigirá automáticamente al <strong>historial de correos enviados</strong>.  
-            Allí podrá observar a qué usuarios y colaboradores se les envió la notificación.
+            Allí podrá observar a qué usuarios se les envió la notificación.
         </p>
 
-        <p>
-            En la parte superior del historial encontrará un <strong>botón rojo</strong> de <strong>“Eliminar”</strong>, que permite borrar los registros de envíos anteriores.  
-            Este botón solo estará habilitado para eliminar registros cuya última fecha de envío haya pasado más de 3 horas, garantizando que no se eliminen datos recientes.
-        </p>
+       <p> En la parte superior del historial encontrarás un botón rojo etiquetado <strong>“Eliminar”</strong>, que te permite eliminar registros de envíos anteriores. Este botón solo estará activo si han pasado más de 30 días desde la primera fecha de envío del registro, lo cual garantiza que no se eliminen datos recientes. </p>
 
         <!-- Carrusel de imágenes -->
         <div class="carousel">
             <button class="carousel-button left" onclick="moverCarrusel(-1)">&#10094;</button>
             <div class="carousel-images" id="carrusel">
-                <img src="../presentacion/imagenesManual/historialcorreos.png" alt="Historial de correos - imagen 1">
-                <img src="../presentacion/imagenesManual/eliminarCorreo.PNG" alt="Historial de correos - imagen 2">
+                <img src="../presentacion/imagenesManual/historialVista.png" alt="Historial de correos - imagen 1">
+                <img src="../presentacion/imagenesManual/historialEliminar.png" alt="Historial de correos - imagen 2">
                 <img src="../presentacion/imagenesManual/borrarcorreos.PNG" alt="Historial de correos - imagen 3">
             </div>
             <button class="carousel-button right" onclick="moverCarrusel(1)">&#10095;</button>

@@ -1,3 +1,9 @@
+<%-- 
+    Document   : dotacionMenu
+    Created on : 18 jun 2025, 14:16:59
+    Author     : Angie
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -109,7 +115,7 @@
     </head>
     <body>
 
-        <h1>Reportes e Indicadores</h1>
+        <h1>DOTACIÓN</h1>
 
         <div class="module-container">
             <a href="ReporteIngresoUSO.jsp" class="module-card">
@@ -154,3 +160,4 @@
 
     </body>
 </html>
+

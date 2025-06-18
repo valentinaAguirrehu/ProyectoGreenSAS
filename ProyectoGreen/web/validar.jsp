@@ -17,6 +17,6 @@
         response.sendRedirect("index.jsp?error=2"); 
     } else {
         session.setAttribute("usuario", usuario);
-        response.sendRedirect("0.Inicio/principal.jsp"); 
+        response.sendRedirect("politicas.jsp"); 
     }
 %>

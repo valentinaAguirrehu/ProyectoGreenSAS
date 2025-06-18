@@ -55,7 +55,7 @@
 
             <div style="width: 13%;"></div>
 
-            <h3 class="titulo" style="text-align: center; width: 34%; margin: 0;">INVENTARIO DE DOTACIÓN UTILIZADA</h3>
+            <h3 class="titulo" style="text-align: center; width: 34%; margin: 0;">INVENTARIO DE DOTACIÓN USADA</h3>
 
             <div style="margin-top: 30px;"> 
                 <a href="inventarioFormularioUsada.jsp?accion=Adicionar" class="subir" style="display: inline-flex; align-items: center; gap: 6px;">

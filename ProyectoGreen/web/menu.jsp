@@ -41,7 +41,7 @@
             <ul class="dropdown-content">                           
                 <li><a href="../7.Dotaciones/prenda.jsp">Prendas</a></li>
                 <li><a href="../7.Dotaciones/inventarioDotacion.jsp">Inventario de dotación nueva</a></li>
-                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario de dotación utilizada</a></li>
+                <li><a href="../7.Dotaciones/inventarioDotacionUsada.jsp">Inventario de dotación usada</a></li>
             </ul>
         </li>
         <li class="dropdown">
@@ -53,6 +53,7 @@
                 <li><a href="../5.Reportes/cumpleanos.jsp">Cumpleañeros del mes</a></li>
                 <li><a href="../5.Reportes/diaFamilia.jsp">Dia de la familia </a></li>
                 <li><a href="../5.Reportes/vacaciones.jsp">Vacaciones</a></li>
+                <li><a href="../5.Reportes/reportesGeneral.jsp">Reporte general</a></li>
             </ul>
         </li>
         <li class="dropdown">
