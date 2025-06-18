@@ -115,7 +115,7 @@
     </head>
     <body>
 
-        <h1>Reportes e Indicadores</h1>
+        <h1>DOTACIÓN</h1>
 
         <div class="module-container">
             <a href="ReporteIngresoUSO.jsp" class="module-card">
