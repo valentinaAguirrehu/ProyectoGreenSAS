@@ -4,7 +4,6 @@
     Author     : Mary
 --%>
 
-<%@page import="clases.Educacion"%>
 <%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
 <%@ page import="java.util.ArrayList"%>
@@ -42,7 +41,6 @@
     InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion());
     String idCargoSeleccionado = (info != null && info.getIdCargo() != null) ? info.getIdCargo() : "";
     List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null); // Asumiendo que tienes este método
-Educacion educacion = (persona != null) ? new Educacion(persona.getIdentificacion()) : new Educacion();
 
     if (accion == null || accion.isEmpty()) {
         accion = "Adicionar"; // Valor por defecto
@@ -98,26 +96,11 @@ Educacion educacion = (persona != null) ? new Educacion(persona.getIdentificacio
                     </td>               
                 </tr>                
                 <tr>
-    <th>Fecha de ingreso</th>
-    <td>
-        <%
-            String fechaMostrar = "";
-
-            if (informacionLaboral.getFechaIngresoTemporal() != null && !informacionLaboral.getFechaIngresoTemporal().trim().isEmpty()) {
-                fechaMostrar = informacionLaboral.getFechaIngresoTemporal();
-            } else if (informacionLaboral.getFechaIngreso() != null && !informacionLaboral.getFechaIngreso().trim().isEmpty()) {
-                fechaMostrar = informacionLaboral.getFechaIngreso();
-            } else if (educacion.getFechaEtapaLectiva() != null && !educacion.getFechaEtapaLectiva().trim().isEmpty()) {
-                fechaMostrar = educacion.getFechaEtapaLectiva();
-            }
-        %>
-        <input type="date" name="fechaIngreso" value="<%= fechaMostrar %>" required>
-    </td>
-</tr>
-
-
-
-
+                    <th>Fecha de ingreso</th>
+                    <td>
+                        <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
+                    </td>
+                </tr>
                 <tr>
                     <th>Fecha de retiro</th>
                     <td>
@@ -143,6 +126,14 @@ Educacion educacion = (persona != null) ? new Educacion(persona.getIdentificacio
                     </td>
                 </tr>
             </table>
+            <input type="hidden" name="unidadNegocio" value="<%= (informacionLaboral.getUnidadNegocio() != null && !informacionLaboral.getUnidadNegocio().isEmpty()) ? informacionLaboral.getUnidadNegocio() : "No aplica"%>">
+            <input type="hidden" name="centroCostos" value="<%= (informacionLaboral.getCentroCostos() != null && !informacionLaboral.getCentroCostos().isEmpty()) ? informacionLaboral.getCentroCostos() : "No aplica"%>">
+<input type="hidden" name="area" value="<%= (informacionLaboral.getArea() != null && !informacionLaboral.getArea().equals("")) ? informacionLaboral.getArea() : "No aplica" %>">
+            <input type="hidden" name="salario" value="<%= (informacionLaboral.getSalario() != null && !informacionLaboral.getSalario().isEmpty()) ? informacionLaboral.getSalario() : "No aplica"%>">
+            <input type="hidden" name="estado" value="<%= (informacionLaboral.getEstado() != null && !informacionLaboral.getEstado().isEmpty()) ? informacionLaboral.getEstado() : "No aplica"%>">
+            <input type="hidden" name="fechaTerPriContrato" value="<%= (informacionLaboral.getFechaTerPriContrato() != null && !informacionLaboral.getFechaTerPriContrato().isEmpty()) ? informacionLaboral.getFechaTerPriContrato() : "No aplica"%>">
+            <input type="hidden" name="fechaIngresoTemporal" value="<%= (informacionLaboral.getFechaIngresoTemporal() != null && !informacionLaboral.getFechaIngresoTemporal().isEmpty()) ? informacionLaboral.getFechaIngresoTemporal() : "No aplica"%>">
+
             <input type="hidden" name="id" value="<%= (retirado != null) ? retirado.getId() : ""%>">
             <input type="hidden" name="accion" value="<%= accion%>">
             <input type="hidden" name="identificacion" value="<%= request.getParameter("identificacion")%>">
