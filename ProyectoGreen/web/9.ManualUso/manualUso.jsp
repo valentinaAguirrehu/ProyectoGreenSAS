@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Manual de Uso - GREEN S.A.S.</title>
+        <title>GREEN S.A.S.</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
             body {
@@ -86,7 +86,7 @@
     </head>
     <body>
 
-        <h1>Manual de Uso del PROYECTO GREEN S.A.S.</h1>
+        <h1>Manual de uso del software</h1>
 
         <div class="module-container">
             <!-- Módulo 1 -->
@@ -110,8 +110,8 @@
                 <p>Consulta y seguimiento del historial laboral de los colaboradores.</p>
             </a>
 
-            <!-- Módulo 4 -->
-            <a href="ruta/Dotaciones.jsp" class="module-card">
+            <!-- Módulo 4: Dotaciones -->
+            <a href="dotacionMenu.jsp" class="module-card">
                 <i class="fas fa-tshirt"></i>
                 <h3>Módulo Dotaciones</h3>
                 <p>Registro y entrega de dotaciones al personal.</p>

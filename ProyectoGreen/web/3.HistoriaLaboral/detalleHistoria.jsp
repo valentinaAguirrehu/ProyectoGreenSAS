@@ -401,9 +401,6 @@
                         }
                     %>
 
-
-
-
                     <% if (listaDetalles
                                 != null && !listaDetalles.isEmpty()) {
                             for (DetallesHistoria detalle : listaDetalles) {%>

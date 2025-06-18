@@ -3,8 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Manual de Uso - Módulo de Cargos</title>
-
+    <title>GREEN S.A.S.</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
