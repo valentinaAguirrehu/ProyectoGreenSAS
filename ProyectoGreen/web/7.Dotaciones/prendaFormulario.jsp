@@ -35,7 +35,7 @@
                 <h3 class="titulo"><%=accion.toUpperCase()%> PRENDA</h3>
 
                 <tr>
-                    <th>Tipo de Prenda</th>
+                    <th>Tipo de prenda</th>
                     <td>
                         <select class="recuadro" name="id_tipo_prenda" required>
                             <option value="">Seleccione una opción</option>
@@ -55,7 +55,7 @@
                 </tr>
 
                 <tr>
-                    <th>Nombre de la Prenda</th>
+                    <th>Nombre de la prenda</th>
                     <td>
                         <input class="recuadro" type="text" name="nombre" value="<%=prenda.getNombre()%>" maxlength="100" size="40" required />
                     </td>
