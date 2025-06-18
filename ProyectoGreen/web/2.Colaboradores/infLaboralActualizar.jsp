@@ -29,7 +29,7 @@
     informacionLaboral.setEstablecimiento(request.getParameter("establecimiento"));
     informacionLaboral.setArea(request.getParameter("area"));
     informacionLaboral.setSalario(request.getParameter("salario"));
-    informacionLaboral.setFechaTerPriContrato(request.getParameter("NA"));
+    informacionLaboral.setFechaTerPriContrato(request.getParameter("fechaTerPriContrato"));
 
     // Acción según el botón presionado
     switch (accion) {

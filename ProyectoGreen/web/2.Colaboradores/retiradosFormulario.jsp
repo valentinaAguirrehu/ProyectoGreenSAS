@@ -4,6 +4,7 @@
     Author     : Mary
 --%>
 
+<%@page import="clases.Educacion"%>
 <%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
 <%@ page import="java.util.ArrayList"%>
@@ -41,6 +42,7 @@
     InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion());
     String idCargoSeleccionado = (info != null && info.getIdCargo() != null) ? info.getIdCargo() : "";
     List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null); // Asumiendo que tienes este método
+Educacion educacion = (persona != null) ? new Educacion(persona.getIdentificacion()) : new Educacion();
 
     if (accion == null || accion.isEmpty()) {
         accion = "Adicionar"; // Valor por defecto
@@ -96,11 +98,26 @@
                     </td>               
                 </tr>                
                 <tr>
-                    <th>Fecha de ingreso</th>
-                    <td>
-                        <input type="date" name="fechaIngreso" value="<%= (informacionLaboral != null && informacionLaboral.getFechaIngreso() != null) ? informacionLaboral.getFechaIngreso() : ""%>" required>
-                    </td>
-                </tr>
+    <th>Fecha de ingreso</th>
+    <td>
+        <%
+            String fechaMostrar = "";
+
+            if (informacionLaboral.getFechaIngresoTemporal() != null && !informacionLaboral.getFechaIngresoTemporal().trim().isEmpty()) {
+                fechaMostrar = informacionLaboral.getFechaIngresoTemporal();
+            } else if (informacionLaboral.getFechaIngreso() != null && !informacionLaboral.getFechaIngreso().trim().isEmpty()) {
+                fechaMostrar = informacionLaboral.getFechaIngreso();
+            } else if (educacion.getFechaEtapaLectiva() != null && !educacion.getFechaEtapaLectiva().trim().isEmpty()) {
+                fechaMostrar = educacion.getFechaEtapaLectiva();
+            }
+        %>
+        <input type="date" name="fechaIngreso" value="<%= fechaMostrar %>" required>
+    </td>
+</tr>
+
+
+
+
                 <tr>
                     <th>Fecha de retiro</th>
                     <td>
