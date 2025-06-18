@@ -43,7 +43,7 @@
 
 <script type="text/javascript">
     function eliminar(identificacion) {
-        let respuesta = confirm("¿Realmente desea eliminar este hijo?");
+        let respuesta = confirm("¿Realmente desea eliminar el registro de este hijo?");
         if (respuesta) {
             document.location = "hijoActualizar.jsp?accion=Eliminar&identificacion=" + identificacion;
         }
@@ -51,5 +51,5 @@
 </script>
 
 <p>
-    <input type="button" value="Cancelar" onClick="window.history.back()">
+    <input type="button" value="Cancelar" onClick="window.history.back()">s
 </p>

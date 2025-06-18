@@ -107,7 +107,7 @@ public class Prenda {
     // Método para obtener todas las prendas
     public static List<Prenda> getListaEnObjetos(String filtro, String orden) {
         List<Prenda> lista = new ArrayList<>();
-        String sql = "SELECT p.id_prenda, p.nombre, tp.nombre AS tipo_prenda "
+        String sql = "SELECT p.id_prenda, p.nombre, p.id_tipo_prenda, tp.nombre AS tipo_prenda "
                 + "FROM prenda p "
                 + "JOIN tipoPrenda tp ON p.id_tipo_prenda = tp.id_tipo_prenda";
 
@@ -124,6 +124,7 @@ public class Prenda {
                 Prenda p = new Prenda();
                 p.setIdPrenda(rs.getString("id_prenda"));
                 p.setNombre(rs.getString("nombre"));
+                p.setIdTipoPrenda(rs.getString("id_tipo_prenda"));
                 p.setNombreTipoPrenda(rs.getString("tipo_prenda"));
                 lista.add(p);
             }
@@ -134,4 +135,5 @@ public class Prenda {
 
         return lista;
     }
+
 }

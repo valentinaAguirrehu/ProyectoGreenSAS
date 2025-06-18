@@ -1,11 +1,13 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="clases.Cargo"%>
-<%@ page import="java.sql.Date" %>
-<%@ page import="clases.Vacaciones" %>
-<%@ page import="clases.Persona" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@page import="java.sql.Date" %>
+<%@page import="clases.Vacaciones" %>
+<%@page import="clases.Persona" %>
+<%@page import="clases.InformacionLaboral" %> 
+<%@page import="java.util.List" %>
+<%@page import="java.util.ArrayList" %>
+<%@page import="java.util.Calendar" %>
+<%@page import="java.text.SimpleDateFormat" %>
 <%@page import="clases.Administrador"%>
 
 <%
@@ -17,25 +19,19 @@
 
 <%!
     public int calcularVacacionesAcumuladas(java.util.Date fechaIngreso, int diasRestados) {
-        java.util.Calendar fechaActual = java.util.Calendar.getInstance();
-        java.util.Calendar ingreso = java.util.Calendar.getInstance();
+        Calendar fechaActual = Calendar.getInstance();
+        Calendar ingreso = Calendar.getInstance();
         ingreso.setTime(fechaIngreso);
 
-        // Calcular los años completos de trabajo
-        int aniosTrabajados = fechaActual.get(java.util.Calendar.YEAR) - ingreso.get(java.util.Calendar.YEAR);
-        if (fechaActual.get(java.util.Calendar.MONTH) < ingreso.get(java.util.Calendar.MONTH)
-                || (fechaActual.get(java.util.Calendar.MONTH) == ingreso.get(java.util.Calendar.MONTH)
-                && fechaActual.get(java.util.Calendar.DAY_OF_MONTH) < ingreso.get(java.util.Calendar.DAY_OF_MONTH))) {
+        int aniosTrabajados = fechaActual.get(Calendar.YEAR) - ingreso.get(Calendar.YEAR);
+        if (fechaActual.get(Calendar.MONTH) < ingreso.get(Calendar.MONTH)
+                || (fechaActual.get(Calendar.MONTH) == ingreso.get(Calendar.MONTH)
+                && fechaActual.get(Calendar.DAY_OF_MONTH) < ingreso.get(Calendar.DAY_OF_MONTH))) {
             aniosTrabajados--;
         }
-        if (aniosTrabajados < 0) {
-            aniosTrabajados = 0;
-        }
 
-        // Acumula 15 días por cada año completo de trabajo
+        aniosTrabajados = Math.max(aniosTrabajados, 0);
         int diasAcumulados = aniosTrabajados * 15;
-
-        // Se restan los días disfrutados + compensados
         return diasAcumulados - diasRestados;
     }
 %>
@@ -43,12 +39,13 @@
 <%
     String identificacionParam = request.getParameter("identificacion");
     Persona personaSeleccionada = null;
+    InformacionLaboral infoLaboral = null;
+    List<Vacaciones> listaVacaciones = new ArrayList<>();
 
     if (identificacionParam != null && !identificacionParam.isEmpty()) {
         personaSeleccionada = new Persona(identificacionParam);
+        infoLaboral = InformacionLaboral.getInformacionPorIdentificacion(identificacionParam);
     }
-
-    List<Vacaciones> listaVacaciones = new ArrayList<>();
 
     try {
         if (personaSeleccionada != null) {
@@ -62,26 +59,19 @@
     }
 
     String tabla = "";
+    int totalDiasDisfrutados = 0;
+    int totalDiasCompensar = 0;
 
     for (Vacaciones v : listaVacaciones) {
         if (v == null || v.getIdPersona() == null) {
-            tabla += "<tr><td colspan='7' style='color:red;'>Registro inválido o incompleto en la lista de vacaciones.</td></tr>";
+            tabla += "<tr><td colspan='7' style='color:red;'>Registro invÃ¡lido o incompleto en la lista de vacaciones.</td></tr>";
             continue;
         }
 
-        Persona p = null;
-        try {
-            p = new Persona(v.getIdPersona());
-        } catch (Exception ex) {
-            tabla += "<tr><td colspan='7' style='color:red;'>Error al cargar persona: " + ex.getMessage() + "</td></tr>";
-            continue;
-        }
+        Persona p = new Persona(v.getIdPersona());
 
-        String observacion = (v.getObservacion() == null
-                || v.getObservacion().trim().isEmpty()
-                || v.getObservacion().trim().equalsIgnoreCase("null"))
-                ? "Ninguna"
-                : v.getObservacion();
+        String observacion = (v.getObservacion() == null || v.getObservacion().trim().isEmpty()
+                || v.getObservacion().trim().equalsIgnoreCase("null")) ? "Ninguna" : v.getObservacion();
 
         tabla += "<tr>";
         tabla += "<td>" + (v.getPeriodoDisfrute() != null ? v.getPeriodoDisfrute() : "-") + "</td>";
@@ -92,16 +82,10 @@
         tabla += "<td>" + observacion + "</td>";
         tabla += "<td>";
         tabla += "<a href='vacacionesFormulario.jsp?accion=Modificar&id=" + v.getIdVacaciones() + "&idPersona=" + p.getIdentificacion() + "'><img src='../presentacion/iconos/modificar.png' title='Modificar'/></a> ";
-        tabla += "<a href='vacacionesActualizar.jsp?accion=Eliminar&id=" + v.getIdVacaciones() + "&idPersona=" + p.getIdentificacion() + "' onclick='return confirm(\"¿Deseas eliminar este registro?\")'><img src='../presentacion/iconos/eliminar.png' title='Eliminar'/></a>";
+        tabla += "<a href='vacacionesActualizar.jsp?accion=Eliminar&id=" + v.getIdVacaciones() + "&idPersona=" + p.getIdentificacion() + "' onclick='return confirm(\"Â¿Deseas eliminar este registro?\")'><img src='../presentacion/iconos/eliminar.png' title='Eliminar'/></a>";
         tabla += "</td>";
         tabla += "</tr>";
-    }
 
-    // Calcular días disfrutados + días a compensar
-    int totalDiasDisfrutados = 0;
-    int totalDiasCompensar = 0;
-
-    for (Vacaciones v : listaVacaciones) {
         try {
             if (v.getDiasDisfrutados() != null && !v.getDiasDisfrutados().trim().isEmpty()) {
                 totalDiasDisfrutados += Integer.parseInt(v.getDiasDisfrutados());
@@ -115,82 +99,108 @@
     }
 
     int vacacionesAcumuladas = 0;
-    if (personaSeleccionada != null) {
-        String fechaIngresoString = personaSeleccionada.getFechaIngreso();
-        if (fechaIngresoString != null && !fechaIngresoString.isEmpty()) {
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                java.util.Date fechaIngresoDate = sdf.parse(fechaIngresoString);
-                int totalRestado = totalDiasDisfrutados + totalDiasCompensar;
-                vacacionesAcumuladas = calcularVacacionesAcumuladas(fechaIngresoDate, totalRestado);
-            } catch (java.text.ParseException e) {
-                e.printStackTrace();
-                out.println("<p style='color:red;'>Error al convertir la fecha de ingreso: " + e.getMessage() + "</p>");
-            }
+    String fechaIngresoString = (infoLaboral != null) ? infoLaboral.getFechaIngreso() : null;
+    if (fechaIngresoString != null && !fechaIngresoString.isEmpty()) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date fechaIngresoDate = sdf.parse(fechaIngresoString);
+            int totalRestado = totalDiasDisfrutados + totalDiasCompensar;
+            vacacionesAcumuladas = calcularVacacionesAcumuladas(fechaIngresoDate, totalRestado);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+            out.println("<p style='color:red;'>Error al convertir la fecha de ingreso: " + e.getMessage() + "</p>");
         }
     }
 %>
 
 <jsp:include page="../permisos.jsp" />
-<%@ include file="../menu.jsp" %> 
+<%@ include file="../menu.jsp" %>
 
 <head>
     <link rel="stylesheet" href="../presentacion/style-Usuarios.css">
+    <style>
+        .dias-acumulados-con-boton {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+
+        .dias-acumulados-con-boton p {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .btn-volver {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 
 <div class="content">
     <h3 class="titulo">REGISTROS DE VACACIONES</h3>
 
-    <% if (personaSeleccionada != null) {%>
+    <% if (personaSeleccionada != null) { %>
     <div style="margin-top:20px; border:1px solid #ccc; padding:10px; background:#f9f9f9;">
-        <h3>Información del colaborador seleccionado:</h3>
-        <p><strong>Identificación:</strong> <%= personaSeleccionada.getIdentificacion()%></p>
-        <p><strong>Nombre completo:</strong> <%= personaSeleccionada.getNombres()%> <%= personaSeleccionada.getApellidos()%></p>
-        <p><strong>Cargo:</strong> 
-            <%= Cargo.getCargoPersona(personaSeleccionada.getIdentificacion())%>
-        </p>
+        <h3>InformaciÃ³n del colaborador seleccionado:</h3>
+        <p><strong>IdentificaciÃ³n:</strong> <%= personaSeleccionada.getIdentificacion() %></p>
+        <p><strong>Nombre completo:</strong> <%= personaSeleccionada.getNombres() %> <%= personaSeleccionada.getApellidos() %></p>
+        <p><strong>Cargo:</strong> <%= Cargo.getCargoPersona(personaSeleccionada.getIdentificacion()) %></p>
+        <p><strong>Unidad de negocio:</strong> <%= (infoLaboral != null && infoLaboral.getUnidadNegocio() != null) ? infoLaboral.getUnidadNegocio() : "No disponible" %></p>
+        <p><strong>Fecha de ingreso:</strong> <%= (infoLaboral != null && infoLaboral.getFechaIngreso() != null) ? infoLaboral.getFechaIngreso() : "No disponible" %></p>
+    </div>
 
-        <p><strong>Unidad de negocio</strong> <%= personaSeleccionada.getUnidadNegocio()%></p>
-        <p><strong>Fecha de ingreso:</strong> <%= personaSeleccionada.getFechaIngreso()%></p>
+    <div class="dias-acumulados-con-boton">
+        <p>Vacaciones acumuladas restantes: <%= vacacionesAcumuladas %> dÃ­as</p>
+        <a href="../3.HistoriaLaboral/detalleHistoria.jsp?identificacion=<%= personaSeleccionada.getIdentificacion() %>&tipo=Votros" class="btn-volver">VOLVER</a>
     </div>
     <% } %>
-
-    <% if (personaSeleccionada != null) {%>
-    <div style="margin-top:20px;">
-
-        <p><strong>Vacaciones acumuladas restantes:</strong> <%= vacacionesAcumuladas%> días</p>
-    </div>
-    <% }%>
 
     <table border="1" class="table" style="margin-top:20px;">
         <tr>
             <th>Periodo Disfrute</th>
-            <th>Periodo Disfrute Fin</th> 
-            <th>Días Disfrutados</th>
-            <th>Desea compensar días?</th>
-            <th>Días compensados</th>
-            <th>Observación</th>
-            <th><a href="../3.HistoriaLaboral/vacacionesFormulario.jsp?accion=Adicionar&idPersona=<%= personaSeleccionada.getIdentificacion()%>">
-                    <img src='../presentacion/iconos/agregar.png' width='30' height='30' title='Agregar Vacación'>
-                </a></th>
+            <th>Periodo Disfrute Fin</th>
+            <th>DÃ­as Disfrutados</th>
+            <th>DÃ­as Compensados</th>
+            <th>DÃ­as a Compensar</th>
+            <th>ObservaciÃ³n</th>
+            <% if (personaSeleccionada != null) { %>
+            <th>
+                <a href='vacacionesFormulario.jsp?accion=Adicionar&idPersona=<%= personaSeleccionada.getIdentificacion() %>'>
+                    <img src='../presentacion/iconos/agregar.png' width='25' height='25' title='Agregar Vacaciones'>
+                </a>
+            </th>
+            <% } else { %>
+            <th style="color:red;">Persona no seleccionada</th>
+            <% } %>
         </tr>
-        <%= tabla%>
+        <%= tabla %>
     </table>
-<% if (listaVacaciones.isEmpty()) { %>
-<p style="color:red;">No hay registros de vacaciones.</p>
-<% }%>
-    
+
+    <% if (listaVacaciones.isEmpty()) { %>
+    <p style="color:red;">No hay registros de vacaciones.</p>
+    <% } %>
 </div>
 
 <script>
-    // PERMISOS
-
     document.addEventListener("DOMContentLoaded", function () {
         controlarPermisos(
-    <%= administrador.getpEliminar()%>,
-    <%= administrador.getpEditar()%>,
-    <%= administrador.getpAgregar()%>
+            <%= administrador.getpEliminar() %>,
+            <%= administrador.getpEditar() %>,
+            <%= administrador.getpAgregar() %>
         );
     });
-
 </script>

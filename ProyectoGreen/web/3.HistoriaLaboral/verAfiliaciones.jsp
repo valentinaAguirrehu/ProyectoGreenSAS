@@ -30,7 +30,6 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Historia Laboral Retirados</title>
             <link rel="stylesheet" href="../presentacion/style-historiaLRetirado.css">
         </head>
         <body>
@@ -50,16 +49,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Certificado EPS por colaborador</td>
-                            <td>
-                                <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CEPSotros'"
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>Formulario único de afiliación y registro de novedades EPS</td>
                             <td>
                                 <button class="ver-btn"
@@ -70,15 +59,16 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Certificado de afiliación EPS</td>
+                            <td>Certificado de afiliacion EPS</td>
                             <td>
                                 <button class="ver-btn"
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CAEPSotros'"
+                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=CEPSotros'"
                                         style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
                                     VER
                                 </button>
                             </td>
                         </tr>
+                     
                         <tr>
                             <td>Certificado de afiliación ARL</td>
                             <td>

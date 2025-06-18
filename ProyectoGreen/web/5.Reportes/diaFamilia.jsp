@@ -4,6 +4,7 @@
     Author     : VALEN
 --%>
 
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
 <%@ page import="java.util.List" %>
 <%@ page import="clases.Persona" %>
@@ -130,16 +131,18 @@
             <th>Identificación</th>
             <th>Nombre completo</th>
             <th>Cargo</th>
+            <th>Establecimiento</th>
             <th>Unidad de negocio</th>
             <th>Fecha ingreso</th>
-      
             <th>Días acumulados restantes</th>
         </tr>
         <%
             List<Persona> listaPersonas = Persona.getListaEnObjetos("tipo = 'C'", null);
 
             for (Persona p : listaPersonas) {
-                if (p.getFechaIngreso() == null || p.getFechaIngreso().isEmpty()) {
+                InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+
+                if (info == null || info.getFechaIngreso() == null || info.getFechaIngreso().isEmpty()) {
                     continue;
                 }
 
@@ -148,28 +151,26 @@
 
                 int diasRestantes = 0;
                 try {
-                    java.util.Date fechaIngreso = new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaIngreso());
+                    java.util.Date fechaIngreso = new SimpleDateFormat("yyyy-MM-dd").parse(info.getFechaIngreso());
                     diasRestantes = calcularDiasFamilia(fechaIngreso, diasDisfrutados);
                 } catch (Exception e) {
                     diasRestantes = -1;
                 }
 
-                // Solo mostramos si tiene días acumulados restantes
                 if (diasRestantes > 0) {
         %>
         <tr>
             <td><%= p.getIdentificacion()%></td>
             <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
             <td><%= Cargo.getCargoPersona(p.getIdentificacion())%></td>  
-            <td><%= p.getUnidadNegocio()%></td>
-            <td><%= p.getFechaIngreso()%></td>
-         
+            <td><%= info.getEstablecimiento() != null ? info.getEstablecimiento() : "-"%></td>
+            <td><%= info.getUnidadNegocio() != null ? info.getUnidadNegocio() : "-"%></td>
+            <td><%= info.getFechaIngreso()%></td>
             <td><%= diasRestantes%></td>
         </tr>
         <%
-                } // fin del if
-            } // fin del for
+                }
+            }
         %>
-
     </table>
 </div>

@@ -1,12 +1,19 @@
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
-<%@ page import="java.util.*" %>
-<%@ page import="clases.Persona" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@page import="java.util.*" %>
+<%@page import="clases.Persona" %>
+<%@page import="java.text.SimpleDateFormat" %>
+
 <%
     boolean isDownloadMode = request.getParameter("formato") != null;
     if (isDownloadMode) {
         String tipoContenido = "";
         String extensionArchivo = "";
+
+        // Obtener fecha actual formateada dd-MM-yyyy
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
+        String fechaActual = sdf.format(new java.util.Date());
+
         switch (request.getParameter("formato")) {
             case "excel":
                 tipoContenido = "application/vnd.ms-excel";
@@ -16,9 +23,17 @@
                 tipoContenido = "application/vnd.msword";
                 extensionArchivo = ".doc";
                 break;
+            default:
+                // En caso de formato inválido, cancelar modo descarga
+                isDownloadMode = false;
         }
-        response.setContentType(tipoContenido);
-        response.setHeader("Content-Disposition", "inline; filename=\"Reporte_Retirados" + extensionArchivo + "\"");
+        if (isDownloadMode) {
+            // Aquí se agrega el guion y la fecha actual
+            String nombreArchivo = "Reporte_Retirados_Por_Año-" + fechaActual + extensionArchivo;
+
+            response.setContentType(tipoContenido);
+            response.setHeader("Content-Disposition", "inline; filename=\"" + nombreArchivo + "\"");
+        }
     }
 %>
 
@@ -70,7 +85,7 @@
         margin-left: 220px;
         padding: 20px;
     }
-        .filtro-anio-form {
+    .filtro-anio-form {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -81,12 +96,9 @@
         width: fit-content;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-
     .filtro-anio-form label {
-  
         color: #333;
     }
-
     .filtro-anio-form select {
         padding: 6px 10px;
         font-size: 14px;
@@ -96,7 +108,6 @@
         cursor: pointer;
         transition: border-color 0.3s;
     }
-
     .filtro-anio-form select:hover {
         border-color: #888;
     }
@@ -105,121 +116,176 @@
 
 <% if (!isDownloadMode) {%>
 <%@ include file="../menu.jsp" %> 
-<% } %> 
+<% } %>
 
 <div class="content">
     <h3 class="titulo">REPORTE DE RETIROS DE COLABORADORES - GREEN S.A.S</h3>
+
+    <%
+        // Obtengo la lista de personas retiradas
+        List<Persona> retirados = Persona.getListaEnObjetos("tipo = 'R'", null);
+
+        // Set para años disponibles
+        Set<Integer> años = new TreeSet<>(); // TreeSet para ordenar años
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (Persona p : retirados) {
+            InformacionLaboral hl = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+            if (hl != null) {
+                String fechaRetiroStr = hl.getFechaRetiro();
+                if (fechaRetiroStr != null && !fechaRetiroStr.isEmpty()) {
+                    try {
+                        Date fechaRetiroDate = sdf.parse(fechaRetiroStr);
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(fechaRetiroDate);
+                        años.add(cal.get(Calendar.YEAR));
+                    } catch (Exception e) {
+                        // Ignorar formato inválido
+                    }
+                }
+            }
+        }
+    %>
 
     <% if (!isDownloadMode) {%>
     <a href="retiroColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
     <a href="retiroColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
 
-    <form method="get"class="filtro-anio-form">
+    <form method="get" class="filtro-anio-form">
         <label for="anio">Filtrar por año:</label>
         <select name="anio" onchange="this.form.submit()">
             <option value="">-- Todos --</option>
             <%
-                Set<Integer> años = new HashSet<>();
-                List<Persona> retirados = Persona.getListaEnObjetos("tipo = 'R' AND fechaTerPriContrato IS NOT NULL", null);
-                for (Persona p : retirados) {
-                    if (p.getFechaTerPriContrato() != null) {
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaTerPriContrato()));
-                        años.add(cal.get(Calendar.YEAR));
-                    }
-                }
+                String paramAnio = request.getParameter("anio");
                 for (Integer anio : años) {
-                    String param = request.getParameter("anio");
             %>
-            <option value="<%= anio%>" <%= (param != null && param.equals(String.valueOf(anio))) ? "selected" : ""%>><%= anio%></option>
-            <%
-                }
-            %>
+            <option value="<%= anio%>" <%= (paramAnio != null && paramAnio.equals(String.valueOf(anio))) ? "selected" : ""%>>
+                <%= anio%>
+            </option>
+            <% } %>
         </select>
     </form>
-
-
     <% } %>
 
     <%
         String anioFiltro = request.getParameter("anio");
-        String condicion = "tipo = 'R' AND fechaTerPriContrato IS NOT NULL";
-        if (anioFiltro != null && !anioFiltro.isEmpty()) {
-            condicion += " AND YEAR(fechaTerPriContrato) = " + anioFiltro;
-        }
-        List<Persona> filtrados = Persona.getListaEnObjetos(condicion, "fechaTerPriContrato ASC");
-        List<Persona> todos = Persona.getListaEnObjetos("tipo = 'R' AND fechaTerPriContrato IS NOT NULL", null);
-        Map<Integer, Integer> retirosPorAnio = new HashMap<>();
+        List<Persona> filtrados = new ArrayList<>();
+        Map<String, Integer> retirosPorPeriodo = new TreeMap<>();
         int totalRetiros = 0;
 
-        for (Persona p : todos) {
-            if (p.getFechaTerPriContrato() != null) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(p.getFechaTerPriContrato()));
-                int anio = cal.get(Calendar.YEAR);
-                retirosPorAnio.put(anio, retirosPorAnio.getOrDefault(anio, 0) + 1);
-                totalRetiros++;
+        for (Persona p : retirados) {
+            InformacionLaboral hl = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+            if (hl != null && hl.getFechaRetiro() != null && !hl.getFechaRetiro().isEmpty()) {
+                try {
+                    Date fechaRetiroDate = sdf.parse(hl.getFechaRetiro());
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(fechaRetiroDate);
+                    int anio = cal.get(Calendar.YEAR);
+                    int mes = cal.get(Calendar.MONTH) + 1;
+
+                    if (anioFiltro == null || anioFiltro.isEmpty()) {
+                        // Agrupar por año
+                        String clave = String.valueOf(anio);
+                        retirosPorPeriodo.put(clave, retirosPorPeriodo.getOrDefault(clave, 0) + 1);
+                    } else if (anio == Integer.parseInt(anioFiltro)) {
+                        // Agrupar por mes
+                        String clave = String.format("%02d", mes);
+                        retirosPorPeriodo.put(clave, retirosPorPeriodo.getOrDefault(clave, 0) + 1);
+                    }
+
+                    // Solo cuenta como total si entra en la condición
+                    if (anioFiltro == null || anioFiltro.isEmpty() || anio == Integer.parseInt(anioFiltro)) {
+                        filtrados.add(p);
+                        totalRetiros++;
+                    }
+
+                } catch (Exception e) {
+                    // Ignorar fechas inválidas
+                }
             }
         }
 
-        String tablaResumen = "";
-        String datosGrafico = "[";
+        StringBuilder tablaResumen = new StringBuilder();
+        StringBuilder datosGrafico = new StringBuilder("[");
         int contador = 0;
-        for (Map.Entry<Integer, Integer> entry : retirosPorAnio.entrySet()) {
-            int anio = entry.getKey();
+
+        for (Map.Entry<String, Integer> entry : retirosPorPeriodo.entrySet()) {
+            String periodo = entry.getKey();
             int cantidad = entry.getValue();
             double porcentaje = (cantidad / (double) totalRetiros) * 100;
 
-            tablaResumen += "<tr><td>" + anio + "</td><td>" + cantidad + "</td><td>" + String.format("%.2f", porcentaje) + "%</td></tr>";
+            // Si se filtró por año, el período es un mes, así que lo convertimos a nombre
+            String label = periodo;
+            if (anioFiltro != null && !anioFiltro.isEmpty()) {
+                String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+                label = meses[Integer.parseInt(periodo) - 1];
+            }
+
+            tablaResumen.append("<tr><td>").append(label).append("</td><td>")
+                    .append(cantidad).append("</td><td>")
+                    .append(String.format("%.2f", porcentaje)).append("%</td></tr>");
 
             if (contador++ > 0) {
-                datosGrafico += ",";
+                datosGrafico.append(",");
             }
-            datosGrafico += "{ years: '" + anio + "', value: " + cantidad + " }";
+            datosGrafico.append("{ years: '").append(label).append("', value: ").append(cantidad).append(" }");
         }
-        datosGrafico += "]";
-    %>
+        datosGrafico.append("]");
 
+    %>
 
     <table border="1" class="table">
         <tr>
             <th>Identificación</th>
             <th>Nombre completo</th>
             <th>Cargo</th>
-            <th>Establecimiento</th>
+            <th>Lugar de trabajo</th>
+            <th>Unidad de negocio</th>
             <th>Fecha de retiro</th>
         </tr>
-        <%
-            for (Persona p : filtrados) {
-                String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
+        <%            for (Persona p : filtrados) {
+                InformacionLaboral hl = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+                if (hl == null || hl.getFechaRetiro() == null || hl.getFechaRetiro().isEmpty()) {
+                    continue;
+                }
+                try {
+                    Date fechaRetiroDate = sdf.parse(hl.getFechaRetiro());
+                    String nombreCargo = Cargo.getCargoPersona(p.getIdentificacion());
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(fechaRetiroDate);
+
+                    String anioLink = String.valueOf(cal.get(Calendar.YEAR));
+                    String mesLink = String.format("%02d", cal.get(Calendar.MONTH) + 1);
         %>
         <tr>
             <td><%= p.getIdentificacion()%></td>
             <td><%= p.getNombres()%> <%= p.getApellidos()%></td>
             <td><%= nombreCargo%></td>
-            <td><%= p.getEstablecimiento()%></td>
-            <%
-                String[] fechaPartes = p.getFechaTerPriContrato().split("-");
-                String anioLink = fechaPartes[0];
-                String mesLink = fechaPartes[1];
-            %>
+            <td><%= hl.getEstablecimiento()%></td> 
+            <td><%= hl.getUnidadNegocio()%></td>  
             <td>
                 <a href="retiroMes.jsp?anio=<%= anioLink%>&mes=<%= mesLink%>">
-                    <%= p.getFechaTerPriContrato()%>
+                    <%= sdf.format(fechaRetiroDate)%>
                 </a>
             </td>
-
         </tr>
-        <% }%>
+        <%
+                } catch (Exception e) {
+                    // Ignorar errores de parseo de fecha
+                }
+            }
+        %>
     </table>
 
-  <% if (!isDownloadMode) { %>
-    <h3>Indicador de retiros por año</h3>
+    <% if (!isDownloadMode) {%>
+    <h3 class="titulo">Indicador por años</h3>
     <div style="display: flex; gap: 20px; align-items: flex-start;">
         <div>
             <table class="table" border="1">
                 <tr><th>Año</th><th>Retiros</th><th>%</th></tr>
-                        <%=tablaResumen%>
+                        <%= tablaResumen.toString()%>
             </table>
         </div>
         <div id="chartdiv" style="width: 700px; height: 400px;"></div>
@@ -229,33 +295,33 @@
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script>
-        am5.ready(function () {
-            var root = am5.Root.new("chartdiv");
-            root.setThemes([am5themes_Animated.new(root)]);
-            var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
-            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-                categoryField: "years",
-                renderer: am5xy.AxisRendererX.new(root, {minGridDistance: 30})
-            }));
-            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {})
-            }));
-            var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-                name: "Retiros",
-                xAxis: xAxis,
-                yAxis: yAxis,
-                valueYField: "value",
-                categoryXField: "years",
-                tooltip: am5.Tooltip.new(root, {
-                    labelText: "{valueY}"
-                })
-            }));
-            var data = <%=datosGrafico%>;
-            xAxis.data.setAll(data);
-            series.data.setAll(data);
-            series.appear(1000);
-            chart.appear(1000, 100);
-        });
+            am5.ready(function () {
+                var root = am5.Root.new("chartdiv");
+                root.setThemes([am5themes_Animated.new(root)]);
+                var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
+                var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                    categoryField: "years",
+                    renderer: am5xy.AxisRendererX.new(root, {minGridDistance: 30})
+                }));
+                var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                    renderer: am5xy.AxisRendererY.new(root, {})
+                }));
+                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: "Retiros",
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueYField: "value",
+                    categoryXField: "years",
+                    tooltip: am5.Tooltip.new(root, {
+                        labelText: "{valueY}"
+                    })
+                }));
+                var data = <%= datosGrafico.toString()%>;
+                xAxis.data.setAll(data);
+                series.data.setAll(data);
+                series.appear(1000);
+                chart.appear(1000, 100);
+            });
     </script>
-<% } %>
-
+    <% }%>
+</div>

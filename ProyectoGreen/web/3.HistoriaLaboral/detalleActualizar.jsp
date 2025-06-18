@@ -52,8 +52,17 @@
                     String extension = nombreOriginal.substring(nombreOriginal.lastIndexOf(".")); // Obtiene la extensión
                     String nuevoNombre = nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) + "-" + identificacion + extension;
                     archivo = new File(destino, nuevoNombre);
-                    elemento.write(archivo);
-                    variables.put(elemento.getFieldName(), "documentos/" + nuevoNombre);
+
+                    // Verificar si el archivo ya existe en el servidor
+                    if (archivo.exists()) {
+                        // Si el archivo ya existe, mostrar un mensaje de error y no cargar el archivo
+                        out.println("<script>alert('El archivo con el mismo nombre ya existe. Cambie el nombre y vuelva a intentarlo.'); history.back();</script>");
+                        return; // Detener el proceso y no guardar el archivo
+                    } else {
+                        // Si no existe el archivo, guardar el nuevo archivo
+                        elemento.write(archivo);
+                        variables.put(elemento.getFieldName(), "documentos/" + nuevoNombre);
+                    }
                 }
             }
         }

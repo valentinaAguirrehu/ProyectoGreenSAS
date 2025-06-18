@@ -1,78 +1,96 @@
-<%@page import="clasesGenericas.ConectorBD"%>
-<%@page import="clases.Persona"%>
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Retirados"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.FileItem"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="clases.Persona"%>
+<%@page import="clasesGenericas.ConectorBD"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
-    Map<String, String> variables = new HashMap<>();
-    boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+    String accion = request.getParameter("accion");
+    String id = request.getParameter("id");
+    String identificacion = request.getParameter("identificacion");
 
-    if (!isMultipart) {
-        variables.put("accion", request.getParameter("accion"));
-        variables.put("id", request.getParameter("id"));
-        variables.put("identificacion", request.getParameter("identificacion"));
-        variables.put("fechaRetiro", request.getParameter("fechaRetiro"));
-        variables.put("numCaja", request.getParameter("numCaja"));
-        variables.put("numCarpeta", request.getParameter("numCarpeta"));
-        variables.put("observaciones", request.getParameter("observaciones"));
-    } else {
-        ServletRequestContext origen = new ServletRequestContext(request);
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        List<FileItem> elementosFormulario = upload.parseRequest(origen);
+//    accion para el botonn------
+    if ("CambiarTipo".equals(accion) && identificacion != null && !identificacion.trim().equals("")) {
+        String sql = "UPDATE persona SET tipo = 'C' WHERE identificacion = '" + identificacion + "'";
+        ConectorBD.ejecutarQuery(sql);
 
-        for (FileItem elemento : elementosFormulario) {
-            if (elemento.isFormField()) {
-                variables.put(elemento.getFieldName(), elemento.getString().trim());
-            }
-        }
-    }
+        String sqlEliminar = "DELETE FROM retirados WHERE identificacionPersona = '" + identificacion + "'";
+        ConectorBD.ejecutarQuery(sqlEliminar);
 
-    if (variables.get("identificacion") == null || variables.get("identificacion").trim().isEmpty()) {
+        response.sendRedirect("retirados.jsp");
         return;
     }
+//    ------
 
-    Persona persona = new Persona(variables.get("identificacion"));
-    persona.setFechaRetiro(variables.get("fechaRetiro"));
+    String fechaRetiro = request.getParameter("fechaRetiro");
+    String fechaIngreso = request.getParameter("fechaIngreso");
+    String idCargo = request.getParameter("idCargo");
+    String numCaja = request.getParameter("numCaja");
+    String numCarpeta = request.getParameter("numCarpeta");
+    String observaciones = request.getParameter("observaciones");
+
+    InformacionLaboral informacionLaboral = new InformacionLaboral();
+    informacionLaboral.setIdentificacion(identificacion);
+    informacionLaboral.setFechaIngreso(fechaIngreso);
+    informacionLaboral.setFechaRetiro(fechaRetiro);
+    informacionLaboral.setIdCargo(idCargo);
+
+    Persona persona = new Persona(identificacion);
     persona.setTipo("R");
 
-    Retirados retirado = new Retirados(variables.get("id"));
-    retirado.setIdentificacionPersona(variables.get("identificacion"));
-    retirado.setNumCaja(variables.get("numCaja"));
-    retirado.setNumCarpeta(variables.get("numCarpeta"));
-    retirado.setObservaciones(variables.get("observaciones"));
+    Retirados retirado = new Retirados(id);
+    retirado.setIdentificacionPersona(identificacion);
+    retirado.setNumCaja(numCaja);
+    retirado.setNumCarpeta(numCarpeta);
+    retirado.setObservaciones(observaciones);
+// Capturar datos ocultos del formulario
+String unidadNegocio = request.getParameter("unidadNegocio");
+String centroCostos = request.getParameter("centroCostos");
+String area = request.getParameter("area");
+String salario = request.getParameter("salario");
+String estado = request.getParameter("estado");
+String fechaIngresoTemporal = request.getParameter("fechaIngresoTemporal");
+String fechaTerPriContrato = request.getParameter("fechaTerPriContrato");
 
-    switch (variables.get("accion")) {
+// Setear los campos faltantes
+informacionLaboral.setUnidadNegocio(unidadNegocio);
+informacionLaboral.setCentroCostos(centroCostos);
+informacionLaboral.setArea(area);
+informacionLaboral.setSalario(salario);
+informacionLaboral.setEstado(estado);
+informacionLaboral.setFechaIngresoTemporal(fechaIngresoTemporal);
+informacionLaboral.setFechaTerPriContrato(fechaTerPriContrato);
+
+    switch (accion) {
         case "Adicionar":
-            persona.setTipo("R"); // Cambiar tipo a "R"
-            persona.modificar(variables.get("identificacion")); // Guardar en la BD 
-            retirado.grabar(); // Insertar en la tabla 'retirados'
+            persona.modificar(identificacion); // Asigna tipo "R"
+            informacionLaboral.modificar(identificacion); // Modifica la info laboral
+            informacionLaboral.grabar(); // <--- Cambiado aquí
+            retirado.grabar();
             break;
+
         case "Modificar":
-             if (variables.get("id") != null && variables.get("fechaRetiro") != null) {
-                String nuevaFechaRetiro = variables.get("fechaRetiro");
-                String numCaja = variables.get("numCaja");
-                String numCarpeta = variables.get("numCarpeta");
-                String observaciones = variables.get("observaciones");
-                String cadenaSQL = "UPDATE persona SET fechaRetiro = '" + nuevaFechaRetiro + "' WHERE identificacion = '" + variables.get("identificacion") + "'";
-                boolean actualizado = ConectorBD.ejecutarQuery(cadenaSQL);        
-             if (actualizado) {
-                String cadenaSQLRetirados = "UPDATE retirados SET numCaja = '" + numCaja + "', numCarpeta = '" + numCarpeta + "', observaciones = '" + observaciones + "' WHERE id = '" + variables.get("id") + "'";
-                ConectorBD.ejecutarQuery(cadenaSQLRetirados);
-                    }
+            if (id != null && fechaIngreso != null && fechaRetiro != null) {
+                String sqlInfoLaboral = "UPDATE informacionlaboral SET "
+                        + "fechaIngreso = '" + fechaIngreso + "', "
+                        + "fechaRetiro = '" + fechaRetiro + "' "
+                        + "WHERE identificacion = '" + identificacion + "'";
+                boolean actualizado = ConectorBD.ejecutarQuery(sqlInfoLaboral);
+
+                if (actualizado) {
+                   if (id != null && fechaIngreso != null && !fechaIngreso.trim().isEmpty() && fechaRetiro != null) {
+    String sqlRetirados = "UPDATE informacionlaboral SET "
+        + "fechaIngreso = '" + fechaIngreso + "', "
+        + "fechaRetiro = '" + fechaRetiro + "' "
+                            + "WHERE id = '" + id + "'";
+                    ConectorBD.ejecutarQuery(sqlRetirados);
                 }
+                }}
             break;
+
         case "Eliminar":
-            if (variables.get("id") != null) {
-                retirado.eliminar(variables.get("id"));
-            }
+            retirado.eliminar();
+            informacionLaboral.eliminar();
             break;
     }
 %>

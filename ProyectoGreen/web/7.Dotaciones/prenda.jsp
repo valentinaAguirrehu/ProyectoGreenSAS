@@ -40,7 +40,7 @@
             color: #145a32;
             padding: 10px;
             font-weight: bold;
-            font-size: 18px; 
+            font-size: 18px;
             border-radius: 5px;
         }
 
@@ -98,11 +98,8 @@
                 <tr>
                     <td><%= prenda.getNombre()%></td>
                     <td class="acciones">
-                        <a class="editar" href="prendaFormulario.jsp?accion=Modificar&id=<%= prenda.getIdPrenda()%>" title="Modificar">
-                            <img src="../presentacion/iconos/modificar.png" width="25" height="25">
-                        </a>
-                        <img src="../presentacion/iconos/eliminar.png" class="eliminar" width="25" height="25" title="Eliminar"
-                             onclick="eliminar('<%= prenda.getIdPrenda()%>')">
+                        <a class="editar" href="prendaFormulario.jsp?accion=Modificar&id=<%= prenda.getIdPrenda()%>" title="Modificar"><img src="../presentacion/iconos/modificar.png" width="25" height="25"></a>
+                        <a><img src="../presentacion/iconos/eliminar.png" class="eliminar" width="25" height="25" title="Eliminar"onclick="eliminar('<%= prenda.getIdPrenda()%>')"></a>
                     </td>
                 </tr>
                 <% } %>

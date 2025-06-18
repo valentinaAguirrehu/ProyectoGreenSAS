@@ -17,17 +17,16 @@ import java.util.logging.Logger;
  * @author Angie
  */
 public class Cargo {
-    
+
     private String id;
     private String nombre;
     private String codigoCargo;
     private String descripcion;
- 
 
     public Cargo() {
     }
 
-    public Cargo(String id)  {    
+    public Cargo(String id) {
         String cadenaSQL = "select id,nombre,codigoCargo,descripcion from cargo where id=" + id;
         ResultSet resultado = ConectorBD.consultar(cadenaSQL);
 
@@ -37,7 +36,7 @@ public class Cargo {
                 nombre = resultado.getString("nombre");
                 codigoCargo = resultado.getString("codigoCargo");
                 descripcion = resultado.getString("descripcion");
-               
+
             }
 
         } catch (Exception e) {
@@ -45,35 +44,33 @@ public class Cargo {
         }
     }
 
-
     public String getId() {
-         if (id == null) {
+        if (id == null) {
             id = "";
         }
-        return  id;
+        return id;
     }
-    
-    
+
     public void setId(String id) {
         this.id = id;
     }
 
     public String getNombre() {
-     if (nombre == null) {
+        if (nombre == null) {
             nombre = "";
         }
-        return  nombre;
+        return nombre;
     }
-    
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
     public String getCodigoCargo() {
-   if (codigoCargo == null) {
+        if (codigoCargo == null) {
             codigoCargo = "";
         }
-        return  codigoCargo;
+        return codigoCargo;
     }
 
     public void setCodigoCargo(String codigoCargo) {
@@ -81,20 +78,20 @@ public class Cargo {
     }
 
     public String getDescripcion() {
-     if (descripcion == null) {
+        if (descripcion == null) {
             descripcion = "";
         }
-        return  descripcion;
+        return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
+
     @Override
-     public String toString(){
-     return nombre+ " " +codigoCargo;
- }
+    public String toString() {
+        return nombre + " " + codigoCargo;
+    }
 
     public boolean grabar() {
         String cadenaSQL = "insert into cargo (nombre, codigoCargo, descripcion) "
@@ -113,8 +110,8 @@ public class Cargo {
         return ConectorBD.ejecutarQuery(cadenaSQL);
     }
 
-       public static ResultSet getLista(String filtro, String orden) {
-        if (filtro != null && !filtro.equals(filtro)) {
+    public static ResultSet getLista(String filtro, String orden) {
+       if (filtro != null && !filtro.isEmpty()) {
             filtro = " where " + filtro;
         } else {
             filtro = " ";
@@ -135,7 +132,7 @@ public class Cargo {
         if (datos != null) {
             try {
                 while (datos.next()) {
-                    Cargo cargo= new Cargo();
+                    Cargo cargo = new Cargo();
                     cargo.setId(datos.getString("id"));
                     cargo.setNombre(datos.getString("nombre"));
                     cargo.setCodigoCargo(datos.getString("codigoCargo"));
@@ -148,36 +145,38 @@ public class Cargo {
         }
         return lista;
     }
- 
-    public static String getListaEnOptions(String preseleccionado) {
+
+ public static String getListaEnOptions(String preseleccionado) {
     StringBuilder lista = new StringBuilder();
     List<Cargo> datos = getListaEnObjetos(null, "nombre"); // Ordenado por nombre
 
     for (Cargo cargo : datos) {
-        String auxiliar = "";
-        if (preseleccionado != null && preseleccionado.equals(cargo.getId())) {
-            auxiliar = " selected";
-        }
+        boolean esSeleccionado = preseleccionado != null && preseleccionado.equals(String.valueOf(cargo.getId()));
         lista.append("<option value='").append(cargo.getId()).append("'")
-             .append(auxiliar).append(">")
-             .append(cargo.getNombre()).append(" (").append(cargo.getCodigoCargo()).append(")</option>");
+             .append(esSeleccionado ? " selected" : "")
+             .append(">")
+             .append(cargo.getNombre()).append(" (").append(cargo.getCodigoCargo()).append(")")
+             .append("</option>");
     }
     return lista.toString();
 }
-public static String getCargoPersona(String identificacionPersona) {
-    String sql = "SELECT c.nombre FROM cargo c " +
-                 "JOIN persona p ON p.idCargo = c.id " +
-                 "WHERE p.identificacion = '" + identificacionPersona + "'";
 
-    try {
-        ResultSet rs = ConectorBD.consultar(sql); // Asegúrate de usar el método correcto
-        if (rs.next()) {
-            return rs.getString("nombre"); // Devuelve solo el nombre del cargo
+
+    public static String getCargoPersona(String identificacionPersona) {
+        String sql = "SELECT c.nombre FROM cargo c "
+                + "JOIN informacionLaboral p ON p.idCargo = c.id "
+                + "WHERE p.identificacion = '" + identificacionPersona + "'";
+
+        try {
+            ResultSet rs = ConectorBD.consultar(sql);
+            if (rs.next()) {
+                return rs.getString("nombre");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+
+        return "Sin cargo";
     }
 
-    return "Sin cargo"; // Si no tiene cargo, devuelve un mensaje por defecto
-}
 }

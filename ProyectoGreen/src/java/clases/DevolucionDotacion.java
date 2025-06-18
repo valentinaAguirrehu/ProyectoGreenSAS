@@ -5,7 +5,10 @@
 package clases;
 
 import clasesGenericas.ConectorBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,19 +94,54 @@ public class DevolucionDotacion {
         this.jsonPrendas = jsonPrendas;
     }
 
-    public boolean modificar(String idAnterior) {
-        String sql = "UPDATE devolucionDotacion SET "
-                + "id_persona = '" + idPersona + "', "
-                + "fecha_devolucion = '" + fechaDevolucion + "', "
-                + "numero_devolucion = '" + numeroDevolucion + "', "
-                + "tipo_entrega = '" + tipoEntrega + "' "
-                + "WHERE id_devolucion = " + idAnterior;
-        return ConectorBD.ejecutarQuery(sql);
+    public boolean modificarDevolucionDotacion() {
+        if (this.idDevolucion == null || this.jsonPrendas == null || this.jsonPrendas.trim().isEmpty()) {
+            System.out.println("Error: Faltan datos obligatorios para modificar la devolución.");
+            return false;
+        }
+
+        ConectorBD conector = new ConectorBD();
+        if (!conector.conectar()) {
+            System.out.println("No se pudo conectar a la BD.");
+            return false;
+        }
+
+        try {
+            String sql = "CALL modificar_devolucion_dotacion(?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement stmt = conector.conexion.prepareStatement(sql);
+            stmt.setString(1, this.idDevolucion);
+            stmt.setString(2, this.idPersona);
+            stmt.setDate(3, java.sql.Date.valueOf(this.fechaDevolucion));
+            stmt.setString(4, this.tipoEntrega);
+            stmt.setString(5, this.numeroDevolucion);
+            stmt.setString(6, this.responsable);
+            stmt.setString(7, this.observacion != null ? this.observacion : "");
+            stmt.setString(8, this.jsonPrendas);
+
+            stmt.execute();
+            stmt.close();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error al modificar la devolución con procedimiento: " + e.getMessage());
+            return false;
+        } finally {
+            conector.desconectar();
+        }
     }
 
-    public boolean eliminar(String id) {
-        String sql = "DELETE FROM devolucionDotacion WHERE id_devolucion = " + id;
-        return ConectorBD.ejecutarQuery(sql);
+    public boolean eliminarDevolucionDotacion() {
+        if (this.idDevolucion == null || this.idDevolucion.trim().isEmpty()) {
+            System.out.println("Error: idDevolucion no definido para eliminar.");
+            return false;
+        }
+
+        String eliminarPrincipal = "DELETE FROM devolucionDotacion WHERE id_devolucion=" + idDevolucion;
+
+        boolean principalOk = ConectorBD.ejecutarQuery(eliminarPrincipal);
+
+        return principalOk;
     }
 
     public static List<DevolucionDotacion> getListaEnObjetos(String filtro, String orden) {

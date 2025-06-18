@@ -1,6 +1,5 @@
-<%@page import="clases.Cargo"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.sql.*, java.text.SimpleDateFormat" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %> 
+<%@ page import="java.sql.*, java.text.SimpleDateFormat, java.util.Date" %>
 <%@ page import="clases.Administrador" %>
 
 <%
@@ -12,138 +11,120 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="../presentacion/style-Cargos.css">
-        <link rel="stylesheet" href="../presentacion/style-Correos.css">
-        <title>Historial de Correos</title>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../presentacion/style-Cargos.css">
+    <link rel="stylesheet" href="../presentacion/style-Correos.css">
+    <title>Historial de Correos</title>
+</head>
+<body>
 
-        <jsp:include page="../permisos.jsp" />
-        <jsp:include page="../menu.jsp" />
+<jsp:include page="../permisos.jsp" />
+<jsp:include page="../menu.jsp" />
 
-        <div class="content">
+<div class="content">
+    <h3 class="titulo" style="margin-top: 50px;">Contratos próximos a vencer (30 días)</h3>
 
+    <%
+        Connection conn2 = null;
+        PreparedStatement stmt2 = null;
+        ResultSet rs2 = null;
+        boolean hayRegistros = false;
 
-            <!-- CONTRATOS A VENCER -->
-            <h3 class="titulo" style="margin-top: 50px;">Contratos próximos a vencer (30 días)</h3>
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn2 = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/proyectogreen?characterEncoding=utf8",
+                "adso", "utilizar"
+            );
 
-            <%
-                Connection conn2 = null;
-                PreparedStatement stmt2 = null;
-                ResultSet rs2 = null;
-                boolean hayRegistros = false;
+            String sql2 =
+                "SELECT p.identificacion, p.nombres, p.apellidos, " +
+                "c.nombre AS cargoNombre, " +
+                "il.unidadNegocio, il.centroCostos, p.email, il.fechaIngreso, il.fechaTerPriContrato " +
+                "FROM persona p " +
+                "INNER JOIN informacionlaboral il ON p.identificacion = il.identificacion " +
+                "INNER JOIN cargo c ON il.idCargo = c.id " +
+                "WHERE p.tipo = 'C' " +
+                "AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
 
-                try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                    String url2 = "jdbc:mysql://localhost:3306/proyectogreen?characterEncoding=utf8";
-                    conn2 = DriverManager.getConnection(url2, "adso", "utilizar");
+            stmt2 = conn2.prepareStatement(sql2);
+            rs2 = stmt2.executeQuery();
 
-                    String sql2 = "SELECT identificacion, nombres, apellidos, idcargo, unidadNegocio, establecimiento, email, fechaTerPriContrato "
-                            + "FROM persona "
-                            + "WHERE tipo = 'C' AND fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
+            hayRegistros = rs2.isBeforeFirst();
 
-                    stmt2 = conn2.prepareStatement(sql2);
-                    rs2 = stmt2.executeQuery();
+            if (hayRegistros) {
+                Date ahora = new Date();
+                String fechaActual = new SimpleDateFormat("dd/MM/yyyy").format(ahora);
+    %>
 
-                    // Verifica si hay registros antes de mostrar el botón
-                    hayRegistros = rs2.isBeforeFirst();
+    <p style="text-align: center; font-weight: bold; margin-top: 20px;">
+        Fecha actual: <%= fechaActual %>
+    </p>
 
-                    if (hayRegistros) {
-            %>
+    <form action="../8.Notificaciones/notificacionesContrato.jsp" method="post"
+          style="text-align: center; margin: 20px 0;">
+        <button type="submit" class="boton">Enviar Correos</button>
+    </form>
 
-            <form action="../8.Notificaciones/notificacionesContrato.jsp" method="post" style="text-align: center; margin: 20px 0;">
-                <button type="submit" class="boton">Enviar Correos</button>
-            </form>
+    <table>
+        <tr>
+            <th>Identificación</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Cargo</th>
+            <th>Unidad de negocio</th>
+            <th>Centro de costos</th>
+            <th>Email</th>
+            <th>Fecha ingreso</th> <!-- SE AGREGÓ ESTA COLUMNA -->
+            <th>Fecha término contrato</th>
+        </tr>
+        <%
+            while (rs2.next()) {
+        %>
+        <tr>
+            <td><%= rs2.getString("identificacion") %></td>
+            <td><%= rs2.getString("nombres") %></td>
+            <td><%= rs2.getString("apellidos") %></td>
+            <td><%= rs2.getString("cargoNombre") %></td>
+            <td><%= rs2.getString("unidadNegocio") %></td>
+            <td><%= rs2.getString("centroCostos") %></td>
+            <td><%= rs2.getString("email") %></td>
+            <td><%= rs2.getString("fechaIngreso") %></td> <!-- SE AGREGÓ ESTA CELDA -->
+            <td><%= rs2.getDate("fechaTerPriContrato") %></td>
+        </tr>
+        <%
+            }
+        %>
+    </table>
 
-
-            <table>
-                <tr>
-                    <th>Identificación</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Cargo</th>
-                    <th>Unidad de negocio</th>
-                    <th>Establecimiento</th>
-                    <th>Email</th>
-                    <th>Fecha término contrato</th>
-                </tr>
-
-                <%
-                    while (rs2.next()) {
-                        String identificacion = rs2.getString("identificacion");
-                %>
-                <tr>
-                    <td><%= identificacion%></td>
-                    <td><%= rs2.getString("nombres")%></td>
-                    <td><%= rs2.getString("apellidos")%></td>
-                    <td><%= Cargo.getCargoPersona(identificacion)%></td>
-                    <td><%= rs2.getString("unidadNegocio")%></td>
-                    <td><%= rs2.getString("establecimiento")%></td>
-                    <td><%= rs2.getString("email")%></td>
-                    <td><%= rs2.getDate("fechaTerPriContrato")%></td>
-                </tr>
-                <%
-                    }
-                %>
-
-            </table>
-
-            <%
+    <%
             } else {
-            %>
-            <p style="text-align:center;">No hay contratos que finalicen en los próximos 30 días.</p>
-            <%
-                    }
-
-                } catch (Exception e) {
-                    out.println("<tr><td colspan='5'>Error: " + e.getMessage() + "</td></tr>");
-                    e.printStackTrace();
-                } finally {
-                    if (rs2 != null) {
-                        try {
-                            rs2.close();
-                        } catch (SQLException ignore) {
-                        }
-                    }
-                    if (stmt2 != null) {
-                        try {
-                            stmt2.close();
-                        } catch (SQLException ignore) {
-                        }
-                    }
-                    if (conn2 != null) {
-                        try {
-                            conn2.close();
-                        } catch (SQLException ignore) {
-                        }
-                    }
-                }
-            %>
-        </div>
-
-        <!-- Scripts -->
-        <script>
-            function validarEliminacion(fechaUltimaEnvio) {
-                var fechaLimite = new Date(fechaUltimaEnvio);
-                fechaLimite.setHours(fechaLimite.getHours() + 48);
-                var ahora = new Date();
-
-                if (ahora < fechaLimite) {
-                    alert("No se puede eliminar el historial. Deben pasar al menos 48 horas desde el último envío.");
-                } else {
-                    window.location.href = "eliminarHistorial.jsp";
-                }
+    %>
+    <p style="text-align:center;">No hay contratos que finalicen en los próximos 30 días.</p>
+    <%
             }
 
-            document.addEventListener("DOMContentLoaded", function () {
-                controlarPermisos(
-            <%= administrador.getpEliminar()%>,
-            <%= administrador.getpEditar()%>,
-            <%= administrador.getpAgregar()%>
-                );
-            });
-        </script>
-    </body>
+        } catch (Exception e) {
+            out.println("<p style='color:red;'>Error: " + e.getMessage() + "</p>");
+            e.printStackTrace();
+        } finally {
+            if (rs2 != null) try { rs2.close(); } catch (SQLException ignore) {}
+            if (stmt2 != null) try { stmt2.close(); } catch (SQLException ignore) {}
+            if (conn2 != null) try { conn2.close(); } catch (SQLException ignore) {}
+        }
+    %>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        controlarPermisos(
+            <%= administrador.getpEliminar() %>,
+            <%= administrador.getpEditar() %>,
+            <%= administrador.getpAgregar() %>
+        );
+    });
+</script>
+
+</body>
 </html>

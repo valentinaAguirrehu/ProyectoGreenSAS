@@ -31,7 +31,7 @@
         
         for (FileItem elemento : elementosFormulario) {
             if (elemento.isFormField()) {
-                variables.put(elemento.getFieldName(), elemento.getString());
+                variables.put(elemento.getFieldName(), elemento.getString("UTF-8"));
             }
         }
     }

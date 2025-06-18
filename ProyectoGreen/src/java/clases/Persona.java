@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +29,6 @@ public class Persona {
 
     private String identificacion;
     private String tipo;
-    private String idCargo;
     private String tipoDocumento;
     private String fechaExpedicion;
     private String lugarExpedicion;
@@ -43,67 +43,15 @@ public class Persona {
     private String barrio;
     private String celular;
     private String email;
-    private String nivelEducativo;
-    private String eps;
     private String estadoCivil;
-    private String fechaIngreso;
-    private String fechaRetiro;
-    private String fechaEtapaLectiva;
-    private String fechaEtapaProductiva;
-    private String TituloAprendiz;
-    private String unidadNegocio;
-    private String centroCostos;
-    private String establecimiento;
-    private String area;
-    private String cctn;
-    private String cuentaBancaria;
-    private String numeroCuenta;
-    private String salario;
-    private String primerRefNombre;
-    private String primerRefParentezco;
-    private String primerRefCelular;
-    private String segundaRefNombre;
-    private String segundaRefParentezco;
-    private String segundaRefCelular;
-    private String terceraRefNombre;
-    private String terceraRefParentezco;
-    private String terceraRefCelular;
-    private String cuartaRefNombre;
-    private String cuartaRefParentezco;
-    private String cuartaRefCelular;
     private String tieneHijos;
     private List<Hijo> hijos = new ArrayList<>();
-    private String tallaCamisa;
-    private String tallaChaqueta;
-    private String tallaO;
-    private String tallaPantalon;
-    private String tallaCalzado;
-    private String tieneVehiculo;
-    private String numeroPlacaVehiculo;
-    private String tipoVehiculo;
-    private String modeloVehiculo;
-    private String linea;
-    private String marca;
-    private String color;
-    private String cilindraje;
-    private String numLicenciaTransito;
-    private String fechaExpLicenciaTransito;
-    private String numLicenciaConduccion;
-    private String fechaExpConduccion;
-    private String fechaVencimiento;
-    private String restricciones;
-    private String titularTrjPro;
-    private String estado;
-    private String fechaTerPriContrato;
-    private String fondoPensiones;
-    private String fondoCesantias;
-    private String profesion;
     private String idDepartamento;  // Campo virtual
     private String idMunicipio;    // Campo virtual
-    private String educacion;
-    private String tallaGuantes;
-    private String tallaBuzo;
-    private String arl;
+    private String nivelEdu;
+    private String profesion;
+    private String cuentaBancaria;
+    private String numeroCuenta;
 
     public Persona() {
     }
@@ -117,7 +65,6 @@ public class Persona {
                 this.hijos = new ArrayList<>();
 
                 tipo = resultado.getString("tipo");
-                idCargo = resultado.getString("idCargo");
                 tipoDocumento = resultado.getString("tipoDocumento");
                 fechaExpedicion = resultado.getString("fechaExpedicion");
                 lugarExpedicion = resultado.getString("lugarExpedicion");
@@ -132,70 +79,18 @@ public class Persona {
                 barrio = resultado.getString("barrio");
                 celular = resultado.getString("celular");
                 email = resultado.getString("email");
-                nivelEducativo = resultado.getString("nivelEducativo");
-                eps = resultado.getString("eps");
                 estadoCivil = resultado.getString("estadoCivil");
-                fechaIngreso = resultado.getString("fechaIngreso");
-                fechaRetiro = resultado.getString("fechaRetiro");
-                fechaEtapaLectiva = resultado.getString("fechaEtapaLectiva");
-                fechaEtapaProductiva = resultado.getString("fechaEtapaProductiva");
-                TituloAprendiz = resultado.getString("TituloAprendiz");
-                unidadNegocio = resultado.getString("unidadNegocio");
-                centroCostos = resultado.getString("centroCostos");
-                establecimiento = resultado.getString("establecimiento");
-                area = resultado.getString("area");
-                cctn = resultado.getString("cctn");
+                nivelEdu = resultado.getString("nivelEdu");
+                profesion = resultado.getString("profesion");
                 cuentaBancaria = resultado.getString("cuentaBancaria");
                 numeroCuenta = resultado.getString("numeroCuenta");
-                salario = resultado.getBigDecimal("salario").toString();
-                primerRefNombre = resultado.getString("primerRefNombre");
-                primerRefParentezco = resultado.getString("primerRefParentezco");
-                primerRefCelular = resultado.getString("primerRefCelular");
-                segundaRefNombre = resultado.getString("segundaRefNombre");
-                segundaRefParentezco = resultado.getString("segundaRefParentezco");
-                segundaRefCelular = resultado.getString("segundaRefCelular");
-                terceraRefNombre = resultado.getString("terceraRefNombre");
-                terceraRefParentezco = resultado.getString("terceraRefParentezco");
-                terceraRefCelular = resultado.getString("terceraRefCelular");
-                cuartaRefNombre = resultado.getString("cuartaRefNombre");
-                cuartaRefParentezco = resultado.getString("cuartaRefParentezco");
-                cuartaRefCelular = resultado.getString("cuartaRefCelular");
                 tieneHijos = resultado.getString("tieneHijos");
-                tallaCamisa = resultado.getString("tallaCamisa");
-                tallaChaqueta = resultado.getString("tallaChaqueta");
-                tallaO = resultado.getString("tallaO");
-                tallaPantalon = resultado.getString("tallaPantalon");
-                tallaCalzado = resultado.getString("tallaCalzado");
-                tieneVehiculo = resultado.getString("tieneVehiculo");
-                numeroPlacaVehiculo = resultado.getString("numeroPlacaVehiculo");
-                tipoVehiculo = resultado.getString("tipoVehiculo");
-                modeloVehiculo = resultado.getString("modeloVehiculo");
-                linea = resultado.getString("linea");
-                marca = resultado.getString("marca");
-                color = resultado.getString("color");
-                cilindraje = resultado.getString("cilindraje");
-                numLicenciaTransito = resultado.getString("numLicenciaTransito");
-                fechaExpLicenciaTransito = resultado.getString("fechaExpLicenciaTransito");
-                numLicenciaConduccion = resultado.getString("numLicenciaConduccion");
-                fechaExpConduccion = resultado.getString("fechaExpConduccion");
-                fechaVencimiento = resultado.getString("fechaVencimiento");
-                restricciones = resultado.getString("restricciones");
-                titularTrjPro = resultado.getString("titularTrjPro");
-                estado = resultado.getString("estado");
-                fechaTerPriContrato = resultado.getString("fechaTerPriContrato");
-                fondoPensiones = resultado.getString("fondoPensiones");
-                fondoCesantias = resultado.getString("fondoCesantias");
-                profesion = resultado.getString("profesion");
-                educacion = resultado.getString("educacion");
-                tallaGuantes = resultado.getString("tallaGuantes");
-                tallaBuzo = resultado.getString("tallaBuzo");
-                tallaBuzo = resultado.getString("tallaBuzo");
-                arl = resultado.getString("arl");
 
 //  consutoh los hijos de las persona
                 this.hijos = Hijo.obtenerHijosDePersona(identificacion);
             }
         } catch (SQLException ex) {
+            System.out.println("Ejecutando consultaPersona: " + cadenaSQL);
             System.out.println("Error al consultar persona: " + ex.getMessage());
         } finally {
             try {
@@ -206,98 +101,6 @@ public class Persona {
                 System.out.println("Error al cerrar ResultSet de persona: " + ex.getMessage());
             }
         }
-    }
-
-    public String getTipoVehiculo() {
-        String resultado = tipoVehiculo;
-        if (tipoVehiculo == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public String getModeloVehiculo() {
-        String resultado = modeloVehiculo;
-        if (modeloVehiculo == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setModeloVehiculo(String modeloVehiculo) {
-        this.modeloVehiculo = modeloVehiculo;
-    }
-
-    public String getLinea() {
-        String resultado = linea;
-        if (linea == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setLinea(String linea) {
-        this.linea = linea;
-    }
-
-    public String getMarca() {
-        String resultado = marca;
-        if (marca == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getColor() {
-        String resultado = color;
-        if (color == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getCilindraje() {
-        String resultado = cilindraje;
-        if (cilindraje == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setCilindraje(String cilindraje) {
-        this.cilindraje = cilindraje;
-    }
-
-    public String getNumLicenciaTransito() {
-        String resultado = numLicenciaTransito;
-        if (numLicenciaTransito == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setNumLicenciaTransito(String numLicenciaTransito) {
-        this.numLicenciaTransito = numLicenciaTransito;
-    }
-
-    public String getFechaExpLicenciaTransito() {
-        String resultado = fechaExpLicenciaTransito;
-        if (fechaExpLicenciaTransito == null) {
-            resultado = null;
-        }
-        return resultado;
-    }
-
-    public void setFechaExpLicenciaTransito(String fechaExpLicenciaTransito) {
-        this.fechaExpLicenciaTransito = fechaExpLicenciaTransito;
     }
 
     public String getIdentificacion() {
@@ -324,25 +127,20 @@ public class Persona {
         this.tipo = tipo;
     }
 
-    public String getIdCargo() {
-        String resultado = idCargo;
-        if (idCargo == null) {
-            resultado = "";
-        }
-        return resultado;
+//    public String getTipoDocumento() {
+//        String resultado = tipoDocumento;
+//        if (tipoDocumento == null) {
+//            resultado = "";
+//        }
+//        return resultado;
+//    }
+    public TipoDocumento getTipoDocumento() {
+    if (tipoDocumento == null) {
+        return null;
     }
+    return new TipoDocumento(tipoDocumento);
+}
 
-    public void setIdCargo(String idCargo) {
-        this.idCargo = idCargo;
-    }
-
-    public String getTipoDocumento() {
-        String resultado = tipoDocumento;
-        if (tipoDocumento == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
 
     public void setTipoDocumento(String tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
@@ -427,24 +225,30 @@ public class Persona {
         }
     }
 
-    public String getTipoSangre() {
-        String resultado = tipoSangre;
-        if (tipoSangre == null) {
-            resultado = "";
-        }
-        return resultado;
+//    public String getTipoSangre() {
+//        String resultado = tipoSangre;
+//        if (tipoSangre == null) {
+//            resultado = "";
+//        }
+//        return resultado;
+//    }
+    public TipoSangre getTipoSangre() {
+        return new TipoSangre(tipoSangre);
     }
 
     public void setTipoSangre(String tipoSangre) {
         this.tipoSangre = tipoSangre;
     }
 
-    public String getTipoVivienda() {
-        String resultado = tipoVivienda;
-        if (tipoVivienda == null) {
-            resultado = "";
-        }
-        return resultado;
+//    public String getTipoVivienda() {
+//        String resultado = tipoVivienda;
+//        if (tipoVivienda == null) {
+//            resultado = "";
+//        }
+//        return resultado;
+//    }
+    public TipoVivienda getTipoVivienda() {
+        return new TipoVivienda(tipoVivienda);
     }
 
     public void setTipoVivienda(String tipoVivienda) {
@@ -499,165 +303,43 @@ public class Persona {
         this.email = email;
     }
 
-    public String getNivelEducativo() {
-        String resultado = nivelEducativo;
-        if (nivelEducativo == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setNivelEducativo(String nivelEducativo) {
-        this.nivelEducativo = nivelEducativo;
-    }
-
-    public String getEps() {
-        String resultado = eps;
-        if (eps == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setEps(String eps) {
-        this.eps = eps;
-    }
-
-    public String getEstadoCivil() {
-        String resultado = estadoCivil;
-        if (estadoCivil == null) {
-            resultado = "";
-        }
-        return resultado;
+//    public String getEstadoCivil() {
+//        String resultado = estadoCivil;
+//        if (estadoCivil == null) {
+//            resultado = "";
+//        }
+//        return resultado;
+//    }
+    public EstadoCivil getEstadoCivil() {
+        return new EstadoCivil(estadoCivil);
     }
 
     public void setEstadoCivil(String estadoCivil) {
         this.estadoCivil = estadoCivil;
     }
 
-    public String getFechaIngreso() {
-        String resultado = fechaIngreso;
-        if (fechaIngreso == null) {
+    public String getNivelEdu() {
+        String resultado = nivelEdu;
+        if (nivelEdu == null) {
             resultado = "";
         }
         return resultado;
     }
 
-    public void setFechaIngreso(String fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
+    public void setNivelEdu(String nivelEdu) {
+        this.nivelEdu = nivelEdu;
     }
 
-    public String getFechaRetiro() {
-        String resultado = fechaRetiro;
-        if (fechaRetiro == null) {
+    public String getProfesion() {
+        String resultado = profesion;
+        if (profesion == null) {
             resultado = "";
         }
         return resultado;
     }
 
-    public void setFechaRetiro(String fechaRetiro) {
-        this.fechaRetiro = fechaRetiro;
-    }
-
-    public String getFechaEtapaLectiva() {
-        String resultado = fechaEtapaLectiva;
-        if (fechaEtapaLectiva == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setFechaEtapaLectiva(String fechaEtapaLectiva) {
-        this.fechaEtapaLectiva = fechaEtapaLectiva;
-    }
-
-    public String getFechaEtapaProductiva() {
-        String resultado = fechaEtapaProductiva;
-        if (fechaEtapaProductiva == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setFechaEtapaProductiva(String fechaEtapaProductiva) {
-        this.fechaEtapaProductiva = fechaEtapaProductiva;
-    }
-
-    public String getTituloAprendiz() {
-        String resultado = TituloAprendiz;
-        if (TituloAprendiz == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTituloAprendiz(String TituloAprendiz) {
-        this.TituloAprendiz = TituloAprendiz;
-    }
-
-    public String getUnidadNegocio() {
-        String resultado = unidadNegocio;
-        if (unidadNegocio == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setUnidadNegocio(String unidadNegocio) {
-        this.unidadNegocio = unidadNegocio;
-    }
-
-    public String getCentroCostos() {
-        String resultado = centroCostos;
-        if (centroCostos == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setCentroCostos(String centroCostos) {
-        this.centroCostos = centroCostos;
-    }
-
-    public String getEstablecimiento() {
-        String resultado = establecimiento;
-        if (establecimiento == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setEstablecimiento(String establecimiento) {
-        this.establecimiento = establecimiento;
-    }
-
-    public String getArea() {
-        String resultado = area;
-        if (area == null) {
-            resultado = "";
-        }
-        return resultado;
-
-        // Imprimir el valor de area para depuración
-        //System.out.println("Valor de 'area' en getArea(): " + resultado);
-        //return resultado;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-
-    }
-
-    public String getCctn() {
-        String resultado = cctn;
-        if (cctn == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setCctn(String cctn) {
-        this.cctn = cctn;
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
     }
 
     public String getCuentaBancaria() {
@@ -666,14 +348,6 @@ public class Persona {
             resultado = "";
         }
         return resultado;
-    }
-
-    public String getTieneVehiculo() {
-        return tieneVehiculo;
-    }
-
-    public void setTipoVehiculo(String tipoVehiculo) {
-        this.tipoVehiculo = tipoVehiculo;
     }
 
     public void setCuentaBancaria(String cuentaBancaria) {
@@ -692,50 +366,6 @@ public class Persona {
         this.numeroCuenta = numeroCuenta;
     }
 
-    public String getSalario() {
-        String resultado = salario;
-        if (salario == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setSalario(String salario) {
-        this.salario = salario;
-    }
-
-    public String getPrimerRefNombre() {
-        String resultado = primerRefNombre;
-        if (primerRefNombre == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setPrimerRefNombre(String primerRefNombre) {
-        this.primerRefNombre = primerRefNombre;
-    }
-
-    public String getPrimerRefParentezco() {
-        String resultado = primerRefParentezco;
-        if (primerRefParentezco == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setPrimerRefParentezco(String primerRefParentezco) {
-        this.primerRefParentezco = primerRefParentezco;
-    }
-
-    public String getPrimerRefCelular() {
-        String resultado = primerRefCelular;
-        if (primerRefCelular == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
     public boolean guardarHijos(String identificacionPersona, String datosHijos) {
         if (datosHijos == null || datosHijos.trim().isEmpty()) {
             return false;
@@ -748,118 +378,6 @@ public class Persona {
         System.out.println("Ejecutando procedimiento: " + sql);
 
         return ConectorBD.ejecutarQuery(sql);
-    }
-
-    public void setPrimerRefCelular(String primerRefCelular) {
-        this.primerRefCelular = primerRefCelular;
-    }
-
-    public String getSegundaRefNombre() {
-        String resultado = segundaRefNombre;
-        if (segundaRefNombre == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setSegundaRefNombre(String segundaRefNombre) {
-        this.segundaRefNombre = segundaRefNombre;
-    }
-
-    public String getSegundaRefParentezco() {
-        String resultado = segundaRefParentezco;
-        if (segundaRefParentezco == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setSegundaRefParentezco(String segundaRefParentezco) {
-        this.segundaRefParentezco = segundaRefParentezco;
-    }
-
-    public String getSegundaRefCelular() {
-        String resultado = segundaRefCelular;
-        if (segundaRefCelular == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setSegundaRefCelular(String segundaRefCelular) {
-        this.segundaRefCelular = segundaRefCelular;
-    }
-
-    public String getTerceraRefNombre() {
-        String resultado = terceraRefNombre;
-        if (terceraRefNombre == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTerceraRefNombre(String terceraRefNombre) {
-        this.terceraRefNombre = terceraRefNombre;
-    }
-
-    public String getTerceraRefParentezco() {
-        String resultado = terceraRefParentezco;
-        if (terceraRefParentezco == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTerceraRefParentezco(String terceraRefParentezco) {
-        this.terceraRefParentezco = terceraRefParentezco;
-    }
-
-    public String getTerceraRefCelular() {
-        String resultado = terceraRefCelular;
-        if (terceraRefCelular == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTerceraRefCelular(String terceraRefCelular) {
-        this.terceraRefCelular = terceraRefCelular;
-    }
-
-    public String getCuartaRefNombre() {
-        String resultado = cuartaRefNombre;
-        if (cuartaRefNombre == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setCuartaRefNombre(String cuartaRefNombre) {
-        this.cuartaRefNombre = cuartaRefNombre;
-    }
-
-    public String getCuartaRefParentezco() {
-        String resultado = cuartaRefParentezco;
-        if (cuartaRefParentezco == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setCuartaRefParentezco(String cuartaRefParentezco) {
-        this.cuartaRefParentezco = cuartaRefParentezco;
-    }
-
-    public String getCuartaRefCelular() {
-        String resultado = cuartaRefCelular;
-        if (cuartaRefCelular == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setCuartaRefCelular(String cuartaRefCelular) {
-        this.cuartaRefCelular = cuartaRefCelular;
     }
 
     public Hijo getTieneHijos() {
@@ -890,196 +408,12 @@ public class Persona {
         return this.hijos;
     }
 
-    public String getTallaCamisa() {
-        String resultado = tallaCamisa;
-        if (tallaCamisa == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTallaCamisa(String tallaCamisa) {
-        this.tallaCamisa = tallaCamisa;
-    }
-
-    public String getTallaChaqueta() {
-        String resultado = tallaChaqueta;
-        if (tallaChaqueta == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTallaChaqueta(String tallaChaqueta) {
-        this.tallaChaqueta = tallaChaqueta;
-    }
-
-    public String getTallaPantalon() {
-        String resultado = tallaPantalon;
-        if (tallaPantalon == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTallaPantalon(String tallaPantalon) {
-        this.tallaPantalon = tallaPantalon;
-    }
-
-    public String getTallaCalzado() {
-        String resultado = tallaCalzado;
-        if (tallaCalzado == null) {
-            resultado = null;
-        }
-        return resultado;
-    }
-
-    public void setTallaCalzado(String tallaCalzado) {
-        this.tallaCalzado = tallaCalzado;
-    }
-
-    public void setTieneVehiculo(String tieneVehiculo) {
-        this.tieneVehiculo = tieneVehiculo;
-    }
-
-    public String getNumLicenciaConduccion() {
-        String resultado = numLicenciaConduccion;
-        if (numLicenciaConduccion == null) {
-            resultado = null;
-        }
-        return resultado;
-    }
-
-    public void setNumLicenciaConduccion(String numLicenciaConduccion) {
-        this.numLicenciaConduccion = numLicenciaConduccion;
-    }
-
-    public String getFechaExpConduccion() {
-        String resultado = fechaExpConduccion;
-        if (fechaExpConduccion == null) {
-            resultado = null;
-        }
-        return resultado;
-    }
-
-    public void setFechaExpConduccion(String fechaExpConduccion) {
-        this.fechaExpConduccion = fechaExpConduccion;
-    }
-
-    public String getFechaVencimiento() {
-        String resultado = fechaVencimiento;
-        if (fechaVencimiento == null) {
-            resultado = null;
-        }
-        return resultado;
-    }
-
-    public void setFechaVencimiento(String fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
-    }
-
-    public String getRestricciones() {
-        String resultado = restricciones;
-        if (restricciones == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setRestricciones(String restricciones) {
-        this.restricciones = restricciones;
-    }
-
-    public String getTitularTrjPro() {
-        String resultado = titularTrjPro;
-        if (titularTrjPro == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTitularTrjPro(String titularTrjPro) {
-        this.titularTrjPro = titularTrjPro;
-    }
-
-    public String getEstado() {
-        String resultado = estado;
-        if (estado == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getNumeroPlacaVehiculo() {
-        String resultado = numeroPlacaVehiculo;
-        if (numeroPlacaVehiculo == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setNumeroPlacaVehiculo(String numeroPlacaVehiculo) {
-        this.numeroPlacaVehiculo = numeroPlacaVehiculo;
-    }
-
     public GeneroPersona getGeneroPersona() {
         return new GeneroPersona(sexo);
     }
 
     public void setGenero(String genero) {
         this.sexo = genero;
-    }
-
-    public String getFechaTerPriContrato() {
-        String resultado = fechaTerPriContrato;
-        if (fechaTerPriContrato == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setFechaTerPriContrato(String fechaTerPriContrato) {
-        this.fechaTerPriContrato = fechaTerPriContrato;
-    }
-
-    public String getFondoPensiones() {
-        String resultado = fondoPensiones;
-        if (fondoPensiones == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setFondoPensiones(String fondoPensiones) {
-        this.fondoPensiones = fondoPensiones;
-    }
-
-    public String getFondoCesantias() {
-        String resultado = fondoCesantias;
-        if (fondoCesantias == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setFondoCesantias(String fondoCesantias) {
-        this.fondoCesantias = fondoCesantias;
-    }
-
-    public String getProfesion() {
-        String resultado = profesion;
-        if (profesion == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setProfesion(String profesion) {
-        this.profesion = profesion;
     }
 
     //  para lugarExpedicion (el campo concatenado)
@@ -1148,170 +482,59 @@ public class Persona {
         this.idMunicipio = idMunicipioNacimiento;
     }
 
-    public String getEducacion() {
-        String resultado = educacion;
-        if (educacion == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setEducacion(String educacion) {
-        this.educacion = educacion;
-    }
-
-    public String getTallaGuantes() {
-        String resultado = tallaGuantes;
-        if (tallaGuantes == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTallaGuantes(String tallaGuantes) {
-        this.tallaGuantes = tallaGuantes;
-    }
-
-    public String getTallaBuzo() {
-        String resultado = tallaBuzo;
-        if (tallaBuzo == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTallaBuzo(String tallaBuzo) {
-        this.tallaBuzo = tallaBuzo;
-    }
-
-    public String getTallaO() {
-        String resultado = tallaO;
-        if (tallaO == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setTallaO(String tallaO) {
-        this.tallaO = tallaO;
-    }
-
-    //String resultado = this.tallaOverol;
-    //System.out.println("Talla overol"
-    //      + resultado);
-    //if (tallaOverol == null) {
-    //  resultado = "";
-    //}
-    //System.out.println("Talla overol"
-    //      + resultado);
-    // return resultado;
-    //}
-    public String getArl() {
-        String resultado = arl;
-        if (arl == null) {
-            resultado = "";
-        }
-        return resultado;
-    }
-
-    public void setArl(String arl) {
-        this.arl = arl;
-    }
-
-    @Override
-    public String toString() {
-
-        String datos = "";
-        if (identificacion != null) {
-            datos = identificacion + " - " + nombres;
-        }
-        return datos;
-    }
-
-    //public int getEdad() {
-    //  LocalDate fechaNacimiento = LocalDate.parse(this.getFechaNacimiento());
-    //  LocalDate fechaActual = LocalDate.now();
-    //  return Period.between(fechaNacimiento, fechaActual).getYears();
-    //}
-    public int getEdad() {
-        if (fechaNacimiento == null || fechaNacimiento.isEmpty()) {
-            return 0; // O un valor por defecto
-        }
+    public static boolean existeIdentificacion(String identificacion) {
+        String sql = "SELECT 1 FROM persona WHERE identificacion = '" + identificacion + "' LIMIT 1";
+        ResultSet rs = ConectorBD.consultar(sql);
         try {
-            LocalDate fechaNac = LocalDate.parse(fechaNacimiento);
-            return Period.between(fechaNac, LocalDate.now()).getYears();
-        } catch (DateTimeParseException e) {
-            return 0;
+            return rs != null && rs.next(); // Devuelve true si existe
+        } catch (SQLException e) {
+            System.out.println("Error al verificar existencia de identificación: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar ResultSet: " + e.getMessage());
+            }
         }
+        return false;
     }
 
     public boolean grabar() {
+        // 1. Validar si ya existe la identificación
+        if (Persona.existeIdentificacion(identificacion)) {
+            System.out.println("Error: Ya existe una persona con la identificación " + identificacion);
+            return false;
+        }
         String cadenaSQL = "INSERT INTO persona ("
-                + "identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
-            + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
-            + "tipoVivienda, direccion, barrio, celular, email, nivelEducativo, eps, "
-            + "estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, fechaEtapaProductiva, TituloAprendiz, "
-            + "unidadNegocio, centroCostos, establecimiento, area, cctn, cuentaBancaria, "
-            + "numeroCuenta, salario, primerRefNombre, primerRefParentezco, primerRefCelular, "
-            + "segundaRefNombre, segundaRefParentezco, segundaRefCelular, terceraRefNombre, "
-            + "terceraRefParentezco, terceraRefCelular, cuartaRefNombre, cuartaRefParentezco, "
-            + "cuartaRefCelular, tieneHijos, tallaCamisa, tallaChaqueta, tallaO, tallaPantalon, "
-            + "tallaCalzado, tieneVehiculo, numeroPlacaVehiculo, tipoVehiculo, modeloVehiculo, "
-            + "linea, marca, color, cilindraje, numLicenciaTransito, fechaExpLicenciaTransito, "
-            + "numLicenciaConduccion, fechaExpConduccion, fechaVencimiento, restricciones, titularTrjPro, "
-            + "estado, fechaTerPriContrato, fondoPensiones, fondoCesantias, "
-            + "profesion, educacion, tallaGuantes, tallaBuzo, arl) VALUES ('"
-            + identificacion + "', '" + tipo + "', " + idCargo + ", '" + tipoDocumento + "', "
-            + (fechaExpedicion != null && !fechaExpedicion.isEmpty() ? "'" + fechaExpedicion + "'" : "NULL") + ", '"
-            + lugarExpedicion + "', '" + nombres + "', '" + apellidos + "', '" + sexo + "', "
-            + (fechaNacimiento != null && !fechaNacimiento.isEmpty() ? "'" + fechaNacimiento + "'" : "NULL") + ", '"
-            + lugarNacimiento + "', '" + tipoSangre + "', '" + tipoVivienda + "', '" + direccion + "', '"
-            + barrio + "', '" + celular + "', '" + email + "', '" + nivelEducativo + "', '" + eps + "', '"
-            + estadoCivil + "', "
-            + (fechaIngreso != null && !fechaIngreso.isEmpty() ? "'" + fechaIngreso + "'" : "NULL") + ", "
-            + (fechaRetiro != null && !fechaRetiro.isEmpty() ? "'" + fechaRetiro + "'" : "NULL") + ", "
-            + (fechaEtapaLectiva != null && !fechaEtapaLectiva.isEmpty() ? "'" + fechaEtapaLectiva + "'" : "NULL") + ", "
-            + (fechaEtapaProductiva != null && !fechaEtapaProductiva.isEmpty() ? "'" + fechaEtapaProductiva + "'" : "NULL") + ", "
-            + (TituloAprendiz != null && !TituloAprendiz.isEmpty() ? "'" + TituloAprendiz + "'" : "NULL") + ", '"
-            + unidadNegocio + "', '" + centroCostos + "', '" + establecimiento + "', '" + area + "', '"
-            + cctn + "', '" + cuentaBancaria + "', '" + numeroCuenta + "', "
-            + (salario != null && !salario.isEmpty() ? salario : "NULL") + ", '"
-            + primerRefNombre + "', '" + primerRefParentezco + "', '" + primerRefCelular + "', '"
-            + segundaRefNombre + "', '" + segundaRefParentezco + "', '" + segundaRefCelular + "', "
-            + (terceraRefNombre != null && !terceraRefNombre.isEmpty() ? "'" + terceraRefNombre + "'" : "NULL") + ", "
-            + (terceraRefParentezco != null && !terceraRefParentezco.isEmpty() ? "'" + terceraRefParentezco + "'" : "NULL") + ", "
-            + (terceraRefCelular != null && !terceraRefCelular.isEmpty() ? "'" + terceraRefCelular + "'" : "NULL") + ", "
-            + (cuartaRefNombre != null && !cuartaRefNombre.isEmpty() ? "'" + cuartaRefNombre + "'" : "NULL") + ", "
-            + (cuartaRefParentezco != null && !cuartaRefParentezco.isEmpty() ? "'" + cuartaRefParentezco + "'" : "NULL") + ", "
-            + (cuartaRefCelular != null && !cuartaRefCelular.isEmpty() ? "'" + cuartaRefCelular + "'" : "NULL") + ", '"
-            + tieneHijos + "', "
-            + (tallaCamisa != null && !tallaCamisa.isEmpty() ? "'" + tallaCamisa + "'" : "NULL") + ", "
-            + (tallaChaqueta != null && !tallaChaqueta.isEmpty() ? "'" + tallaChaqueta + "'" : "NULL") + ", "
-            + (tallaO != null && !tallaO.isEmpty() ? "'" + tallaO + "'" : "NULL") + ", "
-            + (tallaPantalon != null && !tallaPantalon.isEmpty() ? tallaPantalon : "NULL") + ", "
-            + (tallaCalzado != null && !tallaCalzado.isEmpty() ? tallaCalzado : "NULL") + ", '"
-            + tieneVehiculo + "', "
-            + (numeroPlacaVehiculo != null && !numeroPlacaVehiculo.isEmpty() ? "'" + numeroPlacaVehiculo + "'" : "NULL") + ", "
-            + (tipoVehiculo != null && !tipoVehiculo.isEmpty() ? "'" + tipoVehiculo + "'" : "NULL") + ", "
-            + (modeloVehiculo != null && !modeloVehiculo.isEmpty() ? "'" + modeloVehiculo + "'" : "NULL") + ", "
-            + (linea != null && !linea.isEmpty() ? "'" + linea + "'" : "NULL") + ", "
-            + (marca != null && !marca.isEmpty() ? "'" + marca + "'" : "NULL") + ", "
-            + (color != null && !color.isEmpty() ? "'" + color + "'" : "NULL") + ", "
-            + (cilindraje != null && !cilindraje.isEmpty() ? cilindraje : "NULL") + ", "
-            + (numLicenciaTransito != null && !numLicenciaTransito.isEmpty() ? "'" + numLicenciaTransito + "'" : "NULL") + ", "
-            + (fechaExpLicenciaTransito != null && !fechaExpLicenciaTransito.isEmpty() ? "'" + fechaExpLicenciaTransito + "'" : "NULL") + ", "
-            + (numLicenciaConduccion != null && !numLicenciaConduccion.isEmpty() ? "'" + numLicenciaConduccion + "'" : "NULL") + ", "
-            + (fechaExpConduccion != null && !fechaExpConduccion.isEmpty() ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
-            + (fechaVencimiento != null && !fechaVencimiento.isEmpty() ? "'" + fechaVencimiento + "'" : "NULL") + ", "
-            + (restricciones != null && !restricciones.isEmpty() ? "'" + restricciones + "'" : "NULL") + ", "
-            + (titularTrjPro != null && !titularTrjPro.isEmpty() ? "'" + titularTrjPro + "'" : "NULL") + ", '"
-            + estado + "', "
-            + (fechaTerPriContrato != null && !fechaTerPriContrato.isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL") + ", '"
-            + fondoPensiones + "', '" + fondoCesantias + "', '"
-            + profesion + "', '" + educacion + "', "
-            + (tallaGuantes != null && !tallaGuantes.isEmpty() ? "'" + tallaGuantes + "'" : "NULL") + ", "
-            + (tallaBuzo != null && !tallaBuzo.isEmpty() ? "'" + tallaBuzo + "'" : "NULL") + ", '"
-            + arl + "');";
+                + "identificacion, tipo, tipoDocumento, fechaExpedicion, lugarExpedicion, "
+                + "nombres, apellidos, sexo, fechaNacimiento, lugarNacimiento, tipoSangre, "
+                + "tipoVivienda, direccion, barrio, celular, email, estadoCivil, tieneHijos, "
+                + "cuentaBancaria, nivelEdu, profesion, numeroCuenta) VALUES ('"
+                + identificacion + "', '"
+                + tipo + "', '"
+                + tipoDocumento + "', "
+                + (fechaExpedicion != null && !fechaExpedicion.isEmpty() ? "'" + fechaExpedicion + "'" : "NULL") + ", '"
+                + lugarExpedicion + "', '"
+                + nombres + "', '"
+                + apellidos + "', '"
+                + sexo + "', "
+                + (fechaNacimiento != null && !fechaNacimiento.isEmpty() ? "'" + fechaNacimiento + "'" : "NULL") + ", '"
+                + lugarNacimiento + "', '"
+                + tipoSangre + "', '"
+                + tipoVivienda + "', '"
+                + direccion + "', '"
+                + barrio + "', '"
+                + celular + "', '"
+                + email + "', "
+                + (estadoCivil != null && !estadoCivil.isEmpty() ? "'" + estadoCivil + "'" : "NULL") + ", "
+                + (tieneHijos != null && !tieneHijos.isEmpty() ? "'" + tieneHijos + "'" : "NULL") + ", "
+                + (cuentaBancaria != null && !cuentaBancaria.isEmpty() ? "'" + cuentaBancaria + "'" : "NULL") + ", "
+                + (nivelEdu != null && !nivelEdu.isEmpty() ? "'" + nivelEdu + "'" : "NULL") + ", "
+                + (profesion != null && !profesion.isEmpty() ? "'" + profesion + "'" : "NULL") + ", "
+                + (numeroCuenta != null && !numeroCuenta.isEmpty() ? "'" + numeroCuenta + "'" : "NULL")
+                + ");";
 
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
         System.out.println(cadenaSQL);
@@ -1343,14 +566,13 @@ public class Persona {
 
     public boolean modificar(String identificacionAnterior) {
         if (identificacion == null || identificacionAnterior == null) {
-            System.out.println("Error: identificacion o identificacionAnterior es null.");
+            System.out.println("Error: clase persona identificacion o identificacionAnterior es null.");
             return false;
         }
 
         String cadenaSQL = "UPDATE persona SET "
                 + "identificacion='" + identificacion + "', "
                 + "tipo=" + (tipo != null ? "'" + tipo + "'" : "NULL") + ", "
-                + "idCargo=" + (idCargo != null ? "'" + idCargo + "'" : "NULL") + ", "
                 + "tipoDocumento=" + (tipoDocumento != null ? "'" + tipoDocumento + "'" : "NULL") + ", "
                 + "fechaExpedicion=" + (fechaExpedicion != null ? "'" + fechaExpedicion + "'" : "NULL") + ", "
                 + "lugarExpedicion=" + (lugarExpedicion != null ? "'" + lugarExpedicion + "'" : "NULL") + ", "
@@ -1365,67 +587,16 @@ public class Persona {
                 + "barrio=" + (barrio != null ? "'" + barrio + "'" : "NULL") + ", "
                 + "celular=" + (celular != null ? "'" + celular + "'" : "NULL") + ", "
                 + "email=" + (email != null ? "'" + email + "'" : "NULL") + ", "
-                + "nivelEducativo=" + (nivelEducativo != null ? "'" + nivelEducativo + "'" : "NULL") + ", "
-                + "eps=" + (eps != null ? "'" + eps + "'" : "NULL") + ", "
                 + "estadoCivil=" + (estadoCivil != null ? "'" + estadoCivil + "'" : "NULL") + ", "
-                + "fechaIngreso=" + (fechaIngreso != null ? "'" + fechaIngreso + "'" : "NULL") + ", "
-                + "fechaRetiro=" + (fechaRetiro != null && !fechaRetiro.trim().isEmpty() ? "'" + fechaRetiro + "'" : "NULL") + ", "
-                + "fechaEtapaLectiva=" + (fechaEtapaLectiva != null ? "'" + fechaEtapaLectiva + "'" : "NULL") + ", "
-                + "fechaEtapaProductiva=" + (fechaEtapaProductiva != null ? "'" + fechaEtapaProductiva + "'" : "NULL") + ", "
-                + "TituloAprendiz=" + (TituloAprendiz != null ? "'" + TituloAprendiz + "'" : "NULL") + ", "
-                + "unidadNegocio=" + (unidadNegocio != null ? "'" + unidadNegocio + "'" : "NULL") + ", "
-                + "centroCostos=" + (centroCostos != null ? "'" + centroCostos + "'" : "NULL") + ", "
-                + "establecimiento=" + (establecimiento != null ? "'" + establecimiento + "'" : "NULL") + ", "
-                + "area=" + (area != null ? "'" + area + "'" : "NULL") + ", "
-                + "cctn=" + (cctn != null ? "'" + cctn + "'" : "NULL") + ", "
+                + "nivelEdu=" + (nivelEdu != null ? "'" + nivelEdu + "'" : "NULL") + ", "
+                + "profesion=" + (profesion != null ? "'" + profesion + "'" : "NULL") + ", "
                 + "cuentaBancaria=" + (cuentaBancaria != null ? "'" + cuentaBancaria + "'" : "NULL") + ", "
                 + "numeroCuenta=" + (numeroCuenta != null ? "'" + numeroCuenta + "'" : "NULL") + ", "
-                + "salario=" + (salario != null ? "'" + salario + "'" : "NULL") + ", "
-                + "primerRefNombre=" + (primerRefNombre != null ? "'" + primerRefNombre + "'" : "NULL") + ", "
-                + "primerRefParentezco=" + (primerRefParentezco != null ? "'" + primerRefParentezco + "'" : "NULL") + ", "
-                + "primerRefCelular=" + (primerRefCelular != null ? "'" + primerRefCelular + "'" : "NULL") + ", "
-                + "segundaRefNombre=" + (segundaRefNombre != null ? "'" + segundaRefNombre + "'" : "NULL") + ", "
-                + "segundaRefParentezco=" + (segundaRefParentezco != null ? "'" + segundaRefParentezco + "'" : "NULL") + ", "
-                + "segundaRefCelular=" + (segundaRefCelular != null ? "'" + segundaRefCelular + "'" : "NULL") + ", "
-                + "terceraRefNombre=" + (terceraRefNombre != null ? "'" + terceraRefNombre + "'" : "NULL") + ", "
-                + "terceraRefParentezco=" + (terceraRefParentezco != null ? "'" + terceraRefParentezco + "'" : "NULL") + ", "
-                + "terceraRefCelular=" + (terceraRefCelular != null ? "'" + terceraRefCelular + "'" : "NULL") + ", "
-                + "cuartaRefNombre=" + (cuartaRefNombre != null ? "'" + cuartaRefNombre + "'" : "NULL") + ", "
-                + "cuartaRefParentezco=" + (cuartaRefParentezco != null ? "'" + cuartaRefParentezco + "'" : "NULL") + ", "
-                + "cuartaRefCelular=" + (cuartaRefCelular != null ? "'" + cuartaRefCelular + "'" : "NULL") + ", "
-                + "tieneHijos=" + (tieneHijos != null ? "'" + tieneHijos + "'" : "NULL") + ", "
-                + "tallaCamisa=" + (tallaCamisa != null ? "'" + tallaCamisa + "'" : "NULL") + ", "
-                + "tallaChaqueta=" + (tallaChaqueta != null ? "'" + tallaChaqueta + "'" : "NULL") + ", "
-                + "tallaO=" + (tallaO != null ? "'" + tallaO + "'" : "NULL") + ", "
-                + "tallaPantalon=" + (tallaPantalon != null ? "'" + tallaPantalon + "'" : "NULL") + ", "
-                + "tallaCalzado=" + (tallaCalzado != null ? "'" + tallaCalzado + "'" : "NULL") + ", "
-                + "tieneVehiculo=" + (tieneVehiculo != null ? "'" + tieneVehiculo + "'" : "NULL") + ", "
-                + "numeroPlacaVehiculo=" + (numeroPlacaVehiculo != null ? "'" + numeroPlacaVehiculo + "'" : "NULL") + ", "
-                + "tipoVehiculo=" + (tipoVehiculo != null ? "'" + tipoVehiculo + "'" : "NULL") + ", "
-                + "modeloVehiculo=" + (modeloVehiculo != null ? "'" + modeloVehiculo + "'" : "NULL") + ", "
-                + "linea=" + (linea != null ? "'" + linea + "'" : "NULL") + ", "
-                + "marca=" + (marca != null ? "'" + marca + "'" : "NULL") + ", "
-                + "color=" + (color != null ? "'" + color + "'" : "NULL") + ", "
-                + "cilindraje=" + (cilindraje != null ? "'" + cilindraje + "'" : "NULL") + ", "
-                + "estado=" + (estado != null ? "'" + estado + "'" : "NULL") + ", "
-                + "numLicenciaTransito=" + (numLicenciaTransito != null ? "'" + numLicenciaTransito + "'" : "NULL") + ", "
-                + "fechaExpLicenciaTransito=" + (fechaExpLicenciaTransito != null && !fechaExpLicenciaTransito.trim().isEmpty() ? "'" + fechaExpLicenciaTransito + "'" : "NULL") + ", "
-                + "numLicenciaConduccion=" + (numLicenciaConduccion != null ? "'" + numLicenciaConduccion + "'" : "NULL") + ", "
-                + "fechaExpConduccion=" + (fechaExpConduccion != null && !fechaExpConduccion.trim().isEmpty() ? "'" + fechaExpConduccion + "'" : "NULL") + ", "
-                + "fechaVencimiento=" + (fechaVencimiento != null && !fechaVencimiento.trim().isEmpty() ? "'" + fechaVencimiento + "'" : "NULL") + ", "
-                + "restricciones=" + (restricciones != null ? "'" + restricciones + "'" : "NULL") + ", "
-                + "titularTrjPro=" + (titularTrjPro != null ? "'" + titularTrjPro + "'" : "NULL") + ", "
-                + "fechaTerPriContrato=" + (fechaTerPriContrato != null && !fechaTerPriContrato.trim().isEmpty() ? "'" + fechaTerPriContrato + "'" : "NULL") + ", "
-                + "fondoPensiones=" + (fondoPensiones != null ? "'" + fondoPensiones + "'" : "NULL") + ", "
-                + "fondoCesantias=" + (fondoCesantias != null ? "'" + fondoCesantias + "'" : "NULL") + ", "
-                + "profesion=" + (profesion != null ? "'" + profesion + "'" : "NULL") + ", "
-                + "tipoDotacion=" + (educacion != null ? "'" + educacion + "'" : "NULL") + ", "
-                + "tallaGuantes=" + (tallaGuantes != null ? "'" + tallaGuantes + "'" : "NULL") + ", "
-                + "tallaBuzo=" + (tallaBuzo != null ? "'" + tallaBuzo + "'" : "NULL") + ", "
-                + "arl=" + (arl != null ? "'" + arl + "'" : "NULL") + " "
+                + "tieneHijos=" + (tieneHijos != null ? "'" + tieneHijos + "'" : "NULL") + " "
                 + "WHERE identificacion='" + identificacionAnterior + "'";
         System.out.println("Consulta SQL de modificación: " + cadenaSQL);
         boolean resultado = ConectorBD.ejecutarQuery(cadenaSQL);
+        System.out.println("Ejecutando consultaPersona: " + cadenaSQL);
 
         if (resultado) {
             ConectorBD.ejecutarQuery("DELETE FROM persona_hijos WHERE identificacionPersona = '" + identificacion + "'");
@@ -1443,10 +614,36 @@ public class Persona {
     }
 
     public boolean eliminar() {
-        ConectorBD.ejecutarQuery("DELETE FROM persona_hijos WHERE identificacionPersona = '" + identificacion + "'");
+        // Eliminar registros en las tablas relacionadas
+        eliminarHijos();
+        eliminarInformacionLaboral();
+        eliminarReferencia();  // Eliminar registros de la tabla referencia
 
+        // Finalmente, eliminar el registro en la tabla Persona
         String cadenaSQL = "DELETE FROM Persona WHERE identificacion = '" + identificacion + "'";
-        return ConectorBD.ejecutarQuery(cadenaSQL);
+        ConectorBD.ejecutarQuery(cadenaSQL);
+
+        return true; // Indicar que la eliminación fue exitosa
+    }
+
+    private void eliminarHijos() {
+        // Eliminar los registros relacionados con los hijos en la tabla persona_hijos
+        ConectorBD.ejecutarQuery("DELETE FROM persona_hijos WHERE identificacionPersona = '" + identificacion + "'");
+    }
+
+    private void eliminarInformacionLaboral() {
+        // Eliminar los registros en la tabla informacionlaboral
+        ConectorBD.ejecutarQuery("DELETE FROM informacionlaboral WHERE identificacion = '" + identificacion + "'");
+    }
+
+    private void eliminarTrabajo() {
+        // Si existe una tabla trabajo, eliminar los registros relacionados
+        ConectorBD.ejecutarQuery("DELETE FROM trabajo WHERE identificacion = '" + identificacion + "'");
+    }
+
+    private void eliminarReferencia() {
+        // Eliminar los registros en la tabla referencia relacionados con la identificacion
+        ConectorBD.ejecutarQuery("DELETE FROM referencia WHERE identificacion = '" + identificacion + "'");
     }
 
     public static ResultSet getLista(String filtro, String orden) {
@@ -1461,29 +658,22 @@ public class Persona {
             orden = " ";
         }
 
-        String cadenaSQL = "SELECT identificacion, tipo, idCargo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, "
-                + "lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, celular, email, nivelEducativo, eps, estadoCivil, fechaIngreso, fechaRetiro, fechaEtapaLectiva, "
-                + "fechaEtapaProductiva, TituloAprendiz, unidadNegocio, centroCostos, establecimiento, area, cctn, cuentaBancaria, numeroCuenta, salario, primerRefNombre, primerRefParentezco, "
-                + "primerRefCelular, segundaRefNombre, segundaRefParentezco, segundaRefCelular, terceraRefNombre, terceraRefParentezco, terceraRefCelular, "
-                + "cuartaRefNombre, cuartaRefParentezco, cuartaRefCelular, tieneHijos, tallaCamisa, tallaChaqueta, tallaO, tallaPantalon, tallaCalzado, tieneVehiculo, "
-                + "numeroPlacaVehiculo, tipoVehiculo, modeloVehiculo, linea, marca, color, cilindraje, numLicenciaTransito, fechaExpLicenciaTransito, numLicenciaConduccion, "
-                + "fechaExpConduccion, fechaVencimiento, restricciones, titularTrjPro, estado, "
-                + "fechaTerPriContrato, fondoPensiones, fondoCesantias, "
-                + "profesion, educacion, tallaGuantes, tallaBuzo, arl FROM persona " + filtro + orden;
+        String cadenaSQL = "SELECT identificacion, tipo, tipoDocumento, fechaExpedicion, lugarExpedicion, nombres, apellidos, sexo, fechaNacimiento, "
+                + "lugarNacimiento, tipoSangre, tipoVivienda, direccion, barrio, celular, email, estadoCivil, tieneHijos, "
+                + " cuentaBancaria, nivelEdu, profesion, numeroCuenta FROM persona " + filtro + orden;
 
-        System.out.println("Ejecutando consulta: " + cadenaSQL);
+        System.out.println("Ejecutando consultaPersona: " + cadenaSQL);
         return ConectorBD.consultar(cadenaSQL);
     }
 
     public static List<Persona> getListaEnObjetos(String filtro, String orden) throws SQLException {
         List<Persona> lista = new ArrayList<>();
-        try ( ResultSet datos = Persona.getLista(filtro, orden)) {
+        try (ResultSet datos = Persona.getLista(filtro, orden)) {
             if (datos != null) {
                 while (datos.next()) {
                     Persona persona = new Persona();
                     persona.setIdentificacion(datos.getString("identificacion"));
                     persona.setTipo(datos.getString("tipo"));
-                    persona.setIdCargo(datos.getString("idCargo"));
                     persona.setTipoDocumento(datos.getString("tipoDocumento"));
                     persona.setFechaExpedicion(datos.getString("fechaExpedicion"));
                     persona.setLugarExpedicion(datos.getString("lugarExpedicion"));
@@ -1498,77 +688,27 @@ public class Persona {
                     persona.setBarrio(datos.getString("barrio"));
                     persona.setCelular(datos.getString("celular"));
                     persona.setEmail(datos.getString("email"));
-                    persona.setNivelEducativo(datos.getString("nivelEducativo"));
-                    persona.setEps(datos.getString("eps"));
                     persona.setEstadoCivil(datos.getString("estadoCivil"));
-                    persona.setFechaIngreso(datos.getString("fechaIngreso"));
-                    persona.setFechaRetiro(datos.getString("fechaRetiro"));
-                    persona.setFechaEtapaLectiva(datos.getString("fechaEtapaLectiva"));
-                    persona.setFechaEtapaProductiva(datos.getString("fechaEtapaProductiva"));
-                    persona.setTitularTrjPro(datos.getString("TituloAprendiz"));
-                    persona.setUnidadNegocio(datos.getString("unidadNegocio"));
-                    persona.setCentroCostos(datos.getString("centroCostos"));
-                    persona.setEstablecimiento(datos.getString("establecimiento"));
-                    persona.setArea(datos.getString("area"));
-                    persona.setCctn(datos.getString("cctn"));
+                    persona.setNivelEdu(datos.getString("nivelEdu"));
+                    persona.setProfesion(datos.getString("profesion"));
                     persona.setCuentaBancaria(datos.getString("cuentaBancaria"));
                     persona.setNumeroCuenta(datos.getString("numeroCuenta"));
-                    persona.setSalario(datos.getString("salario"));
-                    persona.setPrimerRefNombre(datos.getString("primerRefNombre"));
-                    persona.setPrimerRefParentezco(datos.getString("primerRefParentezco"));
-                    persona.setPrimerRefCelular(datos.getString("primerRefCelular"));
-                    persona.setSegundaRefNombre(datos.getString("segundaRefNombre"));
-                    persona.setSegundaRefParentezco(datos.getString("segundaRefParentezco"));
-                    persona.setSegundaRefCelular(datos.getString("segundaRefCelular"));
-                    persona.setTerceraRefNombre(datos.getString("terceraRefNombre"));
-                    persona.setTerceraRefParentezco(datos.getString("terceraRefParentezco"));
-                    persona.setTerceraRefCelular(datos.getString("terceraRefCelular"));
-                    persona.setCuartaRefNombre(datos.getString("cuartaRefNombre"));
-                    persona.setCuartaRefParentezco(datos.getString("cuartaRefParentezco"));
-                    persona.setCuartaRefCelular(datos.getString("cuartaRefCelular"));
                     persona.setTieneHijos(datos.getString("tieneHijos"));
-                    persona.setTallaCamisa(datos.getString("tallaCamisa"));
-                    persona.setTallaChaqueta(datos.getString("tallaChaqueta"));
-                    persona.setTallaO(datos.getString("tallaO"));
-                    persona.setTallaPantalon(datos.getString("tallaPantalon"));
-                    persona.setTallaCalzado(datos.getString("tallaCalzado"));
-                    persona.setTieneVehiculo(datos.getString("tieneVehiculo"));
-                    persona.setNumeroPlacaVehiculo(datos.getString("numeroPlacaVehiculo"));
-                    persona.setTipoVehiculo(datos.getString("tipoVehiculo"));
-                    persona.setModeloVehiculo(datos.getString("modeloVehiculo"));
-                    persona.setLinea(datos.getString("linea"));
-                    persona.setMarca(datos.getString("marca"));
-                    persona.setColor(datos.getString("color"));
-                    persona.setCilindraje(datos.getString("cilindraje"));
-                    persona.setNumLicenciaTransito(datos.getString("numLicenciaTransito"));
-                    persona.setFechaExpLicenciaTransito(datos.getString("fechaExpLicenciaTransito"));
-                    persona.setNumLicenciaConduccion(datos.getString("numLicenciaConduccion"));
-                    persona.setFechaExpConduccion(datos.getString("fechaExpConduccion"));
-                    persona.setFechaVencimiento(datos.getString("fechaVencimiento"));
-                    persona.setRestricciones(datos.getString("restricciones"));
-                    persona.setTitularTrjPro(datos.getString("titularTrjPro"));
-                    persona.setEstado(datos.getString("estado"));
-                    persona.setFechaTerPriContrato(datos.getString("fechaTerPriContrato"));
-                    persona.setFondoPensiones(datos.getString("fondoPensiones"));
-                    persona.setFondoCesantias(datos.getString("fondoCesantias"));
-                    persona.setProfesion(datos.getString("profesion"));
-                    persona.setEducacion(datos.getString("educacion"));
-                    persona.setTallaGuantes(datos.getString("tallaGuantes"));
-                    persona.setTallaBuzo(datos.getString("tallaBuzo"));
-                    persona.setArl(datos.getString("arl"));
 
                     String sqlHijos = "SELECT h.* FROM hijos h "
                             + "INNER JOIN persona_hijos ph ON h.identificacion = ph.identificacionHijo "
                             + "WHERE ph.identificacionPersona = '" + persona.getIdentificacion() + "'";
 
                     List<Hijo> listaHijos = new ArrayList<>();
-                    try ( ResultSet datosHijos = ConectorBD.consultar(sqlHijos)) {
+                    try (ResultSet datosHijos = ConectorBD.consultar(sqlHijos)) {
                         if (datosHijos != null) {
                             while (datosHijos.next()) {
                                 Hijo hijo = new Hijo();
                                 hijo.setIdentificacion(datosHijos.getString("identificacion"));
+                                hijo.setTipoIden(datosHijos.getString("tipoIden"));
                                 hijo.setNombres(datosHijos.getString("nombres"));
                                 hijo.setFechaNacimiento(datosHijos.getString("fechaNacimiento"));
+                                hijo.setNivelEscolar(datosHijos.getString("nivelEscolar"));
                                 listaHijos.add(hijo);
                             }
                         }
@@ -1583,46 +723,14 @@ public class Persona {
         return lista;
     }
 
-    public static boolean esNivelEducativoPredefinido(String nivel) {
-        return nivel != null && (nivel.equals("Primaria") || nivel.equals("Secundaria")
-                || nivel.equals("Tecnico") || nivel.equals("Tecnologico")
-                || nivel.equals("Universitario") || nivel.equals("Postgrado"));
-    }
-
-    public static boolean esEpsPredefinida(String eps) {
-        return eps != null && (eps.equals("Sura") || eps.equals("Sanitas")
-                || eps.equals("Nueva EPS") || eps.equals("Compensar")
-                || eps.equals("Famisanar"));
-    }
-
-    public static boolean esTipoDocumentoPredefinido(String tipo) {
-        return tipo != null && (tipo.equals("CC") || tipo.equals("TI") || tipo.equals("CE")
-                || tipo.equals("PA") || tipo.equals("NIT") || tipo.equals("EXT"));
-    }
-
-    public static boolean esFondoCesantiasPredefinida(String fondo) {
-        return fondo != null && (fondo.equals("Porvenir") || fondo.equals("Proteccion")
-                || fondo.equals("Fondo nacional de ahorro"));
-    }
-
-    public static boolean esFondoPensionesPredefinido(String fondo) {
-        return fondo != null && (fondo.equals("Porvenir") || fondo.equals("Proteccion")
-                || fondo.equals("Colfondos") || fondo.equals("Old Mutual"));
-    }
-
-    public static boolean esArlPredefinida(String arl) {
-        return arl != null && (arl.equalsIgnoreCase("Colmena"));
-    }
-
     public static List<String[]> getListaEnArreglosJS(String filtro, String orden) throws SQLException {
         List<String[]> lista = new ArrayList<>();
-        try ( ResultSet datos = Persona.getLista(filtro, orden)) {
+        try (ResultSet datos = Persona.getLista(filtro, orden)) {
             if (datos != null) {
                 while (datos.next()) {
                     String[] persona = new String[]{
                         datos.getString("identificacion"),
                         datos.getString("tipo"),
-                        datos.getString("idCargo"),
                         datos.getString("tipoDocumento"),
                         datos.getString("fechaExpedicion"),
                         datos.getString("lugarExpedicion"),
@@ -1637,64 +745,12 @@ public class Persona {
                         datos.getString("barrio"),
                         datos.getString("celular"),
                         datos.getString("email"),
-                        datos.getString("nivelEducativo"),
-                        datos.getString("eps"),
                         datos.getString("estadoCivil"),
-                        datos.getString("fechaIngreso"),
-                        datos.getString("fechaRetiro"),
-                        datos.getString("fechaEtapaLectiva"),
-                        datos.getString("fechaEtapaProductiva"),
-                        datos.getString("TituloAprendiz"),
-                        datos.getString("unidadNegocio"),
-                        datos.getString("centroCostos"),
-                        datos.getString("establecimiento"),
-                        datos.getString("area"),
-                        datos.getString("cctn"),
-                        datos.getString("cuentaBancaria"),
-                        datos.getString("numeroCuenta"),
-                        datos.getString("salario"),
-                        datos.getString("primerRefNombre"),
-                        datos.getString("primerRefParentezco"),
-                        datos.getString("primerRefCelular"),
-                        datos.getString("segundaRefNombre"),
-                        datos.getString("segundaRefParentezco"),
-                        datos.getString("segundaRefCelular"),
-                        datos.getString("terceraRefNombre"),
-                        datos.getString("terceraRefParentezco"),
-                        datos.getString("terceraRefCelular"),
-                        datos.getString("cuartaRefNombre"),
-                        datos.getString("cuartaRefParentezco"),
-                        datos.getString("cuartaRefCelular"),
                         datos.getString("tieneHijos"),
-                        datos.getString("tallaCamisa"),
-                        datos.getString("tallaChaqueta"),
-                        datos.getString("tallaO"),
-                        datos.getString("tallaPantalon"),
-                        datos.getString("tallaCalzado"),
-                        datos.getString("tieneVehiculo"),
-                        datos.getString("numeroPlacaVehiculo"),
-                        datos.getString("tipoVehiculo"),
-                        datos.getString("modeloVehiculo"),
-                        datos.getString("linea"),
-                        datos.getString("marca"),
-                        datos.getString("color"),
-                        datos.getString("cilindraje"),
-                        datos.getString("numLicenciaTransito"),
-                        datos.getString("fechaExpLicenciaTransito"),
-                        datos.getString("numLicenciaConduccion"),
-                        datos.getString("fechaExpConduccion"),
-                        datos.getString("fechaVencimiento"),
-                        datos.getString("restricciones"),
-                        datos.getString("titularTrjPro"),
-                        datos.getString("estado"),
-                        datos.getString("fechaTerPriContrato"),
-                        datos.getString("fondoPensiones"),
-                        datos.getString("fondoCesantias"),
+                        datos.getString("nivelEdu"),
                         datos.getString("profesion"),
-                        datos.getString("educacion"),
-                        datos.getString("tallaGuantes"),
-                        datos.getString("tallaBuzo"),
-                        datos.getString("arl")
+                        datos.getString("cuentaBancaria"),
+                        datos.getString("numeroCuenta")
 
                     };
                     lista.add(persona);
@@ -1706,36 +762,29 @@ public class Persona {
         return lista;
     }
 
-    public static boolean esAreaPredefinida(String area) {
-        return area != null && (area.equalsIgnoreCase("Linea Media")
-                || area.equalsIgnoreCase("Linea Directiva")
-                || area.equalsIgnoreCase("Administrativo")
-                || area.equalsIgnoreCase("Operativo"));
-    }
-    
-    public static List<Persona> obtenerContratosProximosAVencer() {
-    List<Persona> lista = new ArrayList<>();
-    String sql = "SELECT p.identificacion, p.nombres, p.apellidos, c.nombre AS cargo, p.establecimiento, p.fechaTerPriContrato " +
-                 "FROM persona p JOIN cargo c ON p.idCargo = c.id " +
-                 "WHERE DATEDIFF(p.fechaTerPriContrato, CURDATE()) IN (30, 15)";
-
-    ResultSet rs = ConectorBD.consultar(sql);
-    try {
-        while (rs.next()) {
-            Persona p = new Persona();
-            p.setIdentificacion(rs.getString("identificacion"));
-            p.setNombres(rs.getString("nombres"));
-            p.setApellidos(rs.getString("apellidos"));
-            p.setIdCargo(rs.getString("idcargo"));
-            p.setEstablecimiento(rs.getString("establecimiento"));
-            p.setFechaTerPriContrato(rs.getString("fechaTerPriContrato"));
-            lista.add(p);
+    public String calcularEdad() {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate fechaNac = LocalDate.parse(this.fechaNacimiento, formatter);
+            int edad = Period.between(fechaNac, LocalDate.now()).getYears();
+            return edad >= 0 ? edad + " años" : "Fecha inválida";
+        } catch (Exception e) {
+            return "Fecha inválida";
         }
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-    return lista;
+    public static String getNombrePorId(String idPersona) {
+    String nombreCompleto = "No encontrado";
+    String sql = "SELECT nombres, apellidos FROM persona WHERE identificacion = '" + idPersona + "'";
+    try {
+        ResultSet rs = ConectorBD.consultar(sql);
+        if (rs != null && rs.next()) {
+            nombreCompleto = rs.getString("nombres") + " " + rs.getString("apellidos");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener el nombre: " + ex.getMessage());
+    }
+    return nombreCompleto;
 }
-
-
+    
+    
 }

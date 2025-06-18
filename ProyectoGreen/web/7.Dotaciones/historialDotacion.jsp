@@ -170,13 +170,8 @@
                 <td rowspan="<%= grupo.size()%>"><%= detalle.getEstado()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= entrega.getObservacion()%></td>
                 <td rowspan="<%= grupo.size()%>">
-                    <a class='editar'
-                       href='entregaDotacion.jsp?accion=Modificar&id=<%= entrega.getIdEntrega()%>&idPersona=<%= entrega.getIdPersona()%>&numeroEntrega=<%= entrega.getNumeroEntrega()%>'
-                       title='Modificar'>
-                        <img src='../presentacion/iconos/modificar.png' width='25' height='25'>
-                    </a>
-                    <img src='../presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar'
-                         onclick='eliminarEntrega("<%= entrega.getIdEntrega()%>", "<%= entrega.getIdPersona()%>")'>
+                    <a class='editar'href='entregaDotacion.jsp?accion=Modificar&id=<%= entrega.getIdEntrega()%>&idPersona=<%= entrega.getIdPersona()%>&numeroEntrega=<%= entrega.getNumeroEntrega()%>'title='Modificar'><img src='../presentacion/iconos/modificar.png' width='25' height='25'></a>
+                    <a  class='eliminar'><img src='../presentacion/iconos/eliminar.png' width='25' height='25' title='Eliminar'onclick='eliminarEntrega("<%= entrega.getIdEntrega()%>", "<%= entrega.getIdPersona()%>")'></a>
                 </td>
 
                 <% } %>
@@ -245,13 +240,8 @@
                 <td rowspan="<%= grupo.size()%>"><%= detalle.getUnidadNegocio()%></td>
                 <td rowspan="<%= grupo.size()%>"><%= devolucion.getObservacion()%></td>
                 <td rowspan="<%= grupo.size()%>">
-                    <a class='editar'
-                       href='entregaDotacion.jsp?accion=Modificar&id=<%= devolucion.getIdDevolucion()%>&idPersona=<%= devolucion.getIdPersona()%>&numeroEntrega=<%= devolucion.getNumeroDevolucion()%>'
-                       title='Modificar'>
-                        <img src='../presentacion/iconos/modificar.png' width='25' height='25'>
-                    </a>
-                    <img src='../presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar'
-                         onclick='eliminarEntrega("<%= devolucion.getIdDevolucion()%>", "<%= devolucion.getIdPersona()%>")'> 
+                    <!-- <a class='editar' href='devolucionDotacion.jsp?accion=Modificar&id=<%= devolucion.getIdDevolucion()%>&idPersona=<%= devolucion.getIdPersona()%>&numeroEntrega=<%= devolucion.getNumeroDevolucion()%>'title='Modificar'><img src='../presentacion/iconos/modificar.png' width='25' height='25'></a> -->
+                    <img src='../presentacion/iconos/eliminar.png' class='eliminar' width='25' height='25' title='Eliminar'onclick='eliminarDevolucion("<%= devolucion.getIdDevolucion()%>", "<%= devolucion.getIdPersona()%>")'> 
                 </td>
                 <% } %>
             </tr>
@@ -268,8 +258,14 @@
 <script>
 
     function eliminarEntrega(idEntrega, idPersona) {
-        if (confirm("¿Está seguro de que desea eliminar esta entrega? Al hacerlo, también se eliminarán las prendas asociadas, por lo que ya no estarán disponibles en el inventario ni podrán ser devueltas.")) {
+        if (confirm("¿Está seguro de que desea eliminar el registro de esta entrega? Al hacerlo, también se eliminarán las prendas asociadas, por lo que ya no estarán disponibles en el inventario ni podrán ser devueltas.")) {
             window.location.href = "entregaDotacionActualizar.jsp?accion=Eliminar&id=" + idEntrega + "&idPersona=" + idPersona;
+        }
+    }
+    
+    function eliminarDevolucion(idDevolucion, idPersona) {
+        if (confirm("¿Está seguro de que desea eliminar el registro de esta devolución?")) {
+            window.location.href = "devolucionDotacionActualizar.jsp?accion=Eliminar&id=" + idDevolucion + "&idPersona=" + idPersona;
         }
     }
 

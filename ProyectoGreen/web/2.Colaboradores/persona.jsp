@@ -3,6 +3,8 @@
     Created on : 8/03/2025, 02:18:59 PM
     Author     : Mary
 --%>
+<%@page import="java.util.Map"%>
+<%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Cargo"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Persona"%>
@@ -13,19 +15,22 @@
     if (administrador == null) {
         administrador = new Administrador();
     }
-    
+
     String lista = "";
     List<Persona> datos = Persona.getListaEnObjetos("tipo = 'C'", null);
 
     for (Persona persona : datos) {
-        String tipoDocumento = persona.getTipoDocumento();
+        String tipoDocumento = persona.getTipoDocumento().toString();
         String identificacion = persona.getIdentificacion();
         String nombres = persona.getNombres();
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
-        String establecimiento = persona.getEstablecimiento();
-        String unidadNegocio = persona.getUnidadNegocio();
-        String fechaIngreso = persona.getFechaIngreso();
+        String fechaIngreso = InformacionLaboral.getFechaIngresoPersona(persona.getIdentificacion());
+        if (fechaIngreso == null || fechaIngreso.trim().equalsIgnoreCase("null")) {
+            fechaIngreso = "";
+        }
+        InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
+        String centroCostos = (info != null) ? info.getCentroCostos() : "";
 
         lista += "<tr>";
         lista += "<td>" + tipoDocumento + "</td>";
@@ -33,16 +38,21 @@
         lista += "<td>" + nombres + "</td>";
         lista += "<td>" + apellidos + "</td>";
         lista += "<td>" + cargo + "</td>";
-        lista += "<td>" + establecimiento + "</td>";
-        lista += "<td>" + unidadNegocio + "</td>"; 
+        lista += "<td>" + centroCostos + "</td>";
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
+        // VER DETALLES
+        lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
+        // VER HISTORIA LABORAL
         lista += "<img class='ver' src='../presentacion/iconos/verDocumento.png' width='25' height='25' title='Ver historia laboral' onclick='historiaLaboralGreen(" + persona.getIdentificacion() + ")'>";
+        // VER HISTORIA LABORAL
+        lista += "<img class='ver' src='../presentacion/iconos/dotacion.png' title='Entregar dotaci�n' onClick='entregarDotacion(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
+        // MODIFICAR
         lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
         lista += "<img class='editar' src='../presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
-        lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")'> ";
-        lista += "<img class='ver' src='../presentacion/iconos/dotacion.png' title='Entregar dotaci�n' onClick='entregarDotacion(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
-        lista += "<img class='eliminar' src='../presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";    
+        // ELIMINAR PERSONA
+        lista += "<img class='eliminar' src='../presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
+       // PASAR A RETIRADO
         lista += "<img class='subir' src='../presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         lista += "</td>";
         lista += "</tr>";
@@ -57,7 +67,6 @@
     <h3 class="titulo">COLABORADORES GREEN S.A.S</h3>
     <link rel="stylesheet" href="../presentacion/style-Retirados.css">
 
-    <!-- Nuevo buscador dinÃ¡mico -->
     <div class="search-container">
         <div class="search-box">
             <select id="searchType" class="recuadro">
@@ -65,8 +74,7 @@
                 <option value="nombre">Nombres</option>
                 <option value="apellido">Apellidos</option>
                 <option value="cargo">Cargo</option>
-                <option value="establecimiento">Establecimiento</option>
-                <option value="unidadNegocio">Unidad de negocio</option>
+                <option value="centroCostos">Lugar de trabajo</option>
                 <option value="fechaIngreso">Fecha de Ingreso</option>
             </select>
             <input type="text" id="searchInput" onkeyup="filterResults()" placeholder="Buscar..." class="recuadro">
@@ -82,21 +90,19 @@
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Cargo</th>
-            <th>Establecimiento</th>
-            <th>Unidad de negocio</th>
+            <th>Lugar de trabajo</th>
             <th>Fecha de ingreso</th>
             <th>
                 <a href="personaFormulario.jsp?accion=Adicionar" class="subir" title="Adicionar">
                     <img src="../presentacion/iconos/agregar.png" width='30' height='30'>
                 </a>
             </th>
-            
         </tr>
         <%= lista%> 
     </table>
 </div>
 
-<!-- Script para eliminar una persona con confirmaciÃ³n -->
+<!-- Script para eliminar una persona con confirmación -->
 <script type="text/javascript">
     function eliminar(identificacion) {
         var respuesta = confirm("�Realmente desea eliminar el registro del colaborador?");
@@ -110,16 +116,15 @@
     function historiaLaboralGreen(identificacion) {
         window.location.href = "../3.HistoriaLaboral/historiaLaboralGreen.jsp?identificacion=" + identificacion;
     }
-    
+
     function verRetirados(identificacion) {
         window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
     }
-    
+
     function entregarDotacion(identificacion) {
         window.location.href = "../7.Dotaciones/historialDotacion.jsp?identificacion=" + identificacion;
     }
 
-    // Buscador dinÃ¡mico con opciÃ³n de filtro por columna
     function filterResults() {
         const searchType = document.getElementById('searchType').value;
         const input = document.getElementById('searchInput').value.toLowerCase();
@@ -140,17 +145,14 @@
             case "cargo":
                 columnIndex = 4;
                 break;
-            case "establecimiento":
+            case "centroCostos":
                 columnIndex = 5;
                 break;
-            case "unidadNegocio": 
+            case "fechaIngreso":
                 columnIndex = 6;
                 break;
-            case "fechaIngreso":
-                columnIndex = 7;
-                break;
             default:
-                columnIndex = -1; 
+                columnIndex = -1;
         }
 
         for (let i = 1; i < rows.length; i++) {
@@ -161,7 +163,7 @@
             }
         }
     }
-    
+
     // PERMISOS
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -174,4 +176,3 @@
     });
 
 </script>
-

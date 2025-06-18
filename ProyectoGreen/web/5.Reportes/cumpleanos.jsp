@@ -1,25 +1,20 @@
- <%@page import="java.time.LocalDate"%>
-<%@page import="java.time.format.DateTimeFormatter"%>
-<%@page import="java.time.Period"%>
-<%@page import="java.util.List"%>
-<%@page import="clases.Persona"%>
-<%@page import="clases.DetallesHistoria"%>
-<%@page import="clases.Cargo"%>
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-  
-<%! 
-// Función para obtener el nombre del mes en español
-String obtenerMesEnEspanol(int mesNumero) {
-    String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-    return meses[mesNumero - 1];
-}
+<%@page import="java.net.URLEncoder"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.*, java.time.*, java.time.format.*, clases.Persona, clases.Cargo, clases.InformacionLaboral, clases.LugarTrabajo, clases.DetallesHistoria" %>
+
+<%!
+    String obtenerMesEnEspanol(int mesNumero) {
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        return meses[mesNumero - 1];
+    }
 %>
 
 <%
     String mesParametro = request.getParameter("mes");
     int mesNumero = (mesParametro != null) ? Integer.parseInt(mesParametro) : LocalDate.now().getMonthValue();
     String mesActual = obtenerMesEnEspanol(mesNumero);
+
+    String documentoMostrado = request.getParameter("verDocumento");
 
     List<Persona> datos = Persona.getListaEnObjetos(null, null);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -43,7 +38,7 @@ String obtenerMesEnEspanol(int mesNumero) {
         }
     }
 
-    List<Cumpleanero> cumpleaneros = new java.util.ArrayList<>();
+    List<Cumpleanero> cumpleaneros = new ArrayList<>();
 
     for (Persona persona : datos) {
         try {
@@ -54,12 +49,21 @@ String obtenerMesEnEspanol(int mesNumero) {
                     int edad = Period.between(fechaNacimiento, fechaActual).getYears();
 
                     String nombreCargo = "Sin cargo";
-                    if (persona.getIdCargo() != null) {
-                        Cargo cargo = new Cargo(persona.getIdCargo());
+                    InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
+                    if (info != null && info.getIdCargo() != null) {
+                        Cargo cargo = new Cargo(info.getIdCargo());
                         nombreCargo = cargo.getNombre();
                     }
 
-                    String establecimiento = persona.getEstablecimiento() != null ? persona.getEstablecimiento() : "Sin establecimiento";
+                    String establecimiento = "Sin establecimiento";
+                    if (info != null) {
+                        LugarTrabajo lugar = info.getEstablecimiento();
+                        if (lugar != null && lugar.getOpcion() != null && !lugar.getOpcion().isEmpty()) {
+                            establecimiento = lugar.getOpcion();
+                        }
+                    }
+
+                    String unidadNegocio = (info != null && info.getUnidadNegocio() != null && !info.getUnidadNegocio().isEmpty()) ? info.getUnidadNegocio() : "Sin unidad";
 
                     String documentoPDF = null;
                     String filtro = "idPersona = '" + persona.getIdentificacion() + "' AND tipo = 'documentoIdentidad'";
@@ -68,11 +72,11 @@ String obtenerMesEnEspanol(int mesNumero) {
                         documentoPDF = docs.get(0).getDocumentoPDF();
                     }
 
-                    cumpleaneros.add(new Cumpleanero(persona, fechaNacimiento, edad, nombreCargo, establecimiento, documentoPDF));
+                    cumpleaneros.add(new Cumpleanero(persona, fechaNacimiento, edad, nombreCargo, establecimiento,documentoPDF));
                 }
             }
         } catch (Exception e) {
-            out.println("<tr><td colspan='7' style='color:red;'>Error con " + persona.getNombres() + "</td></tr>");
+            out.println("<tr><td colspan='8' style='color:red;'>Error con " + persona.getNombres() + "</td></tr>");
         }
     }
 
@@ -93,35 +97,30 @@ String obtenerMesEnEspanol(int mesNumero) {
         lista.append("<td>").append(c.establecimiento).append("</td>");
 
         if (c.documentoPDF != null && !c.documentoPDF.isEmpty()) {
-            lista.append("<td align='center'><a href='")
-                 .append(c.documentoPDF)
-                 .append("' target='_blank'><img src='../presentacion/iconos/documentoId.png' width='20'></a></td>");
+            String url = "cumpleanos.jsp?mes=" + mesNumero + "&verDocumento=" + URLEncoder.encode(c.documentoPDF, "UTF-8");
+            lista.append("<td align='center'><a href='").append(url).append("'><img src='../presentacion/iconos/documentoId.png' width='20'></a></td>");
         } else {
             lista.append("<td align='center'>No disponible</td>");
         }
 
         lista.append("</tr>");
     }
-    
+
     int mesActualNumero = LocalDate.now().getMonthValue();
     int diferenciaMeses = Math.abs(mesNumero - mesActualNumero);
-
-    // Para manejo circular tipo diciembre <-> enero
     if (diferenciaMeses > 6) {
         diferenciaMeses = 12 - diferenciaMeses;
     }
-
     if (diferenciaMeses > 3) {
 %>
-        <script>
-            alert("Solo se puede ver hasta tres meses antes o después del mes actual.");
-            window.location.href = "?mes=<%= mesActualNumero %>";
-        </script>
+<script>
+    alert("Solo se puede ver hasta tres meses antes o después del mes actual.");
+    window.location.href = "?mes=<%= mesActualNumero%>";
+</script>
 <%
-        return; // Detener el procesamiento
+        return;
     }
 %>
-
 
 <!DOCTYPE html>
 <html>
@@ -129,17 +128,16 @@ String obtenerMesEnEspanol(int mesNumero) {
     <title>Cumpleañeros</title>
     <link rel="stylesheet" href="../presentacion/style-Cumpleanos.css">
 </head>
+<body>
+    <%@ include file="../menu.jsp" %>
 
-<%@ include file="../menu.jsp" %>
-
-<div class="content">
-    <body>
+    <div class="content">
         <div id="tituloMes">
             <h1>CUMPLEAÑEROS DEL MES</h1>
             <div class="mes-con-iconos">
-                <img src="../presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
-                <h2><%= mesActual %></h2>
-                <img src="../presentacion/iconos/pastel.png" alt="Decoración Pastel" class="icono-titulo">
+                <img src="../presentacion/iconos/pastel.png" class="icono-titulo">
+                <h2><%= mesActual%></h2>
+                <img src="../presentacion/iconos/pastel.png" class="icono-titulo">
             </div>
         </div>
 
@@ -151,34 +149,46 @@ String obtenerMesEnEspanol(int mesNumero) {
                     <th>Edad</th>
                     <th>Fecha de nacimiento</th>
                     <th>Cargo</th>
-                    <th>Establecimiento</th>
+                    <th>Lugar de trabajo</th>
                     <th>Documento de identidad</th>
                 </tr>
             </thead>
             <tbody>
-                <%= cumpleaneros.isEmpty() ? "<tr><td colspan='7' align='center'><b>No hay cumpleañeros este mes</b></td></tr>" : lista.toString() %>
+                <%= cumpleaneros.isEmpty() ? "<tr><td colspan='8' align='center'><b>No hay cumpleañeros este mes</b></td></tr>" : lista.toString() %>
             </tbody>
         </table>
 
         <div class="buttons">
-            <img src="../presentacion/iconos/izquierda.png" alt="Mes Anterior" class="icono" onclick="irAlMesAnterior()">
-            <img src="../presentacion/iconos/derecha.png" alt="Siguiente Mes" class="icono" onclick="irAlSiguienteMes()">
+            <img src="../presentacion/iconos/izquierda.png" class="icono" onclick="irAlMesAnterior()">
+            <img src="../presentacion/iconos/derecha.png" class="icono" onclick="irAlSiguienteMes()">
         </div>
-    </body>
-</div>
 
-<script>
-    let mesActualJS = <%= mesNumero %>;
-    function irAlSiguienteMes() {
-        let siguiente = mesActualJS + 1;
-        if (siguiente > 12) siguiente = 1;
-        location.href = "?mes=" + siguiente;
-    }
+        <% if (documentoMostrado != null && !documentoMostrado.isEmpty()) { %>
+            <div style="margin-top: 30px; text-align: center;">
+                <h3>Documento de Identidad</h3>
+                <iframe 
+                    src="../3.HistoriaLaboral/<%= documentoMostrado %>" 
+                    width="80%" 
+                    height="600px" 
+                    style="border: 2px solid #444; border-radius: 10px;" 
+                    frameborder="0">
+                </iframe>
+            </div>
+        <% } %>
+    </div>
 
-    function irAlMesAnterior() {
-        let anterior = mesActualJS - 1;
-        if (anterior < 1) anterior = 12;
-        location.href = "?mes=" + anterior;
-    }
-</script>
+    <script>
+        let mesActualJS = <%= mesNumero %>;
+        function irAlSiguienteMes() {
+            let siguiente = mesActualJS + 1;
+            if (siguiente > 12) siguiente = 1;
+            location.href = "?mes=" + siguiente;
+        }
+        function irAlMesAnterior() {
+            let anterior = mesActualJS - 1;
+            if (anterior < 1) anterior = 12;
+            location.href = "?mes=" + anterior;
+        }
+    </script>
+</body>
 </html>

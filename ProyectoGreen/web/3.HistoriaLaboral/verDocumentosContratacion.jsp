@@ -30,7 +30,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Historia Laboral Retirados</title>
+   
             <link rel="stylesheet" href="../presentacion/style-historiaLRetirado.css">
         </head>
         <body>
@@ -60,7 +60,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Tratamiento de datos personales</td>
+                            <td>Tratamiento y autorización de datos personales y autorización de exámenes y requisas</td>
                             <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=TDotros'" 
@@ -69,26 +69,7 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Autorización de tratamiento de datos personales</td>
-                            <td>
-                                <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=ATDotros'" 
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Autorización de exámenes y requisas</td>
-                            <td>
-                                <button class="ver-btn" 
-                                        onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=AERotros'" 
-                                        style="background-color: #2C6E49; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;">
-                                    VER
-                                </button>
-                            </td>
-                        </tr>
+
                         <tr>
                             <td>Profesiograma</td>
                             <td>
@@ -100,7 +81,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Documentos SAGRILAFT</td>
+                            <td>SAGRILAFT</td>
                             <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SGRILAFTotros'" 
@@ -110,7 +91,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Inducción Gestión Humana</td>
+                            <td>Inducción Gestión Humana e induccion al cargo</td>
                             <td>
                                 <button class="ver-btn" 
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=SGHotros'" 

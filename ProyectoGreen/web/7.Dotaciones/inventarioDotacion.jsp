@@ -4,7 +4,6 @@
     Author     : Angie
 --%>
 
-<%@page import="clases.FechaProxEntregaDotacion"%>
 <%@page import="java.util.LinkedHashMap"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="clases.Prenda"%>
@@ -41,10 +40,6 @@
         }
     }
 
-    String idFecha = "1"; 
-    FechaProxEntregaDotacion fechas = new FechaProxEntregaDotacion(idFecha);
-    String fechaAdmin = fechas.getFecha_admin();
-    String fechaOperativo = fechas.getFecha_operativo();
 %>
 
 <jsp:include page="../permisos.jsp" />
@@ -57,20 +52,12 @@
 
 <body>
     <div class="content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0; position: relative;">
 
-            <div style="background-color: #e6f0e6; border: 1px solid #4a944a; border-radius: 8px; padding: 15px 20px; font-size: 16px;">
-                <strong style="color: #2d602d;">Próxima entrega de dotación:</strong><br>
-                Administrativo: <%= fechaAdmin != null ? fechaAdmin : "Sin registro"%><br>
-                Operativo: <%= fechaOperativo != null ? fechaOperativo : "Sin registro"%>
-                <a href="fechasFormulario.jsp?accion=Modificar&id=<%=idFecha%>&fechaAdmin=<%=fechaAdmin%>&fechaOperativo=<%=fechaOperativo%>" style="margin-left: 10px; text-decoration: none; color: inherit;">
-                    <img src="../presentacion/iconos/modificar.png" alt="Editar fechas" width="16" height="16" style="vertical-align: middle; cursor: pointer;">
-                </a>
-            </div>
+            <div style="width: 13%;"></div>
+            <h3 class="titulo" style="text-align: center; width: 34%; margin: 0;">INVENTARIO DE DOTACIÓN NUEVA</h3>
 
-            <h3 class="titulo">INVENTARIO DE DOTACIÓN NUEVA</h3>
-
-            <div>
+            <div style="margin-top: 30px;">
                 <a href="inventarioFormulario.jsp?accion=Adicionar" class="subir" style="display: inline-flex; align-items: center; gap: 6px;">
                     <img src="../presentacion/iconos/agregar.png" width="16" height="16" alt="Agregar">
                     Agregar prendas
@@ -151,21 +138,71 @@
         event.target.classList.add('active');
     }
 
-    function filtrarContenido() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const tabContents = document.querySelectorAll('.tab-content');
+    let ultimoValorBuscado = "";
 
-        tabContents.forEach(tab => {
+    function filtrarContenido() {
+        const input = document.getElementById('searchInput').value.toLowerCase().trim();
+        const tabs = document.querySelectorAll('.tab-content');
+        const buttons = document.querySelectorAll('.tab-btn');
+
+        // Si el usuario borró todo el texto y antes había escrito algo, recargar la página
+        if (input === "" && ultimoValorBuscado !== "") {
+            location.reload();
+            return;
+        }
+
+        // Actualizar el valor buscado
+        ultimoValorBuscado = input;
+
+        if (input === "") {
+            // Restaurar estado inicial
+            tabs.forEach((tab, i) => {
+                if (i === 0) {
+                    tab.classList.add('active');
+                    tab.style.display = "";
+                } else {
+                    tab.classList.remove('active');
+                    tab.style.display = "none";
+                }
+
+                // Mostrar todas las filas
+                const rows = tab.querySelectorAll("tbody tr");
+                rows.forEach(row => row.style.display = "");
+            });
+
+            buttons.forEach((btn, i) => {
+                if (i === 0) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            return;
+        }
+
+        // Mostrar todas las pestañas y aplicar filtro global
+        tabs.forEach(tab => {
+            tab.classList.add('active');
+            tab.style.display = "";
             const rows = tab.querySelectorAll("tbody tr");
-            let matchFound = false;
+            let hasMatch = false;
 
             rows.forEach(row => {
                 const text = row.innerText.toLowerCase();
-                const show = text.includes(input);
-                row.style.display = show ? "" : "none";
-                if (show)
-                    matchFound = true;
+                const match = text.includes(input);
+                row.style.display = match ? "" : "none";
+                if (match)
+                    hasMatch = true;
             });
+
+            // Ocultar pestaña si no tiene coincidencias
+            tab.style.display = hasMatch ? "" : "none";
         });
+
+        // Quitar estado activo de los botones de pestañas
+        buttons.forEach(btn => btn.classList.remove('active'));
     }
+
+
 </script>

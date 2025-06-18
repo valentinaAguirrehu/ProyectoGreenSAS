@@ -139,9 +139,8 @@
         <div class="content">
             <h3 class="titulo">Registrar devolución de dotación</h3>
             <form action="devolucionDotacionActualizar.jsp" method="post">
-                <input type="hidden" name="accion" value="Registrar">
-
-
+                <input type="hidden" name="accion" value="<%= (request.getAttribute("devolucion") != null) ? "Modificar" : "Registrar" %>">
+                
                 <table class="table2">
                     <tbody>
                         <tr>
@@ -225,7 +224,7 @@
 
                 <div class="botones-form">
                     <button type="submit" class="btn-verde">Guardar</button>
-                    <a href="historialDotacion.jsp?identificacion=<%= identificacion%>" class="btn-rojo">Cancelar</a>
+                    <a href="javascript:history.back()" class="btn-rojo">Cancelar</a>
                 </div>
             </form>
             <script>

@@ -2,7 +2,7 @@
 <%@page import="clases.Persona"%>
 <%@page import="clases.Administrador"%>
 <%@page import="clases.DetallesHistoria"%>
-
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 
     Administrador administrador = (Administrador) session.getAttribute("administrador");
@@ -23,11 +23,11 @@
 
         // PROCESO DE SELECCION
         case "PruebaT":
-            titulo = "PRUEBAS TÉCNICAS";
+            titulo = "PRUEBAS TÃ‰CNICAS";
             break;
 
         case "PruebaPsi":
-            titulo = "PRUEBAS PSICOTÉCNICAS";
+            titulo = "PRUEBAS PSICOTÃ‰CNICAS";
             break;
 
         //HOJA DE VIDA
@@ -35,13 +35,13 @@
             titulo = "HOJA DE VIDA";
             break;
         case "AntecedentesP":
-            titulo = "ANTECEDENTES PROCURADURÍA";
+            titulo = "ANTECEDENTES PROCURADURÃA";
             break;
         case "AntecedentesC":
-            titulo = "ANTECEDENTES CONTRALORÍA";
+            titulo = "ANTECEDENTES CONTRALORÃA";
             break;
         case "AntecedentesJ":
-            titulo = "ANTECEDENTES JUDICIALES (POLICÍA)";
+            titulo = "ANTECEDENTES JUDICIALES (POLICÃA)";
             break;
         case "Inhabilidades":
             titulo = "CONSULTA INHABILIDADES";
@@ -56,13 +56,13 @@
             titulo = "CERTIFICADO DE BANCO";
             break;
         case "Licencia":
-            titulo = "FOTOCOPIA LICENCIA DE CONDUCCIÓN";
+            titulo = "FOTOCOPIA LICENCIA DE CONDUCCIÃ“N";
             break;
         case "SOAT":
             titulo = "SOAT";
             break;
         case "Tecnomecanica":
-            titulo = "TECNOMECÁNICA";
+            titulo = "TECNOMECÃNICA";
             break;
         case "SIMIT":
             titulo = "CERTIFICADO SIMIT";
@@ -73,13 +73,7 @@
             titulo = "CONTRATO DE TRABAJO";
             break;
         case "TDotros":
-            titulo = "TRATAMIENTO DE DATOS PERSONALES";
-            break;
-        case "ATDotros":
-            titulo = "AUTORIZACIÓN DE TRATAMIENTO DE DATOS PERSONALES";
-            break;
-        case "AERotros":
-            titulo = "AUTORIZACIÓN DE EXÁMENES Y REQUISAS";
+            titulo = "TRATAMIENTO Y AUTORIZACIÃ“N DE DATOS PERSONALES Y AUTORIZACIÃ“N DE EXÃMENES Y REQUISAS";
             break;
         case "PRotros":
             titulo = "PROFESIOGRAMA";
@@ -88,85 +82,97 @@
             titulo = "DOCUMENTOS SAGRILAFT";
             break;
         case "SGHotros":
-            titulo = "INDUCCIÓN GESTIÓN HUMANA";
+            titulo = "INDUCCIÃ“N GESTIÃ“N HUMANA  E INDUCCIÃ“N AL CARGO ";
             break;
 
         //AFILIACIONES
-        case "CEPSotros":
-            titulo = "CERTIFICADO EPS POR COLABORADOR";
-            break;
         case "FUAotros":
-            titulo = "FORMULARIO ÚNICO DE AFILIACIÓN Y REGISTRO DE NOVEDADES EPS";
+            titulo = "FORMULARIO ÃšNICO DE AFILIACIÃ“N Y REGISTRO DE NOVEDADES EPS";
             break;
-        case "CAEPSotros":
-            titulo = "CERTIFICADO DE AFILIACIÓN EPS";
+        case "CEPSotros":
+            titulo = "CERTIFICADO DE AFILIACIÃ“N EPS ";
             break;
         case "CAARLotros":
-            titulo = "CERTIFICADO DE AFILIACIÓN ARL";
+            titulo = "CERTIFICADO DE AFILIACIÃ“N ARL";
             break;
 
         case "CFDPotros":
             titulo = "CERTIFICADO FDP";
             break;
         case "FACotros":
-            titulo = "FORMULARIO DE AFILIACIÓN COMFAMILIAR";
+            titulo = "FORMULARIO DE AFILIACIÃ“N COMFAMILIAR";
             break;
 
         case "CACotros":
-            titulo = "CERTIFICADO DE AFILIACIÓN COMFAMILIAR";
+            titulo = "CERTIFICADO DE AFILIACIÃ“N COMFAMILIAR";
             break;
 
-        //DOCUMENTOSSST-SGAA
+        //SG-SST Y SGA
         case "IRSGSSTotros":
-            titulo = "INDUCCIÓN Y REINDUCCIÓN SG-SST";
+            titulo = "INDUCCIÃ“N Y REINDUCCIÃ“N SGâ€‘SST";
             break;
         case "IRSGAotros":
-            titulo = "INDUCCIÓN Y REINDUCCIÓN SGA";
+            titulo = "INDUCCIÃ“N Y REINDUCCIÃ“N SGA";
             break;
         case "EMOIotros":
             titulo = "EMO INGRESO";
             break;
-        case "EMOPotros":
-            titulo = "EMO PERIÓDICO";
+        case "EMOSRotros":
+            titulo = "EMO SEGUIMIENTO A RECOMENDACIONES";
             break;
         case "EMOINotros":
-            titulo = "EMO POST-INCAPACIDAD";
+            titulo = "EMO POSTâ€‘INCAPACIDAD";
+            break;
+        case "EMOPotros":
+            titulo = "EMO PERIÃ“DICO";
             break;
         case "EMOEotros":
             titulo = "EMO EGRESO";
             break;
-
-        case "EMOSRotros":
-            titulo = "EMO SEGUIMIENTO A RECOMENDACIONES";
+        case "EntregaRecomendacionesMedicas":
+            titulo = "ENTREGA DE RECOMENDACIONES MÃ‰DICAS";
             break;
-
+        case "ECSdigital":
+            titulo = "ENCUESTA CONDICIONES DE SALUD (DIGITAL)";
+            break;
         case "ECSotros":
             titulo = "ENCUESTA CONDICIONES DE SALUD";
             break;
-
         case "CPotros":
             titulo = "CERTIFICADOS Y PERMISOS";
+            break;
+        case "RegistroIncidentes":
+            titulo = "REGISTRO DE INCIDENTES DE TRABAJO";
+            break;
+        case "InvestigacionesAccidente":
+            titulo = "INVESTIGACIONES DE ACCIDENTE DE TRABAJO";
+            break;
+        case "ReportesAT":
+            titulo = "REPORTES DE AT A ARL, EPS Y AFP";
+            break;
+        case "ActasReubicacion":
+            titulo = "ACTAS DE REUBICACIÃ“N DE CARGO";
             break;
 
         //DOCUMENTOS DURANTE LA CONTRATACION
         case "PPROGGASotros":
-            titulo = "PREAVISOS Y PRÓRROGAS";
+            titulo = "PREAVISOS Y PRÃ“RROGAS";
             break;
 
         case "Dotros":
-            titulo = "OTRO SÍ";
+            titulo = "OTRO SÃ";
             break;
 
         case "SPAotros":
-            titulo = "SUSTITUCIÓN PATRONAL";
+            titulo = "SUSTITUCIÃ“N PATRONAL";
             break;
 
         case "CESotros":
-            titulo = "RETIRO DE CESANTÍAS";
+            titulo = "RETIRO DE CESANTÃAS";
             break;
 
         case "DNOMotros":
-            titulo = "DESCUENTO DE NÓMINA";
+            titulo = "ADD";
             break;
 
         case "ACEMPotros":
@@ -174,11 +180,11 @@
             break;
 
         case "NSALotros":
-            titulo = "NOTIFICACIÓN INCREMENTO DE SALARIO";
+            titulo = "NOTIFICACIÃ“N INCREMENTO DE SALARIO";
             break;
 
         case "EDESOtros":
-            titulo = "EVALUACIÓN DE DESEMPEÑO";
+            titulo = "EVALUACIÃ“N DE DESEMPEÃ‘O";
             break;
 
         case "ACTASotros":
@@ -194,7 +200,7 @@
             break;
 
         case "RGHotros":
-            titulo = "REINDUCCIÓN DE GESTIÓN HUMANA";
+            titulo = "REINDUCCIÃ“N DE GESTIÃ“N HUMANA";
             break;
 
         //AUSENTISMOS  
@@ -217,7 +223,7 @@
             titulo = "SUSPENSIONES";
             break;
         case "DIAFAMotros":
-            titulo = "DÍA DE LA FAMILIA";
+            titulo = "DÃA DE LA FAMILIA";
             break;
 
         //Incapacidades
@@ -230,36 +236,73 @@
             break;
 
         case "MATPATotros":
-            titulo = "LICENCIA MATERNIDAD / PATERNIDAD";
+            titulo = "LICENCIA MATERNIDAD Y/O PATERNIDAD";
             break;
 
-        //DOCUMENTOS AL FINALIZAR LA CONTRATACIÓN
+        //DOCUMENTOS AL FINALIZAR LA CONTRATACIÃ“N
         case "Lotros":
-            titulo = "DOCUMENTOS DE TERMINACIÓN DE CONTRATO";
+            titulo = "DOCUMENTOS DE TERMINACIÃ“N DE CONTRATO";
             break;
 
-        //temporales
-        case "induccionSST":
-            titulo = "INDUCCIÓN SST";
-            break;
-        case "induccionSGA":
-            titulo = "INDUCCIÓN SGA";
-            break;
-        case "induccionSGeH":
-            titulo = "INDUCCIÓN GESTIÓN HUMANA";
+        //TEMPORALES
+      case "TemporalesContra":
+            titulo = "INDUCCIÃ“N GESTION HUMANA E INDUCCIÃ“N AL CARGO";
             break;
 
-        case "otrosDocumentosT":
-            titulo = "OTROS DOCUMENTOS";
+        case "incidentesTemporales":
+            titulo = "REGISTRO DE INCIDENTES DE TRABAJO";
+            break;
+        case "FinalizarTemporal":
+            titulo = "DOCUMENTO TERMINACIÃ“N DE CONTRATO(CARTA)";
             break;
 
-        //Aprendiz 
+        case "atTemporal":
+            titulo = "INVESTIGACION AT";
+            break;
+        case "reporteTemporal":
+            titulo = "REPORTE AT";
+            break;
+        case "reubicacionTemporal":
+            titulo = "ACTA DE REUBICACIÃ“N DE CARGO";
+            break;
+            case "  ProcesoTemporal":
+            titulo = "PROCESOS DISCIPLINARIOS";
+            break;
+
+        //APRENDIZ
+        //AFILIACIONES APRENDIZ
+        case "Formularionove":
+            titulo = "FORMULARIO ÃšNICO DE AFILIACION Y REGISTRO DE NOVEDADES EPS";
+            break;
+
         case "EPSotrosAp":
             titulo = "EPS APRENDIZ";
             break;
 
         case "ARLotrosAp":
             titulo = "ARL APRENDIZ";
+            break;
+
+        //DOCUMENTOS CONTRATACION APRENDIZ
+        case "CTAprendizajep":
+            titulo = "CONTRATO DE APRENDIZAJE";
+            break;
+
+        case "SGHAprendiz":
+            titulo = "INDUCCIÃ“N GESTIOHN HUMANA";
+            break;
+        case "CartaAprendiz":
+            titulo = "CARTA PRESENTACIÃ“N";
+            break;
+
+        //SG-SST YSGA
+        case "EncuentaSalud":
+            titulo = "ENCUESTA CONDICIONES DE SALUD ";
+            break;
+        //DOCUMENTOS DURANTE LA CONTRATACIÃ“N
+
+        case "documentoContratacionA":
+            titulo = "OTRO SI ";
             break;
 
         case "OtraOpcion":
@@ -276,7 +319,7 @@
             != null && !identificacion.isEmpty()) {
         persona = new Persona(identificacion);
 
-        // Filtro con identificación y tipo
+        // Filtro con identificaciÃ³n y tipo
         String filtro = "idPersona = '" + identificacion + "' AND tipo = '" + tipo + "'";
 
         List<DetallesHistoria> datos = DetallesHistoria.getListaEnObjetos(filtro, null); // Cambiado de HistoriaLaboral
@@ -317,7 +360,7 @@
                 <table class="documentos-tabla">
                     <thead>
                         <tr>
-                            <th>Observación</th>
+                            <th>ObservaciÃ³n</th>
                             <th>Nombre del archivo</th>
                             <th colspan="2">
                                 <a href="detalleFormulario.jsp?identificacion=<%= identificacion%>&tipo=<%= tipo%>">
@@ -358,9 +401,6 @@
                         }
                     %>
 
-
-
-
                     <% if (listaDetalles
                                 != null && !listaDetalles.isEmpty()) {
                             for (DetallesHistoria detalle : listaDetalles) {%>
@@ -383,7 +423,7 @@
                                 <input type="hidden" name="idPersona" id="idPersona" value="<%= detalle.getIdPersona()%>">
                                 <input type="hidden" name="tipo" id="tipo" value="<%= detalle.getTipo()%>">
                                 <input type="hidden" name="accion" value="Eliminar">
-                                <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este documento?');" style="border: none; background: none; cursor: pointer;">
+                                <button type="submit" onclick="return confirm('Â¿EstÃ¡s seguro de eliminar este documento?');" style="border: none; background: none; cursor: pointer;">
                                     <img src="../presentacion/iconos/eliminar.png" class="eliminar" alt="Eliminar">
                                 </button>
                             </form>
@@ -418,7 +458,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("tr").forEach(row => {
-            let viewBtn = row.querySelector(".ver"); // Botón Ver archivo
+            let viewBtn = row.querySelector(".ver"); // BotÃ³n Ver archivo
             let fileMessage = row.querySelector(".estado"); // Mensaje de estado
             let fileData = null;
 
@@ -431,14 +471,14 @@
                     let fileURL = URL.createObjectURL(fileData);
                     window.open(fileURL, "_blank");
                 } else {
-                    alert("No hay ningún archivo cargado");
+                    alert("No hay ningÃºn archivo cargado");
                 }
             });
         });
     });
 
     function verRetirados(identificacion) {
-        window.location.href = "retiradosFormulario.jsp?identificacion=" + identificacion;
+        window.location.href = "../2.Colaboradores/retiradosFormulario.jsp?identificacion=" + identificacion;
     }
 
     // PERMISOS

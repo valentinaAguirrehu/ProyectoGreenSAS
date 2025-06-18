@@ -1,5 +1,6 @@
 <%@page import="clases.Persona"%>
 <%@page import="clases.Vacaciones"%>
+<%@page import="clases.InformacionLaboral"%> 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
@@ -10,14 +11,16 @@
     String id = request.getParameter("id");
 
     Persona persona = null;
+    InformacionLaboral infoLaboral = null;
     Vacaciones vacacion = null;
     String fechaVacacion = "No calculada";
 
     if (idPersona != null && !idPersona.isEmpty()) {
         persona = new Persona(idPersona);
+        infoLaboral = InformacionLaboral.getInformacionPorIdentificacion(idPersona);
 
         try {
-            String fechaIngresoTexto = persona.getFechaIngreso();
+            String fechaIngresoTexto = (infoLaboral != null) ? infoLaboral.getFechaIngreso() : null;
 
             if (fechaIngresoTexto != null && !fechaIngresoTexto.isEmpty()) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -40,7 +43,6 @@
         vacacion = new Vacaciones();
     }
 
-    // Validar observación
     String observacion = (vacacion.getObservacion() == null
             || vacacion.getObservacion().trim().isEmpty()
             || vacacion.getObservacion().trim().equalsIgnoreCase("null"))
@@ -49,7 +51,6 @@
 %>
 
 <%@ include file="../menu.jsp" %>
-
 <link rel="stylesheet" href="../presentacion/style-AusentismosFormulario.css">
 
 <div class="content">
@@ -67,7 +68,7 @@
             </tr>
             <tr>
                 <td><strong>Fecha Ingreso:</strong></td>
-                <td><%= (persona != null) ? persona.getFechaIngreso() : "No disponible"%></td>
+                <td><%= (infoLaboral != null && infoLaboral.getFechaIngreso() != null) ? infoLaboral.getFechaIngreso() : "No disponible"%></td>
             </tr>
 
             <tr>
@@ -110,7 +111,7 @@
                 <td colspan="2">
                     <button class="submit" type="submit">Guardar</button>
                     <a href="verRegistrosVacaciones.jsp?identificacion=<%= (persona != null) ? persona.getIdentificacion() : ""%>">
-                        <button class="button"  type="button">Cancelar</button>
+                        <button class="button" type="button">Cancelar</button>
                     </a>
                 </td>
             </tr>

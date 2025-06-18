@@ -4,7 +4,6 @@
     Author     : Angie
 --%>
 
-<%@page import="clases.FechaProxEntregaDotacion"%>
 <%@page import="java.util.LinkedHashMap"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="clases.Prenda"%>
@@ -40,11 +39,6 @@
             mapa.get(tipo).add(fila);
         }
     }
-
-    String idFecha = "1";
-    FechaProxEntregaDotacion fechas = new FechaProxEntregaDotacion(idFecha);
-    String fechaAdmin = fechas.getFecha_admin();
-    String fechaOperativo = fechas.getFecha_operativo();
 %>
 
 <jsp:include page="../permisos.jsp" />
@@ -59,14 +53,11 @@
     <div class="content">
         <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0; position: relative;">
 
-            <!-- Espacio izquierdo invisible para equilibrio visual -->
             <div style="width: 13%;"></div>
 
-            <!-- Título centrado -->
-            <h3 class="titulo" style="text-align: center; width: 34%; margin: 0;">INVENTARIO DE DOTACIÓN UTILIZADA</h3>
+            <h3 class="titulo" style="text-align: center; width: 34%; margin: 0;">INVENTARIO DE DOTACIÓN USADA</h3>
 
-            <!-- Botón alineado a la derecha -->
-            <div style="margin-top: 30px;"> <!-- Aquí mueves el botón más abajo -->
+            <div style="margin-top: 30px;"> 
                 <a href="inventarioFormularioUsada.jsp?accion=Adicionar" class="subir" style="display: inline-flex; align-items: center; gap: 6px;">
                     <img src="../presentacion/iconos/agregar.png" width="16" height="16" alt="Agregar">
                     Agregar prendas
@@ -149,7 +140,14 @@
     }
 
     function filtrarContenido() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
+        const input = document.getElementById('searchInput').value.toLowerCase().trim();
+
+        if (input === "") {
+            // Si el campo está vacío, recargar la página para restaurar el contenido original
+            location.reload();
+            return;
+        }
+
         const tabContents = document.querySelectorAll('.tab-content');
 
         tabContents.forEach(tab => {
@@ -163,7 +161,19 @@
                 if (show)
                     matchFound = true;
             });
+
+            // Mostrar/ocultar la pestaña completa si tiene coincidencias
+            tab.style.display = matchFound ? "" : "none";
+            if (matchFound) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
         });
+
+        // Desactivar todos los botones de pestaña
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     }
+
 </script>
 

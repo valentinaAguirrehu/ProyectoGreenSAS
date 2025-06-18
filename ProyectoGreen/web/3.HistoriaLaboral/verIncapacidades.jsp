@@ -36,14 +36,14 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Historia Laboral Retirados</title>
+           
             <link rel="stylesheet" href="../presentacion/style-historiaLRetirado.css">
         </head>
         <body>
             <div class="container">
                 <h1>HISTORIA LABORAL</h1>
                 <div class="section">
-                    <h2>AUSENTISMOS</h2>
+                    <h2>INCAPACIDADES</h2>
                     <input type="text" value="<%= (persona != null) ? persona.getNombres() + " " + persona.getApellidos() + " - " + persona.getIdentificacion() : ""%>" class="nombre" readonly>
                 </div>
                 <table class="documentos-tabla">
@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Incapacidad por enfermedad</td>
+                            <td>Incapacidad por enfermedad general</td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=INCENFotros'"
@@ -75,7 +75,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Licencia maternidad / paternidad</td>
+                            <td>Licencia maternidad y/o paternidad</td>
                             <td>
                                 <button class="ver-btn"
                                         onclick="window.location.href = 'detalleHistoria.jsp?identificacion=<%= identificacion%>&tipo=MATPATotros'"

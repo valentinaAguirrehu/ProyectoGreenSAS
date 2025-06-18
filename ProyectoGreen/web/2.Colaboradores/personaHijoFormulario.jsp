@@ -21,19 +21,19 @@
     if (persona == null) {
         persona = new Persona(); // Evita NullPointerException
     }
-    List<Hijo> hijos = persona.getHijos(); // Ahora no dará error
+    List<Hijo> hijos = persona.getHijos(); // Ahora no dara error
 %>
             
         </select>
         <br>
-<!-- Sección de familiares -->
+<!-- Seccion de familiares -->
 <div id="familiaresSection" style="<%= hijos.isEmpty() ? "display: none;" : "display: block;" %>">
-    <h4>Información de Hijos</h4>
+    <h4>Información de los hijos</h4>
     <table border="0" id="tablaHijos">
         <tr>
-            <th>Nombre del Hijo</th>
-            <th>Fecha de Nacimiento</th>
-            <th>Acción</th>
+            <th>Nombre del hijo</th>
+            <th>Fecha de nacimiento</th>
+            <th>Acción</th> 
         </tr>
         <% for (Hijo hijo : hijos) { %>
             <tr>
