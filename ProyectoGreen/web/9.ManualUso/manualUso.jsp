@@ -104,7 +104,7 @@
             </a>
 
             <!-- Módulo 3: Historia Laboral -->
-            <a href="usoHistoriaLaboral.jsp" class="module-card">
+            <a href="UsoHIstoriaLaboral.jsp" class="module-card">
                 <i class="fas fa-book-open"></i>
                 <h3>Historia Laboral</h3>
                 <p>Consulta y seguimiento del historial laboral de los colaboradores.</p>
