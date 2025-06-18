@@ -341,6 +341,7 @@ public class InformacionLaboral {
 
         return ""; // Si no tiene fecha, devuelve cadena vacía
     }
+
     public static String getFechaIngresoTemporal(String identificacionPersona) {
         String sql = "SELECT fechaIngresoTemporal FROM informacionLaboral WHERE identificacion = '" + identificacionPersona + "'";
 

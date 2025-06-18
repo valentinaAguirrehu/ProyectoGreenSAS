@@ -86,18 +86,18 @@
                         <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" >
                     </td>
                 </tr>
-                <tr>
+<!--                <tr>
                     <th>Duración del primer contrato<span style="color: red;">*</span></th>
                     <td>
                         <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
                     </td>
-                <tr>
+                <tr>-->
                     <th>Unidad de negocio<span style="color: red;">*</span></th>
                     <td>
                         <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
                             <option value="">Seleccione...</option>
                             <%
-                                String[] unidades = {"EDS", "RPS"};
+                                String[] unidades = {"EDS", "RPS", "DP"};
                                 for (String u : unidades) {
                             %>
                             <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
@@ -211,6 +211,11 @@
             "Unicentro",
             "Centro de Procesos",
             "Teleoperaciones"
+         ],
+        "DP": [
+            "Avenida",
+            "Bolivar",
+            "Ipiales"
         ]
     };
 

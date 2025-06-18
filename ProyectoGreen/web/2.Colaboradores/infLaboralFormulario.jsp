@@ -81,6 +81,12 @@
                     <td>
                         <input type="date" name="fechaIngresoTemporal" value="<%= informacionLaboral.getFechaIngresoTemporal()%>"></td>
                 </tr>
+                <tr>
+                    <th>Duración del primer contrato<span style="color: red;">*</span></th>
+                    <td>
+                        <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
+                    </td>
+                </tr>
 
                 <tr>
                     <th>Fecha de retiro</th>
@@ -88,19 +94,19 @@
                         <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" >
                     </td>
                 </tr>
-                
-                    <th>Unidad de negocio<span style="color: red;">*</span></th>
-                    <td>
-                        <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
-                            <option value="">Seleccione...</option>
-                            <%
-                                String[] unidades = {"EDS", "RPS", "DP"};
-                                for (String u : unidades) {
-                            %>
-                            <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
-                            <% }%>
-                        </select>
-                    </td>
+
+                <th>Unidad de negocio<span style="color: red;">*</span></th>
+                <td>
+                    <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
+                        <option value="">Seleccione...</option>
+                        <%
+                            String[] unidades = {"EDS", "RPS", "DP"};
+                            for (String u : unidades) {
+                        %>
+                        <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
+                        <% }%>
+                    </select>
+                </td>
                 </tr>
                 <tr>
                     <th>Centro de costos<span style="color: red;">*</span></th>
@@ -208,12 +214,12 @@
             "Unicentro",
             "Centro de Procesos",
             "Teleoperaciones"
-        ], 
-        "DP":[
+        ],
+        "DP": [
             "Avenida",
             "Bolivar",
             "Ipiales"
-              ]
+        ]
     };
 
     function precargarCentroCostos() {

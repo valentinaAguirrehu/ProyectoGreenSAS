@@ -145,7 +145,7 @@ if ("Modificar".equals(accion)) {
                     <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
                         <option value="">Seleccione...</option>
                         <%
-                            String[] unidades = {"EDS", "RPS"};
+                            String[] unidades = {"EDS", "RPS", "DP"};
                             for (String u : unidades) {
                         %>
                         <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
@@ -259,6 +259,11 @@ if ("Modificar".equals(accion)) {
             "Unicentro",
             "Centro de Procesos",
             "Teleoperaciones"
+         ],
+        "DP": [
+            "Avenida",
+            "Bolivar",
+            "Ipiales"
         ]
     };
 

@@ -26,7 +26,9 @@
         String apellidos = persona.getApellidos();
         String cargo = Cargo.getCargoPersona(persona.getIdentificacion());
         String fechaIngreso = InformacionLaboral.getFechaIngresoPersona(persona.getIdentificacion());
-
+        if (fechaIngreso == null || fechaIngreso.trim().equalsIgnoreCase("null")) {
+            fechaIngreso = "";
+        }
         InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(persona.getIdentificacion());
         String centroCostos = (info != null) ? info.getCentroCostos() : "";
 
@@ -36,7 +38,7 @@
         lista += "<td>" + nombres + "</td>";
         lista += "<td>" + apellidos + "</td>";
         lista += "<td>" + cargo + "</td>";
-        lista += "<td>" + centroCostos + "</td>";  
+        lista += "<td>" + centroCostos + "</td>";
         lista += "<td>" + fechaIngreso + "</td>";
         lista += "<td>";
         // VER DETALLES
