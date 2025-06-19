@@ -1,12 +1,14 @@
 <%@ page import="clases.Persona" %>
 <%@ page import="clases.InformacionLaboral" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
-<%@ page import="java.util.List, java.util.Iterator, java.util.Map, java.util.HashMap" %>
-<%@ page import="org.apache.tomcat.util.http.fileupload.FileItem" %>
-<%@ page import="org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory" %>
-<%@ page import="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload" %>
-<%@ page import="org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext" %>
 <%@ page import="java.io.File" %>
+<%@ page import="java.util.List, java.util.Iterator, java.util.Map, java.util.HashMap" %>
+<%@ page import="org.apache.commons.fileupload.FileItem" %>
+<%@ page import="org.apache.commons.fileupload.disk.DiskFileItemFactory" %>
+<%@ page import="org.apache.commons.fileupload.servlet.ServletFileUpload" %>
+<%@ page import="org.apache.commons.fileupload.servlet.ServletRequestContext" %>
+
+
 
 <%
     String identificacion = request.getParameter("identificacion");
