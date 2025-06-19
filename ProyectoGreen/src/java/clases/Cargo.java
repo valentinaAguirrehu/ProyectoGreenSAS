@@ -111,7 +111,7 @@ public class Cargo {
     }
 
     public static ResultSet getLista(String filtro, String orden) {
-       if (filtro != null && !filtro.isEmpty()) {
+        if (filtro != null && !filtro.isEmpty()) {
             filtro = " where " + filtro;
         } else {
             filtro = " ";
@@ -146,21 +146,20 @@ public class Cargo {
         return lista;
     }
 
- public static String getListaEnOptions(String preseleccionado) {
-    StringBuilder lista = new StringBuilder();
-    List<Cargo> datos = getListaEnObjetos(null, "nombre"); // Ordenado por nombre
+    public static String getListaEnOptions(String preseleccionado) {
+        StringBuilder lista = new StringBuilder();
+        List<Cargo> datos = getListaEnObjetos(null, "nombre"); // Ordenado por nombre
 
-    for (Cargo cargo : datos) {
-        boolean esSeleccionado = preseleccionado != null && preseleccionado.equals(String.valueOf(cargo.getId()));
-        lista.append("<option value='").append(cargo.getId()).append("'")
-             .append(esSeleccionado ? " selected" : "")
-             .append(">")
-             .append(cargo.getNombre()).append(" (").append(cargo.getCodigoCargo()).append(")")
-             .append("</option>");
+        for (Cargo cargo : datos) {
+            boolean esSeleccionado = preseleccionado != null && preseleccionado.equals(String.valueOf(cargo.getId()));
+            lista.append("<option value='").append(cargo.getId()).append("'")
+                    .append(esSeleccionado ? " selected" : "")
+                    .append(">")
+                    .append(cargo.getNombre()).append(" (").append(cargo.getCodigoCargo()).append(")")
+                    .append("</option>");
+        }
+        return lista.toString();
     }
-    return lista.toString();
-}
-
 
     public static String getCargoPersona(String identificacionPersona) {
         String sql = "SELECT c.nombre FROM cargo c "
@@ -177,6 +176,38 @@ public class Cargo {
         }
 
         return "Sin cargo";
+    }
+
+    public static boolean existeCodigoCargo(String codigoCargo) {
+        boolean existe = false;
+        String sql = "SELECT COUNT(*) AS total FROM cargo WHERE codigoCargo = '" + codigoCargo + "'";
+
+        try {
+            ResultSet rs = ConectorBD.consultar(sql);
+            if (rs.next()) {
+                existe = rs.getInt("total") > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return existe;
+    }
+
+    public static boolean existeCodigoCargo(String codigoCargo, String idExcluir) {
+        boolean existe = false;
+        String sql = "SELECT COUNT(*) AS total FROM cargo WHERE codigoCargo = '" + codigoCargo + "' AND id <> '" + idExcluir + "'";
+
+        try {
+            ResultSet rs = ConectorBD.consultar(sql);
+            if (rs.next()) {
+                existe = rs.getInt("total") > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return existe;
     }
 
 }

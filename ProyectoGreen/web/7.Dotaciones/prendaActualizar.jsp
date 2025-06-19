@@ -10,6 +10,7 @@
 <%@page import="java.util.HashMap"%>
 
 <%
+    request.setCharacterEncoding("UTF-8");
     Map<String, String> variables = new HashMap<>();
     variables.put("accion",        request.getParameter("accion"));
     variables.put("id",            request.getParameter("id"));
