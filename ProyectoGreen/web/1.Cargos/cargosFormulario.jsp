@@ -25,7 +25,7 @@
 </head>
 <body>
     <div class="content">
-        <form name="formulario" method="post" action="cargosActualizar.jsp" enctype="multipart/form-data">
+        <form name="formulario" method="post" action="cargosActualizar.jsp">
             <table class="table">
                 <h3 class="titulo"><%=accion.toUpperCase()%> CARGO</h3>
                 <tr>
