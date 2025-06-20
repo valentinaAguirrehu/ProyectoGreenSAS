@@ -40,7 +40,7 @@
                 gap: 20px;
                 display: flex;
                 flex-wrap: wrap;
-                justify-content: center; 
+                justify-content: center;
                 max-width: 1200px;
             }
 
@@ -115,42 +115,37 @@
     </head>
     <body>
 
-        <h1>DOTACIÓN</h1>
+        <h1>Módulo de dotación</h1>
 
         <div class="module-container">
-            <a href="ReporteIngresoUSO.jsp" class="module-card">
-                <i class="fas fa-user-plus"></i>
-                <h3>Ingresos de Colaboradores</h3>
-                <p>Visualiza los ingresos por mes y año en tabla y gráfica. Permite el seguimiento de crecimiento del personal.</p>
+            <a href="usoPrendas.jsp" class="module-card">
+                <i class="fas fa-tshirt"></i>
+                <h3>Gestión de prendas</h3>
+                <p>Administra y visualiza las prendas disponibles para registrar en el inventario de dotación.</p>
             </a>
 
-            <a href="reporteRetiroUSO.jsp" class="module-card">
-                <i class="fas fa-user-minus"></i>
-                <h3>Retiros de Colaboradores</h3>
-                <p>Presenta los retiros por mes y año con representación gráfica. Útil para analizar rotación de personal.</p>
+            <a href="usoInvDotNueva.jsp" class="module-card">
+                <i class="fas fa-warehouse"></i>
+                <h3>Inventario de dotación nueva</h3>
+                <p>Visualiza el inventario de prendas nuevas listas para ser entregadas al personal.</p>
             </a>
 
-            <a href="dotacionesEntregadas.jsp" class="module-card">
-                <i class="fas fa-box-open"></i>
-                <h3>Dotaciones Entregadas</h3>
-                <p>Reporte mensual y anual con gráficas que muestra la cantidad de dotaciones entregadas al personal.</p>
-            </a>
-            <a href="reporteCumple.jsp" class="module-card">
-                <i class="fas fa-birthday-cake"></i>
-                <h3>Cumpleaños del Mes</h3>
-                <p>Lista actualizada de los colaboradores que cumplen años en el mes actual. Solo muestra tabla, sin exportación.</p>
+            <a href="usoInvDotUsada.jsp" class="module-card">
+                <i class="fas fa-boxes-stacked"></i>
+                <h3>Inventario de dotación usada</h3>
+                <p>Visualiza el inventario de prendas devueltas por el personal, con su respectivo estado de usado.</p>
             </a>
 
-            <a href="diaFamilia.jsp" class="module-card">
-                <i class="fas fa-users-line"></i>
-                <h3>Día de la Familia</h3>
-                <p>Visualiza días acumulados por colaborador. Exportable a Excel y Word.</p>
+            <a href="usoEntregaDot.jsp" class="module-card">
+                <i class="fas fa-truck-loading"></i>
+                <h3>Entrega de dotación</h3>
+                <p>Conoce la guía sobre el proceso de entrega de dotación al personal.</p>
             </a>
 
-            <a href="vacaciones.jsp" class="module-card">
-                <i class="fas fa-umbrella-beach"></i>
-                <h3>Vacaciones</h3>
-                <p>Muestra en tabla los días de vacaciones acumulados. Soporta exportación a Word y Excel.</p>
+            <a href="usoDevolucionDot.jsp" class="module-card">
+                <i class="fas fa-undo-alt"></i>
+                <h3>Devolución de dotación</h3>
+                <p>Conoce la guía sobre el proceso de devolución de dotación del personal.</p>
             </a>
         </div>
 
