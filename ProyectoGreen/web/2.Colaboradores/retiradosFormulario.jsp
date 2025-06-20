@@ -17,7 +17,8 @@
     String accion = request.getParameter("accion");
     String id = request.getParameter("id");
     String identificacion = request.getParameter("identificacion");
-    InformacionLaboral informacionLaboral = new InformacionLaboral("identificacion");
+    InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
+//InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion()); // ✅ Esta es la buena
 
     Persona persona = null;
     Retirados retirado = new Retirados();
