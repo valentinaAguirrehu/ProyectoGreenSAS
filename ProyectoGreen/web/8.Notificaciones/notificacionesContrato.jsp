@@ -76,7 +76,7 @@
         while (adminRs.next()) {
             String emailAdmin = adminRs.getString("email");
             MimeMessage mensajeAdmin = new MimeMessage(sessionMail);
-            mensajeAdmin.setFrom(new InternetAddress(correoEnvia, " Software Gestión Humana"));
+            mensajeAdmin.setFrom(new InternetAddress(correoEnvia, " Notificaciones Gestión Humana"));
             mensajeAdmin.setRecipient(Message.RecipientType.TO, new InternetAddress(emailAdmin));
             mensajeAdmin.setSubject("Contratos próximos a vencer");
             mensajeAdmin.setText(resumen.toString());

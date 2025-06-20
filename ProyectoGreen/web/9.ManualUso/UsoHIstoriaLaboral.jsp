@@ -153,7 +153,7 @@
         </p>
 
         <div class="image-container">
-            <img class="small-image" src="../presentacion/imagenesManual/VerHistoriaLaboral.png" alt="Vista de historia laboral">
+            <img class="document-image" src="../presentacion/imagenesManual/VerHistoriaLaboral.png" alt="Vista de historia laboral">
         </div>
 
         <p>
