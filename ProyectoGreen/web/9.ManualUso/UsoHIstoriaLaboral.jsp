@@ -217,5 +217,71 @@
         </script>
 
 
+<<<<<<< HEAD
     </body>
+=======
+        <p>
+            A continuación, se explicará paso a paso cómo cargar documentos dentro del módulo de Historia Laboral. Esta funcionalidad permite registrar archivos PDF asociados a diferentes eventos del historial del colaborador.
+        </p>
+
+        <h4>Paso 1: Acceder a un documento</h4>
+        <p>
+            Ingrese a cualquiera de los apartados disponibles en la sección de Historia Laboral (por ejemplo, "Proceso de Selección"). Una vez dentro, haga clic en el botón <strong>"Ver"</strong> correspondiente al documento deseado.
+        </p>
+
+        <div class="image-container">
+            <img class="document-image" src="../presentacion/imagenesManual/procesoSeleccion.png" alt="Botón Ver documento historia laboral">
+        </div>
+
+        <h4>Paso 2: Ver subdocumentos</h4>
+        <p>
+            Al hacer clic en <strong>"Ver"</strong>, se abrirá una nueva interfaz que mostrará los subdocumentos relacionados al documento principal seleccionado. 
+            Por ejemplo, al seleccionar "Proceso de Selección", se listarán sus subdocumentos. Cada uno tendrá también su propio botón <strong>"Ver"</strong> que lo llevará a su interfaz correspondiente.
+        </p>
+
+        <div class="image-container">
+
+            <img class="document-image" src="../presentacion/imagenesManual/subMenu.jpg" alt="Vista de subdocumentos">
+
+        </div>
+
+        <h4>Paso 3: Cargar un archivo PDF</h4>
+        <p>
+            Dentro del subdocumento seleccionado, se abrirá una nueva vista en la que podrá cargar el archivo correspondiente. 
+            Para ello, haga clic en el ícono <strong>"+"</strong>, el cual indica la acción de <strong>Agregar Documento</strong>.
+        </p>
+
+        <p>
+            Es importante tener en cuenta lo siguiente:
+        </p>
+
+        <ul>
+            <li>El documento a cargar debe estar en formato <strong>PDF</strong>.</li>
+            <li>El <strong>nombre del archivo debe ser único</strong>. El sistema no permite cargar documentos que ya existan con el mismo nombre. Si esto sucede, se solicitará cambiar el nombre del archivo antes de continuar.</li>
+        </ul>
+
+        <div class="image-container">
+
+            <img class="document-image" src="../presentacion/imagenesManual/agregarHistoriaLaboral.jpg alt="Agregar documento a historia laboral">
+
+        </div>
+
+        <h4>Paso 4: Agregar observación y guardar</h4>
+        <p>
+            Una vez seleccionado el archivo PDF, se podrá agregar una <strong>observación opcional</strong> que complemente la información del documento. Si no se desea agregar ninguna, este campo puede dejarse en blanco.
+        </p>
+
+        <p>
+            Finalmente, haga clic en el botón <strong>"Guardar"</strong> para registrar el documento en el sistema.
+        </p>
+
+        <div class="image-container">
+            <img class="document-image" src="../presentacion/imagenesManual/guardarDocumento.png" alt="Guardar documento con observación">
+        </div>
+
+        <a href="../9.ManualUso/manualUso.jsp" class="back-button"><i class="fas fa-arrow-left"></i> Volver al Manual</a>
+    </div>
+
+</body>
+>>>>>>> fe11330657a673041a6ace477a331c77eb9f968e
 </html>

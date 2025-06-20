@@ -75,11 +75,18 @@
                 </tr>
 
                 <tr>
-                    <th>Documento de identidad<span style="color: red;">*</span></th>
-                    <td colspan="2">
-                        <%= persona.getTipoDocumento().getSelectTipoDocumento("tipoDocumento") %>
-                    </td>
-                </tr>
+    <th>Documento de identidad<span style="color: red;">*</span></th>
+    <td colspan="2">
+        <%
+            if (persona.getTipoDocumento() != null) {
+                out.print(persona.getTipoDocumento().getSelectTipoDocumento("tipoDocumento"));
+            } else {
+                // Si es null, muestra el select vacío con "Seleccionar..."
+                out.print(new clases.TipoDocumento("").getSelectTipoDocumento("tipoDocumento"));
+            }
+        %>
+    </td>
+</tr>
                 <tr>
                     <th>Número de documento<span style="color: red;">*</span></th>
 <!--                        <input type="text" name="identificacion" id="identificacion" value="<%= persona.getIdentificacion() %>" -->

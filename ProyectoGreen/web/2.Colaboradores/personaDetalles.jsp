@@ -3,6 +3,8 @@
     Created on : 22/03/2025, 02:30:30 AM
     Author     : Mary
 --%>
+<%@page import="clases.Departamento"%>
+<%@page import="clases.Municipio"%>
 <%@page import="clases.GeneroPersona"%>
 <%@page import="clases.Talla"%>
 <%@page import="clases.Vehiculo"%>
@@ -54,6 +56,52 @@
             nombreCargo = cargo.getNombre(); // Obtener nombre si existe
         }
     }
+
+    String nombreDepartamentoNacimiento = "No asignado";
+    String nombreMunicipioNacimiento = "No asignado";
+
+    String idDepNacimiento = persona.getIdDepartamentoNacimiento();
+    String idMunNacimiento = persona.getIdMunicipioNacimiento();
+
+    if (idMunNacimiento != null && !idMunNacimiento.trim().isEmpty()) {
+        Municipio municipio = new Municipio(idMunNacimiento);
+        if (municipio.getNombre() != null && !municipio.getNombre().trim().isEmpty()) {
+            nombreMunicipioNacimiento = municipio.getNombre();
+        }
+    }
+
+    if (idDepNacimiento != null && !idDepNacimiento.trim().isEmpty()) {
+        Departamento departamento = new Departamento(idDepNacimiento);
+        if (departamento.getNombre() != null && !departamento.getNombre().trim().isEmpty()) {
+            nombreDepartamentoNacimiento = departamento.getNombre();
+        }
+    }
+
+//----
+    String nombreDepartamentoExp = "No asignado";
+    String nombreMunicipioExp = "No asignado";
+
+    String lugarExp = persona.getLugarExpedicion();
+    if (lugarExp != null && lugarExp.contains("-")) {
+        String[] partes = lugarExp.split("-");
+
+        if (partes.length > 0 && partes[0] != null && !partes[0].trim().isEmpty()) {
+            Departamento departamento = new Departamento(partes[0]);
+            if (departamento.getNombre() != null && !departamento.getNombre().trim().isEmpty()) {
+                nombreDepartamentoExp = departamento.getNombre();
+            }
+        }
+
+        if (partes.length > 1 && partes[1] != null && !partes[1].trim().isEmpty()) {
+            Municipio municipio = new Municipio(partes[1]);
+            if (municipio.getNombre() != null && !municipio.getNombre().trim().isEmpty()) {
+                nombreMunicipioExp = municipio.getNombre();
+            }
+        }
+    }
+%>
+
+
 %>
 <%!
     public String mostrarCampo(Object valor) {
@@ -86,10 +134,12 @@
             </tr> <tr><th>Documento de identidad</th><td><%= mostrarCampo(persona.getTipoDocumento())%></td></tr>
             <tr><th>Número del documento</th><td><%= mostrarCampo(persona.getIdentificacion())%></td></tr>
             <tr><th>Fecha de Expedición</th><td><%= mostrarCampo(persona.getFechaExpedicion())%></td></tr> 
-            <tr><th>Lugar de Expedición</th><td><%= mostrarCampo(persona.getLugarExpedicion())%></td></tr>
+            <tr><th>Lugar de Expedición</th><td><%= nombreMunicipioExp + " - " + nombreDepartamentoExp%></td></tr>
             <tr><th>Fecha de Nacimiento</th><td><%= mostrarCampo(persona.getFechaNacimiento())%></td></tr>
             <tr><th>Edad</th><td><%= persona.calcularEdad() != null ? persona.calcularEdad() : "No aplica"%></td></tr>
-            <tr><th>Lugar de nacimiento</th><td><%= mostrarCampo(persona.getLugarNacimiento())%></td></tr>
+            <tr><th>Lugar de nacimiento</th>
+                <td><%= mostrarCampo(nombreMunicipioNacimiento)%> - <%= mostrarCampo(nombreDepartamentoNacimiento)%></td>
+            </tr>
             <tr><th>Tipo de sangre</th>
                 <td><%= mostrarCampo(persona.getTipoSangre())%></td>
             </tr>
@@ -179,7 +229,7 @@
             <tr><th>Unidad de negocio</th><td><%= mostrarCampo(informacionLaboral.getUnidadNegocio())%></td></tr>           
             <tr><th>Centro de costos</th><td><%= mostrarCampo(informacionLaboral.getCentroCostos())%></td></tr>
             <tr><th>Lugar de trabajo</th><td><%= mostrarCampo(informacionLaboral.getEstablecimiento())%> - <%= mostrarCampo(informacionLaboral.getUnidadNegocio())%></td></tr>
-            <tr><th>Área</th><td><%= mostrarCampo(informacionLaboral.getArea())%></td></tr>
+            <tr><th>Área</th><td><%= informacionLaboral.getAreaTexto()%></td></tr>
             <tr><th>Cargo</th><td><%= mostrarCampo(nombreCargo)%></td></tr>
             <tr><th>EPS</th><td><%= mostrarCampo(seguridadSocial.getEps())%></td></tr>
             <tr><th>Fondo de pensiones</th><td><%= mostrarCampo(seguridadSocial.getFondoPensiones())%></td></tr>

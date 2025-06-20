@@ -190,6 +190,14 @@ public class InformacionLaboral {
     public Area getArea() {
         return new Area(area);
     }
+    public String getAreaTexto() {
+    Area a = getArea(); // crea un objeto Area desde el código guardado
+    if (a == null || a.getCodigo().equals("NA") || a.getCodigo().trim().isEmpty()) {
+        return "No aplica";
+    }
+    return a.getOpcion();
+}
+
 
     public void setArea(String area) {
         this.area = area;
