@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
+
+<project name="ProyectoGreen" default="default" basedir=".">
+    <description>Builds, tests, and runs the project ProyectoGreen.</description>
+    <import file="nbproject/build-impl.xml"/>
+   
+=======
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
 <!-- (If you delete it and reopen the project it will be recreated.) -->
@@ -68,4 +75,5 @@
     nbproject/build-impl.xml file. 
 
     -->
+>>>>>>> fe11330657a673041a6ace477a331c77eb9f968e
 </project>
