@@ -5,25 +5,28 @@
 --%>
 
 <%@page import="clases.Administrador"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%
     request.setCharacterEncoding("UTF-8");
     String identificacionAnterior = request.getParameter("identificacionAnterior");
-
     if (identificacionAnterior == null || identificacionAnterior.trim().isEmpty()) {
         out.print("<p>Error: La identificación anterior es inválida.</p>");
         return;
     }
 
     Administrador admin = new Administrador(request.getParameter("identificacion"));
-
-    admin.setIdentificacion(request.getParameter("identificacion"));
-    admin.setTipo(request.getParameter("tipo"));
     admin.setNombres(request.getParameter("nombres"));
     admin.setCelular(request.getParameter("celular"));
     admin.setEmail(request.getParameter("email"));
-    admin.setClave(request.getParameter("clave"));
+    String nuevaClave = request.getParameter("clave");
+    String claveActual = request.getParameter("claveActual");
 
+    boolean cambioClave = (nuevaClave != null && !nuevaClave.trim().isEmpty());
+    if (!cambioClave) {
+        nuevaClave = claveActual;
+    }
+    admin.setClave(nuevaClave);
     admin.setpLeer("S");
     admin.setpEditar("S");
     admin.setpAgregar("S");
@@ -32,25 +35,30 @@
     admin.setTipo("S");
 
     String estado = request.getParameter("estado");
-    if (estado == null || estado.trim().isEmpty()) {
-        estado = "Activo"; 
-    }
-    admin.setEstado(estado);
+    admin.setEstado((estado == null || estado.trim().isEmpty()) ? "Activo" : estado);
 
-    boolean actualizado = admin.modificar(identificacionAnterior);
+    boolean actualizado = admin.modificar(identificacionAnterior);   
 
     if (actualizado) {
-        // Invalidar la sesión actual
-        session.invalidate();
+        if (cambioClave) {
+            session.invalidate();
 %>
-        <script>
-            alert("Tu perfil se ha actualizado exitosamente. Por favor, vuelve a iniciar sesión.");
-            window.location.href = "../index.jsp";
-        </script>
+<script>
+    alert("Perfil actualizado y contraseña cambiada. Inicia sesión de nuevo.");
+    window.location.href = "../index.jsp";
+</script>
 <%
+} else {
+    /* --- Si NO cambió contraseña, refresca objeto y sigue --- */
+    session.setAttribute("usuario", admin);
+%>
+<script>
+    alert("Perfil actualizado correctamente.");
+    window.location.href = "perfil.jsp";
+</script>
+<%
+        }
     } else {
         out.print("<p>Error al actualizar el perfil.</p>");
     }
 %>
-
-
