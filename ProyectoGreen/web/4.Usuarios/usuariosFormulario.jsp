@@ -41,7 +41,7 @@
                     <div class="permiso-container">
                         <!-- pLeer siempre activo -->
                         <div class="permiso-item">
-                            <input type="checkbox" id="pLeer" class="permiso" value="S" checked disabled>
+                            <input type="checkbox" id="pLeer" class="permiso" name="pLeer" value="S" checked readonly onclick="return false;">
                             <label for="pLeer">Leer (obligatorio)</label>
                             <input type="hidden" name="pLeer" value="S">
                         </div>
