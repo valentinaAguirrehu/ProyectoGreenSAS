@@ -4,7 +4,7 @@
 <%@ page import="java.util.List, java.util.Iterator, java.util.Map, java.util.HashMap" %>
 <%@ page import="org.apache.tomcat.util.http.fileupload.FileItem" %>
 <%@ page import="org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory" %>
-<%@ page import="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload" %>
+<%@ page import="org.apache.commons.fileupload.servlet.ServletFileUpload" %>
 <%@ page import="org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext" %>
 <%@ page import="java.io.File" %>
 
@@ -18,6 +18,12 @@
         info = InformacionLaboral.getInformacionPorIdentificacion(identificacion);
     }
 %>
+<%
+    String tipo = persona.getTipo();
+    session.setAttribute("tipoPersona", tipo);
+    out.println("<!-- DEBUG_ORIG: tipoPersona en session = " + tipo + " -->");
+%>
+
 
 <!DOCTYPE html>
 <%@ include file="../menu.jsp" %>

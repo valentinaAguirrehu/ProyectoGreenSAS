@@ -23,7 +23,7 @@
 <jsp:include page="../menu.jsp" />
 
 <div class="content">
-    <h3 class="titulo" style="margin-top: 50px;">Contratos próximos a vencer (30 días)</h3>
+    <h3 class="titulo" style="margin-top: 50px;">Contratos próximos a vencer (50 días)</h3>
 
     <%
         Connection conn2 = null;
@@ -46,7 +46,7 @@
                 "INNER JOIN informacionlaboral il ON p.identificacion = il.identificacion " +
                 "INNER JOIN cargo c ON il.idCargo = c.id " +
                 "WHERE p.tipo = 'C' " +
-                "AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
+                "AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 50 DAY)";
 
             stmt2 = conn2.prepareStatement(sql2);
             rs2 = stmt2.executeQuery();
@@ -76,7 +76,7 @@
             <th>Unidad de negocio</th>
             <th>Centro de costos</th>
             <th>Email</th>
-            <th>Fecha ingreso</th> <!-- SE AGREGÓ ESTA COLUMNA -->
+            <th>Fecha ingreso</th>
             <th>Fecha término contrato</th>
         </tr>
         <%
@@ -90,7 +90,7 @@
             <td><%= rs2.getString("unidadNegocio") %></td>
             <td><%= rs2.getString("centroCostos") %></td>
             <td><%= rs2.getString("email") %></td>
-            <td><%= rs2.getString("fechaIngreso") %></td> <!-- SE AGREGÓ ESTA CELDA -->
+            <td><%= rs2.getString("fechaIngreso") %></td>
             <td><%= rs2.getDate("fechaTerPriContrato") %></td>
         </tr>
         <%
@@ -101,7 +101,7 @@
     <%
             } else {
     %>
-    <p style="text-align:center;">No hay contratos que finalicen en los próximos 30 días.</p>
+    <p style="text-align:center;">No hay contratos que finalicen en los próximos 50 días.</p>
     <%
             }
 
