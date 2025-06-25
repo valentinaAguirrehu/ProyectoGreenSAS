@@ -118,6 +118,7 @@
 %>
 
 <% if (!isDownloadMode) {%>
+<jsp:include page="../permisos.jsp" />
 <%@ include file="../menu.jsp" %> 
 <% } %> 
 
@@ -126,9 +127,12 @@
     <h3 class="titulo">REPORTE GENERAL DE VACACIONES </h3>
 
     <% if (!isDownloadMode) { %>
+    <div style="text-align: center; margin: 10px 0;">
     <a href="vacaciones.jsp?formato=excel" target="_blank"><img src="../presentacion/iconos/excel.png " alt="Exportar a Excel"></a>
     <a href="vacaciones.jsp?formato=word" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
+    </div>
     <% } %>
+
 
     <table border="1" class="table" style="margin-top:20px; width:100%; font-size: 14px;">
         <tr style="background-color: #e0e0e0;">

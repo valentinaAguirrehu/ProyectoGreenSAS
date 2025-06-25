@@ -51,7 +51,7 @@ tr:nth-child(even) {
     margin-right: 10px;
 }
 
-.boton {
+.subir {
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
@@ -61,7 +61,7 @@ tr:nth-child(even) {
     transition: background-color 0.3s;
 }
 
-.boton:hover {
+.subir:hover {
     background-color: #45a049;
 }
 

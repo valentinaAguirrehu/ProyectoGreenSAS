@@ -125,6 +125,7 @@
 <% } %>
 
 <% if (!isDownloadMode) {%>
+<jsp:include page="../permisos.jsp" />
 <%@ include file="../menu.jsp" %> 
 <% } %> 
 
@@ -147,38 +148,46 @@
 
     <h3 class="titulo">REPORTE DE INGRESO DE COLABORADORES - GREEN S.A.S</h3>
 
-    <% if (!isDownloadMode) {%>
-    <a href="ingresoColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
-    <a href="ingresoColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
+    <% if (!isDownloadMode) { %>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
 
-    <form method="get" class="filtro-anio-form">
-        <label for="anio">Filtrar por año:</label>
-        <select name="anio" onchange="this.form.submit()">
-            <option value="">-- Todos --</option>
-            <%
-                Set<Integer> añosDisponibles = new TreeSet<>(Collections.reverseOrder());
-                List<Persona> listaPersonas = Persona.getListaEnObjetos("tipo = 'C'", null);
-                for (Persona p : listaPersonas) {
-                    InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
-                    if (info != null && info.getFechaIngreso() != null && !info.getFechaIngreso().isEmpty()) {
-                        try {
-                            Calendar cal = Calendar.getInstance();
-                            cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(info.getFechaIngreso()));
-                            añosDisponibles.add(cal.get(Calendar.YEAR));
-                        } catch (ParseException e) {
-                            System.out.println("Error al parsear la fecha: " + info.getFechaIngreso());
+        <!-- Filtro por año a la izquierda -->
+        <form method="get" class="filtro-anio-form" style="margin: 0;">
+            <label for="anio">Filtrar por año:</label>
+            <select name="anio" onchange="this.form.submit()">
+                <option value="">-- Todos --</option>
+                <%
+                    Set<Integer> añosDisponibles = new TreeSet<>(Collections.reverseOrder());
+                    List<Persona> listaPersonas = Persona.getListaEnObjetos("tipo = 'C'", null);
+                    for (Persona p : listaPersonas) {
+                        InformacionLaboral info = InformacionLaboral.getInformacionPorIdentificacion(p.getIdentificacion());
+                        if (info != null && info.getFechaIngreso() != null && !info.getFechaIngreso().isEmpty()) {
+                            try {
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(info.getFechaIngreso()));
+                                añosDisponibles.add(cal.get(Calendar.YEAR));
+                            } catch (ParseException e) {
+                                System.out.println("Error al parsear la fecha: " + info.getFechaIngreso());
+                            }
                         }
                     }
-                }
-                for (Integer anio : añosDisponibles) {
-                    String anioParam = request.getParameter("anio");
-            %>
-            <option value="<%= anio%>" <%= (anioParam != null && anioParam.equals(String.valueOf(anio))) ? "selected" : ""%>><%= anio%></option>
-            <%
-                }
-            %>
-        </select>
-    </form>
+                    for (Integer anio : añosDisponibles) {
+                        String anioParam = request.getParameter("anio");
+                %>
+                <option value="<%= anio%>" <%= (anioParam != null && anioParam.equals(String.valueOf(anio))) ? "selected" : ""%>><%= anio%></option>
+                <% }%>
+            </select>
+        </form>
+
+        <div class="descargar" style="display: flex; gap: 10px;">
+            <a href="ingresoColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank">
+                <img src="../presentacion/iconos/excel.png" alt="Exportar a Excel">
+            </a>
+            <a href="ingresoColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank">
+                <img src="../presentacion/iconos/word.png" alt="Exportar a Word">
+            </a>
+        </div>
+    </div>
     <% } %>
 
     <%
@@ -348,37 +357,37 @@
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
     <script>
-            am5.ready(function () {
-                var root = am5.Root.new("chartdiv");
-                root.setThemes([am5themes_Animated.new(root)]);
-                var chart = root.container.children.push(am5xy.XYChart.new(root, {
-                    panX: true,
-                    panY: true,
-                    wheelX: "panX",
-                    wheelY: "zoomX"
-                }));
+                am5.ready(function () {
+                    var root = am5.Root.new("chartdiv");
+                    root.setThemes([am5themes_Animated.new(root)]);
+                    var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                        panX: true,
+                        panY: true,
+                        wheelX: "panX",
+                        wheelY: "zoomX"
+                    }));
 
-                var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-                    categoryField: "years",
-                    renderer: am5xy.AxisRendererX.new(root, {})
-                }));
+                    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                        categoryField: "years",
+                        renderer: am5xy.AxisRendererX.new(root, {})
+                    }));
 
-                var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-                    renderer: am5xy.AxisRendererY.new(root, {})
-                }));
+                    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                        renderer: am5xy.AxisRendererY.new(root, {})
+                    }));
 
-                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-                    name: "Ingresos",
-                    xAxis: xAxis,
-                    yAxis: yAxis,
-                    valueYField: "value",
-                    categoryXField: "years"
-                }));
+                    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                        name: "Ingresos",
+                        xAxis: xAxis,
+                        yAxis: yAxis,
+                        valueYField: "value",
+                        categoryXField: "years"
+                    }));
 
-                var data = <%= datosGrafico%>;
-                xAxis.data.setAll(data);
-                series.data.setAll(data);
-            });
+                    var data = <%= datosGrafico%>;
+                    xAxis.data.setAll(data);
+                    series.data.setAll(data);
+                });
     </script>
     <% }%>
 </div>

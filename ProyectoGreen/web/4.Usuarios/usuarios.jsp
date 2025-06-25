@@ -6,11 +6,11 @@
     List<Administrador> datos = Administrador.getListaEnObjetos("tipo<>'S'", null);
 
     for (Administrador usuario : datos) {
-        boolean tieneTodos = usuario.getpLeer().equals("S") &&
-                             usuario.getpEditar().equals("S") &&
-                             usuario.getpAgregar().equals("S") &&
-                             usuario.getpEliminar().equals("S") &&
-                             usuario.getpDescargar().equals("S");
+        boolean tieneTodos = usuario.getpLeer().equals("S")
+                && usuario.getpEditar().equals("S")
+                && usuario.getpAgregar().equals("S")
+                && usuario.getpEliminar().equals("S")
+                && usuario.getpDescargar().equals("S");
 
         String permisos = "";
         if (tieneTodos) {
@@ -45,9 +45,19 @@
         lista += "<td>" + permisos + "</td>";
         lista += "<td>" + usuario.getEstado() + "</td>";
         lista += "<td>";
+
+// Botón Modificar
         lista += "<a href='usuariosFormulario.jsp?accion=Modificar&identificacion=" + usuario.getIdentificacion()
                 + "' title='Modificar'><img src='../presentacion/iconos/modificar.png' width='25' height='25'></a> ";
-        lista += "<img src='../presentacion/iconos/eliminar.png' width='25' height='25' title='Eliminar' onClick='eliminar(" + usuario.getIdentificacion() + ")'> ";
+
+// Botón Eliminar
+        lista += "<img src='../presentacion/iconos/eliminar.png' width='25' height='25' title='Eliminar' "
+                + "onClick='eliminar(\"" + usuario.getIdentificacion() + "\")'> ";
+
+// Botón Cerrar Sesión
+        lista += "<img src='../presentacion/iconos/logout.png' width='25' height='25' title='Cerrar sesión' "
+                + "onClick='cerrarSesion(\"" + usuario.getIdentificacion() + "\")'> ";
+
         lista += "</td>";
         lista += "</tr>";
     }
@@ -57,20 +67,19 @@
 
 <div class="content">
 
-    <!-- Contenedor para cuadro de texto + título -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <!-- CUADRO DE INFORMACIÓN -->
+
         <div style="
-            background-color: #f0f8ff;
-            border: 2px solid #3498db;
-            border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #2c3e50;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-            display: inline-block;
-        ">
+             background-color: #f0f8ff;
+             border: 2px solid #3498db;
+             border-radius: 8px;
+             padding: 10px 15px;
+             font-size: 14px;
+             font-weight: bold;
+             color: #2c3e50;
+             box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+             display: inline-block;
+             ">
             <div style="display: flex; align-items: center; margin-bottom: 5px;">
                 <span style="margin-right: 5px;">📩</span> Correo electrónico: softwaregestionhumana@gmail.com
             </div>
@@ -79,17 +88,12 @@
             </div>
         </div>
 
-        <!-- TÍTULO CENTRADO -->
         <h3 class="titulo" style="flex-grow: 1; text-align: center; margin: 0; font-size: 24px; color: #2c3e50; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
             GESTIÓN DE USUARIOS
         </h3>
 
-        <!-- Espacio vacío para compensar el cuadro y centrar el título visualmente -->
         <div style="width: 220px;"></div>
     </div>
-
-
-
 
     <link rel="stylesheet" href="../presentacion/style-Usuarios.css">
     <div class="search-container">
@@ -128,21 +132,27 @@
         const table = document.getElementById('usuariosTable');
         const rows = table.getElementsByTagName('tr');
 
-        for (let i = 1; i < rows.length; i++) { 
+        for (let i = 1; i < rows.length; i++) {
             const cells = rows[i].getElementsByTagName('td');
             if (cells.length > 0) {
                 const identificacion = cells[0].textContent || cells[0].innerText;
                 const nombres = cells[1].textContent || cells[1].innerText;
 
                 if (
-                    identificacion.toLowerCase().indexOf(filter) > -1 ||
-                    nombres.toLowerCase().indexOf(filter) > -1
-                ) {
+                        identificacion.toLowerCase().indexOf(filter) > -1 ||
+                        nombres.toLowerCase().indexOf(filter) > -1
+                        ) {
                     rows[i].style.display = "";
                 } else {
                     rows[i].style.display = "none";
                 }
             }
+        }
+    }
+
+    function cerrarSesion(id) {
+        if (confirm("¿Desea cerrar la sesión de la persona con identificación " + id + " y marcarla como inactiva?")) {
+            window.location.href = "usuariosCerrarSesion.jsp?identificacion=" + id;
         }
     }
 </script>

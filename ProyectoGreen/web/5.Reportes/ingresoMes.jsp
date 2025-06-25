@@ -114,6 +114,7 @@
 <% } %>
 
 <% if (!isDownloadMode) {%>
+<jsp:include page="../permisos.jsp" />
 <%@ include file="../menu.jsp" %> 
 <% } %> 
 
@@ -214,12 +215,12 @@
     
     <% if (!isDownloadMode) {%>
     <div class="iconos-container">
-        <a href="ingresoMes.jsp?formato=excel<%=(request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : "")
+        <a class="descargar"  href="ingresoMes.jsp?formato=excel<%=(request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : "")
                 + (request.getParameter("mes") != null ? "&mes=" + request.getParameter("mes") : "")%>" target="_blank">
             <img src="../presentacion/iconos/excel.png" alt="Exportar a Excel">
         </a>
 
-        <a href="ingresoMes.jsp?formato=word<%=(request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : "")
+        <a class="descargar" href="ingresoMes.jsp?formato=word<%=(request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : "")
                 + (request.getParameter("mes") != null ? "&mes=" + request.getParameter("mes") : "")%>" target="_blank">
             <img src="../presentacion/iconos/word.png" alt="Exportar a Word">
         </a>

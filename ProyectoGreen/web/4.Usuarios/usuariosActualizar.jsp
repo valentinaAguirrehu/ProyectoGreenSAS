@@ -5,32 +5,45 @@
 --%>
 
 <%@page import="clases.Administrador"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%
     request.setCharacterEncoding("UTF-8");
+
     String accion = request.getParameter("accion");
     String identificacionAnterior = request.getParameter("identificacionAnterior");
 
-    Administrador usuario;
-
-    if ("Modificar".equals(accion)) {
-        usuario = new Administrador(identificacionAnterior);
-    } else {
-        usuario = new Administrador();
-    }
+    Administrador usuario = "Modificar".equals(accion)
+            ? new Administrador(identificacionAnterior)
+            : new Administrador();
 
     usuario.setIdentificacion(request.getParameter("identificacion"));
-    usuario.setTipo(request.getParameter("tipo"));
     usuario.setNombres(request.getParameter("nombres"));
     usuario.setCelular(request.getParameter("celular"));
     usuario.setEmail(request.getParameter("email"));
-    usuario.setClave(request.getParameter("clave"));
-    usuario.setpLeer(request.getParameter("pLeer"));
-    usuario.setpEditar(request.getParameter("pEditar"));
-    usuario.setpAgregar(request.getParameter("pAgregar"));
-    usuario.setpEliminar(request.getParameter("pEliminar"));
-    usuario.setpDescargar(request.getParameter("pDescargar"));
-    usuario.setEstado(request.getParameter("estado"));
+
+    String nuevaClave = request.getParameter("clave");
+    String claveActual = request.getParameter("claveActual");
+
+    if (nuevaClave != null && !nuevaClave.trim().isEmpty()) {
+        usuario.setClave(nuevaClave);
+    } else if ("Modificar".equals(accion)) {
+        usuario.setClave(claveActual);
+    }
+
+    String pEditar = request.getParameter("pEditar");
+    String pAgregar = request.getParameter("pAgregar");
+    String pEliminar = request.getParameter("pEliminar");
+    String pDescargar = request.getParameter("pDescargar");
+
+    usuario.setpLeer("S");
+    usuario.setpEditar("S".equals(pEditar) ? "S" : "N");
+    usuario.setpAgregar("S".equals(pAgregar) ? "S" : "N");
+    usuario.setpEliminar("S".equals(pEliminar) ? "S" : "N");
+    usuario.setpDescargar("S".equals(pDescargar) ? "S" : "N");
+
+    usuario.setTipo("U");
+    usuario.setEstado(request.getParameter("estado") != null ? request.getParameter("estado") : "Activo");
 
     switch (accion) {
         case "Adicionar":
@@ -45,6 +58,7 @@
     }
 %>
 
-<script type="text/javascript">
-    document.location = "usuarios.jsp";
+<script>
+    window.location.href = "usuarios.jsp";
 </script>
+
