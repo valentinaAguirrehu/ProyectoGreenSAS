@@ -35,10 +35,10 @@
 
                         <!-- Identificación -->
                         <div class="form-group">
-                            <label for="identificacion">Identificación:</label>
-                            <input type="text" id="identificacion" name="identificacion"
-                                   value="<%= usuarioActual.getIdentificacion()%>" readonly required>
-                        </div>
+                        <label for="identificacion">Identificación:</label>
+                        <input type="text" id="identificacion" name="identificacion"
+                               value="<%= usuarioActual.getIdentificacion()%>" required>
+                    </div>
 
                         <div class="form-group">
                             <label for="nombres">Nombres:</label>

@@ -16,7 +16,6 @@
         <script src="recursos/jquery-3.7.1.min.js"></script>
         <script src="recursos/jquery-ui-1.13.3.custom/jquery-ui.min.js"></script>
 
-
     </head>
 
     <body>
