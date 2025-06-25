@@ -111,10 +111,12 @@
     .filtro-anio-form select:hover {
         border-color: #888;
     }
+    
 </style>
 <% } %>
 
 <% if (!isDownloadMode) {%>
+<jsp:include page="../permisos.jsp" />
 <%@ include file="../menu.jsp" %> 
 <% } %>
 
@@ -148,24 +150,35 @@
         }
     %>
 
-    <% if (!isDownloadMode) {%>
-    <a href="retiroColaboradores.jsp?formato=excel<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
-    <a href="retiroColaboradores.jsp?formato=word<%= request.getParameter("anio") != null ? "&anio=" + request.getParameter("anio") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
+    <% if (!isDownloadMode) { %>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
 
-    <form method="get" class="filtro-anio-form">
-        <label for="anio">Filtrar por año:</label>
-        <select name="anio" onchange="this.form.submit()">
-            <option value="">-- Todos --</option>
-            <%
-                String paramAnio = request.getParameter("anio");
-                for (Integer anio : años) {
-            %>
-            <option value="<%= anio%>" <%= (paramAnio != null && paramAnio.equals(String.valueOf(anio))) ? "selected" : ""%>>
-                <%= anio%>
-            </option>
-            <% } %>
-        </select>
-    </form>
+        <!-- Filtro por año -->
+        <form method="get" class="filtro-anio-form" style="margin: 0;">
+            <label for="anio">Filtrar por año:</label>
+            <select name="anio" onchange="this.form.submit()">
+                <option value="">-- Todos --</option>
+                <%
+                    String paramAnio = request.getParameter("anio");
+                    for (Integer anio : años) {
+                %>
+                <option value="<%= anio%>" <%= (paramAnio != null && paramAnio.equals(String.valueOf(anio))) ? "selected" : ""%>>
+                    <%= anio%>
+                </option>
+                <% }%>
+            </select>
+        </form>
+
+        <!-- Íconos -->
+        <div class="descargar" style="display: flex; gap: 10px;">
+            <a href="retiroColaboradores.jsp?formato=excel<%= paramAnio != null ? "&anio=" + paramAnio : ""%>" target="_blank">
+                <img src="../presentacion/iconos/excel.png" alt="Exportar a Excel">
+            </a>
+            <a href="retiroColaboradores.jsp?formato=word<%= paramAnio != null ? "&anio=" + paramAnio : ""%>" target="_blank">
+                <img src="../presentacion/iconos/word.png" alt="Exportar a Word">
+            </a>
+        </div>
+    </div>
     <% } %>
 
     <%
@@ -295,33 +308,33 @@
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script>
-            am5.ready(function () {
-                var root = am5.Root.new("chartdiv");
-                root.setThemes([am5themes_Animated.new(root)]);
-                var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
-                var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-                    categoryField: "years",
-                    renderer: am5xy.AxisRendererX.new(root, {minGridDistance: 30})
-                }));
-                var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-                    renderer: am5xy.AxisRendererY.new(root, {})
-                }));
-                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-                    name: "Retiros",
-                    xAxis: xAxis,
-                    yAxis: yAxis,
-                    valueYField: "value",
-                    categoryXField: "years",
-                    tooltip: am5.Tooltip.new(root, {
-                        labelText: "{valueY}"
-                    })
-                }));
-                var data = <%= datosGrafico.toString()%>;
-                xAxis.data.setAll(data);
-                series.data.setAll(data);
-                series.appear(1000);
-                chart.appear(1000, 100);
-            });
+                am5.ready(function () {
+                    var root = am5.Root.new("chartdiv");
+                    root.setThemes([am5themes_Animated.new(root)]);
+                    var chart = root.container.children.push(am5xy.XYChart.new(root, {}));
+                    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                        categoryField: "years",
+                        renderer: am5xy.AxisRendererX.new(root, {minGridDistance: 30})
+                    }));
+                    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                        renderer: am5xy.AxisRendererY.new(root, {})
+                    }));
+                    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                        name: "Retiros",
+                        xAxis: xAxis,
+                        yAxis: yAxis,
+                        valueYField: "value",
+                        categoryXField: "years",
+                        tooltip: am5.Tooltip.new(root, {
+                            labelText: "{valueY}"
+                        })
+                    }));
+                    var data = <%= datosGrafico.toString()%>;
+                    xAxis.data.setAll(data);
+                    series.data.setAll(data);
+                    series.appear(1000);
+                    chart.appear(1000, 100);
+                });
     </script>
     <% }%>
 </div>

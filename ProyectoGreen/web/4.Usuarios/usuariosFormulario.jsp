@@ -3,7 +3,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
-    String accion = request.getParameter("accion");            
+    String accion = request.getParameter("accion");
     String identificacion = request.getParameter("identificacion");
     Administrador usuario = "Modificar".equals(accion) ? new Administrador(identificacion)
             : new Administrador();
@@ -45,10 +45,11 @@
                             <label for="pLeer">Leer (obligatorio)</label>
                             <input type="hidden" name="pLeer" value="S">
                         </div>
+
                         <div class="permiso-item">
-                            <input type="checkbox" class="permiso" id="pEliminar" name="pEliminar" value="S"
-                                   <%= "S".equals(usuario.getpEliminar()) ? "checked" : ""%>>
-                            <label for="pEliminar">Eliminar</label>
+                            <input type="checkbox" class="permiso" id="pAgregar" name="pAgregar" value="S"
+                                   <%= "S".equals(usuario.getpAgregar()) ? "checked" : ""%>>
+                            <label for="pAgregar">Agregar</label>
                         </div>
 
                         <div class="permiso-item">
@@ -58,20 +59,20 @@
                         </div>
 
                         <div class="permiso-item">
+                            <input type="checkbox" class="permiso" id="pEliminar" name="pEliminar" value="S"
+                                   <%= "S".equals(usuario.getpEliminar()) ? "checked" : ""%>>
+                            <label for="pEliminar">Eliminar</label>
+                        </div>
+
+                        <div class="permiso-item">
                             <input type="checkbox" class="permiso" id="pDescargar" name="pDescargar" value="S"
                                    <%= "S".equals(usuario.getpDescargar()) ? "checked" : ""%>>
-                            <label for="pDescargar">Ver y descargar</label>
+                            <label for="pDescargar">Ver y descargar documentos</label>
                         </div>
-
-                        <div class="permiso-item">
-                            <input type="checkbox" class="permiso" id="pAgregar" name="pAgregar" value="S"
-                                   <%= "S".equals(usuario.getpAgregar()) ? "checked" : ""%>>
-                            <label for="pAgregar">Agregar</label>
-                        </div>
-
-                        <div class="permiso-item">
+ 
+                       <div class="permiso-item">
                             <input type="checkbox" id="selectAll">
-                            <label for="selectAll">Seleccionar todos</label>
+                            <label for="selectAll">Seleccionar todos los permisos</label>
                         </div>
                     </div>
                 </td>

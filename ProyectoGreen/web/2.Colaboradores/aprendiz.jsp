@@ -37,8 +37,8 @@
         lista += "<td>";
         lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + identificacion + ")' style='cursor:pointer;'/>";
         lista += "<img class='ver' src='../presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='verHistoriaLaboral(" + identificacion + ")' style='cursor:pointer;'/>";
-        lista += "<a href='aprendizFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
-        lista += "<img class='editar' src='../presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
+        lista += "<a class='editar' href='aprendizFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
+        lista += "<img src='../presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
         lista += "<img class='eliminar' src='../presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
         lista += "<img class='subir' src='../presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         lista += "<img class='subir' src='../presentacion/iconos/cambiarTipo.png' title='Pasar a temporal' onClick='cambiarATemporal(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";

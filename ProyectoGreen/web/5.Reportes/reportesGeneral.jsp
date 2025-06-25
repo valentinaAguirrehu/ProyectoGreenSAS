@@ -5,17 +5,6 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../presentacion/style-Cargos.css">
         <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            html, body {
-                height: 100%;
-                
-            }
-
             .container {
                 display: flex;
                 height: 100vh;
@@ -54,7 +43,7 @@
                 margin-bottom: 20px;
             }
 
-            .export-button {
+            .descargar {
                 background-color: #145a32;
                 color: white;
                 border: none;
@@ -68,13 +57,13 @@
                 transition: background-color 0.3s ease;
             }
 
-            .export-button img {
+            .descargar img {
                 width: 20px;
                 height: auto;
                 margin-right: 8px;
             }
 
-            .export-button:hover {
+            .descargar:hover {
                 background-color: #0e3e24;
             }
         </style>
@@ -82,6 +71,7 @@
     <body>
         <div class="container">
             <div class="menu">
+                <jsp:include page="../permisos.jsp" />
                 <jsp:include page="../menu.jsp" />
             </div>
 
@@ -90,7 +80,7 @@
                     <h2>Exportar Reporte General</h2>
                     <p>Descarga toda la información de colaboradores en formato Excel</p>
                     <form action="../5.Reportes/reporteGeneral.jsp" method="get">
-                        <button type="submit" class="export-button">
+                        <button type="submit" class="descargar">
                             <img src="../presentacion/iconos/excel.png" alt="Excel">
                             Descargar Excel
                         </button>

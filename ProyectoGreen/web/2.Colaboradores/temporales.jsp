@@ -43,8 +43,8 @@
         // VER HISTORIAL DOTACION
         lista += "<img class='ver' src='../presentacion/iconos/dotacion.png' title='Entregar dotación' onClick='entregarDotacionT(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         // MODIFICAR
-        lista += "<a href='temporalesFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";  
-        lista += "<img class='editar' src='../presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
+        lista += "<a class='editar' href='temporalesFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";  
+        lista += "<img src='../presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
         // ELIMINAR PERSONA
         lista += "<img  class='eliminar' src='../presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
         // PASAR A RETIRADO

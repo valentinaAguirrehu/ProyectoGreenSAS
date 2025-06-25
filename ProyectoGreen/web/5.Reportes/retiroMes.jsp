@@ -133,6 +133,7 @@
 <% } %>
 
 <% if (!isDownloadMode) {%>
+<jsp:include page="../permisos.jsp" />
 <%@ include file="../menu.jsp" %>
 <% } %>
 
@@ -181,12 +182,8 @@
 
     <% if (!isDownloadMode) {%>
     <div class="iconos-container">
-        <a href="retiroMes.jsp?formato=excel<%= (anio > 0 ? "&anio=" + anio : "") + (mes > 0 ? "&mes=" + mes : "")%>" target="_blank">
-            <img src="../presentacion/iconos/excel.png" alt="Exportar a Excel">
-        </a>
-        <a href="retiroMes.jsp?formato=word<%= (anio > 0 ? "&anio=" + anio : "") + (mes > 0 ? "&mes=" + mes : "")%>" target="_blank">
-            <img src="../presentacion/iconos/word.png" alt="Exportar a Word">
-        </a>
+        <a class="descargar"  href="retiroMes.jsp?formato=excel<%= (anio > 0 ? "&anio=" + anio : "") + (mes > 0 ? "&mes=" + mes : "")%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Exportar a Excel"></a>
+        <a class="descargar" href="retiroMes.jsp?formato=word<%= (anio > 0 ? "&anio=" + anio : "") + (mes > 0 ? "&mes=" + mes : "")%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
     </div>
     <% } %>
 

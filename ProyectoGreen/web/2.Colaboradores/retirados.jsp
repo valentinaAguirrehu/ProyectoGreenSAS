@@ -47,8 +47,8 @@
                 lista += "<td>";
                 lista += "<img class='ver' src='../presentacion/iconos/ojo.png' title='Ver Detalles' onClick='verDetalles(" + persona.getIdentificacion() + ")' style='cursor:pointer;'/>";           
                lista += "<img class='ver' src='../presentacion/iconos/verDocumento.png' title='Ver Historia Laboral' onClick='historiaLaboralGreen(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/>"; 
-                lista += "<a href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
-                        + "' title='Modificar' class='editar'><img src='../presentacion/iconos/modificar.png'></a>";
+                lista += "<a  class='editar' href='retiradosFormulario.jsp?accion=Modificar&id=" + persona.getIdentificacion()
+                        + "' title='Modificar'><img src='../presentacion/iconos/modificar.png'></a>";
                 lista += "<img class='subir' src='../presentacion/iconos/cambiarTipo.png' title='Pasar a colaborador' onClick='cambiarRColaborador(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
                 lista += "<img src='../presentacion/iconos/eliminar.png' class='eliminar' title='Eliminar' onClick='eliminar("
                         + persona.getIdentificacion() + ")'>";

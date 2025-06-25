@@ -111,20 +111,19 @@
 %>
 
 <% if (!isDownloadMode) {%>
+<jsp:include page="../permisos.jsp" />
 <%@ include file="../menu.jsp" %> 
 <% } %> 
 
 <div class="content">
     <h3 class="titulo">REPORTE GENERAL DEL DÍA DE LA FAMILIA </h3>
 
-    <%
-        if (!isDownloadMode) {
-    %>
-    <a href="diaFamilia.jsp?formato=excel" target="_blank"><img src="../presentacion/iconos/excel.png " alt="Exportar a Excel"></a>
-    <a href="diaFamilia.jsp?formato=word" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
-        <%
-            }
-        %>
+    <%if (!isDownloadMode) {%>
+    <div style="text-align: center; margin: 10px 0;">
+        <a class="descargar" href="diaFamilia.jsp?formato=excel" target="_blank"><img src="../presentacion/iconos/excel.png " alt="Exportar a Excel"></a>
+        <a class="descargar" href="diaFamilia.jsp?formato=word" target="_blank"><img src="../presentacion/iconos/word.png" alt="Exportar a Word"></a>
+    </div>
+    <% } %>
 
     <table border="1" class="table" style="margin-top:20px; width:100%; font-size: 14px;">
         <tr style="background-color: #e0e0e0;">

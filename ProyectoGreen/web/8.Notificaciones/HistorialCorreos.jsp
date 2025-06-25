@@ -82,7 +82,7 @@
     %>
     <div style="text-align: center; margin-top: 40px;">
         <p style="font-size: 18px;">No hay historial de correos enviados a administradores</p>
-        <a href="enviarCorreos.jsp" class="boton">Enviar Correos</a>
+        <a class="subir" href="enviarCorreos.jsp">Enviar Correos</a>
     </div>
     <%
             }

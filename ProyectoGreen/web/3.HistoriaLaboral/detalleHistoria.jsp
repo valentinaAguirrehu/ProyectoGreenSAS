@@ -336,7 +336,6 @@
 
 %>
 
-
 <!DOCTYPE html>
 
 <jsp:include page="../permisos.jsp" />
@@ -363,8 +362,8 @@
                             <th>Observación</th>
                             <th>Nombre del archivo</th>
                             <th colspan="2">
-                                <a href="detalleFormulario.jsp?identificacion=<%= identificacion%>&tipo=<%= tipo%>">
-                                    <img src="../presentacion/iconos/agregar.png" class="subir" alt="Agregar Documento">
+                                <a class="subir" href="detalleFormulario.jsp?identificacion=<%= identificacion%>&tipo=<%= tipo%>">
+                                    <img src="../presentacion/iconos/agregar.png" alt="Agregar Documento">
                                 </a>
                             </th>
                         </tr>
@@ -409,8 +408,8 @@
                         <td><%= detalle.getDocumentoPDF() != null ? detalle.getDocumentoPDF() : "No disponible"%></td>
                         <td>
                             <% if (detalle.getDocumentoPDF() != null && !detalle.getDocumentoPDF().isEmpty()) {%>
-                            <a href="<%= detalle.getDocumentoPDF()%>" target="_blank">
-                                <img class="ver" src="../presentacion/iconos/ojo.png" alt="Ver PDF">
+                            <a class="descargar" href="<%= detalle.getDocumentoPDF()%>" target="_blank">
+                                <img src="../presentacion/iconos/ojo.png" alt="Ver PDF">
                             </a>
                             <% } else { %>
                             No disponible
@@ -423,8 +422,8 @@
                                 <input type="hidden" name="idPersona" id="idPersona" value="<%= detalle.getIdPersona()%>">
                                 <input type="hidden" name="tipo" id="tipo" value="<%= detalle.getTipo()%>">
                                 <input type="hidden" name="accion" value="Eliminar">
-                                <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este documento?');" style="border: none; background: none; cursor: pointer;">
-                                    <img src="../presentacion/iconos/eliminar.png" class="eliminar" alt="Eliminar">
+                                <button class="eliminar" type="submit" onclick="return confirm('¿Estás seguro de eliminar este documento?');" style="border: none; background: none; cursor: pointer;">
+                                    <img src="../presentacion/iconos/eliminar.png" alt="Eliminar">
                                 </button>
                             </form>
                         </td>
@@ -488,6 +487,7 @@
                 "<%= administrador.getpEliminar()%>",
                 "<%= administrador.getpLeer()%>",
                 "<%= administrador.getpAgregar()%>"
+                "<%= administrador.getpDescargar()%>"
                 );
     });
 

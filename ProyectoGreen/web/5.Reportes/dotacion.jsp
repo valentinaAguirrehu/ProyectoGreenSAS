@@ -83,6 +83,7 @@
         width: 100%;
     }
 </style>
+<jsp:include page="../permisos.jsp" />
 <%@ include file="../menu.jsp" %>
 <% } %>
 
@@ -93,12 +94,8 @@
 
     <% if (!isDownloadMode) {%>
     <div class="export-icons">
-        <a href="dotacion.jsp?formato=excel<%= request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : ""%>" target="_blank">
-            <img src="../presentacion/iconos/excel.png" alt="Excel">
-        </a>
-        <a href="dotacion.jsp?formato=word<%= request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : ""%>" target="_blank">
-            <img src="../presentacion/iconos/word.png" alt="Word">
-        </a>
+        <a class="descargar" href="dotacion.jsp?formato=excel<%= request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : ""%>" target="_blank"><img src="../presentacion/iconos/excel.png" alt="Excel"></a>
+        <a class="descargar" href="dotacion.jsp?formato=word<%= request.getQueryString() != null ? "&" + request.getQueryString().replaceAll("formato=\\w+&?", "") : ""%>" target="_blank"><img src="../presentacion/iconos/word.png" alt="Word"></a>
     </div>
     <form method="get" class="filtro-form" id="filtroForm">
         <select name="anio">
@@ -293,6 +290,7 @@
                 }
             }
         });
+               
     </script>
 
     <% }%>
