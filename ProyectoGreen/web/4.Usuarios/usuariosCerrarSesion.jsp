@@ -26,7 +26,7 @@
     }
 %>
 <script>
-    alert("Sesión cerrada correctamente.");
+    alert("Sesiï¿½n cerrada correctamente.");
     window.location.href = "usuarios.jsp";
 </script>
 
