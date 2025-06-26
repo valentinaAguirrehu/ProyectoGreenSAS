@@ -86,11 +86,11 @@
             </div>
         </div>
 
-        <h3 class="titulo" style="flex-grow: 1; text-align: center; margin: 0; font-size: 24px; color: #2c3e50; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+        <h3 class="titulo">
             GESTIÓN DE USUARIOS
         </h3>
 
-        <div style="width: 220px;"></div>
+        <div style="width: 350px;"></div>
     </div>
 
     <link rel="stylesheet" href="../presentacion/style-Usuarios.css">
