@@ -18,9 +18,9 @@ public class TipoDocumento {
 
     public String getOpcion() {
         switch (codigo) {
-            case "C": return "Cedula de Ciudadania";
+            case "C": return "Cédula de Ciudadanía";
             case "T": return "Tarjeta de Identidad";
-            case "E": return "Cedula de Extranjeria";
+            case "E": return "Cédula de Extranjería";
             case "P": return "Permiso Temporal";
             case "O": return "Otro";
             default: return "No Especificado";
@@ -49,9 +49,9 @@ public class TipoDocumento {
         // Nueva línea: opción "Seleccionar..."
         html.append(getOption("", "Seleccionar...", valorSeleccionado));
 
-        html.append(getOption("C", "Cedula de Ciudadania", valorSeleccionado));
+        html.append(getOption("C", "Cédula de Ciudadanía", valorSeleccionado));
         html.append(getOption("T", "Tarjeta de Identidad", valorSeleccionado));
-        html.append(getOption("E", "Cedula de Extranjeria", valorSeleccionado));
+        html.append(getOption("E", "Cédula de Extranjería", valorSeleccionado));
         html.append(getOption("P", "Permiso Temporal", valorSeleccionado));
         html.append(getOption("O", "Otro", valorSeleccionado));
 

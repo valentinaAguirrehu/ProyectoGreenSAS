@@ -95,6 +95,19 @@
             break;
     }
 
+if (!personaGuardada && "Adicionar".equals(accion)) {
+%>
+    <script type="text/javascript">
+        alert("Este usuario ya existe");
+        window.history.back(); // regresa al formulario anterior
+    </script>
+<%
+    return; // Detiene aquí y no ejecuta nada más
+}
+
+    
+    
+    
     // Solo proceder con los hijos si la persona se guardó correctamente
     if (personaGuardada && identificacionesHijos != null) {
         for (int i = 0; i < identificacionesHijos.length; i++) {
@@ -149,4 +162,7 @@
 
 <script type="text/javascript">
     document.location = "persona.jsp";
-</script>
+
+    </script>
+
+ 

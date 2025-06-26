@@ -1,19 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package clases;
 
 /**
  *
  * @author Mary
  */
-public class TipoMedidaTallaNumerica {
+public class TipoMedidaZapato {
 
     private String codigo;
 
-    public TipoMedidaTallaNumerica(String codigo) {
+    public TipoMedidaZapato(String codigo) {
         this.codigo = codigo;
     }
 
@@ -32,8 +27,8 @@ public class TipoMedidaTallaNumerica {
             int talla = Integer.parseInt(codigo);
             return String.valueOf(talla);
         } catch (NumberFormatException e) {
-            if (codigo.equals("O")) return "Otro";
-            return codigo; // Por si alguien pone "27.5", etc.
+            if ("O".equals(codigo)) return "Otro";
+            return codigo; // Por si alguien pone "36.5", etc.
         }
     }
 
@@ -42,13 +37,12 @@ public class TipoMedidaTallaNumerica {
         return getOpcion();
     }
 
-    public String getSelectTipoMedidaTallaNumerica(String nombreCampo) {
+    public String getSelectTipoMedidaZapato(String nombreCampo) {
         StringBuilder html = new StringBuilder();
 
-        // Si el código no está en el rango aceptado (o es null), es "Otro"
-        boolean esOtro = !(codigo != null && codigo.matches("^(6|8|10|12|14|16|18|20|22|24|26|28|30|32|34|36|38|40)$"));
-        
-        // Si no hay código, selecciona "" → se marcará "Seleccione"
+        // Solo tallas válidas del 34 al 40
+        boolean esOtro = !(codigo != null && codigo.matches("^(34|35|36|37|38|39|40)$"));
+
         String valorSeleccionado = (codigo == null || codigo.isEmpty()) ? "" : (esOtro ? "O" : codigo);
         String valorTextoOtro = esOtro ? (codigo == null ? "" : codigo) : "";
 
@@ -60,8 +54,8 @@ public class TipoMedidaTallaNumerica {
         // Opción por defecto
         html.append(getOption("", "Seleccione", valorSeleccionado));
 
-        // Opciones numéricas (de 6 a 40, de 2 en 2)
-        for (int i = 6; i <= 40; i += 2) {
+        // Tallas numéricas de 34 a 40 (de 1 en 1)
+        for (int i = 34; i <= 40; i++) {
             html.append(getOption(String.valueOf(i), String.valueOf(i), valorSeleccionado));
         }
 
@@ -71,13 +65,13 @@ public class TipoMedidaTallaNumerica {
         // Fin del <select>
         html.append("</select>");
 
-        // Campo de texto para "Otro"
+        // Campo visible para "Otro"
         html.append("<input type='text' id='").append(nombreCampo).append("Otro' ")
             .append("value='").append(valorTextoOtro).append("' ")
             .append("style='display:").append(esOtro ? "inline-block" : "none").append(";' ")
             .append("placeholder='Especifique...' />");
 
-        // Campo oculto con el valor final
+        // Campo oculto con el valor final a enviar
         html.append("<input type='hidden' name='").append(nombreCampo).append("Final' ")
             .append("id='").append(nombreCampo).append("Final' ")
             .append("value='").append(codigo == null ? "" : codigo).append("' />");
