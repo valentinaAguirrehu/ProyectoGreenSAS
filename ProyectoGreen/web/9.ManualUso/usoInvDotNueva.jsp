@@ -1,6 +1,10 @@
 <%-- 
     Document   : usoInvDotNueva
+<<<<<<< HEAD
     Created on : 19 jun 2025, 22:55:00
+=======
+    Created on : 18 jun 2025, 15:56:28
+>>>>>>> origin/angelito
     Author     : Angie
 --%>
 
@@ -8,6 +12,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+<<<<<<< HEAD
         <meta charset="UTF-8">
         <title>GREEN S.A.S.</title>
         <style>
@@ -145,5 +150,12 @@
             <a href="../9.ManualUso/dotacionMenu.jsp" class="back-button">← Volver</a>
         </div>
 
+=======
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>Hello World!</h1>
+>>>>>>> origin/angelito
     </body>
 </html>

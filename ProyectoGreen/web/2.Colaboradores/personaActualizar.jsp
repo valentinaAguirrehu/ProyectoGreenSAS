@@ -11,6 +11,7 @@
 
 
 <%
+    request.setCharacterEncoding("UTF-8");
     // Capturar acción y valores del formulario
     String accion = request.getParameter("accion");
     String identificacionAnterior = request.getParameter("identificacionAnterior");

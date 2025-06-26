@@ -75,9 +75,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Fecha de ingreso temporal</th>
+                    <th>Fecha de ingreso temporal<span style="color: red;">*</span></th>
                     <td>
-                        <input type="date" name="fechaIngresoTemporal" value="<%= informacionLaboral.getFechaIngresoTemporal()%>"></td>
+                        <input type="date" name="fechaIngresoTemporal" value="<%= informacionLaboral.getFechaIngresoTemporal()%>" required></td>
                 </tr>
 
                 <tr>
@@ -86,24 +86,24 @@
                         <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" >
                     </td>
                 </tr>
-<!--                <tr>
-                    <th>Duración del primer contrato<span style="color: red;">*</span></th>
-                    <td>
-                        <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
-                    </td>
-                <tr>-->
-                    <th>Unidad de negocio<span style="color: red;">*</span></th>
-                    <td>
-                        <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
-                            <option value="">Seleccione...</option>
-                            <%
-                                String[] unidades = {"EDS", "RPS", "DP"};
-                                for (String u : unidades) {
-                            %>
-                            <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
-                            <% }%>
-                        </select>
-                    </td>
+                <!--                <tr>
+                                    <th>Duración del primer contrato<span style="color: red;">*</span></th>
+                                    <td>
+                                        <input type="date" name="fechaTerPriContrato" value="<%= (informacionLaboral != null && informacionLaboral.getFechaTerPriContrato() != null) ? informacionLaboral.getFechaTerPriContrato() : ""%>" required>
+                                    </td>
+                                <tr>-->
+                <th>Unidad de negocio<span style="color: red;">*</span></th>
+                <td>
+                    <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
+                        <option value="">Seleccione...</option>
+                        <%
+                            String[] unidades = {"EDS", "RPS", "DP", "CONGUSTO"};
+                            for (String u : unidades) {
+                        %>
+                        <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
+                        <% }%>
+                    </select>
+                </td>
                 </tr>
                 <tr>
                     <th>Centro de costos<span style="color: red;">*</span></th>
@@ -124,7 +124,7 @@
                     <td colspan="2">
                         <%= informacionLaboral.getArea().getSelectArea("area")%>
                     </td>                                
-                 <tr>
+                <tr>
                     <th>Cargo<span style="color: red;">*</span></th>
                     <td>
                         <select name="idCargo" id="idCargo" required>
@@ -135,8 +135,17 @@
 
                 <tr>
                     <th>Salario<span style="color: red;">*</span></th>
-                    <td><input type="text" name="salario" id="salario" value="<%= informacionLaboral.getSalario()%>" /></td>
+                    <td>
+                        <input type="text" name="salario" id="salario"
+                               value="<%= informacionLaboral.getSalario()%>"
+                               size="50" maxlength="10" pattern="\d+"
+                               title="Ingrese solo números (sin puntos ni comas)"
+                               onkeypress="return soloNumeros(event)"
+                               onblur="validarNumerico('salario')"
+                               placeholder="Campo numérico" required>
+                    </td>
                 </tr>
+
             </table>
 
             <div class="botones-container">
@@ -211,11 +220,14 @@
             "Unicentro",
             "Centro de Procesos",
             "Teleoperaciones"
-         ],
+        ],
         "DP": [
             "Avenida",
             "Bolivar",
             "Ipiales"
+        ],
+        "CONGUSTO": [
+            "CONGUSTO"
         ]
     };
 

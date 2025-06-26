@@ -16,6 +16,7 @@
     <h2>Actualizar Hijos de Persona</h2>
 
     <%
+        request.setCharacterEncoding("UTF-8");
         String mensaje = "";
         if (request.getMethod().equals("POST")) {
             try {

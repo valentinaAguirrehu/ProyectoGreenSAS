@@ -28,7 +28,7 @@ public class Area {
             case "C3": opcion = "Administrativos"; break;
             case "C4": opcion = "Operativos"; break;
             case "C5": opcion = "Otros"; break;
-          
+            case "NA": opcion = "Seleccionar"; break;
             default: opcion = "No aplica"; break;
         }
         return opcion;
@@ -36,19 +36,21 @@ public class Area {
 
     @Override
     public String toString() {
-        return getOpcion();
+        return (codigo != null) ? getOpcion() : "No aplica";
     }
 
     public String getSelectArea(String nombreCampo) {
         StringBuilder html = new StringBuilder();
         html.append("<select name='").append(nombreCampo).append("' id='").append(nombreCampo).append("'>");
 
+        // Opción por defecto
+        html.append(getOption("NA", "Seleccionar", codigo));
         html.append(getOption("C1", "Gerenciales", codigo));
         html.append(getOption("C2", "Directivos", codigo));
         html.append(getOption("C3", "Administrativos", codigo));
         html.append(getOption("C4", "Operativos", codigo));
         html.append(getOption("C5", "Otros", codigo));
-       
+
         html.append("</select>");
         return html.toString();
     }

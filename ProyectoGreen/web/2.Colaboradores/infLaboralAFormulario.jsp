@@ -15,44 +15,44 @@
 
 <%
 
-   String accion = request.getParameter("accion");
+    String accion = request.getParameter("accion");
 // Recuperar la identificación desde la URL o el formulario anterior
-String identificacion = request.getParameter("identificacion");
+    String identificacion = request.getParameter("identificacion");
 
 // Instancia vacía con la identificación por si no se encuentra en BD
-System.out.println("Entrando a infLaboralAFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
+    System.out.println("Entrando a infLaboralAFormulario.jsp con identificacion=" + identificacion + " y accion=" + accion);
 
 // Información Laboral
-InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
-String opcionesCargos = Cargo.getListaEnOptions(informacionLaboral.getIdentificacion());
+    InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
+    String opcionesCargos = Cargo.getListaEnOptions(informacionLaboral.getIdentificacion());
 
 // Educación
-Educacion educacion = new Educacion(identificacion);
+    Educacion educacion = new Educacion(identificacion);
 
 // Acción por defecto
-if (accion == null) {
-    accion = "Adicionar"; // Cambiar a Adicionar si aún no se ha guardado o el botón da null
-}
+    if (accion == null) {
+        accion = "Adicionar"; // Cambiar a Adicionar si aún no se ha guardado o el botón da null
+    }
 
 // Validar que la identificación no sea nula o vacía
-if (identificacion != null && !identificacion.isEmpty()) {
-    session.setAttribute("identificacion", identificacion);  // Almacenar en sesión
-}
+    if (identificacion != null && !identificacion.isEmpty()) {
+        session.setAttribute("identificacion", identificacion);  // Almacenar en sesión
+    }
 
 // Solo intenta obtener de la BD si la acción es "Modificar"
-if ("Modificar".equals(accion)) {
-    // Cargar información laboral si existe
-    InformacionLaboral tmpInfLab = InformacionLaboral.getInformacionPorIdentificacion(identificacion);
-    if (tmpInfLab != null) {
-        informacionLaboral = tmpInfLab;
-    }
+    if ("Modificar".equals(accion)) {
+        // Cargar información laboral si existe
+        InformacionLaboral tmpInfLab = InformacionLaboral.getInformacionPorIdentificacion(identificacion);
+        if (tmpInfLab != null) {
+            informacionLaboral = tmpInfLab;
+        }
 
-    // Cargar educación si existe
-    Educacion tmpEducacion = Educacion.getInformacionPorIdentificacion(identificacion);
-    if (tmpEducacion != null) {
-        educacion = tmpEducacion;
+        // Cargar educación si existe
+        Educacion tmpEducacion = Educacion.getInformacionPorIdentificacion(identificacion);
+        if (tmpEducacion != null) {
+            educacion = tmpEducacion;
+        }
     }
-}
 
 %>
 
@@ -140,18 +140,18 @@ if ("Modificar".equals(accion)) {
                     </td>
                 </tr>
                 <tr>
-                <th>Unidad de negocio<span style="color: red;">*</span></th>
-                <td>
-                    <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
-                        <option value="">Seleccione...</option>
-                        <%
-                            String[] unidades = {"EDS", "RPS", "DP"};
-                            for (String u : unidades) {
-                        %>
-                        <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
-                        <% }%>
-                    </select>
-                </td>
+                    <th>Unidad de negocio<span style="color: red;">*</span></th>
+                    <td>
+                        <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
+                            <option value="">Seleccione...</option>
+                            <%
+                                String[] unidades = {"EDS", "RPS", "DP", "CONGUSTO"};
+                                for (String u : unidades) {
+                            %>
+                            <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
+                            <% }%>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <th>Centro de costos<span style="color: red;">*</span></th>
@@ -172,7 +172,7 @@ if ("Modificar".equals(accion)) {
                     <td colspan="2">
                         <%= informacionLaboral.getArea().getSelectArea("area")%>
                     </td>                                
-                 <tr>
+                <tr>
                     <th>Cargo<span style="color: red;">*</span></th>
                     <td>
                         <select name="idCargo" id="idCargo" required>
@@ -183,8 +183,17 @@ if ("Modificar".equals(accion)) {
 
                 <tr>
                     <th>Salario<span style="color: red;">*</span></th>
-                    <td><input type="text" name="salario" id="salario" value="<%= informacionLaboral.getSalario()%>" /></td>
+                    <td>
+                        <input type="text" name="salario" id="salario"
+                               value="<%= informacionLaboral.getSalario()%>"
+                               size="50" maxlength="10" pattern="\d+"
+                               title="Ingrese solo números (sin puntos ni comas)"
+                               onkeypress="return soloNumeros(event)"
+                               onblur="validarNumerico('salario')"
+                               placeholder="Campo numérico" required>
+                    </td>
                 </tr>
+
             </table>
 
             <div class="botones-container">
@@ -259,11 +268,14 @@ if ("Modificar".equals(accion)) {
             "Unicentro",
             "Centro de Procesos",
             "Teleoperaciones"
-         ],
+        ],
         "DP": [
             "Avenida",
             "Bolivar",
             "Ipiales"
+         ],
+        "CONGUSTO": [
+            "CONGUSTO"
         ]
     };
 

@@ -16,7 +16,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
-   
+
     String accion = request.getParameter("accion");
     String identificacion = request.getParameter("identificacion");
     Persona persona = new Persona();
@@ -25,19 +25,18 @@
         persona = new Persona(identificacion);
 
     }
-    
+
     // Validar que la identificación no sea nula o vacía
     if (identificacion != null && !identificacion.isEmpty()) {
         session.setAttribute("identificacion", identificacion);  // Almacenar en sesión
     }
-   
+
     // Obtener los parámetros del formulario y evitar valores nulos
     String idDepartamento = request.getParameter("departamento") != null ? request.getParameter("departamento") : "";
     String idMunicipio = request.getParameter("lugarExpedicion") != null ? request.getParameter("lugarExpedicion") : "";
 
     // Concatenar los valores de forma segura
     String lugarExpedicion = idDepartamento + "-" + idMunicipio;
-
 
     // Supongamos que persona.getHijos() devuelve List<Hijo> o similar
     boolean tieneHijos = persona.getHijos() != null && !persona.getHijos().isEmpty();
@@ -53,11 +52,11 @@
 <body>
 
     <%
-    String errorIdentificacion = (String) request.getAttribute("errorIdentificacion");
-    if (errorIdentificacion != null) {
+        String errorIdentificacion = (String) request.getAttribute("errorIdentificacion");
+        if (errorIdentificacion != null) {
     %>
     <script>
-        alert("<%= errorIdentificacion %>");
+        alert("<%= errorIdentificacion%>");
     </script>
     <%
         }
@@ -90,12 +89,20 @@
                 <tr>
                     <th>Documento de identidad<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= persona.getTipoDocumento().getSelectTipoDocumento("tipoDocumento") %>
+                        <%
+                            if (persona.getTipoDocumento() != null) {
+                                out.print(persona.getTipoDocumento().getSelectTipoDocumento("tipoDocumento"));
+                            } else {
+                                // Si es null, muestra el select vacío con "Seleccionar..."
+                                out.print(new clases.TipoDocumento("").getSelectTipoDocumento("tipoDocumento"));
+                            }
+                        %>
                     </td>
                 </tr>
+
                 <tr>
                     <th>Número de documento<span style="color: red;">*</span></th>
-<!--                        <input type="text" name="identificacion" id="identificacion" value="<%= persona.getIdentificacion() %>" -->
+<!--                        <input type="text" name="identificacion" id="identificacion" value="<%= persona.getIdentificacion()%>" -->
                     <td><input type="text" id="identificacion" name="identificacion" value="<%=persona.getIdentificacion()%>" 
                                size="50" maxlength="50" 
                                onkeypress="return soloNumeros(event)" 
@@ -186,14 +193,14 @@
                 <tr>
                     <th>Tipo de sangre<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= persona.getTipoSangre().getSelectTipoSangre("tipoSangre") %>
+                        <%= persona.getTipoSangre().getSelectTipoSangre("tipoSangre")%>
                     </td>
                 </tr>
 
                 <tr>
                     <th>Tipo de vivienda<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= persona.getTipoVivienda().getSelectTipoVivienda("tipoVivienda") %>
+                        <%= persona.getTipoVivienda().getSelectTipoVivienda("tipoVivienda")%>
                     </td>
                 </tr>
 
@@ -225,7 +232,7 @@
                 <tr>
                     <th>Estado civil<span style="color: red;">*</span></th>
                     <td colspan="2">
-                        <%= persona.getEstadoCivil().getSelectEstadoCivil("estadoCivil") %>
+                        <%= persona.getEstadoCivil().getSelectEstadoCivil("estadoCivil")%>
                     </td>
                 </tr>
                 <tr>
@@ -255,11 +262,11 @@
                         <div class="radio-container">
                             <label>
                                 <input type="radio" name="tieneHijos" value="S" onclick="mostrarHijos()" 
-                                       <%= tieneHijos ? "checked" : "" %>> Sí
+                                       <%= tieneHijos ? "checked" : ""%>> Sí
                             </label>
                             <label>
                                 <input type="radio" name="tieneHijos" value="N" onclick="mostrarHijos()" 
-                                       <%= !tieneHijos ? "checked" : "" %>> No
+                                       <%= !tieneHijos ? "checked" : ""%>> No
                             </label>
                         </div>
                     </td>
@@ -268,7 +275,7 @@
 
 
             </table>
-            <div id="familiaresSection" style="display: <%= "S".equals(persona.getTieneHijos()) ? "block" : "none" %>;">
+            <div id="familiaresSection" style="display: <%= "S".equals(persona.getTieneHijos()) ? "block" : "none"%>;">
                 <h1>Información de Hijos</h1>
                 <table border="0" id="tablaHijos">
                     <tr>
@@ -284,11 +291,11 @@
                             for (Hijo hijo : persona.obtenerHijos()) {
                     %>
                     <tr>
-                        <td><input type="text" name="identificacionHijo[]" value="<%= hijo.getIdentificacion() %>" size="10" maxlength="10" required></td>
-                        <td><input type="text" name="tipoIdenHijo[]" value="<%= hijo.getTipoIden() %>" size="10" maxlength="10" required></td>
-                        <td><input type="text" name="nombreHijo[]" value="<%= hijo.getNombres() %>" size="50" maxlength="50" required></td>
-                        <td><input type="date" name="fechaNacimientoHijo[]" value="<%= hijo.getFechaNacimiento() %>" required></td>
-                        <td><input type="text" name="nivelEscolarHijo[]" value="<%= hijo.getNivelEscolar() %>" size="20" maxlength="20" required></td>
+                        <td><input type="text" name="identificacionHijo[]" value="<%= hijo.getIdentificacion()%>" size="10" maxlength="10" required></td>
+                        <td><input type="text" name="tipoIdenHijo[]" value="<%= hijo.getTipoIden()%>" size="10" maxlength="10" required></td>
+                        <td><input type="text" name="nombreHijo[]" value="<%= hijo.getNombres()%>" size="50" maxlength="50" required></td>
+                        <td><input type="date" name="fechaNacimientoHijo[]" value="<%= hijo.getFechaNacimiento()%>" required></td>
+                        <td><input type="text" name="nivelEscolarHijo[]" value="<%= hijo.getNivelEscolar()%>" size="20" maxlength="20" required></td>
                         <td><button type="button" onclick="eliminarFila(this)">Eliminar</button></td>
                     </tr>
                     <%
@@ -318,7 +325,7 @@
             <% if ("Modificar".equals(accion)) { %>
             <input type="hidden" id="identificacionHidden" name="identificacionHidden">
             <button type="button" onclick="irASiguiente()">Siguiente: Seguridad social</button>
-            <% } %>
+            <% }%>
 
     </div>
 

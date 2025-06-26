@@ -182,7 +182,9 @@
         </p>
 
         <div class="image-container">
-            <img class="document-image" src="../presentacion/imagenesManual/verSubdocumentos.png" alt="Vista de subdocumentos">
+
+            <img class="document-image" src="../presentacion/imagenesManual/subMenu.jpg" alt="Vista de subdocumentos">
+
         </div>
 
         <h4>Paso 3: Cargar un archivo PDF</h4>
@@ -201,7 +203,9 @@
         </ul>
 
         <div class="image-container">
-            <img class="document-image" src="../presentacion/imagenesManual/agregarDocumento.png" alt="Agregar documento a historia laboral">
+
+            <img class="document-image" src="../presentacion/imagenesManual/agregarHistoriaLaboral.jpg alt="Agregar documento a historia laboral">
+
         </div>
 
         <h4>Paso 4: Agregar observación y guardar</h4>

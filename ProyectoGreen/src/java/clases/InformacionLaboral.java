@@ -190,6 +190,14 @@ public class InformacionLaboral {
     public Area getArea() {
         return new Area(area);
     }
+    public String getAreaTexto() {
+    Area a = getArea(); // crea un objeto Area desde el código guardado
+    if (a == null || a.getCodigo().equals("NA") || a.getCodigo().trim().isEmpty()) {
+        return "No aplica";
+    }
+    return a.getOpcion();
+}
+
 
     public void setArea(String area) {
         this.area = area;
@@ -397,5 +405,23 @@ public class InformacionLaboral {
                 || area.equalsIgnoreCase("Administrativo")
                 || area.equalsIgnoreCase("Operativo"));
     }
+
+public static boolean existe(String identificacion) {
+    String sql = "SELECT 1 FROM informacionlaboral WHERE identificacion = '" + identificacion + "' LIMIT 1";
+    ResultSet rs = ConectorBD.consultar(sql);
+    try {
+        return rs != null && rs.next();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    } finally {
+        try {
+            if (rs != null) rs.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+
 
 }

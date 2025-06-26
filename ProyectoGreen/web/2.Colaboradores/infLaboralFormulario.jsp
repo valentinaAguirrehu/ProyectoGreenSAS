@@ -100,7 +100,7 @@
                     <select name="unidadNegocio" id="unidadNegocio" onchange="precargarCentroCostos()" required>
                         <option value="">Seleccione...</option>
                         <%
-                            String[] unidades = {"EDS", "RPS", "DP"};
+                            String[] unidades = {"EDS", "RPS", "DP", "CONGUSTO"};
                             for (String u : unidades) {
                         %>
                         <option value="<%= u%>" <%= u.equals(informacionLaboral.getUnidadNegocio()) ? "selected" : ""%>><%= u%></option>
@@ -137,8 +137,17 @@
                 </tr>
                 <tr>
                     <th>Salario<span style="color: red;">*</span></th>
-                    <td><input type="text" name="salario" id="salario" value="<%= informacionLaboral.getSalario()%>" /></td>
+                    <td>
+                        <input type="text" name="salario" id="salario"
+                               value="<%= informacionLaboral.getSalario()%>"
+                               size="50" maxlength="10" pattern="\d+"
+                               title="Ingrese solo números (sin puntos ni comas)"
+                               onkeypress="return soloNumeros(event)"
+                               onblur="validarNumerico('salario')"
+                               placeholder="Campo numérico" required>
+                    </td>
                 </tr>
+
             </table>
 
             <div class="botones-container">
@@ -219,6 +228,9 @@
             "Avenida",
             "Bolivar",
             "Ipiales"
+        ],
+        "CONGUSTO": [
+            "CONGUSTO"         
         ]
     };
 

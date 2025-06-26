@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+<<<<<<< HEAD
         <meta charset="UTF-8">
         <title>GREEN S.A.S.</title>
         <style>
@@ -157,3 +158,12 @@
     </body>
 </html>
 
+=======
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>Hello World!</h1>
+    </body>
+</html>
+>>>>>>> origin/angelito
