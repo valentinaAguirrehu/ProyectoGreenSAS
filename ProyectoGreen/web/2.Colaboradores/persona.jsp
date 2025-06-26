@@ -48,16 +48,15 @@
         // VER HISTORIA LABORAL
         lista += "<img class='ver' src='../presentacion/iconos/dotacion.png' title='Entregar dotación' onClick='entregarDotacion(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         // MODIFICAR
-        lista += "<a href='personaFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
-        lista += "<img class='editar' src='../presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
+        lista += "<a class='editar' href='personaFormulario.jsp?accion=Modificar&identificacion=" + identificacion + "' title='Modificar'>";
+        lista += "<img src='../presentacion/iconos/modificar.png' alt='Modificar'/></a> ";
         // ELIMINAR PERSONA
         lista += "<img class='eliminar' src='../presentacion/iconos/eliminar.png' title='Eliminar' onClick='eliminar(" + identificacion + ")' style='cursor:pointer;'/>";
-       // PASAR A RETIRADO
+        // PASAR A RETIRADO
         lista += "<img class='subir' src='../presentacion/iconos/retirado.png' title='Pasar a retirado' onClick='verRetirados(\"" + persona.getIdentificacion() + "\")' style='cursor:pointer;'/> ";
         lista += "</td>";
         lista += "</tr>";
     }
-
 %>
 
 <jsp:include page="../permisos.jsp" />

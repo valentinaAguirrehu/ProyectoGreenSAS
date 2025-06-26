@@ -6,16 +6,18 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 
 <%
-    boolean isDownloadMode = request.getParameter("formato") != null;
+    String formatoExportacion = request.getParameter("formato");
+    boolean isDownloadMode = formatoExportacion != null;
+    boolean isWordExport = "word".equals(formatoExportacion);
+
     if (isDownloadMode) {
         String tipoContenido = "";
         String extensionArchivo = "";
 
-        // Obtener fecha actual formateada dd-MM-yyyy
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
         String fechaActual = sdf.format(new java.util.Date());
 
-        switch (request.getParameter("formato")) {
+        switch (formatoExportacion) {
             case "excel":
                 tipoContenido = "application/vnd.ms-excel";
                 extensionArchivo = ".xls";
@@ -128,6 +130,22 @@
 <% } %> 
 
 <div class="content">
+<% if (isWordExport) {
+     String logoURL = request.getScheme() + "://" +
+                      request.getServerName() + ":" +
+                      request.getServerPort() +
+                      request.getContextPath() + "/presentacion/iconos/logoEmpresa.jpg";
+%>
+    <table width="100%" style="border: none; margin-bottom: 10px;">
+        <tr>
+            <td style="text-align: left;">
+                <img src="<%= logoURL %>" alt="Logo"
+                     style="width: 120px; height: 40px; object-fit: contain; display: block;">
+            </td>
+        </tr>
+    </table>
+<% } %>
+
     <h3 class="titulo">REPORTE DE INGRESO DE COLABORADORES - GREEN S.A.S</h3>
 
     <% if (!isDownloadMode) { %>

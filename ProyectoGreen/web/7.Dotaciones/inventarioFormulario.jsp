@@ -59,8 +59,10 @@
                     <label for="unidad_negocio">Unidad de negocio:</label>
                     <select name="unidad_negocio" required>
                         <option value="">Seleccione una unidad</option>
-                        <option value="GREEN S.A.S. EDS">GREEN S.A.S. EDS</option>
-                        <option value="GREEN S.A.S. RPS">GREEN S.A.S. RPS</option>
+                        <option value="EDS">EDS</option>
+                        <option value="RPS">RPS</option>
+                        <option value="DP">DP</option>
+                        <option value="CONGUSTO">CONGUSTO</option>
                     </select>
                 </div>
 

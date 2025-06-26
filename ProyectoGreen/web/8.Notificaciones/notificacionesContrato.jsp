@@ -23,13 +23,14 @@
             "adso", "utilizar"
         );
 
-        String sql = "SELECT p.identificacion, p.nombres, p.apellidos, p.email, p.celular, "
-                   + "il.centroCostos, il.unidadNegocio, il.fechaIngreso, c.nombre AS cargo, il.fechaTerPriContrato "
-                   + "FROM persona p "
-                   + "JOIN informacionlaboral il ON p.identificacion = il.identificacion "
-                   + "JOIN cargo c ON il.idCargo = c.id "
-                   + "WHERE p.tipo = 'C' "
-                   + "AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)";
+     String sql = "SELECT p.identificacion, p.nombres, p.apellidos, p.email, p.celular, "
+           + "il.centroCostos, il.unidadNegocio, il.fechaIngreso, c.nombre AS cargo, il.fechaTerPriContrato "
+           + "FROM persona p "
+           + "JOIN informacionlaboral il ON p.identificacion = il.identificacion "
+           + "JOIN cargo c ON il.idCargo = c.id "
+           + "WHERE p.tipo = 'C' "
+           + "AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 50 DAY)";
+
 
         stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         rs = stmt.executeQuery();
@@ -53,7 +54,7 @@
         ResultSet adminRs = adminStmt.executeQuery();
 
         StringBuilder resumen = new StringBuilder(
-            "Buen día,\n\nLe informamos que los siguientes contratos vencerán en los próximos 30 días:\n\n"
+            "Buen día,\n\nLe informamos que los siguientes contratos vencerán en los próximos 50 días:\n\n"
         );
         // Re-ejecuta sentencia para construir el resumen
         stmt = conn.prepareStatement(sql);
@@ -76,7 +77,7 @@
         while (adminRs.next()) {
             String emailAdmin = adminRs.getString("email");
             MimeMessage mensajeAdmin = new MimeMessage(sessionMail);
-            mensajeAdmin.setFrom(new InternetAddress(correoEnvia, " Software Gestión Humana"));
+            mensajeAdmin.setFrom(new InternetAddress(correoEnvia, " Notificaciones Gestión Humana"));
             mensajeAdmin.setRecipient(Message.RecipientType.TO, new InternetAddress(emailAdmin));
             mensajeAdmin.setSubject("Contratos próximos a vencer");
             mensajeAdmin.setText(resumen.toString());

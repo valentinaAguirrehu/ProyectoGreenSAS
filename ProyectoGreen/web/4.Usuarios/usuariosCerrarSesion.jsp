@@ -4,32 +4,29 @@
     Author     : Angie
 --%>
 
-<%@page import="clases.Administrador"%>
-<%@page import="javax.servlet.http.HttpSession"%>
+<%@page import="javax.servlet.ServletContext"%>
 <%@page import="java.util.Map"%>
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="javax.servlet.http.HttpSession"%>
 
 <%
     String identificacion = request.getParameter("identificacion");
-    Administrador usuario = new Administrador(identificacion);
-    usuario.setEstado("Inactivo");
-    usuario.modificar(identificacion); 
+    ServletContext ctx = getServletContext(); 
 
-    Map<String, HttpSession> sesiones = (Map<String, HttpSession>) application.getAttribute("sesionesActivas");
+    Map<String, HttpSession> sesiones = (Map<String, HttpSession>) ctx.getAttribute("sesionesActivas");
+
     if (sesiones != null) {
         HttpSession sesionUsuario = sesiones.get(identificacion);
         if (sesionUsuario != null) {
             try {
-                sesionUsuario.invalidate();
+                sesionUsuario.invalidate(); 
             } catch (IllegalStateException e) {
             }
-            sesiones.remove(identificacion);
+            sesiones.remove(identificacion); 
         }
     }
 %>
-
 <script>
-    alert("SesiÃ³n cerrada correctamente y usuario marcado como inactivo.");
+    alert("Sesión cerrada correctamente.");
     window.location.href = "usuarios.jsp";
 </script>
 

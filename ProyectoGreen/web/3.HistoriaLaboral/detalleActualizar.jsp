@@ -2,10 +2,11 @@
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.FileItem"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload"%>
-<%@page import="org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext"%>
+<%@page import="org.apache.commons.fileupload.FileItem" %>
+<%@page import="org.apache.commons.fileupload.disk.DiskFileItemFactory" %>
+<%@page import="org.apache.commons.fileupload.servlet.ServletFileUpload" %>
+<%@page import="org.apache.commons.fileupload.servlet.ServletRequestContext" %>
+
 <%@page import="java.io.File"%>
 <%@page import="clases.DetallesHistoria"%>
 
@@ -20,7 +21,7 @@
         variables.put("nombreDocumento", request.getParameter("nombreDocumento"));
         variables.put("tipo", request.getParameter("tipo"));
     } else {
-        // Configuración para manejar archivos
+        // Configuraci n para manejar archivos
         String rutaActual = getServletContext().getRealPath("/");
         System.out.println("Ruta actual: " + rutaActual);
         
@@ -46,10 +47,10 @@
                 System.out.println("Archivo recibido: " + elemento.getName());
                 if (!elemento.getName().equals("")) {
                     subioArchivo = true;
-                    // Obtener la identificación y modificar el nombre del archivo
+                    // Obtener la identificaci n y modificar el nombre del archivo
                     String identificacion = variables.get("identificacion");
                     String nombreOriginal = elemento.getName();
-                    String extension = nombreOriginal.substring(nombreOriginal.lastIndexOf(".")); // Obtiene la extensión
+                    String extension = nombreOriginal.substring(nombreOriginal.lastIndexOf(".")); // Obtiene la extensi n
                     String nuevoNombre = nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) + "-" + identificacion + extension;
                     archivo = new File(destino, nuevoNombre);
 
@@ -81,7 +82,7 @@
     documento.setTipo(variables.get("tipo"));
     documento.setDocumentoPDF(variables.get("documentoPDF"));
 
-    // Verificar la acción
+    // Verificar la acci n
     String accion = variables.get("accion");
     if (accion == null) {
         System.out.println("ERROR: La variable 'accion' es NULL");
@@ -112,11 +113,11 @@
             break;
 
         default:
-            System.out.println("Acción no válida: " + accion);
-            out.println("<script>alert('Acción no válida'); history.back();</script>");
+            System.out.println("Acci n no v lida: " + accion);
+            out.println("<script>alert('Acci n no v lida'); history.back();</script>");
             return;
     }
 
-    // Redirigir de nuevo a la página de detalle
+    // Redirigir de nuevo a la p gina de detalle
     response.sendRedirect("detalleHistoria.jsp?identificacion=" + variables.get("identificacion") + "&tipo=" + variables.get("tipo"));
 %>

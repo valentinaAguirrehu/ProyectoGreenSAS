@@ -4,7 +4,18 @@
 <%@page import="clases.DetallesHistoria"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+    String tipoPersona = (String) session.getAttribute("tipoPersona");
+    out.println("<!-- DEBUG_DETALLE: tipoPersona recuperado = " + tipoPersona + " -->");
+    String origin;
+    switch(tipoPersona) {
+        case "C": origin = "historiaLaboralGreen"; break;
+        case "R": origin = "historiaLaboralRetirado"; break;
+        case "A": origin = "historiaLaboralAprendiz"; break;
+        default: origin = "historiaLaboral"; break;
+    }
+%>
 
+<%
     Administrador administrador = (Administrador) session.getAttribute("administrador");
     if (administrador == null) {
         administrador = new Administrador();
@@ -245,7 +256,7 @@
             break;
 
         //TEMPORALES
-      case "TemporalesContra":
+        case "TemporalesContra":
             titulo = "INDUCCIÓN GESTION HUMANA E INDUCCIÓN AL CARGO";
             break;
 
@@ -265,7 +276,7 @@
         case "reubicacionTemporal":
             titulo = "ACTA DE REUBICACIÓN DE CARGO";
             break;
-            case "  ProcesoTemporal":
+        case "  ProcesoTemporal":
             titulo = "PROCESOS DISCIPLINARIOS";
             break;
 
@@ -448,8 +459,12 @@
 
                 </table>
                 <div class="buttons">
-                    <a href="javascript:history.back()" class="btn-volver">VOLVER</a>
+                    <a href="<%= origin%>.jsp?identificacion=<%= identificacion%>" class="btn-volver">
+                        VOLVER
+                    </a>
                 </div>
+
+
             </div>
         </body>
     </html>
