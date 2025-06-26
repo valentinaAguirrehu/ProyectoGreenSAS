@@ -20,7 +20,7 @@
 <jsp:include page="../menu.jsp"/>
 
 <div class="content">
-    <h3 class="titulo">Historial de correos enviados a administradores</h3>
+    <h3 class="titulo">Historial de correos enviados</h3>
 
     <%
         Connection conn = null;
@@ -53,7 +53,7 @@
         <div class="grupo-derecha">
             <a href="javascript:void(0);"
                onclick="validarEliminacion('<%= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(ultimaFechaEnvio) %>')"
-               class="boton eliminar">Eliminar Historial (Administradores)</a>
+               class="eliminar" >Eliminar Historial</a>
         </div>
     </div>
 

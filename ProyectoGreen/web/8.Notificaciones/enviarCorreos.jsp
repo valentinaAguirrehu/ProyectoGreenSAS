@@ -14,8 +14,8 @@
         <jsp:include page="../permisos.jsp" />
         <jsp:include page="../menu.jsp" />
 
-<div class="content">
-    <h3 class="titulo" style="margin-top: 50px;">Contratos próximos a vencer (50 días)</h3>
+        <div class="content">
+            <h3 class="titulo" style="margin-top: 50px;">Contratos próximos a vencer (50 días)</h3>
 
             <%
                 Connection conn2 = null;
@@ -30,15 +30,15 @@
                             "adso", "utilizar"
                     );
 
-            String sql2 =
-                "SELECT p.identificacion, p.nombres, p.apellidos, " +
-                "c.nombre AS cargoNombre, " +
-                "il.unidadNegocio, il.centroCostos, p.email, il.fechaIngreso, il.fechaTerPriContrato " +
-                "FROM persona p " +
-                "INNER JOIN informacionlaboral il ON p.identificacion = il.identificacion " +
-                "INNER JOIN cargo c ON il.idCargo = c.id " +
-                "WHERE p.tipo = 'C' " +
-                "AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 50 DAY)";
+                    String sql2
+                            = "SELECT p.identificacion, p.nombres, p.apellidos, "
+                            + "c.nombre AS cargoNombre, "
+                            + "il.unidadNegocio, il.centroCostos, p.email, il.fechaIngreso, il.fechaTerPriContrato "
+                            + "FROM persona p "
+                            + "INNER JOIN informacionlaboral il ON p.identificacion = il.identificacion "
+                            + "INNER JOIN cargo c ON il.idCargo = c.id "
+                            + "WHERE p.tipo = 'C' "
+                            + "AND il.fechaTerPriContrato BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 50 DAY)";
 
                     stmt2 = conn2.prepareStatement(sql2);
                     rs2 = stmt2.executeQuery();
@@ -54,48 +54,52 @@
                 Fecha actual: <%= fechaActual%>
             </p>
 
-            <form action="../8.Notificaciones/notificacionesContrato.jsp" method="post"
-                  style="text-align: center; margin: 20px 0;">
-                <button class="subir" type="submit">Enviar Correos</button>
-            </form>
+            <form id="formEnviarCorreo" action="../8.Notificaciones/notificacionesContrato.jsp" method="post" style="display: none;"></form>
 
-    <table>
-        <tr>
-            <th>Identificación</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Cargo</th>
-            <th>Unidad de negocio</th>
-            <th>Centro de costos</th>
-            <th>Email</th>
-            <th>Fecha ingreso</th>
-            <th>Fecha término contrato</th>
-        </tr>
-        <%
-            while (rs2.next()) {
-        %>
-        <tr>
-            <td><%= rs2.getString("identificacion") %></td>
-            <td><%= rs2.getString("nombres") %></td>
-            <td><%= rs2.getString("apellidos") %></td>
-            <td><%= rs2.getString("cargoNombre") %></td>
-            <td><%= rs2.getString("unidadNegocio") %></td>
-            <td><%= rs2.getString("centroCostos") %></td>
-            <td><%= rs2.getString("email") %></td>
-            <td><%= rs2.getString("fechaIngreso") %></td>
-            <td><%= rs2.getDate("fechaTerPriContrato") %></td>
-        </tr>
-        <%
-            }
-        %>
-    </table>
+            <div style="text-align: center; margin: 20px;">
+                <a href="javascript:void(0);" 
+                   onclick="document.getElementById('formEnviarCorreo').submit();" 
+                   class="subir">Enviar Correos
+                </a>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Identificación</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Cargo</th>
+                    <th>Unidad de negocio</th>
+                    <th>Centro de costos</th>
+                    <th>Email</th>
+                    <th>Fecha ingreso</th>
+                    <th>Fecha término contrato</th>
+                </tr>
+                <%
+                    while (rs2.next()) {
+                %>
+                <tr>
+                    <td><%= rs2.getString("identificacion")%></td>
+                    <td><%= rs2.getString("nombres")%></td>
+                    <td><%= rs2.getString("apellidos")%></td>
+                    <td><%= rs2.getString("cargoNombre")%></td>
+                    <td><%= rs2.getString("unidadNegocio")%></td>
+                    <td><%= rs2.getString("centroCostos")%></td>
+                    <td><%= rs2.getString("email")%></td>
+                    <td><%= rs2.getString("fechaIngreso")%></td>
+                    <td><%= rs2.getDate("fechaTerPriContrato")%></td>
+                </tr>
+                <%
+                    }
+                %>
+            </table>
 
             <%
             } else {
-    %>
-    <p style="text-align:center;">No hay contratos que finalicen en los próximos 50 días.</p>
-    <%
-            }
+            %>
+            <p style="text-align:center;">No hay contratos que finalicen en los próximos 50 días.</p>
+            <%
+                    }
 
                 } catch (Exception e) {
                     out.println("<p style='color:red;'>Error: " + e.getMessage() + "</p>");
