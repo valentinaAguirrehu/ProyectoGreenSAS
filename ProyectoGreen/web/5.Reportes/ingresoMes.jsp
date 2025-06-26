@@ -119,6 +119,23 @@
 <% } %> 
 
 <div class="content">
+<% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
+  <style>
+    .logo-container {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+  </style>
+<div class="logo-container">
+  <img 
+    src="<%= request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/presentacion/imagenes/LogoGreen.png" %>" 
+    alt="Logo de Green"
+      height="30" width="100"
+    style="display: block; margin: 0 auto;"
+  >
+</div>
+<% } %>
     <h3 class="titulo">REPORTE DE INGRESO DE COLABORADORES POR MES - GREEN S.A.S</h3>
 
     <%

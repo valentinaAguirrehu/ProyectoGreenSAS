@@ -155,7 +155,26 @@
 <link rel="stylesheet" href="../presentacion/style-Cargos.css">
 
 <div class="content">
-  <h3 class="titulo">REPORTE DE DOTACIÓN</h3>
+<% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
+  <style>
+    .logo-container {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+  </style>
+<div class="logo-container">
+  <img 
+    src="<%= request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/presentacion/imagenes/LogoGreen.png" %>" 
+    alt="Logo de Green"
+      height="30" width="100"
+    style="display: block; margin: 0 auto;"
+  >
+</div>
+<% } %>
+
+  <h3 class="titulo">REPORTE ENTREGA DE DOTACIÓN</h3>
+
 
   <% if (!isDownloadMode) { %>
     <div class="export-icons">
@@ -192,13 +211,28 @@
     </script>
   <% } %>
 
-  <% if (isDownloadMode) { %>
-    <style>
-      table { border-collapse: collapse; width:100%; font-family:Arial,sans-serif; }
-      th, td { border:1px solid #000; padding:5px; text-align:center; }
-      th { background-color:#4CAF50; color:#fff; }
-    </style>
-  <% } %>
+<% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
+<style>
+  table {
+    width: 50%;
+    font-family: Arial, sans-serif;
+    font-size: 11pt;
+    border-collapse: collapse;
+    margin: 6px auto;
+  }
+  th, td {
+    border: 1px solid #000;
+    padding: 1px;
+    text-align: center;
+  }
+  th {
+    background-color: #43a047;
+    color: #fff;
+    font-weight: bold;
+  }
+</style>
+
+<% } %>
 
   <table class="table">
     <thead>
@@ -230,6 +264,11 @@
     <% } } %>
     </tbody>
   </table>
+    
+<% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
+</div> <!-- cierre del div centrado -->
+<% } %>
+
 <% if (!isDownloadMode && !entregasGrafico.isEmpty()) {%>
 <h3 class="titulo">Indicador por <%= (anio != null && !anio.isEmpty() ? "Meses" : "Años")%></h3>
 <style>
