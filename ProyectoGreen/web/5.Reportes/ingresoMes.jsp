@@ -122,7 +122,7 @@
 <% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
   <style>
     .logo-container {
-      text-align: center;
+      text-align: right;
       margin-bottom: 5px;
     }
 
@@ -136,7 +136,8 @@
   >
 </div>
 <% } %>
-    <h3 class="titulo">REPORTE DE INGRESO DE COLABORADORES POR MES - GREEN S.A.S</h3>
+
+ <h3 class="titulo" style="text-align:center;">INGRESO POR MES</h3>
 
     <%
         String anioParam = request.getParameter("anio");
@@ -245,6 +246,28 @@
     <% } %>
 
 
+<% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
+<style>
+    table {
+      width: 50%;               /* Ajusta según el ancho que quieras */
+ 
+      font-size: 11pt;
+      border-collapse: collapse;
+      margin: 6px;         /* Centra la tabla horizontalmente */
+    }
+    th, td {
+      border: 1px solid #000;
+      padding: 1px;             /* Ajustado para mejor lectura */
+      text-align: center;
+    }
+    th {
+      background-color: #43a047;
+      color: #fff;
+      font-weight: bold;
+    }
+  </style>
+
+<% } %>
     <!-- Tabla principal -->
     <table border="1" class="table" style="margin-top: 30px;">
         <tr>

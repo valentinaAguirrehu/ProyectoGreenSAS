@@ -60,7 +60,7 @@
 <% if (!isDownloadMode) { %>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, sans-serif; line-height: 1.4; }
+ 
   .content { max-width: 1200px; margin: auto; padding: 20px; }
   .titulo { text-align: center; margin-bottom: 20px; }
 
@@ -158,7 +158,7 @@
 <% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
   <style>
     .logo-container {
-      text-align: center;
+      text-align: right;
       margin-bottom: 5px;
     }
 
@@ -173,7 +173,7 @@
 </div>
 <% } %>
 
-  <h3 class="titulo">REPORTE ENTREGA DE DOTACIÓN</h3>
+ <h3 class="titulo" style="text-align:center;">REPORTE ENTREGA DE DOTACIÓN</h3>
 
 
   <% if (!isDownloadMode) { %>
@@ -213,24 +213,24 @@
 
 <% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
 <style>
-  table {
-    width: 50%;
-    font-family: Arial, sans-serif;
-    font-size: 11pt;
-    border-collapse: collapse;
-    margin: 6px auto;
-  }
-  th, td {
-    border: 1px solid #000;
-    padding: 1px;
-    text-align: center;
-  }
-  th {
-    background-color: #43a047;
-    color: #fff;
-    font-weight: bold;
-  }
-</style>
+    table {
+      width: 50%;               /* Ajusta según el ancho que quieras */
+ 
+      font-size: 11pt;
+      border-collapse: collapse;
+      margin: 6px;         /* Centra la tabla horizontalmente */
+    }
+    th, td {
+      border: 1px solid #000;
+      padding: 1px;             /* Ajustado para mejor lectura */
+      text-align: center;
+    }
+    th {
+      background-color: #43a047;
+      color: #fff;
+      font-weight: bold;
+    }
+  </style>
 
 <% } %>
 

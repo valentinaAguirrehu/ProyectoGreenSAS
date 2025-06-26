@@ -141,7 +141,7 @@
 <% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
   <style>
     .logo-container {
-      text-align: center;
+      text-align: right;
       margin-bottom: 5px;
     }
 
@@ -155,7 +155,7 @@
   >
 </div>
 <% } %>
-    <h3 class="titulo">REPORTE DE COLABORADORES RETIRADOS POR MES - GREEN S.A.S</h3>
+    <h3 class="titulo" style="text-align:center;">REPORTE DE COLABORADORES RETIRADOS POR MES - GREEN S.A.S</h3>
 
     <%
         String[] mesesNombres = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};

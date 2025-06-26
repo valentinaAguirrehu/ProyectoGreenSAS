@@ -125,7 +125,7 @@
 <% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
   <style>
     .logo-container {
-      text-align: center;
+      text-align: right;
       margin-bottom: 5px;
     }
 
@@ -139,7 +139,7 @@
   >
 </div>
 <% } %>
-    <h3 class="titulo">REPORTE GENERAL DE VACACIONES </h3>
+    <h3 class="titulo" style="text-align:center;">REPORTE GENERAL DE VACACIONES </h3>
 
     <% if (!isDownloadMode) { %>
     <div style="text-align: center; margin: 10px 0;">
@@ -148,7 +148,28 @@
     </div>
     <% } %>
 
+    <% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
+<style>
+  table {
+    width: 50%;
+    font-family: Arial, sans-serif;
+    font-size: 11pt;
+    border-collapse: collapse;
+    margin: 6px auto;
+  }
+  th, td {
+    border: 1px solid #000;
+    padding: 1px;
+    text-align: center;
+  }
+  th {
+    background-color: #43a047;
+    color: #fff;
+    font-weight: bold;
+  }
+</style>
 
+<% } %>
     <table border="1" class="table" style="margin-top:20px; width:100%; font-size: 14px;">
         <tr style="background-color: #e0e0e0;">
             <th>Identificación</th>

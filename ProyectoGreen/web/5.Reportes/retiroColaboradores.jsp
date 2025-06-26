@@ -124,7 +124,7 @@
 <% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
   <style>
     .logo-container {
-      text-align: center;
+      text-align: right;
       margin-bottom: 5px;
     }
 
@@ -265,7 +265,31 @@
         datosGrafico.append("]");
 
     %>
+    
+    
+    
+<% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
+<style>
+    table {
+      width: 100%;               /* Ajusta según el ancho que quieras */
+      font-family: Arial, sans-serif;
+      font-size: 11pt;
+      border-collapse: collapse;
+      margin: 15px auto;         /* Centra la tabla horizontalmente */
+    }
+    th, td {
+      border: 1px solid #000;
+      padding: 4px;             /* Ajustado para mejor lectura */
+      text-align: center;
+    }
+    th {
+      background-color: #43a047;
+      color: #fff;
+      font-weight: bold;
+    }
+  </style>
 
+<% } %>
     <table border="1" class="table">
         <tr>
             <th>Identificación</th>
