@@ -73,10 +73,10 @@
                         <input type="hidden" name="tallaChaquetaFinal" id="tallaChaquetaFinal">
                     </td>
                 </tr>
-                <tr>
+                 <tr>
                     <th>Talla de pantalón</th>
                     <td>
-                        <%= talla.getTallaPantalon().getSelectTipoMedidaTalla("tallaPantalon")%>
+                        <%= talla.getTallaPantalon().getSelectTipoMedidaTallaNumerica("tallaPantalon") %>
                         <input type="text" id="tallaPantalonOtro" style="display:none;" placeholder="Especifique otra talla">
                         <input type="hidden" name="tallaPantalonFinal" id="tallaPantalonFinal">
                     </td>
@@ -84,7 +84,7 @@
                 <tr>
                     <th>Talla de calzado</th>
                     <td>
-                        <%= talla.getTallaCalzado().getSelectTipoMedidaTalla("tallaCalzado")%>
+                        <%= talla.getTallaCalzado().getSelectTipoMedidaZapato("tallaCalzado") %>
                         <input type="text" id="tallaCalzadoOtro" style="display:none;" placeholder="Especifique otra talla">
                         <input type="hidden" name="tallaCalzadoFinal" id="tallaCalzadoFinal">
                     </td>

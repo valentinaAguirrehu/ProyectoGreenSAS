@@ -33,7 +33,7 @@ public class Arl {
         String opcion=null;
         switch(codigo){
             case "C": opcion="Colmena"; break;
-            case "P": opcion="Psitiva"; break;
+            case "P": opcion="Positiva"; break;
             case "O": opcion="Otro"; break;
             default: opcion="No Especificado"; break;
         }

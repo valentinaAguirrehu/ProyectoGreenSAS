@@ -192,7 +192,6 @@
                                onblur="validarNumerico('salario')"
                                placeholder="Campo numérico" required>
                     </td>
-                </tr>
 
             </table>
 

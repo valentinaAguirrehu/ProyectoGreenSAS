@@ -133,7 +133,7 @@
                     </td>
                 </tr>
 
-                <tr>
+                 <tr>
                     <th>Salario<span style="color: red;">*</span></th>
                     <td>
                         <input type="text" name="salario" id="salario"
@@ -144,7 +144,6 @@
                                onblur="validarNumerico('salario')"
                                placeholder="Campo numérico" required>
                     </td>
-                </tr>
 
             </table>
 

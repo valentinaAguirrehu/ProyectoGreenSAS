@@ -130,8 +130,8 @@ public class Talla {
 //        }
 //        return resultado;
 //    }
-    public TipoMedidaTallaNumerica getTallaCalzado() {
-        return new TipoMedidaTallaNumerica(tallaCalzado);
+    public TipoMedidaZapato getTallaCalzado() {
+        return new TipoMedidaZapato(tallaCalzado);
     }
 
     public void setTallaCalzado(String tallaCalzado) {
