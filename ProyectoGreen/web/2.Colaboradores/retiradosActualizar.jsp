@@ -1,3 +1,4 @@
+<%@page import="java.sql.ResultSet"%>
 <%@page import="clases.InformacionLaboral"%>
 <%@page import="clases.Retirados"%>
 <%@page import="clases.Persona"%>
@@ -45,33 +46,51 @@
     retirado.setNumCarpeta(numCarpeta);
     retirado.setObservaciones(observaciones);
 // Capturar datos ocultos del formulario
-String unidadNegocio = request.getParameter("unidadNegocio");
-String centroCostos = request.getParameter("centroCostos");
-String area = request.getParameter("area");
-String salario = request.getParameter("salario");
-String estado = request.getParameter("estado");
-String fechaIngresoTemporal = request.getParameter("fechaIngresoTemporal");
-String fechaTerPriContrato = request.getParameter("fechaTerPriContrato");
+    String unidadNegocio = request.getParameter("unidadNegocio");
+    String centroCostos = request.getParameter("centroCostos");
+    String area = request.getParameter("area");
+    String salario = request.getParameter("salario");
+    String estado = request.getParameter("estado");
+    String fechaIngresoTemporal = request.getParameter("fechaIngresoTemporal");
+    String fechaTerPriContrato = request.getParameter("fechaTerPriContrato");
 
 // Setear los campos faltantes
-informacionLaboral.setUnidadNegocio(unidadNegocio);
-informacionLaboral.setCentroCostos(centroCostos);
-informacionLaboral.setArea(area);
-informacionLaboral.setSalario(salario);
-informacionLaboral.setEstado(estado);
-informacionLaboral.setFechaIngresoTemporal(fechaIngresoTemporal);
-informacionLaboral.setFechaTerPriContrato(fechaTerPriContrato);
+    informacionLaboral.setUnidadNegocio(unidadNegocio);
+    informacionLaboral.setCentroCostos(centroCostos);
+    informacionLaboral.setArea(area);
+    informacionLaboral.setSalario(salario);
+    informacionLaboral.setEstado(estado);
+    informacionLaboral.setFechaIngresoTemporal(fechaIngresoTemporal);
+    informacionLaboral.setFechaTerPriContrato(fechaTerPriContrato);
 
     switch (accion) {
         case "Adicionar":
-            persona.modificar(identificacion); // Asigna tipo "R"
-            informacionLaboral.modificar(identificacion); // Modifica la info laboral
-            informacionLaboral.grabar(); // <--- Cambiado aquí
-            retirado.grabar();
+            persona.modificar(identificacion); // Cambia tipo a 'R'
+
+            try {
+                boolean existe = false;
+                ResultSet rs = ConectorBD.consultar("SELECT identificacion FROM informacionlaboral WHERE identificacion = '" + identificacion + "'");
+                if (rs.next()) {
+                    existe = true;
+                }
+                rs.getStatement().getConnection().close();
+
+                if (existe) {
+                    informacionLaboral.modificar(identificacion); // Actualiza TODO (incluye fechaIngreso y fechaRetiro)
+                } else {
+                    informacionLaboral.grabar(); // Inserta nueva información
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace(); // Por si algo falla, lo ves en consola
+            }
+
+            retirado.grabar(); // Guarda en tabla retirados
             break;
 
         case "Modificar":
-            if (id != null && fechaIngreso != null && fechaRetiro != null) {
+            if (identificacion != null && fechaIngreso != null && fechaRetiro != null) {
+                // ✅ Corrección: usar identificacion, no id, en WHERE
                 String sqlInfoLaboral = "UPDATE informacionlaboral SET "
                         + "fechaIngreso = '" + fechaIngreso + "', "
                         + "fechaRetiro = '" + fechaRetiro + "' "
@@ -79,14 +98,15 @@ informacionLaboral.setFechaTerPriContrato(fechaTerPriContrato);
                 boolean actualizado = ConectorBD.ejecutarQuery(sqlInfoLaboral);
 
                 if (actualizado) {
-                   if (id != null && fechaIngreso != null && !fechaIngreso.trim().isEmpty() && fechaRetiro != null) {
-    String sqlRetirados = "UPDATE informacionlaboral SET "
-        + "fechaIngreso = '" + fechaIngreso + "', "
-        + "fechaRetiro = '" + fechaRetiro + "' "
-                            + "WHERE id = '" + id + "'";
+                    // Actualizar tabla retirados con otros campos
+                    String sqlRetirados = "UPDATE retirados SET "
+                            + "numCaja = '" + numCaja + "', "
+                            + "numCarpeta = '" + numCarpeta + "', "
+                            + "observaciones = '" + observaciones + "' "
+                            + "WHERE identificacionPersona = '" + identificacion + "'";
                     ConectorBD.ejecutarQuery(sqlRetirados);
                 }
-                }}
+            }
             break;
 
         case "Eliminar":

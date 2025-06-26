@@ -18,7 +18,6 @@
     String id = request.getParameter("id");
     String identificacion = request.getParameter("identificacion");
     InformacionLaboral informacionLaboral = new InformacionLaboral(identificacion);
-//InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion()); // ✅ Esta es la buena
 
     Persona persona = null;
     Retirados retirado = new Retirados();
@@ -42,15 +41,37 @@
 
     InformacionLaboral info = new InformacionLaboral(persona.getIdentificacion());
     String idCargoSeleccionado = (info != null && info.getIdCargo() != null) ? info.getIdCargo() : "";
-    List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null); // Asumiendo que tienes este método
+    List<Cargo> listaCargos = Cargo.getListaEnObjetos(null, null);
     Educacion educacion = (persona != null) ? new Educacion(persona.getIdentificacion()) : new Educacion();
 
     if (accion == null || accion.isEmpty()) {
-        accion = "Adicionar"; // Valor por defecto
+        accion = "Adicionar";
     }
 
     String textoBoton = accion.equals("Modificar") ? "Modificar" : "Aceptar";
 
+    // 🔄 Precarga de fechas desde request o clase Java
+    String fechaIngresoParam = request.getParameter("fechaIngreso");
+    String fechaRetiroParam = request.getParameter("fechaRetiro");
+
+    String fechaIngreso = "";
+    String fechaRetiro = "";
+
+    if (fechaIngresoParam != null && !fechaIngresoParam.trim().isEmpty()) {
+        fechaIngreso = fechaIngresoParam;
+    } else if (info.getFechaIngreso() != null && !info.getFechaIngreso().trim().isEmpty()) {
+        fechaIngreso = info.getFechaIngreso();
+    } else if (info.getFechaIngresoTemporal() != null && !info.getFechaIngresoTemporal().trim().isEmpty()) {
+        fechaIngreso = info.getFechaIngresoTemporal();
+    } else if (educacion != null && educacion.getFechaEtapaProductiva() != null && !educacion.getFechaEtapaProductiva().trim().isEmpty()) {
+        fechaIngreso = educacion.getFechaEtapaProductiva();
+    }
+
+    if (fechaRetiroParam != null && !fechaRetiroParam.trim().isEmpty()) {
+        fechaRetiro = fechaRetiroParam;
+    } else if (info.getFechaRetiro() != null && !info.getFechaRetiro().trim().isEmpty()) {
+        fechaRetiro = info.getFechaRetiro();
+    }
 %>
 <%!
     public String mostrarCampo(Object valor) {
@@ -59,6 +80,7 @@
                 : "No aplica";
     }
 %>
+
 
 <%@ include file="../menu.jsp" %>
 
@@ -110,29 +132,16 @@
                     <td> <%= mostrarCampo(informacionLaboral.getUnidadNegocio())%></td>
                 </tr>
                 <tr>
-  <tr>
-                <th>Fecha de ingreso</th>
-                <td>
-                    <%
-                        String fechaMostrar = "";
-                        if (informacionLaboral.getFechaIngreso() != null && !informacionLaboral.getFechaIngreso().trim().isEmpty()) {
-                            fechaMostrar = informacionLaboral.getFechaIngreso();
-                        } else if (informacionLaboral.getFechaIngresoTemporal() != null && !informacionLaboral.getFechaIngresoTemporal().trim().isEmpty()) {
-                            fechaMostrar = informacionLaboral.getFechaIngresoTemporal();
-                        } else if (educacion != null && educacion.getFechaEtapaProductiva() != null && !educacion.getFechaEtapaProductiva().trim().isEmpty()) {
-                            fechaMostrar = educacion.getFechaEtapaProductiva();
-                        }
-                    %>
-                    <input type="date" name="fechaIngreso" value="<%= fechaMostrar %>" required>
-                </td>
-            </tr>
-
-</tr>
-
+                <tr>
+                    <th>Fecha de ingreso</th>
+                    <td>
+                        <input type="date" name="fechaIngreso" value="<%= fechaIngreso%>" required>
+                    </td>
+                </tr>
                 <tr>
                     <th>Fecha de retiro</th>
                     <td>
-                        <input type="date" name="fechaRetiro" value="<%= (informacionLaboral != null && informacionLaboral.getFechaRetiro() != null) ? informacionLaboral.getFechaRetiro() : ""%>" required>
+                        <input type="date" name="fechaRetiro" value="<%= fechaRetiro%>" required>
                     </td>
                 </tr>
                 <tr>

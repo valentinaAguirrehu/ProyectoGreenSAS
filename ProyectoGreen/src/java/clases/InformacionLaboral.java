@@ -406,4 +406,22 @@ public class InformacionLaboral {
                 || area.equalsIgnoreCase("Operativo"));
     }
 
+public static boolean existe(String identificacion) {
+    String sql = "SELECT 1 FROM informacionlaboral WHERE identificacion = '" + identificacion + "' LIMIT 1";
+    ResultSet rs = ConectorBD.consultar(sql);
+    try {
+        return rs != null && rs.next();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    } finally {
+        try {
+            if (rs != null) rs.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+
+
 }
