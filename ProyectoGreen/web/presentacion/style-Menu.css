@@ -14,7 +14,6 @@ body {
 }
 
 .sidebar {
-    width: 190px;
     background: #145a32; /* Color del menú */
     padding: 16px;
     display: flex;

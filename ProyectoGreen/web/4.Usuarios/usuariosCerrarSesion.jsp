@@ -7,8 +7,10 @@
 <%@page import="javax.servlet.ServletContext"%>
 <%@page import="java.util.Map"%>
 <%@page import="javax.servlet.http.HttpSession"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
+    request.setCharacterEncoding("UTF-8");
     String identificacion = request.getParameter("identificacion");
     ServletContext ctx = getServletContext(); 
 
@@ -26,7 +28,7 @@
     }
 %>
 <script>
-    alert("Sesi�n cerrada correctamente.");
+    alert("Sesión cerrada correctamente.");
     window.location.href = "usuarios.jsp";
 </script>
 
