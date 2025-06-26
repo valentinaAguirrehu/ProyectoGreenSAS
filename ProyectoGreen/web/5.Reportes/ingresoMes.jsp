@@ -249,7 +249,7 @@
 <% if (isDownloadMode && "word".equals(request.getParameter("formato"))) { %>
 <style>
     table {
-      width: 50%;               /* Ajusta según el ancho que quieras */
+      width: 100%;               /* Ajusta según el ancho que quieras */
  
       font-size: 11pt;
       border-collapse: collapse;
