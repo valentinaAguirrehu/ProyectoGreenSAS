@@ -35,7 +35,7 @@ public class Arl {
             case "C": opcion="Colmena"; break;
             case "P": opcion="Positiva"; break;
             case "O": opcion="Otro"; break;
-            default: opcion="No Especificado"; break;
+            default: opcion="No aplica"; break;
         }
         return opcion;
     }

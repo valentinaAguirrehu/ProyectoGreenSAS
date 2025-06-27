@@ -36,7 +36,7 @@ public class FondoCesantias {
             case "P": opcion="Proteccion"; break;
             case "N": opcion="Fondo nacional del ahorro"; break;
             case "O": opcion="Otro"; break;
-            default: opcion="No Especificado"; break;
+            default: opcion="No aplica"; break;
         }
         return opcion;
     }

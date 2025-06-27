@@ -36,7 +36,7 @@ public class FondoPensiones {
             case "P": opcion="Proteccion"; break;
             case "C": opcion="Colpensiones"; break;
             case "O": opcion="Otro"; break;
-            default: opcion="No Especificado"; break;
+            default: opcion="No aplica"; break;
         }
         return opcion;
     }
