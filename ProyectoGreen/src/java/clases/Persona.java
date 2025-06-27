@@ -27,6 +27,8 @@ import java.util.logging.Logger;
  */
 public class Persona {
 
+
+
     private String identificacion;
     private String tipo;
     private String tipoDocumento;
@@ -786,5 +788,18 @@ public class Persona {
     return nombreCompleto;
 }
     
-    
+     public static String getTipoPorIdentificacion(String identificacion) {
+    if (identificacion == null || identificacion.trim().isEmpty()) {
+        return "";
+    }
+
+    try {
+        Persona persona = new Persona(identificacion);
+        return (persona.getTipo() != null) ? persona.getTipo() : "";
+    } catch (Exception e) {
+        System.out.println("❌ Error al obtener tipo de persona: " + e.getMessage());
+        return "";
+    }
+}
+  
 }

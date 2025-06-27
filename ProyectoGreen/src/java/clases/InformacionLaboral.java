@@ -190,14 +190,14 @@ public class InformacionLaboral {
     public Area getArea() {
         return new Area(area);
     }
-    public String getAreaTexto() {
-    Area a = getArea(); // crea un objeto Area desde el código guardado
-    if (a == null || a.getCodigo().equals("NA") || a.getCodigo().trim().isEmpty()) {
-        return "No aplica";
-    }
-    return a.getOpcion();
-}
 
+    public String getAreaTexto() {
+        Area a = getArea(); // crea un objeto Area desde el código guardado
+        if (a == null || a.getCodigo().equals("NA") || a.getCodigo().trim().isEmpty()) {
+            return "No aplica";
+        }
+        return a.getOpcion();
+    }
 
     public void setArea(String area) {
         this.area = area;
@@ -406,22 +406,55 @@ public class InformacionLaboral {
                 || area.equalsIgnoreCase("Operativo"));
     }
 
-public static boolean existe(String identificacion) {
-    String sql = "SELECT 1 FROM informacionlaboral WHERE identificacion = '" + identificacion + "' LIMIT 1";
-    ResultSet rs = ConectorBD.consultar(sql);
-    try {
-        return rs != null && rs.next();
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
-    } finally {
+    public static boolean existe(String identificacion) {
+        String sql = "SELECT 1 FROM informacionlaboral WHERE identificacion = '" + identificacion + "' LIMIT 1";
+        ResultSet rs = ConectorBD.consultar(sql);
         try {
-            if (rs != null) rs.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            return rs != null && rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
+    
+
+   public String obtenerFechaIngresoInteligente(String tipoColaborador, Educacion educacion, String fechaIngresoParam) {
+    if (fechaIngresoParam != null && !fechaIngresoParam.trim().isEmpty()) {
+        return fechaIngresoParam;
+    }
+
+    // Buca el tipo de colaborador que viene
+    switch (tipoColaborador) {
+        case "C": // Colaborador
+            if (this.getFechaIngreso() != null && !this.getFechaIngreso().trim().isEmpty()) {
+                return this.getFechaIngreso();
+            }
+            break;
+
+        case "T": // Temporal
+            if (this.getFechaIngresoTemporal() != null && !this.getFechaIngresoTemporal().trim().isEmpty()) {
+                return this.getFechaIngresoTemporal();
+            }
+            break;
+
+        case "A": // Aprendiz
+            if (educacion != null) {
+                String fechaEtapa = educacion.getFechaEtapaProductiva();
+                if (fechaEtapa != null && !fechaEtapa.trim().isEmpty()) {
+                    return fechaEtapa;
+                }
+            }
+            break;
+    }
+
+    return "";
 }
-
-
 }
