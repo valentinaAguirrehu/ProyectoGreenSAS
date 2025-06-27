@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 
 public class Educacion {
 
+   
+
     private String identificacion;
 //    private String nivelEducativo;
 //    private String fechaIngresoEmpresa;
@@ -311,4 +313,18 @@ public class Educacion {
 
         return ""; // Si no tiene fecha, devuelve cadena vacía
     }
+public static String getEtapaProductivaPorIdentificacion(String identificacion) {
+    if (identificacion == null || identificacion.trim().isEmpty()) {
+        return "";
+    }
+
+    try {
+        Educacion edu = new Educacion(identificacion);
+        return (edu.getFechaEtapaProductiva() != null) ? edu.getFechaEtapaProductiva() : "";
+    } catch (Exception e) {
+        System.out.println("❌ Error al obtener etapa productiva: " + e.getMessage());
+        return "";
+    }
+}
+
 }

@@ -46,17 +46,26 @@
         lista += "<td>" + usuario.getEstado() + "</td>";
         lista += "<td>";
 
+// Botón Modificar
         lista += "<a href='usuariosFormulario.jsp?accion=Modificar&identificacion=" + usuario.getIdentificacion()
                 + "' title='Modificar'><img src='../presentacion/iconos/modificar.png' width='25' height='25'></a> ";
 
+// Botón Eliminar
         lista += "<img src='../presentacion/iconos/eliminar.png' width='25' height='25' title='Eliminar' "
                 + "onClick='eliminar(\"" + usuario.getIdentificacion() + "\")'> ";
 
-        // Botón Cerrar Sesión
-        lista += "<img src='../presentacion/iconos/logout.png' width='25' height='25' title='Cerrar sesión' "
-                + "onClick='cerrarSesion(\"" + usuario.getIdentificacion() + "\")'> ";
+// Botón Cerrar Sesión
+        lista += "<form method='post' action='" + request.getContextPath() + "/admin/logoutUser' "
+                + "style='display:inline; margin-left:5px;' "
+                + "onsubmit='return confirmarCierre(\"" + usuario.getNombres() + "\")'>"
+                + "<input type='hidden' name='idUsuario' value='" + usuario.getIdentificacion() + "'/>"
+                + "<button type='submit' title='Cerrar sesión' style='background:none; border:none; cursor:pointer;'>"
+                + "<img src='../presentacion/iconos/logout.png' width='25' height='25' alt='Cerrar sesión'/>"
+                + "</button>"
+                + "</form>";
 
         lista += "</td>";
+
         lista += "</tr>";
     }
 %>
@@ -148,10 +157,9 @@
         }
     }
 
-    function cerrarSesion(id) {
-        if (confirm("¿Desea cerrar la sesión de la persona con identificación " + id + "?")) {
-            window.location.href = "usuariosCerrarSesion.jsp?identificacion=" + id;
-        }
+    function confirmarCierre(nombreUsuario) {
+        return confirm("¿Está seguro que desea cerrar la sesión de " + nombreUsuario + "?");
     }
+
 </script>
 
